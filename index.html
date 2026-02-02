@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart — Your AI Executive Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-screen h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-screen .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Onboarding Screen */
+        .onboarding-screen {
+            flex-direction: column;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-number {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .question {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-container {
+            margin-bottom: 2rem;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1.1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.text-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .voice-input-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .voice-input-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .voice-input-btn.recording {
+            border-color: var(--danger);
+            color: var(--danger);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+        /* Connect Screen */
+        .connect-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .connect-options {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .connect-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 200px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .connect-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .connect-card.connected {
+            border-color: var(--success);
+        }
+
+        .connect-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .connect-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .connect-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .connect-card .status {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--success);
+        }
+
+        /* Dashboard Screen */
+        .dashboard-screen {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header .logo {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--text-muted);
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        /* Agent Cards in Sidebar */
+        .agent-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .agent-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-card:hover {
+            background: var(--bg-hover);
+        }
+
+        .agent-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .agent-info h5 {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .agent-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .agent-status {
+            margin-left: auto;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .agent-status.busy {
+            background: var(--warning);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .content-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .content-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Chat Area */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 80%;
+        }
+
+        .message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .message.stewart .message-avatar {
+            background: var(--gradient);
+        }
+
+        .message.user .message-avatar {
+            background: var(--bg-card);
+        }
+
+        .message-content {
+            background: var(--bg-card);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+        }
+
+        .message.user .message-content {
+            background: var(--primary);
+        }
+
+        .message-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            resize: none;
+            max-height: 150px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .chat-btn.voice {
+            background: var(--bg-card);
+            color: var(--text-muted);
+        }
+
+        .chat-btn.voice:hover {
+            color: var(--primary);
+        }
+
+        .chat-btn.voice.recording {
+            background: var(--danger);
+            color: white;
+        }
+
+        .chat-btn.send {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .chat-btn.send:hover {
+            transform: scale(1.05);
+        }
+
+        /* Voice Modal */
+        .voice-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .voice-modal-content {
+            text-align: center;
+            padding: 3rem;
+            max-width: 500px;
+        }
+
+        .voice-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .voice-avatar-large.listening {
+            animation: pulse-fast 0.5s infinite;
+            box-shadow: 0 0 40px rgba(37, 99, 235, 0.6);
+        }
+
+        .voice-avatar-large.speaking {
+            animation: none;
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes pulse-fast {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .voice-status-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .voice-transcript {
+            color: var(--text-muted);
+            font-style: italic;
+            min-height: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .voice-talk-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .voice-talk-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .voice-talk-btn.active {
+            background: var(--danger);
+        }
+
+        .voice-close-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background: var(--bg-card);
+            color: var(--text);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .voice-tier-note {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .voice-tier-note.free {
+            color: var(--warning);
+        }
+
+        /* Proactive Message */
+        .proactive-toast {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            max-width: 350px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 999;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .proactive-toast h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .proactive-toast p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .proactive-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .proactive-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .proactive-actions .primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .proactive-actions .secondary {
+            background: var(--bg-hover);
+            color: var(--text-muted);
+        }
+
+        /* Activity Panel */
+        .activity-panel {
+            background: var(--bg-card);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .activity-panel h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--bg-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-content h5 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-content p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* Check-in Card */
+        .checkin-card {
+            background: var(--bg-hover);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkin-card h4 {
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkin-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .checkin-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Trial Banner */
+        .trial-banner {
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .trial-banner p {
+            font-size: 0.875rem;
+        }
+
+        .trial-banner strong {
+            color: #fbbf24;
+        }
+
+        .upgrade-btn {
+            background: white;
+            color: var(--primary-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-screen {
+                grid-template-columns: 1fr;
+            }
+            .sidebar, .activity-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="screen welcome-screen active" id="welcome">
+        <div class="logo">🎩</div>
+        <h1>Meet Stewart</h1>
+        <p class="tagline">Your AI executive team. One thing: create value through virtual staff members.</p>
+        <button class="btn btn-primary" onclick="showCapabilities()">
+            See What Stewart Can Do
+            <span>→</span>
+        </button>
+        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
+            14-day free trial • No credit card required
+        </p>
+    </div>
+
+    <!-- Capabilities Walkthrough Screen -->
+    <div class="screen" id="capabilities" style="flex-direction: column; padding: 2rem; overflow-y: auto;">
+        <div style="max-width: 800px; margin: 0 auto; width: 100%;">
+            
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <div class="logo" style="font-size: 3rem; margin-bottom: 1rem;">🎩</div>
+                <h1 style="font-size: 2.5rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">
+                    What Can Stewart Do?
+                </h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">
+                    Everything an executive assistant does — and more.
+                </p>
+            </div>
+
+            <!-- Capability Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                
+                <!-- Research & Analysis -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Research & Analysis</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Deep dives into any topic. Market research, competitor analysis, industry trends.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Market research</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Competitor tracking</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Data analysis</span>
+                    </div>
+                </div>
+
+                <!-- Writing & Communications -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">✍️</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Writing & Communications</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Draft anything from quick emails to detailed reports. Your voice, your style.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Emails</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Memos</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Reports</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Proposals</span>
+                    </div>
+                </div>
+
+                <!-- Documents & Contracts -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Documents & Contracts</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Draft business documents, review contracts, create templates for your workflow.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Contracts</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Agreements</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Policies</span>
+                    </div>
+                </div>
+
+                <!-- Financial Analysis -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Financial Analysis</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Go through financial data, create summaries, identify trends and anomalies.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">P&L review</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Budgets</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Forecasting</span>
+                    </div>
+                </div>
+
+                <!-- Social Media & Marketing -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Social Media & Marketing</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Create engaging content for any platform. Posts, captions, marketing copy.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">LinkedIn</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Instagram</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Ad copy</span>
+                    </div>
+                </div>
+
+                <!-- Brainstorming & Strategy -->
+                <div style="background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border);">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">💡</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Brainstorming & Strategy</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Bounce ideas, explore challenges, get a fresh perspective on any problem.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Ideation</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Problem solving</span>
+                        <span style="background: var(--bg-hover); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Planning</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- How It Works -->
+            <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border-radius: 16px; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(37, 99, 235, 0.3);">
+                <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center;">How Stewart Works</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💬</div>
+                        <h4 style="margin-bottom: 0.5rem;">Chat or Talk</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Type or speak naturally. Stewart understands context.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📂</div>
+                        <h4 style="margin-bottom: 0.5rem;">Connect Your Files</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Dropbox or Google Drive. Your data stays yours.</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h4 style="margin-bottom: 0.5rem;">Get Results</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Reports, drafts, analysis — delivered to your folder.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Preview -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Simple Pricing</h2>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="background: var(--bg-card); border-radius: 12px; padding: 1.5rem 2rem; border: 1px solid var(--border);">
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Free Trial</p>
+                        <p style="font-size: 2rem; font-weight: 700;">14 days</p>
+                        <p style="font-size: 0.875rem; color: var(--text-muted);">Manager bot included</p>
+                    </div>
+                    <div style="background: var(--bg-card); border-radius: 12px; padding: 1.5rem 2rem; border: 2px solid var(--primary);">
+                        <p style="font-size: 0.875rem; color: var(--primary); margin-bottom: 0.5rem;">After Trial</p>
+                        <p style="font-size: 2rem; font-weight: 700;">$500<span style="font-size: 1rem; color: var(--text-muted);">/mo</span></p>
+                        <p style="font-size: 0.875rem; color: var(--text-muted);">Full AI team access</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align: center; padding-bottom: 2rem;">
+                <button class="btn btn-primary" onclick="startOnboarding()" style="font-size: 1.25rem; padding: 1.25rem 3rem;">
+                    Start Your Free Trial
+                    <span>→</span>
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
+                    No credit card • Cancel anytime • Keep all your work
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Onboarding Screen -->
+    <div class="screen onboarding-screen" id="onboarding">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 0%"></div>
+        </div>
+        
+        <div class="question-container">
+            <p class="question-number">Question <span id="currentQ">1</span> of <span id="totalQ">6</span></p>
+            <h2 class="question" id="questionText">What's your name?</h2>
+            
+            <div class="input-container">
+                <input type="text" class="text-input" id="textAnswer" placeholder="Type your answer...">
+                <button class="voice-input-btn" id="voiceBtn" onclick="toggleVoice()">
+                    <span>🎤</span>
+                    <span id="voiceText">Or click to speak your answer</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" id="backBtn" onclick="prevQuestion()" style="visibility: hidden;">
+                ← Back
+            </button>
+            <button class="btn btn-primary" onclick="nextQuestion()">
+                Continue →
+            </button>
+        </div>
+    </div>
+
+    <!-- Connect Screen -->
+    <div class="screen connect-screen" id="connect">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Connect Your Files</h1>
+        <p style="color: var(--text-muted); max-width: 500px;">
+            Stewart needs a place to save work. Choose where you'd like your deliverables stored.
+            <strong>Your data stays in YOUR account — we never store it.</strong>
+        </p>
+
+        <div class="connect-options">
+            <div class="connect-card" id="dropboxCard" onclick="connectDropbox()">
+                <div class="icon">📦</div>
+                <h3>Dropbox</h3>
+                <p>Connect your Dropbox account</p>
+                <div class="status" style="display: none;">✓ Connected</div>
+            </div>
+            <div class="connect-card" id="driveCard" onclick="connectDrive()">
+                <div class="icon">📁</div>
+                <h3>Google Drive</h3>
+                <p>Connect your Google Drive</p>
+                <div class="status" style="display: none;">✓ Connected</div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="finishOnboarding()" style="margin-top: 1rem;">
+            Continue to Dashboard →
+        </button>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div class="screen dashboard-screen" id="dashboard">
+        <!-- Trial Banner -->
+        <div class="trial-banner" style="grid-column: 1 / -1;">
+            <p>🎉 <strong>Day 1 of 14</strong> — Your trial is active. BCC learn@meetstewart.com on emails to help Stewart learn your workflow.</p>
+            <button class="upgrade-btn">Upgrade to Pro — $500/mo</button>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">🎩</span>
+                <h2>Stewart</h2>
+            </div>
+
+            <nav class="nav-section">
+                <h4>Workspace</h4>
+                <div class="nav-item active">
+                    <span>💬</span>
+                    <span>Chat</span>
+                </div>
+                <div class="nav-item">
+                    <span>📧</span>
+                    <span>Emails</span>
+                    <span class="badge">3</span>
+                </div>
+                <div class="nav-item">
+                    <span>📄</span>
+                    <span>Files</span>
+                </div>
+                <div class="nav-item">
+                    <span>📊</span>
+                    <span>Reports</span>
+                </div>
+            </nav>
+
+            <nav class="nav-section">
+                <h4>Your Team</h4>
+                <div class="agent-list">
+                    <div class="agent-card">
+                        <div class="agent-avatar" style="background: linear-gradient(135deg, #2563eb, #7c3aed);">🎩</div>
+                        <div class="agent-info">
+                            <h5>Manager</h5>
+                            <p>Orchestration</p>
+                        </div>
+                        <div class="agent-status"></div>
+                    </div>
+                    <div class="agent-card" style="opacity: 0.5;">
+                        <div class="agent-avatar" style="background: #334155;">📣</div>
+                        <div class="agent-info">
+                            <h5>Communications</h5>
+                            <p>Upgrade to unlock</p>
+                        </div>
+                    </div>
+                    <div class="agent-card" style="opacity: 0.5;">
+                        <div class="agent-avatar" style="background: #334155;">⚙️</div>
+                        <div class="agent-info">
+                            <h5>Execution</h5>
+                            <p>Upgrade to unlock</p>
+                        </div>
+                    </div>
+                    <div class="agent-card" style="opacity: 0.5;">
+                        <div class="agent-avatar" style="background: #334155;">💡</div>
+                        <div class="agent-info">
+                            <h5>Creation</h5>
+                            <p>Upgrade to unlock</p>
+                        </div>
+                    </div>
+                    <div class="agent-card" style="opacity: 0.5;">
+                        <div class="agent-avatar" style="background: #334155;">📋</div>
+                        <div class="agent-info">
+                            <h5>Organization</h5>
+                            <p>Upgrade to unlock</p>
+                        </div>
+                    </div>
+                    <div class="agent-card" style="opacity: 0.5;">
+                        <div class="agent-avatar" style="background: #334155;">📊</div>
+                        <div class="agent-info">
+                            <h5>Analyst</h5>
+                            <p>Upgrade to unlock</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Chat -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2>💬 Chat with Stewart</h2>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                        📞 Call Stewart
+                        <span style="color: var(--text-muted); font-size: 0.75rem;">(Pro)</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="chat-container" id="chatContainer">
+                <div class="message stewart">
+                    <div class="message-avatar">🎩</div>
+                    <div class="message-content">
+                        <p><strong>Welcome aboard, Nick!</strong> 👋</p>
+                        <p>I'm Stewart, your AI executive team manager. Based on what you told me:</p>
+                        <p>• You're running <strong>CasaXAI</strong><br>
+                        • You want to delegate repetitive work<br>
+                        • You wish you had better tech infrastructure</p>
+                        <p>Here's how we'll work together during your trial:</p>
+                        <p>1️⃣ <strong>BCC me on emails</strong> — I'll learn your communication patterns<br>
+                        2️⃣ <strong>Check in every few hours</strong> — Tell me what you're working on<br>
+                        3️⃣ <strong>Ask me anything</strong> — I'm here to help</p>
+                        <p>What's on your plate today?</p>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea class="chat-input" id="chatInput" placeholder="Message Stewart..." rows="1"></textarea>
+                    <div class="chat-actions">
+                        <button class="chat-btn voice" id="chatVoiceBtn" onclick="toggleChatVoice()">🎤</button>
+                        <button class="chat-btn send" onclick="sendMessage()">↑</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Activity Panel -->
+        <aside class="activity-panel">
+            <div class="checkin-card">
+                <h4>⏰ Time for a check-in!</h4>
+                <p>What have you been working on in the last couple hours?</p>
+                <button class="checkin-btn" onclick="openCheckin()">Share Update</button>
+            </div>
+
+            <h3>📬 Recent Activity</h3>
+            
+            <div class="activity-item">
+                <div class="activity-icon">📧</div>
+                <div class="activity-content">
+                    <h5>Email received</h5>
+                    <p>Saved to Dropbox/Stewart/Emails</p>
+                </div>
+                <span class="activity-time">2m</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">🎯</div>
+                <div class="activity-content">
+                    <h5>Profile updated</h5>
+                    <p>Onboarding complete</p>
+                </div>
+                <span class="activity-time">5m</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">📦</div>
+                <div class="activity-content">
+                    <h5>Dropbox connected</h5>
+                    <p>Folder: /Stewart</p>
+                </div>
+                <span class="activity-time">6m</span>
+            </div>
+
+            <h3 style="margin-top: 2rem;">📊 Learning Progress</h3>
+            <div style="margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.875rem;">Communication Style</span>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">5%</span>
+                </div>
+                <div class="progress-bar" style="margin-bottom: 1rem;">
+                    <div class="progress-fill" style="width: 5%;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.875rem;">Work Patterns</span>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">2%</span>
+                </div>
+                <div class="progress-bar" style="margin-bottom: 1rem;">
+                    <div class="progress-fill" style="width: 2%;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.875rem;">Key Contacts</span>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1.5rem; text-align: center;">
+                BCC learn@meetstewart.com<br>to accelerate learning
+            </p>
+        </aside>
+    </div>
+
+    <!-- Voice Modal -->
+    <div class="voice-modal" id="voiceModal" style="display: none;">
+        <div class="voice-modal-content">
+            <div class="voice-avatar-large" id="voiceAvatar">🎩</div>
+            <div class="voice-status-text" id="voiceStatus">Click to start talking with Stewart</div>
+            <div class="voice-transcript" id="voiceTranscript"></div>
+            <div class="voice-controls">
+                <button class="voice-talk-btn" id="talkBtn" onclick="toggleTalking()">🎤 Hold to Talk</button>
+                <button class="voice-close-btn" onclick="closeVoiceModal()">✕ Close</button>
+            </div>
+            <p class="voice-tier-note free" id="voiceTierNote">
+                🆓 Free tier: Stewart responds via text<br>
+                ⭐ Upgrade to hear Stewart speak back
+            </p>
+        </div>
+    </div>
+
+    <!-- Proactive Toast -->
+    <div class="proactive-toast" id="proactiveToast" style="display: none;">
+        <h4>🎩 Quick check-in!</h4>
+        <p id="proactiveMessage">Hey! Just checking in — remember I'm here to help with research, writing, reports, emails, social media content, contracts, financial analysis... anything you need!</p>
+        <div class="proactive-actions">
+            <button class="primary" onclick="respondToProactive()">Chat Now</button>
+            <button class="secondary" onclick="dismissProactive()">Later</button>
+        </div>
+    </div>
+
+    <script>
+        // Onboarding Questions
+        const questions = [
+            { q: "What's your name?", placeholder: "Your full name", field: "name" },
+            { q: "What company do you work for?", placeholder: "Company name", field: "company" },
+            { q: "What's your position or role?", placeholder: "e.g., CEO, Founder, Director", field: "role" },
+            { q: "Tell me about your key staff members.", placeholder: "Who do you work with most?", field: "staff", multiline: true },
+            { q: "What tasks do you do often that drain your time?", placeholder: "The repetitive stuff...", field: "drains", multiline: true },
+            { q: "What do you wish you could do but don't have the tech support for?", placeholder: "Dream capabilities...", field: "wishes", multiline: true }
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+        let isRecording = false;
+
+        function showCapabilities() {
+            document.getElementById('welcome').classList.remove('active');
+            document.getElementById('capabilities').classList.add('active');
+        }
+
+        function startOnboarding() {
+            document.getElementById('welcome').classList.remove('active');
+            document.getElementById('capabilities').classList.remove('active');
+            document.getElementById('onboarding').classList.add('active');
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            const q = questions[index];
+            document.getElementById('questionText').textContent = q.q;
+            document.getElementById('currentQ').textContent = index + 1;
+            document.getElementById('totalQ').textContent = questions.length;
+            document.getElementById('progress').style.width = ((index / questions.length) * 100) + '%';
+            
+            const input = document.getElementById('textAnswer');
+            if (q.multiline) {
+                const textarea = document.createElement('textarea');
+                textarea.className = 'text-input';
+                textarea.id = 'textAnswer';
+                textarea.placeholder = q.placeholder;
+                textarea.value = answers[q.field] || '';
+                input.replaceWith(textarea);
+            } else {
+                if (input.tagName === 'TEXTAREA') {
+                    const newInput = document.createElement('input');
+                    newInput.type = 'text';
+                    newInput.className = 'text-input';
+                    newInput.id = 'textAnswer';
+                    newInput.placeholder = q.placeholder;
+                    newInput.value = answers[q.field] || '';
+                    input.replaceWith(newInput);
+                } else {
+                    input.placeholder = q.placeholder;
+                    input.value = answers[q.field] || '';
+                }
+            }
+
+            document.getElementById('backBtn').style.visibility = index === 0 ? 'hidden' : 'visible';
+        }
+
+        function nextQuestion() {
+            const input = document.getElementById('textAnswer');
+            answers[questions[currentQuestion].field] = input.value;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                // Move to connect screen
+                document.getElementById('onboarding').classList.remove('active');
+                document.getElementById('connect').classList.add('active');
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                const input = document.getElementById('textAnswer');
+                answers[questions[currentQuestion].field] = input.value;
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            const text = document.getElementById('voiceText');
+            
+            if (!isRecording) {
+                isRecording = true;
+                btn.classList.add('recording');
+                text.textContent = 'Listening... Click to stop';
+                // Would integrate Web Speech API here
+            } else {
+                isRecording = false;
+                btn.classList.remove('recording');
+                text.textContent = 'Or click to speak your answer';
+            }
+        }
+
+        function connectDropbox() {
+            const card = document.getElementById('dropboxCard');
+            card.classList.add('connected');
+            card.querySelector('.status').style.display = 'block';
+            // Would trigger OAuth flow
+        }
+
+        function connectDrive() {
+            const card = document.getElementById('driveCard');
+            card.classList.add('connected');
+            card.querySelector('.status').style.display = 'block';
+            // Would trigger OAuth flow
+        }
+
+        function finishOnboarding() {
+            document.getElementById('connect').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const container = document.getElementById('chatContainer');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `
+                <div class="message-avatar">👤</div>
+                <div class="message-content">
+                    <p>${message}</p>
+                    <div class="message-time">Just now</div>
+                </div>
+            `;
+            container.appendChild(userMsg);
+            
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Simulate Stewart response
+            setTimeout(() => {
+                const stewartMsg = document.createElement('div');
+                stewartMsg.className = 'message stewart';
+                stewartMsg.innerHTML = `
+                    <div class="message-avatar">🎩</div>
+                    <div class="message-content">
+                        <p>Got it! I'm learning. Keep me posted on how your day progresses — the more context I have, the better I can help.</p>
+                        <p>Remember to BCC <strong>learn@meetstewart.com</strong> on any emails you send today! 📧</p>
+                        <div class="message-time">Just now</div>
+                    </div>
+                `;
+                container.appendChild(stewartMsg);
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+
+        function toggleChatVoice() {
+            const btn = document.getElementById('chatVoiceBtn');
+            if (btn.classList.contains('recording')) {
+                btn.classList.remove('recording');
+                btn.textContent = '🎤';
+            } else {
+                btn.classList.add('recording');
+                btn.textContent = '⏹️';
+            }
+        }
+
+        function openCheckin() {
+            const input = document.getElementById('chatInput');
+            input.value = "Here's what I've been working on: ";
+            input.focus();
+        }
+
+        // Auto-resize textarea
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'chatInput') {
+                e.target.style.height = 'auto';
+                e.target.style.height = Math.min(e.target.scrollHeight, 150) + 'px';
+            }
+        });
+
+        // Enter to send
+        document.addEventListener('keydown', function(e) {
+            if (e.target.id === 'chatInput' && e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Voice Modal Functions
+        let isTalking = false;
+        let isPaidTier = false; // Toggle this for paid tier
+
+        function openVoiceModal() {
+            document.getElementById('voiceModal').style.display = 'flex';
+        }
+
+        function closeVoiceModal() {
+            document.getElementById('voiceModal').style.display = 'none';
+            stopTalking();
+        }
+
+        function toggleTalking() {
+            if (!isTalking) {
+                startTalking();
+            } else {
+                stopTalking();
+            }
+        }
+
+        function startTalking() {
+            isTalking = true;
+            const btn = document.getElementById('talkBtn');
+            const avatar = document.getElementById('voiceAvatar');
+            const status = document.getElementById('voiceStatus');
+            
+            btn.classList.add('active');
+            btn.textContent = '⏹️ Release to Send';
+            avatar.classList.add('listening');
+            status.textContent = 'Listening...';
+            document.getElementById('voiceTranscript').textContent = '';
+
+            // Would integrate Web Speech API here
+            // navigator.mediaDevices.getUserMedia({ audio: true })
+        }
+
+        function stopTalking() {
+            isTalking = false;
+            const btn = document.getElementById('talkBtn');
+            const avatar = document.getElementById('voiceAvatar');
+            const status = document.getElementById('voiceStatus');
+            
+            btn.classList.remove('active');
+            btn.textContent = '🎤 Hold to Talk';
+            avatar.classList.remove('listening');
+            
+            // Simulate processing
+            status.textContent = 'Processing...';
+            document.getElementById('voiceTranscript').textContent = '"What should I focus on today?"';
+            
+            setTimeout(() => {
+                avatar.classList.add('speaking');
+                status.textContent = 'Stewart is responding...';
+                
+                // Simulate Stewart's response
+                setTimeout(() => {
+                    avatar.classList.remove('speaking');
+                    status.textContent = 'Click to continue talking';
+                    
+                    if (isPaidTier) {
+                        // Would play audio response via 11labs
+                        document.getElementById('voiceTranscript').textContent = 'Stewart: "Based on your workload, I\'d prioritize the quarterly report. Want me to draft an outline?"';
+                    } else {
+                        // Show text response for free tier
+                        addStewartMessage("Based on your workload, I'd prioritize the quarterly report. Want me to draft an outline?");
+                        closeVoiceModal();
+                    }
+                }, 1500);
+            }, 500);
+        }
+
+        // Make chat voice button open the modal
+        document.getElementById('chatVoiceBtn').onclick = openVoiceModal;
+
+        // Proactive Check-in System
+        const proactiveMessages = [
+            "Hey! Just checking in — remember I'm here to help with research, writing, reports, emails, social media content, contracts, financial analysis... anything you need!",
+            "How's your day going? I'm ready to help with whatever you're working on — memos, presentations, data analysis, you name it!",
+            "Quick reminder: BCC me on emails and I'll learn your communication style. Need help drafting anything?",
+            "Stuck on something? I'm great at brainstorming, research, and turning ideas into documents. What can I tackle for you?",
+            "Just wanted to pop in! Whether it's a quick email draft or a full report, I'm at your disposal. What's on your plate?",
+            "Time for a check-in! Tell me what you've been working on — the more context I have, the better I can help."
+        ];
+
+        let proactiveIndex = 0;
+        let proactiveTimer;
+
+        function showProactive() {
+            const toast = document.getElementById('proactiveToast');
+            const msg = document.getElementById('proactiveMessage');
+            msg.textContent = proactiveMessages[proactiveIndex % proactiveMessages.length];
+            toast.style.display = 'block';
+            proactiveIndex++;
+        }
+
+        function dismissProactive() {
+            document.getElementById('proactiveToast').style.display = 'none';
+        }
+
+        function respondToProactive() {
+            dismissProactive();
+            document.getElementById('chatInput').focus();
+        }
+
+        function addStewartMessage(text) {
+            const container = document.getElementById('chatContainer');
+            const msg = document.createElement('div');
+            msg.className = 'message stewart';
+            msg.innerHTML = `
+                <div class="message-avatar">🎩</div>
+                <div class="message-content">
+                    <p>${text}</p>
+                    <div class="message-time">Just now</div>
+                </div>
+            `;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Start proactive check-ins every 2 hours (demo: every 30 seconds)
+        function startProactiveCheckins() {
+            // For demo, show first one after 30 seconds
+            proactiveTimer = setTimeout(() => {
+                showProactive();
+                // Then every 2 hours (demo: every 60 seconds)
+                setInterval(showProactive, 60000); // Change to 7200000 for 2 hours in production
+            }, 30000);
+        }
+
+        // Start proactive system when dashboard loads
+        const dashboardObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.id === 'dashboard' && mutation.target.classList.contains('active')) {
+                    startProactiveCheckins();
+                }
+            });
+        });
+
+        dashboardObserver.observe(document.getElementById('dashboard'), { attributes: true });
+    </script>
+</body>
+</html>
