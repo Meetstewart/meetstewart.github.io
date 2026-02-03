@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart | Your AI Executive Team</title>
+    <title>Stewart | Your Virtual Executive</title>
     <link rel="icon" type="image/png" href="assets/stewart-star-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
             --primary: #7C3AED;
@@ -64,10 +60,7 @@
             color: var(--light);
         }
         
-        .logo img {
-            width: 40px;
-            height: 40px;
-        }
+        .logo img { width: 40px; height: 40px; }
         
         .nav-links {
             display: flex;
@@ -82,9 +75,7 @@
             transition: color 0.3s;
         }
         
-        .nav-links a:hover {
-            color: var(--light);
-        }
+        .nav-links a:hover { color: var(--light); }
         
         .btn {
             display: inline-flex;
@@ -103,12 +94,11 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
         }
         
         .btn-outline {
@@ -118,7 +108,7 @@
         }
         
         .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
             border-color: rgba(255,255,255,0.3);
         }
         
@@ -127,40 +117,38 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
             padding: 8rem 2rem 4rem;
+            position: relative;
             overflow: hidden;
         }
         
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-        
-        .hero-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
-        }
-        
-        .hero-bg::after {
+        .hero::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(2,6,23,0.95) 0%, rgba(15,23,42,0.8) 50%, rgba(2,6,23,0.95) 100%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/hero-background.jpg') center/cover;
+            opacity: 0.15;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
         }
         
         .hero-content {
-            position: relative;
-            z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            position: relative;
+            z-index: 1;
+            text-align: center;
         }
         
         .hero-badge {
@@ -172,13 +160,13 @@
             border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 2rem;
             font-size: 0.875rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
         }
         
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--light) 0%, var(--gray) 100%);
@@ -190,165 +178,120 @@
         .hero h1 span {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .hero-text {
+        .hero-subtitle {
             font-size: 1.25rem;
             color: var(--gray);
-            margin-bottom: 2rem;
-            max-width: 540px;
-        }
-        
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-        
-        .hero-visual {
-            position: relative;
-        }
-        
-        .hero-card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-        
-        .hero-card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .hero-card-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        
-        .hero-card-title {
-            font-weight: 700;
-            font-size: 1.125rem;
-        }
-        
-        .hero-card-subtitle {
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-        
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 0.75rem;
-            font-size: 0.9rem;
-        }
-        
-        .task-check {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-        }
-        
-        .task-pending {
-            background: var(--accent);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Problem Section */
-        .problem {
-            padding: 6rem 2rem;
-            background: var(--dark);
-        }
-        
-        .section-header {
-            text-align: center;
             max-width: 700px;
-            margin: 0 auto 4rem;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .section-tag {
             display: inline-block;
             padding: 0.5rem 1rem;
             background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
             border-radius: 2rem;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             color: var(--primary);
             margin-bottom: 1rem;
-            font-weight: 600;
         }
         
-        .section-header h2 {
+        .section-title {
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
             margin-bottom: 1rem;
         }
         
-        .section-header p {
+        .section-subtitle {
+            font-size: 1.1rem;
             color: var(--gray);
-            font-size: 1.125rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
         }
         
-        .problems-grid {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Meet Stewart Section */
+        .meet-stewart {
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.03), transparent);
+        }
+        
+        .stewart-intro {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+        
+        .stewart-avatar {
+            position: relative;
+        }
+        
+        .stewart-avatar img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 2rem;
+            box-shadow: 0 40px 80px rgba(124, 58, 237, 0.3);
+        }
+        
+        .stewart-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            border-radius: 2.5rem;
+            z-index: -1;
+        }
+        
+        .stewart-bio h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stewart-bio p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Communication Methods */
+        .comm-section {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 2rem;
+            padding: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .comm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
         
-        .problem-card {
+        .comm-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 1rem;
@@ -356,17 +299,17 @@
             transition: all 0.3s;
         }
         
-        .problem-card:hover {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(255,255,255,0.1);
-            transform: translateY(-4px);
+        .comm-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
         }
         
-        .problem-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.05));
+        .comm-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -374,456 +317,338 @@
             margin-bottom: 1.5rem;
         }
         
-        .problem-card h3 {
+        .comm-card h3 {
             font-size: 1.25rem;
-            font-weight: 700;
             margin-bottom: 0.75rem;
         }
         
-        .problem-card p {
+        .comm-card p {
             color: var(--gray);
             font-size: 0.95rem;
         }
         
-        /* Team Section */
-        .team {
-            padding: 6rem 2rem;
-            background: var(--darker);
+        .comm-stat {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
         }
         
-        .team-grid {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Skills Grid */
+        .skills-section {
+            text-align: center;
+        }
+        
+        .skills-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
+            margin-top: 3rem;
         }
         
-        .agent-card {
-            background: rgba(15, 23, 42, 0.5);
+        .skill-card {
+            background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1.25rem;
-            padding: 2rem;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: left;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
         }
         
-        .agent-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--agent-color);
-            opacity: 0;
-            transition: opacity 0.3s;
+        .skill-card:hover {
+            border-color: rgba(6, 182, 212, 0.3);
         }
         
-        .agent-card:hover {
-            background: rgba(15, 23, 42, 0.8);
-            border-color: rgba(255,255,255,0.1);
-            transform: translateY(-4px);
-        }
-        
-        .agent-card:hover::before {
-            opacity: 1;
-        }
-        
-        .agent-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            background: var(--agent-color);
+        .skill-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-        
-        .agent-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .agent-role {
-            color: var(--gray);
-            font-size: 0.9rem;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
         
-        .agent-tasks {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .skill-icon {
+            font-size: 1.5rem;
         }
         
-        .agent-tasks li {
+        .skill-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .skill-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Integrations */
+        .integrations-section {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 2rem;
+            padding: 4rem;
+            text-align: center;
+        }
+        
+        .integration-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .integration-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .integration-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+        }
+        
+        .integration-count {
+            display: block;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: var(--secondary);
+        }
+        
+        /* Team Section */
+        .team-section {
+            text-align: center;
+        }
+        
+        .team-intro {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        
+        .team-intro p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            transition: all 0.3s;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(124, 58, 237, 0.2);
+        }
+        
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.7);
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
         }
         
-        .agent-tasks li::before {
-            content: '→';
-            color: var(--agent-color);
+        .team-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
         }
         
-        /* Pricing Section */
-        .pricing {
-            padding: 6rem 2rem;
-            background: var(--dark);
+        .team-role {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
         
-        .pricing-grid {
-            max-width: 1200px;
-            margin: 0 auto;
+        .team-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .team-price {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+        }
+        
+        /* Capacity Section */
+        .capacity-section {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 2rem;
+            padding: 4rem;
+            text-align: center;
+        }
+        
+        .capacity-highlight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 2rem 0;
+        }
+        
+        .capacity-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            align-items: start;
+            margin-top: 3rem;
+        }
+        
+        .capacity-item {
+            text-align: center;
+        }
+        
+        .capacity-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .capacity-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Pricing */
+        .pricing-section {
+            text-align: center;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
         
         .pricing-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 1.5rem;
-            padding: 2.5rem;
+            padding: 3rem 2rem;
             transition: all 0.3s;
         }
         
         .pricing-card.featured {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.1));
-            border-color: rgba(124, 58, 237, 0.3);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.1));
+            border-color: var(--primary);
             transform: scale(1.05);
-            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.2);
-        }
-        
-        .pricing-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
         }
         
         .pricing-card h3 {
             font-size: 1.5rem;
-            font-weight: 800;
             margin-bottom: 0.5rem;
         }
         
         .pricing-desc {
             color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
-        .pricing-price {
-            margin-bottom: 1.5rem;
-        }
-        
-        .price-amount {
+        .pricing-amount {
             font-size: 3rem;
-            font-weight: 900;
+            font-weight: 800;
         }
         
-        .price-period {
+        .pricing-period {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
         
         .pricing-features {
             list-style: none;
-            margin-bottom: 2rem;
+            margin: 2rem 0;
+            text-align: left;
         }
         
         .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.95rem;
         }
         
-        .pricing-features li:last-child {
-            border-bottom: none;
-        }
-        
-        .check-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            flex-shrink: 0;
-        }
-        
-        .productivity {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 0.75rem;
-            text-align: center;
-        }
-        
-        .productivity-value {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .pricing-features li::before {
+            content: '✓';
             color: var(--success);
-        }
-        
-        .productivity-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-        
-        /* Comparison Section */
-        .comparison {
-            padding: 6rem 2rem;
-            background: var(--darker);
-        }
-        
-        .comparison-table {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1.5rem;
-            overflow: hidden;
-        }
-        
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .comparison-row:last-child {
-            border-bottom: none;
-        }
-        
-        .comparison-row.header {
-            background: rgba(0,0,0,0.3);
-        }
-        
-        .comparison-cell {
-            padding: 1.25rem 1.5rem;
-            text-align: center;
-        }
-        
-        .comparison-cell:first-child {
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        .comparison-row.header .comparison-cell {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        
-        .comparison-yes {
-            color: var(--success);
-            font-weight: 600;
-        }
-        
-        .comparison-no {
-            color: var(--gray);
-        }
-        
-        /* Story Section */
-        .story {
-            padding: 6rem 2rem;
-            background: var(--dark);
-        }
-        
-        .story-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        
-        .story-visual {
-            position: relative;
-        }
-        
-        .story-image {
-            width: 100%;
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-        
-        .story-badge {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
-        }
-        
-        .story-text h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-        
-        .story-text p {
-            color: var(--gray);
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
-        }
-        
-        .story-quote {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(124, 58, 237, 0.1);
-            border-left: 3px solid var(--primary);
-            border-radius: 0 1rem 1rem 0;
-            font-style: italic;
-            color: rgba(255,255,255,0.9);
-        }
-        
-        /* Values Section */
-        .values {
-            padding: 6rem 2rem;
-            background: var(--darker);
-        }
-        
-        .values-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-        
-        .value-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-        
-        .value-card:hover {
-            background: rgba(15, 23, 42, 0.8);
-            transform: translateY(-4px);
-        }
-        
-        .value-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .value-card h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .value-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
+            font-weight: bold;
         }
         
         /* CTA Section */
         .cta {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--dark) 100%);
             text-align: center;
-        }
-        
-        .cta-content {
-            max-width: 700px;
-            margin: 0 auto;
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
         }
         
         .cta h2 {
             font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .cta p {
-            color: rgba(255,255,255,0.7);
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
         
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .cta .btn-primary {
-            background: white;
-            color: var(--primary);
-            font-size: 1.125rem;
-            padding: 1rem 2rem;
-        }
-        
-        .cta .btn-primary:hover {
-            background: var(--light);
+        .cta-phone {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 2rem 0;
         }
         
         /* Footer */
         footer {
-            padding: 3rem 2rem;
-            background: var(--darker);
+            padding: 4rem 2rem;
             border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
         }
         
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-            color: var(--light);
-        }
-        
-        .footer-logo img {
-            width: 32px;
-            height: 32px;
         }
         
         .footer-links {
             display: flex;
             gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
         }
         
         .footer-links a {
             color: var(--gray);
             text-decoration: none;
-            font-size: 0.9rem;
             transition: color 0.3s;
         }
         
@@ -833,88 +658,31 @@
         
         .footer-copy {
             color: var(--gray);
-            font-size: 0.875rem;
+            font-size: 0.9rem;
         }
         
         /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-content {
+        @media (max-width: 968px) {
+            .stewart-intro {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
             
-            .hero-text {
-                margin: 0 auto 2rem;
+            .stewart-avatar {
+                order: -1;
             }
             
-            .hero-stats {
-                justify-content: center;
+            .capacity-grid {
+                grid-template-columns: 1fr;
             }
             
-            .hero-visual {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-            
-            .problems-grid,
-            .team-grid,
-            .pricing-grid,
-            .values-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .nav-links {
+                display: none;
             }
             
             .pricing-card.featured {
                 transform: none;
             }
-            
-            .story-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .problems-grid,
-            .team-grid,
-            .pricing-grid,
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .comparison-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .comparison-cell:first-child {
-                text-align: center;
-                background: rgba(0,0,0,0.2);
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-            }
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animate {
-            animation: fadeInUp 0.6s ease-out forwards;
         }
     </style>
 </head>
@@ -927,382 +695,346 @@
                 Stewart
             </a>
             <div class="nav-links">
-                <a href="#team">Team</a>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#team">Build Your Team</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#story">Our Story</a>
-                <a href="tel:+18056008901" class="btn btn-outline">📞 (805) 600-8901</a>
-                <a href="#cta" class="btn btn-primary">Start Free Trial</a>
+                <a href="#cta" class="btn btn-primary">Get Started</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg">
-            <img src="assets/hero-background.jpg" alt="">
-        </div>
         <div class="hero-content">
-            <div class="hero-text-wrapper">
-                <div class="hero-badge">
-                    Early Access
+            <div class="hero-badge">
+                ✨ Now Available
+            </div>
+            <h1>Meet Your New<br>Virtual Executive<br><span>Stewart</span></h1>
+            <p class="hero-subtitle">
+                Self-sufficient. Always available. Stewart handles communications, monitors your business, 
+                manages your staff, and delivers results—24 hours a day, 7 days a week.
+            </p>
+            <div class="hero-cta">
+                <a href="tel:+18056008901" class="btn btn-primary">📞 Call Stewart Now</a>
+                <a href="#capabilities" class="btn btn-outline">See What He Can Do</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Communication Methods -->
+    <section class="meet-stewart" id="capabilities">
+        <span class="section-tag">Always Connected</span>
+        <h2 class="section-title">How Stewart Reaches Your World</h2>
+        <p class="section-subtitle">Multiple channels, simultaneous conversations, zero missed connections.</p>
+        
+        <div class="comm-section">
+            <div class="comm-grid">
+                <div class="comm-card">
+                    <div class="comm-icon">📞</div>
+                    <h3>Voice Calls</h3>
+                    <p>Stewart answers calls 24/7 and can make outbound calls to your entire team simultaneously.</p>
+                    <span class="comm-stat">20 concurrent calls</span>
                 </div>
-                <h1>Your AI <span>Executive Team</span></h1>
-                <p class="hero-text">
-                    Six specialists who actually get things done. 
-                    Working around the clock so you can focus on what matters.
-                </p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="#cta" class="btn btn-primary">Get Started</a>
-                    <a href="tel:+18056008901" class="btn btn-outline">Let's Talk</a>
+                <div class="comm-card">
+                    <div class="comm-icon">💬</div>
+                    <h3>Text & iMessage</h3>
+                    <p>Quick updates, urgent alerts, or casual check-ins. Stewart texts like a real colleague.</p>
+                    <span class="comm-stat">Instant delivery</span>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-value">6</div>
-                        <div class="stat-label">AI Staff</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">24/7</div>
-                        <div class="stat-label">Availability</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">Yours</div>
-                        <div class="stat-label">Data & Files</div>
-                    </div>
+                <div class="comm-card">
+                    <div class="comm-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>Professional correspondence, detailed reports, and document delivery—all handled.</p>
+                    <span class="comm-stat">On your behalf</span>
+                </div>
+                <div class="comm-card">
+                    <div class="comm-icon">🌐</div>
+                    <h3>Web Chat</h3>
+                    <p>Real-time conversation through the Stewart portal. Voice input supported.</p>
+                    <span class="comm-stat">Voice + text</span>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <div class="hero-card-header">
-                        <div class="hero-card-avatar">🧠</div>
-                        <div>
-                            <div class="hero-card-title">Stewart Manager</div>
-                            <div class="hero-card-subtitle">Orchestrating your team</div>
-                        </div>
-                    </div>
-                    <div class="task-list">
-                        <div class="task-item">
-                            <div class="task-check">✓</div>
-                            Reviewed Q4 financial report
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check">✓</div>
-                            Delegated social campaign to Comms
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check">✓</div>
-                            Scheduled investor call for Tuesday
-                        </div>
-                        <div class="task-item">
-                            <div class="task-check task-pending">⋯</div>
-                            Drafting proposal for new client...
-                        </div>
-                    </div>
+        </div>
+        
+        <div class="capacity-section">
+            <h3 class="section-title">Reach Everyone at Once</h3>
+            <p class="capacity-highlight">
+                Stewart can call 20 staff members simultaneously—deliver any message, 
+                ask for feedback, or rally help on an urgent project.
+            </p>
+            <div class="capacity-grid">
+                <div class="capacity-item">
+                    <div class="capacity-number">24/7</div>
+                    <div class="capacity-label">Always Available</div>
+                </div>
+                <div class="capacity-item">
+                    <div class="capacity-number">20</div>
+                    <div class="capacity-label">Concurrent Calls</div>
+                </div>
+                <div class="capacity-item">
+                    <div class="capacity-number">∞</div>
+                    <div class="capacity-label">Messages Per Day</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Problem Section -->
-    <section class="problem">
-        <div class="section-header">
-            <span class="section-tag">The Reality</span>
-            <h2>You Know What This Feels Like</h2>
-            <p>Building a team is expensive, slow, and unpredictable. You've done the math.</p>
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <span class="section-tag">Capabilities</span>
+        <h2 class="section-title">What Stewart Does</h2>
+        <p class="section-subtitle">A complete skill set for running your business.</p>
+        
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">📊</span>
+                    <h4>Monitor Any Metric</h4>
+                </div>
+                <p>Track sales, inventory, website traffic, social engagement—Stewart watches what matters and alerts you to changes.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">📋</span>
+                    <h4>Instant Reports</h4>
+                </div>
+                <p>Request a report and get it immediately. Daily summaries, weekly rollups, or real-time dashboards.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">✍️</span>
+                    <h4>Draft & Send Communications</h4>
+                </div>
+                <p>Emails, memos, proposals, contracts. Stewart writes professionally and sends on your behalf.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">📅</span>
+                    <h4>Calendar & Scheduling</h4>
+                </div>
+                <p>Coordinate meetings, send reminders, manage your time. Never miss an appointment.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">🔍</span>
+                    <h4>Research & Analysis</h4>
+                </div>
+                <p>Competitive research, market analysis, due diligence. Stewart finds what you need to know.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">💰</span>
+                    <h4>Financial Tracking</h4>
+                </div>
+                <p>Monitor accounts, track expenses, flag anomalies. Keep your finger on the financial pulse.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">👥</span>
+                    <h4>Staff Management</h4>
+                </div>
+                <p>Delegate tasks, follow up on deadlines, collect status updates from your team.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">📱</span>
+                    <h4>Social Media</h4>
+                </div>
+                <p>Monitor mentions, draft posts, engage with your audience. Maintain your presence.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-icon">🎨</span>
+                    <h4>Content Creation</h4>
+                </div>
+                <p>Blog posts, presentations, marketing materials. Stewart creates polished content.</p>
+            </div>
         </div>
-        <div class="problems-grid">
-            <div class="problem-card">
-                <div class="problem-icon">🔄</div>
-                <h3>The Hiring Cycle</h3>
-                <p>Recruit. Interview. Onboard. Train. Watch them leave. Repeat.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-icon">💸</div>
-                <h3>The Numbers</h3>
-                <p>Good people cost $60K-$150K a year. The team you need costs more than you make.</p>
-            </div>
-            <div class="problem-card">
-                <div class="problem-icon">📈</div>
-                <h3>The Ceiling</h3>
-                <p>You can only manage so many people before you become the bottleneck.</p>
-            </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="integrations-section">
+        <span class="section-tag">Connections</span>
+        <h2 class="section-title">Works With Your Tools</h2>
+        <p class="section-subtitle">Stewart integrates with the platforms you already use.</p>
+        
+        <div class="integration-logos">
+            <div class="integration-item">Google Workspace</div>
+            <div class="integration-item">Microsoft 365</div>
+            <div class="integration-item">Slack</div>
+            <div class="integration-item">Salesforce</div>
+            <div class="integration-item">QuickBooks</div>
+            <div class="integration-item">Dropbox</div>
+            <div class="integration-item">Zoom</div>
+            <div class="integration-item">HubSpot</div>
+            <div class="integration-item">Stripe</div>
+            <div class="integration-item">Shopify</div>
         </div>
+        <span class="integration-count">+ 3,000 more integrations available</span>
     </section>
 
     <!-- Team Section -->
-    <section class="team" id="team">
-        <div class="section-header">
-            <span class="section-tag">Meet Your Team</span>
-            <h2>Six Executives. Zero Drama.</h2>
-            <p>Each staff member does the work of two humans. That's 10 full-time employees for $1,750/month.</p>
+    <section class="team-section" id="team">
+        <span class="section-tag">Build Your Team</span>
+        <h2 class="section-title">Even Stewart Needs Help</h2>
+        
+        <div class="team-intro">
+            <p>
+                In a large organization, Stewart can manage more when he has specialists to delegate to. 
+                Build a well-rounded virtual team with one or more of these five specialists—each dedicated 
+                to their domain, all managed by Stewart.
+            </p>
         </div>
+        
         <div class="team-grid">
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #7C3AED, #5B21B6);">
-                <div class="agent-icon">🧠</div>
-                <h3>Manager</h3>
-                <p class="agent-role">Chief Orchestrator</p>
-                <ul class="agent-tasks">
-                    <li>Routes work to the right agent</li>
-                    <li>Manages your communications</li>
-                    <li>Handles your repetitive tasks</li>
-                </ul>
-            </div>
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #EC4899, #BE185D);">
-                <div class="agent-icon">📣</div>
+            <div class="team-card">
+                <div class="team-avatar">📣</div>
                 <h3>Communications</h3>
-                <p class="agent-role">Brand & Content Lead</p>
-                <ul class="agent-tasks">
-                    <li>Social media & content creation</li>
-                    <li>Email campaigns & copy</li>
-                    <li>Design & visual branding</li>
-                </ul>
+                <div class="team-role">Brand & Outreach Specialist</div>
+                <p>Handles design, copywriting, social media, and all external communications with your audience.</p>
+                <span class="team-price">$250/mo</span>
             </div>
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #06B6D4, #0891B2);">
-                <div class="agent-icon">⚙️</div>
+            <div class="team-card">
+                <div class="team-avatar">⚙️</div>
                 <h3>Execution</h3>
-                <p class="agent-role">Engineering & PM</p>
-                <ul class="agent-tasks">
-                    <li>Code & technical builds</li>
-                    <li>Project management</li>
-                    <li>System integrations</li>
-                </ul>
+                <div class="team-role">Engineering & Operations</div>
+                <p>Manages technical projects, coding tasks, system maintenance, and operational workflows.</p>
+                <span class="team-price">$250/mo</span>
             </div>
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #F59E0B, #D97706);">
-                <div class="agent-icon">💡</div>
+            <div class="team-card">
+                <div class="team-avatar">💡</div>
                 <h3>Creation</h3>
-                <p class="agent-role">Innovation Lead</p>
-                <ul class="agent-tasks">
-                    <li>Brainstorming & ideation</li>
-                    <li>Strategy development</li>
-                    <li>New product concepts</li>
-                </ul>
+                <div class="team-role">Innovation & Strategy</div>
+                <p>Brainstorms ideas, develops new initiatives, and turns concepts into actionable plans.</p>
+                <span class="team-price">$250/mo</span>
             </div>
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #10B981, #059669);">
-                <div class="agent-icon">📋</div>
+            <div class="team-card">
+                <div class="team-avatar">📋</div>
                 <h3>Organization</h3>
-                <p class="agent-role">Personal Assistant</p>
-                <ul class="agent-tasks">
-                    <li>Calendar & scheduling</li>
-                    <li>Task prioritization</li>
-                    <li>Meeting preparation</li>
-                </ul>
+                <div class="team-role">Admin & Scheduling</div>
+                <p>Keeps everything running smoothly—calendars, documents, reminders, and daily operations.</p>
+                <span class="team-price">$250/mo</span>
             </div>
-            <div class="agent-card" style="--agent-color: linear-gradient(135deg, #6366F1, #4F46E5);">
-                <div class="agent-icon">📊</div>
+            <div class="team-card">
+                <div class="team-avatar">📊</div>
                 <h3>Analyst</h3>
-                <p class="agent-role">Data & Documentation</p>
-                <ul class="agent-tasks">
-                    <li>Research & analysis</li>
-                    <li>Report generation</li>
-                    <li>Business intelligence</li>
-                </ul>
+                <div class="team-role">Data & Documentation</div>
+                <p>Crunches numbers, builds reports, maintains records, and turns data into insights.</p>
+                <span class="team-price">$250/mo</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capacity Section -->
+    <section>
+        <div class="capacity-section">
+            <span class="section-tag">Management Capacity</span>
+            <h2 class="section-title">Stewart Manages Your Whole Team</h2>
+            <p style="color: var(--gray); max-width: 700px; margin: 0 auto;">
+                Stewart can manage up to <strong style="color: var(--light);">10 total staff members</strong>—whether 
+                they're your existing human employees or virtual specialists. Mix and match to build the perfect team.
+            </p>
+            <p class="capacity-highlight">
+                Each virtual staff member has the capacity to do the work of two full-time employees.
+            </p>
+            <div class="capacity-grid">
+                <div class="capacity-item">
+                    <div class="capacity-number">10</div>
+                    <div class="capacity-label">Total Staff Managed</div>
+                </div>
+                <div class="capacity-item">
+                    <div class="capacity-number">2x</div>
+                    <div class="capacity-label">Work Capacity Per Virtual Staff</div>
+                </div>
+                <div class="capacity-item">
+                    <div class="capacity-number">20</div>
+                    <div class="capacity-label">Full-Time Equivalent Output</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="section-header">
-            <span class="section-tag">Simple Pricing</span>
-            <h2>One Team. Clear Value.</h2>
-            <p>No enterprise complexity. No hidden fees. Just AI staff that works.</p>
-        </div>
+    <section class="pricing-section" id="pricing">
+        <span class="section-tag">Pricing</span>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">Start with Stewart alone, add specialists as you grow.</p>
+        
         <div class="pricing-grid">
             <div class="pricing-card">
-                <h3>Starter</h3>
-                <p class="pricing-desc">Your personal AI manager</p>
-                <div class="pricing-price">
-                    <span class="price-amount">$500</span>
-                    <span class="price-period">/month</span>
-                </div>
+                <h3>Stewart Solo</h3>
+                <p class="pricing-desc">Your virtual executive, ready to work</p>
+                <div class="pricing-amount">$500</div>
+                <div class="pricing-period">/month</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✓</span> Manager Agent</li>
-                    <li><span class="check-icon">✓</span> Voice phone line</li>
-                    <li><span class="check-icon">✓</span> iMessage integration</li>
-                    <li><span class="check-icon">✓</span> Email management</li>
-                    <li><span class="check-icon">✓</span> Task delegation</li>
+                    <li>24/7 availability</li>
+                    <li>Phone, text, email, chat</li>
+                    <li>20 concurrent calls</li>
+                    <li>Manage up to 10 staff</li>
+                    <li>All integrations included</li>
+                    <li>Instant reports & monitoring</li>
                 </ul>
-                <a href="#cta" class="btn btn-outline" style="width: 100%; justify-content: center;">Get Started</a>
-                <div class="productivity">
-                    <div class="productivity-value">Your Time Back</div>
-                    <div class="productivity-label">$60K/yr assistant for $500/mo</div>
-                </div>
+                <a href="#cta" class="btn btn-outline" style="width: 100%;">Get Started</a>
             </div>
+            
             <div class="pricing-card featured">
-                <span class="pricing-badge">BEST VALUE</span>
-                <h3>Full Suite</h3>
-                <p class="pricing-desc">Complete AI executive team</p>
-                <div class="pricing-price">
-                    <span class="price-amount">$1,750</span>
-                    <span class="price-period">/month</span>
-                </div>
+                <h3>Full Virtual Team</h3>
+                <p class="pricing-desc">Stewart + all 5 specialists</p>
+                <div class="pricing-amount">$1,750</div>
+                <div class="pricing-period">/month</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✓</span> Manager + 5 Core Agents</li>
-                    <li><span class="check-icon">✓</span> All communication channels</li>
-                    <li><span class="check-icon">✓</span> Full orchestration</li>
-                    <li><span class="check-icon">✓</span> Priority processing</li>
-                    <li><span class="check-icon">✓</span> Unlimited tasks</li>
+                    <li>Everything in Stewart Solo</li>
+                    <li>Communications specialist</li>
+                    <li>Execution specialist</li>
+                    <li>Creation specialist</li>
+                    <li>Organization specialist</li>
+                    <li>Analyst specialist</li>
+                    <li><strong>= 10 full-time employees</strong></li>
                 </ul>
-                <a href="#cta" class="btn btn-primary" style="width: 100%; justify-content: center;">Start Free Trial</a>
-                <div class="productivity">
-                    <div class="productivity-value">= 10 Humans</div>
-                    <div class="productivity-label">Each agent does 2x human work</div>
-                </div>
+                <a href="#cta" class="btn btn-primary" style="width: 100%;">Get Started</a>
             </div>
+            
             <div class="pricing-card">
-                <h3>Full + Specialist</h3>
-                <p class="pricing-desc">Industry-specific expertise</p>
-                <div class="pricing-price">
-                    <span class="price-amount">$2,250</span>
-                    <span class="price-period">/month</span>
-                </div>
+                <h3>Custom Team</h3>
+                <p class="pricing-desc">Build the team you need</p>
+                <div class="pricing-amount">$500</div>
+                <div class="pricing-period">+ $250/specialist</div>
                 <ul class="pricing-features">
-                    <li><span class="check-icon">✓</span> Everything in Full Suite</li>
-                    <li><span class="check-icon">✓</span> Industry Specialist Agent</li>
-                    <li><span class="check-icon">✓</span> Vertical-specific knowledge</li>
-                    <li><span class="check-icon">✓</span> Custom workflows</li>
-                    <li><span class="check-icon">✓</span> Dedicated support</li>
+                    <li>Start with Stewart</li>
+                    <li>Add any specialist: $250/mo each</li>
+                    <li>Industry specialists: $500/mo</li>
+                    <li>Scale up or down anytime</li>
+                    <li>No contracts, cancel anytime</li>
+                    <li>14-day free trial</li>
                 </ul>
-                <a href="#cta" class="btn btn-outline" style="width: 100%; justify-content: center;">Contact Us</a>
-                <div class="productivity">
-                    <div class="productivity-value">= 12 Humans</div>
-                    <div class="productivity-label">Plus domain expertise</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Comparison Section -->
-    <section class="comparison">
-        <div class="section-header">
-            <span class="section-tag">Why Stewart</span>
-            <h2>Traditional vs. Stewart</h2>
-        </div>
-        <div class="comparison-table">
-            <div class="comparison-row header">
-                <div class="comparison-cell"></div>
-                <div class="comparison-cell">Traditional Team</div>
-                <div class="comparison-cell">Stewart</div>
-            </div>
-            <div class="comparison-row">
-                <div class="comparison-cell">10 Employees Cost</div>
-                <div class="comparison-cell comparison-no">$800K+/year</div>
-                <div class="comparison-cell comparison-yes">$21K/year</div>
-            </div>
-            <div class="comparison-row">
-                <div class="comparison-cell">Time to Hire</div>
-                <div class="comparison-cell comparison-no">3-6 months</div>
-                <div class="comparison-cell comparison-yes">Instant</div>
-            </div>
-            <div class="comparison-row">
-                <div class="comparison-cell">Availability</div>
-                <div class="comparison-cell comparison-no">40 hrs/week</div>
-                <div class="comparison-cell comparison-yes">24/7/365</div>
-            </div>
-            <div class="comparison-row">
-                <div class="comparison-cell">Turnover Risk</div>
-                <div class="comparison-cell comparison-no">High</div>
-                <div class="comparison-cell comparison-yes">Zero</div>
-            </div>
-            <div class="comparison-row">
-                <div class="comparison-cell">Lock-In</div>
-                <div class="comparison-cell comparison-no">Contracts, severance</div>
-                <div class="comparison-cell comparison-yes">None - you own everything</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Story Section -->
-    <section class="story" id="story">
-        <div class="story-content">
-            <div class="story-visual">
-                <img src="assets/stewart-star-icon.png" alt="Stewart" class="story-image" style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 3rem;">
-                <div class="story-badge">Est. 2026</div>
-            </div>
-            <div class="story-text">
-                <h2>Why We Built This</h2>
-                <p>
-                    We started with a simple question: what if the right AI tools could help small teams 
-                    punch above their weight?
-                </p>
-                <p>
-                    Stewart is our answer. Not a replacement for human talent—a multiplier for it. 
-                    Six AI staff members working alongside you, handling the work that used to require hiring.
-                </p>
-                <div class="story-quote">
-                    "We believe if we deliver real value, you'll stick around. No contracts, no lock-in, no hostage-taking."
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Values Section -->
-    <section class="values">
-        <div class="section-header">
-            <span class="section-tag">Our Values</span>
-            <h2>What We Stand For</h2>
-        </div>
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-icon">🔓</div>
-                <h3>Zero Lock-In</h3>
-                <p>You own everything. Leave anytime with all your data and deliverables.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🎯</div>
-                <h3>Radical Honesty</h3>
-                <p>We tell you what we can and can't do. No overpromises, no BS.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🛡️</div>
-                <h3>Your Data, Your Control</h3>
-                <p>Zero data on our servers. Everything stays in your Dropbox or local hardware.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">⚡</div>
-                <h3>Always On</h3>
-                <p>Stewart works 24/7/365. Even when the internet goes down (with local hardware).</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🤝</div>
-                <h3>Earn Your Business</h3>
-                <p>We keep you because we deliver value, not because you're stuck.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🚀</div>
-                <h3>Built for Builders</h3>
-                <p>We use our own tools to run our business. We're the proof they work.</p>
+                <a href="#cta" class="btn btn-outline" style="width: 100%;">Let's Talk</a>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
     <section class="cta" id="cta">
-        <div class="cta-content">
-            <h2>Let's Talk</h2>
-            <p>14 days free. Keep everything you create. No strings.</p>
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-primary">Get Started</a>
-                <a href="tel:+18056008901" class="btn btn-outline">(805) 600-8901</a>
-            </div>
+        <h2>Ready to Meet Stewart?</h2>
+        <p>Start your 14-day free trial. No credit card required. See what Stewart can do for your business.</p>
+        <div class="hero-cta">
+            <a href="tel:+18056008901" class="btn btn-primary">📞 Call Stewart</a>
+            <a href="mailto:hello@meetstewart.com" class="btn btn-outline">✉️ Email Us</a>
+        </div>
+        <div class="cta-phone">
+            (805) 600-8901
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">
-                <img src="assets/stewart-star-icon.png" alt="Stewart">
-                Stewart
-            </div>
             <div class="footer-links">
+                <a href="#capabilities">Capabilities</a>
                 <a href="#team">Team</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#story">Our Story</a>
                 <a href="mailto:hello@meetstewart.com">Contact</a>
             </div>
-            <div class="footer-copy">
-                © 2026 Stewart AI. All rights reserved.
-            </div>
+            <p class="footer-copy">© 2026 Stewart AI. All rights reserved.</p>
         </div>
     </footer>
 </body>
