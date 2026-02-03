@@ -842,7 +842,13 @@
                 transform: scale(0.98);
             }
         }
-    </style>
+    
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -864,6 +870,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
+                <img src="stew-callme.png" alt="Stewart" style="width: 200px; height: auto; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">
             <div class="hero-badge">
                 ✨ Now Available
             </div>
@@ -873,7 +880,7 @@
                 manages your staff, and delivers results—24 hours a day, 7 days a week.
             </p>
             <div class="hero-cta">
-                <a href="https://stewart.casaxai.com" target="_blank" class="btn btn-primary">💬 Chat Now</a>
+                <a href="#" onclick="alert('Coming Soon! Stewart will be available for chat shortly.'); return false;" target="_blank" class="btn btn-primary">💬 Chat Now</a>
                 <a href="#capabilities" class="btn btn-outline">See What He Can Do</a>
             </div>
         </div>
@@ -1016,17 +1023,57 @@
         <h2 class="section-title">Works With Your Tools</h2>
         <p class="section-subtitle">Stewart integrates with the platforms you already use.</p>
         
-        <div class="integration-logos">
-            <div class="integration-item">Google Workspace</div>
-            <div class="integration-item">Microsoft 365</div>
-            <div class="integration-item">Slack</div>
-            <div class="integration-item">Salesforce</div>
-            <div class="integration-item">QuickBooks</div>
-            <div class="integration-item">Dropbox</div>
-            <div class="integration-item">Zoom</div>
-            <div class="integration-item">HubSpot</div>
-            <div class="integration-item">Stripe</div>
-            <div class="integration-item">Shopify</div>
+        <div class="integration-logos" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px;">
+            <!-- Google -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                <span style="font-weight: 600; color: #333;">Google</span>
+            </div>
+            <!-- Microsoft -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 23 23" style="width: 32px; height: 32px;"><rect fill="#f25022" x="1" y="1" width="10" height="10"/><rect fill="#00a4ef" x="1" y="12" width="10" height="10"/><rect fill="#7fba00" x="12" y="1" width="10" height="10"/><rect fill="#ffb900" x="12" y="12" width="10" height="10"/></svg>
+                <span style="font-weight: 600; color: #333;">Microsoft</span>
+            </div>
+            <!-- Slack -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#E01E5A" d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/><path fill="#36C5F0" d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z"/><path fill="#2EB67D" d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312z"/><path fill="#ECB22E" d="M15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+                <span style="font-weight: 600; color: #333;">Slack</span>
+            </div>
+            <!-- Salesforce -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#00A1E0" d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.16 5.22c-.39 0-.78-.045-1.155-.12-.63 1.26-1.905 2.13-3.39 2.13a3.82 3.82 0 0 1-1.845-.48 4.2 4.2 0 0 1-3.93 2.73A4.17 4.17 0 0 1 4.5 16.83c-.24.03-.48.045-.735.045C1.68 16.875 0 15.15 0 13.02c0-1.47.81-2.775 2.01-3.42-.09-.36-.135-.735-.135-1.125a4.17 4.17 0 0 1 4.17-4.2c1.155 0 2.205.48 2.961 1.26z"/></svg>
+                <span style="font-weight: 600; color: #333;">Salesforce</span>
+            </div>
+            <!-- QuickBooks -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><circle fill="#2CA01C" cx="12" cy="12" r="12"/><path fill="#fff" d="M7.5 8.5v7h1.5v-2.25h1.5c1.65 0 3-1.35 3-3s-1.35-3-3-3H7.5zm1.5 1.5h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H9v-3zm6 .5v4.5h1.5v-1.5h.75c.41 0 .75-.34.75-.75v-1.5c0-.41-.34-.75-.75-.75H15zm1.5 1.5v.75h.75v-.75H16.5z"/></svg>
+                <span style="font-weight: 600; color: #333;">QuickBooks</span>
+            </div>
+            <!-- Dropbox -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#0061FF" d="M6 2l6 3.75L6 9.5 0 5.75 6 2zm12 0l6 3.75-6 3.75-6-3.75L18 2zM0 13.25L6 9.5l6 3.75L6 17 0 13.25zm18-3.75l6 3.75L18 17l-6-3.75 6-3.75zM6 18.25l6-3.75 6 3.75-6 3.75-6-3.75z"/></svg>
+                <span style="font-weight: 600; color: #333;">Dropbox</span>
+            </div>
+            <!-- Zoom -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#2D8CFF" d="M4.585 11.02C4.585 7.192 7.587 4.09 11.292 4.09c3.705 0 6.708 3.102 6.708 6.93 0 3.828-3.003 6.93-6.708 6.93H1v-3h10.292c2.073 0 3.753-1.76 3.753-3.93 0-2.17-1.68-3.93-3.753-3.93-2.073 0-3.752 1.76-3.752 3.93v4.98h-2.955v-4.98zm13.415 0V7h3v4.02h3v3h-3v4.98h-3v-4.98h-3v-3h3z"/></svg>
+                <span style="font-weight: 600; color: #333;">Zoom</span>
+            </div>
+            <!-- HubSpot -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#FF7A59" d="M18.16 7.602V4.516a1.727 1.727 0 0 0 1.004-1.56v-.052c0-.95-.77-1.72-1.72-1.72h-.053c-.95 0-1.72.77-1.72 1.72v.052c0 .68.395 1.27.98 1.546v3.1a5.43 5.43 0 0 0-2.582 1.302l-6.432-5.002a2.093 2.093 0 0 0 .083-.575 2.133 2.133 0 1 0-2.133 2.133c.436 0 .84-.13 1.178-.356l6.306 4.904a5.45 5.45 0 0 0-.667 2.612c0 .996.267 1.93.732 2.735l-2.264 2.264a1.65 1.65 0 0 0-.49-.076c-.913 0-1.653.74-1.653 1.653s.74 1.653 1.653 1.653 1.653-.74 1.653-1.653c0-.173-.027-.34-.077-.497l2.238-2.238a5.445 5.445 0 0 0 3.174 1.013c3.012 0 5.454-2.442 5.454-5.454a5.448 5.448 0 0 0-4.664-5.393zm-.767 8.136a2.742 2.742 0 1 1 0-5.484 2.742 2.742 0 0 1 0 5.484z"/></svg>
+                <span style="font-weight: 600; color: #333;">HubSpot</span>
+            </div>
+            <!-- Stripe -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#635BFF" d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+                <span style="font-weight: 600; color: #333;">Stripe</span>
+            </div>
+            <!-- Shopify -->
+            <div class="integration-item" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#95BF47" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.746a.397.397 0 0 0-.357-.323c-.14-.012-2.852-.213-2.852-.213s-1.897-1.891-2.103-2.101c-.055-.054-.125-.082-.197-.092l-.983 22.036z"/><path fill="#5E8E3E" d="M12.921 8.215s-.99-.519-2.2-.519c-1.78 0-1.868 1.117-1.868 1.398 0 1.536 4.006 2.126 4.006 5.727 0 2.832-1.796 4.654-4.218 4.654-2.906 0-4.394-1.808-4.394-1.808l.779-2.576s1.529 1.315 2.822 1.315c.845 0 1.19-.666 1.19-1.152 0-2.008-3.287-2.097-3.287-5.39 0-2.773 1.99-5.456 6.012-5.456 1.548 0 2.317.445 2.317.445l-1.159 3.362z"/><path fill="#FFF" d="M12.211 3.892c.105 0 .199.028.283.078l-1.165 3.445s-.99-.519-2.2-.519c-.447 0-.812.075-1.103.198l2.14-3.203c.28 0 1.314 0 2.045.001z"/></svg>
+                <span style="font-weight: 600; color: #333;">Shopify</span>
+            </div>
         </div>
         <span class="integration-count">+ 3,000 more integrations available</span>
     </section>
@@ -1054,14 +1101,14 @@
             </div>
             <div class="team-card">
                 <div class="team-avatar">🔧</div>
-                <h3>Builder</h3>
+                <h3>Engineer</h3>
                 <div class="team-role">Technical & Coding</div>
                 <p>Builds, fixes, and maintains—handles coding projects, system administration, technical troubleshooting, and infrastructure.</p>
                 <span class="team-price">$400/mo</span>
             </div>
             <div class="team-card">
                 <div class="team-avatar">🎨</div>
-                <h3>Creator</h3>
+                <h3>Designer</h3>
                 <div class="team-role">Design & Content</div>
                 <p>Makes you look good—graphic design, video editing, copywriting, social media content, and all creative production.</p>
                 <span class="team-price">$400/mo</span>
@@ -1190,36 +1237,53 @@
     </section>
 
     <!-- StewBox Section -->
-    <section class="meet-stewart" id="stewbox">
+    <section class="meet-stewart" id="stewbox" style="padding: 60px 20px;">
         <span class="section-tag">Hardware</span>
-        <h2 class="section-title">StewBox Lite</h2>
-        <p class="section-subtitle">Your AI. Your hardware. Your data.</p>
         
-        <div class="comm-section" style="max-width: 800px; margin: 0 auto;">
-            <div style="text-align: center; padding: 2rem;">
-                <div class="pricing-amount" style="font-size: 3.5rem; margin-bottom: 1rem;">$1,500</div>
-                <p style="font-size: 1.1rem; color: var(--gray); margin-bottom: 2rem;">One-time purchase. Yours forever.</p>
+        <!-- StewBox with content inside the gold box image -->
+        <div style="max-width: 700px; margin: 30px auto; position: relative;">
+            <!-- Gold box background with content overlay -->
+            <div style="position: relative; background: linear-gradient(145deg, #D4AF37 0%, #B8960C 30%, #F4D03F 50%, #D4AF37 70%, #8B7500 100%); border-radius: 24px; padding: 50px 40px; box-shadow: 0 20px 60px rgba(180, 150, 50, 0.4), inset 0 2px 4px rgba(255,255,255,0.3); border: 2px solid rgba(255,255,255,0.2);">
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; text-align: left; margin-bottom: 2rem;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <span style="font-size: 1.5rem;">🏠</span>
-                        <span>Keep everything on-site</span>
+                <!-- Stew / Box label on top -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 2rem; color: #1a1a1a; text-shadow: 1px 1px 2px rgba(255,255,255,0.3);">
+                        <span style="display: block; letter-spacing: 8px;">STEW</span>
+                        <span style="display: block; letter-spacing: 8px;">BOX</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <span style="font-size: 1.5rem;">🔐</span>
-                        <span>Exclusive VPN access to our servers</span>
+                    <div style="font-size: 0.9rem; color: #333; margin-top: 5px; font-weight: 500;">LITE</div>
+                </div>
+                
+                <!-- Price -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 3rem; font-weight: 800; color: #1a1a1a; text-shadow: 1px 1px 2px rgba(255,255,255,0.3);">$1,500</div>
+                    <p style="color: #333; font-weight: 500; margin: 5px 0;">One-time purchase. Yours forever.</p>
+                </div>
+                
+                <!-- Features in dark boxes for contrast -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
+                    <div style="background: rgba(0,0,0,0.7); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">🏠</span>
+                        <span style="color: #fff; font-size: 0.9rem;">Keep everything on-site</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <span style="font-size: 1.5rem;">⚡</span>
-                        <span>Local AI processing</span>
+                    <div style="background: rgba(0,0,0,0.7); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">🔐</span>
+                        <span style="color: #fff; font-size: 0.9rem;">VPN access to our servers</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <span style="font-size: 1.5rem;">📦</span>
-                        <span>Pre-configured, plug and play</span>
+                    <div style="background: rgba(0,0,0,0.7); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">⚡</span>
+                        <span style="color: #fff; font-size: 0.9rem;">Local AI processing</span>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.7); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">📦</span>
+                        <span style="color: #fff; font-size: 0.9rem;">Pre-configured, plug & play</span>
                     </div>
                 </div>
                 
-                <p style="color: var(--accent); font-weight: 600; font-size: 1.1rem;">Own it. Control it. Keep everything.</p>
+                <!-- Tagline -->
+                <p style="text-align: center; color: #1a1a1a; font-weight: 700; font-size: 1.1rem; margin-top: 20px; text-shadow: 1px 1px 2px rgba(255,255,255,0.3);">
+                    Your AI. Your hardware. Your data.
+                </p>
             </div>
         </div>
     </section>
@@ -1230,7 +1294,7 @@
         <p style="max-width: 700px; margin: 0 auto 1rem;">Get your 14-day free trial + <a href="https://web-production-8d237.up.railway.app" target="_blank" style="color: var(--success);">free cash flow forecasting tool</a>, or go for it—one month with full functionality, zero onboarding fees, cancel anytime.</p>
         <p style="max-width: 700px; margin: 0 auto 2rem; font-size: 1rem; color: var(--gray);">All of Stewart's work is always in your hands. All of your data is always in your hands. We know we deliver value—we don't hold our customers' data hostage with fees or make it difficult to take with you.</p>
         <div class="hero-cta">
-            <a href="https://stewart.casaxai.com" target="_blank" class="btn btn-primary">💬 Chat Now</a>
+            <a href="#" onclick="alert('Coming Soon! Stewart will be available for chat shortly.'); return false;" target="_blank" class="btn btn-primary">💬 Chat Now</a>
             <a href="#capabilities" class="btn btn-outline">Learn More</a>
         </div>
     </section>
