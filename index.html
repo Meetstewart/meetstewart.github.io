@@ -199,9 +199,13 @@
         
         /* Section Styles */
         section {
-            padding: 6rem 2rem;
-            max-width: 1400px;
+            padding: 5rem 2rem;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        section + section {
+            padding-top: 3rem;
         }
         
         .section-tag {
@@ -281,8 +285,8 @@
         .comm-section {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 2rem;
-            padding: 4rem;
-            margin-bottom: 4rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
         }
         
         .comm-grid {
@@ -402,7 +406,7 @@
         .integrations-section {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 2rem;
-            padding: 4rem;
+            padding: 3rem;
             text-align: center;
         }
         
@@ -513,7 +517,7 @@
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
             border: 1px solid rgba(124, 58, 237, 0.2);
             border-radius: 2rem;
-            padding: 4rem;
+            padding: 3rem;
             text-align: center;
         }
         
@@ -618,7 +622,7 @@
         /* CTA Section */
         .cta {
             text-align: center;
-            padding: 8rem 2rem;
+            padding: 5rem 2rem;
             background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
         }
         
@@ -696,6 +700,146 @@
             
             .pricing-card.featured {
                 transform: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            section {
+                padding: 4rem 1rem;
+            }
+        }
+        
+        /* Mobile - Small screens */
+        @media (max-width: 600px) {
+            .hero {
+                padding: 8rem 1rem 4rem;
+                min-height: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-cta .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-card {
+                padding: 1.5rem;
+            }
+            
+            .comm-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .pricing-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .price {
+                font-size: 2.5rem;
+            }
+            
+            nav {
+                padding: 0.75rem 1rem;
+            }
+            
+            .logo {
+                font-size: 1.25rem;
+            }
+            
+            .logo img {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .btn {
+                padding: 0.875rem 1.25rem;
+                min-height: 48px; /* Touch-friendly */
+            }
+            
+            .cta {
+                padding: 3rem 1rem;
+            }
+            
+            .cta h2 {
+                font-size: 2rem;
+            }
+            
+            .stewart-avatar {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .capacity-item {
+                padding: 1.25rem;
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 380px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .comm-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+            }
+            
+            .team-card:hover,
+            .pricing-card:hover {
+                transform: none;
+            }
+            
+            .btn:active {
+                transform: scale(0.98);
             }
         }
     </style>
@@ -786,7 +930,7 @@
                     <div class="capacity-label">Concurrent Calls</div>
                 </div>
                 <div class="capacity-item">
-                    <div class="capacity-number">∞</div>
+                    <div class="capacity-number">Unlimited</div>
                     <div class="capacity-label">Messages Per Day</div>
                 </div>
             </div>
