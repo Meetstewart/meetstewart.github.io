@@ -305,9 +305,13 @@
         
         @media (max-width: 600px) {
             .comm-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                padding: 0 1rem;
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            .comm-card {
+                min-width: 100% !important;
+                padding: 1.5rem !important;
             }
         }
         
@@ -878,6 +882,7 @@
                 ✨ Now Available
             </div>
             <h1>Meet Your New<br>Virtual Executive<br><span>Stewart</span></h1>
+            <img src="https://raw.githubusercontent.com/Meetstewart/meetstewart.github.io/main/assets/stew-callme.png" alt="Stew" style="width: 120px; height: auto; margin: 1rem auto; display: block;">
             <p class="hero-subtitle">
                 Self-sufficient. Always available. Stewart handles communications, monitors your business, 
                 manages your staff, and delivers results—24 hours a day, 7 days a week.
@@ -1257,14 +1262,14 @@
             <!-- Pure black box with gold text -->
             <div style="position: relative; background: #000; border-radius: 16px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);">
                 
-                <!-- STEW BOX branding - LITE vertical next to BOX to match STEW width -->
+                <!-- STEW BOX branding - LITE vertical next to X in BOX -->
                 <div style="text-align: center; margin-bottom: 24px;">
-                    <!-- STEW on top -->
-                    <div style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3.5rem; letter-spacing: -1px; line-height: 1; color: #D4AF37;">STEW</div>
-                    <!-- BOX + LITE side by side -->
-                    <div style="display: inline-flex; align-items: flex-start; justify-content: center;">
-                        <span style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3.5rem; letter-spacing: -1px; line-height: 1; color: #D4AF37;">BOX</span>
-                        <span style="writing-mode: vertical-rl; text-orientation: mixed; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #D4AF37; margin-left: 2px; margin-top: 4px;">LITE</span>
+                    <!-- STEW on top - MUCH BIGGER -->
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 5.5rem; letter-spacing: -3px; line-height: 0.85; color: #D4AF37;">STEW</div>
+                    <!-- BOX + LITE: LITE is vertical, same height as X, tucked next to it, reads bottom-to-top -->
+                    <div style="display: inline-flex; align-items: stretch; justify-content: center; position: relative;">
+                        <span style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 5.5rem; letter-spacing: -3px; line-height: 0.85; color: #D4AF37;">BOX</span>
+                        <span style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: 'Inter', sans-serif; font-weight: 900; font-size: 1.1rem; letter-spacing: 3px; color: #D4AF37; margin-left: -2px; display: flex; align-items: center; height: 4.2rem;">LITE</span>
                     </div>
                 </div>
                 
