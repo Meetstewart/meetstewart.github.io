@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clawdbot Architecture - CasaXAI</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, #1a1a2e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--gray);
+            font-weight: 300;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .section-number {
+            background: var(--primary);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        
+        .diagram-row {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            gap: 0.5rem;
+        }
+        
+        .diagram-box {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .diagram-box.ui { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+        .diagram-box.manager { background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%); }
+        .diagram-box.specialist { background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%); }
+        .diagram-box.corpus { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+        .diagram-box.inference { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); }
+        
+        .diagram-box small {
+            display: block;
+            font-weight: 400;
+            opacity: 0.9;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .arrow {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.5rem;
+        }
+        
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .category-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-card p {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .specialist-list {
+            list-style: none;
+        }
+        
+        .specialist-list li {
+            padding: 0.25rem 0;
+            font-size: 0.8rem;
+            color: var(--gray);
+            border-left: 2px solid var(--primary);
+            padding-left: 0.75rem;
+            margin: 0.25rem 0;
+        }
+        
+        /* Color coding for categories */
+        .cat-financial .category-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .cat-legal .category-icon { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .cat-marketing .category-icon { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .cat-sales .category-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .cat-dev .category-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .cat-data .category-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .cat-ops .category-icon { background: linear-gradient(135deg, #84cc16, #65a30d); }
+        .cat-hr .category-icon { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+        .cat-cs .category-icon { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+        .cat-creative .category-icon { background: linear-gradient(135deg, #a855f7, #9333ea); }
+        .cat-research .category-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .cat-comm .category-icon { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .cat-pm .category-icon { background: linear-gradient(135deg, #eab308, #ca8a04); }
+        .cat-security .category-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .cat-vertical .category-icon { background: linear-gradient(135deg, #64748b, #475569); }
+        
+        /* Specialist Detail Cards */
+        .specialist-detail {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .specialist-header {
+            padding: 1.25rem 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .specialist-header h4 {
+            font-size: 1.125rem;
+        }
+        
+        .model-badge {
+            background: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .specialist-body {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .specialist-body {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .capability-section h5 {
+            font-size: 0.875rem;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .capability-section ul {
+            list-style: none;
+        }
+        
+        .capability-section li {
+            padding: 0.375rem 0;
+            font-size: 0.875rem;
+            color: var(--gray);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .capability-section li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .proactive-section {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            grid-column: 1 / -1;
+        }
+        
+        .proactive-section h5 {
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .proactive-example {
+            font-style: italic;
+            color: var(--gray);
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-left: 2px solid var(--secondary);
+            padding-left: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        /* Inference Layer */
+        .inference-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .inference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .tier-card {
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .tier-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tier-card.local { border-top: 3px solid var(--secondary); }
+        .tier-card.cloud { border-top: 3px solid var(--primary); }
+        .tier-card.fallback { border-top: 3px solid var(--accent); }
+        
+        .model-list {
+            list-style: none;
+        }
+        
+        .model-list li {
+            padding: 0.25rem 0;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* Voice Section */
+        .voice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .voice-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .voice-persona {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .persona-avatar {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        
+        .persona-avatar.abby { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .persona-avatar.dave { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        
+        .persona-info h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .persona-info .voice-id {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .persona-info p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        /* Routing Table */
+        .routing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .routing-table th,
+        .routing-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .routing-table th {
+            background: rgba(99, 102, 241, 0.2);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .routing-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        /* Phase Timeline */
+        .phase-timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .phase-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--primary);
+        }
+        
+        .phase-item.complete::before {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .phase-item.current::before {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+        }
+        
+        .phase-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .phase-item ul {
+            list-style: none;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .phase-item li {
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .phase-item li.done::before {
+            content: "✓";
+            color: var(--secondary);
+        }
+        
+        .phase-item li.pending::before {
+            content: "○";
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🤖 CLAWDBOT</div>
+            <p class="tagline">CasaXAI Unified AI Platform</p>
+            <p style="margin-top: 1rem; color: var(--gray);">One brain, many specialists, shared memory, unified interface</p>
+        </header>
+        
+        <!-- System Architecture -->
+        <div class="section-header">
+            <span class="section-number">1</span>
+            <h2>System Architecture</h2>
+        </div>
+        
+        <div class="architecture-diagram">
+            <div class="diagram-row">
+                <div class="diagram-box ui">
+                    CLAWDBOT UI
+                    <small>Chat • Voice • Dashboard • Tools • Settings</small>
+                </div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="diagram-row">
+                <div class="diagram-box manager">
+                    MANAGER AGENT (Molt)
+                    <small>Routes • Synthesizes • Orchestrates</small>
+                </div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="diagram-row">
+                <div class="diagram-box specialist">Specialist A</div>
+                <div class="diagram-box specialist">Specialist B</div>
+                <div class="diagram-box specialist">Specialist N</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="diagram-row">
+                <div class="diagram-box corpus">
+                    GLOBAL CORPUS
+                    <small>Knowledge Cards • Entity Graph • Decision Log • Build Ledger</small>
+                </div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="diagram-row">
+                <div class="diagram-box inference">
+                    CASAXAI GATEWAY
+                    <small>Smart routing: Local → Kimi K2.5 → Claude</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Inference Layer -->
+        <div class="section-header">
+            <span class="section-number">2</span>
+            <h2>Inference Layer</h2>
+        </div>
+        
+        <div class="inference-grid">
+            <div class="tier-card local">
+                <h4>🏠 Local Tier</h4>
+                <p style="font-size: 0.8rem; color: var(--gray); margin-bottom: 0.75rem;">Mac Studio M1 Ultra</p>
+                <ul class="model-list">
+                    <li>Mistral 7B</li>
+                    <li>Llama 3 8B</li>
+                    <li>CodeLlama 13B</li>
+                </ul>
+            </div>
+            <div class="tier-card cloud">
+                <h4>☁️ Cloud Tier</h4>
+                <p style="font-size: 0.8rem; color: var(--gray); margin-bottom: 0.75rem;">Primary Cloud</p>
+                <ul class="model-list">
+                    <li><strong>Kimi K2.5</strong></li>
+                    <li>via OpenRouter</li>
+                </ul>
+            </div>
+            <div class="tier-card fallback">
+                <h4>🔒 Fallback Tier</h4>
+                <p style="font-size: 0.8rem; color: var(--gray); margin-bottom: 0.75rem;">Request Only</p>
+                <ul class="model-list">
+                    <li>Claude 4.5 Sonnet</li>
+                    <li>Claude Opus 4</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Specialist Categories -->
+        <div class="section-header">
+            <span class="section-number">3</span>
+            <h2>Specialist Categories</h2>
+        </div>
+        
+        <div class="category-grid">
+            <!-- Financial -->
+            <div class="category-card cat-financial">
+                <div class="category-icon">💰</div>
+                <h3>Financial</h3>
+                <p>Accounting, tax, investments, billing, planning</p>
+                <ul class="specialist-list">
+                    <li>Bookkeeping Agent</li>
+                    <li>Tax Strategist Agent</li>
+                    <li>Investment Analyst Agent</li>
+                    <li>Billing & Collections Agent</li>
+                    <li>Financial Planning Agent</li>
+                    <li>Expense Management Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Legal & Compliance -->
+            <div class="category-card cat-legal">
+                <div class="category-icon">⚖️</div>
+                <h3>Legal & Compliance</h3>
+                <p>Contracts, privacy, regulations, IP, governance</p>
+                <ul class="specialist-list">
+                    <li>Contract Analyst Agent</li>
+                    <li>Privacy & Data Protection Agent</li>
+                    <li>Regulatory Compliance Agent</li>
+                    <li>Intellectual Property Agent</li>
+                    <li>Corporate Governance Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Marketing & Branding -->
+            <div class="category-card cat-marketing">
+                <div class="category-icon">📣</div>
+                <h3>Marketing & Branding</h3>
+                <p>Content, social, campaigns, brand, PR</p>
+                <ul class="specialist-list">
+                    <li>Content Strategist Agent</li>
+                    <li>Social Media Manager Agent</li>
+                    <li>Campaign Manager Agent</li>
+                    <li>Brand Guardian Agent</li>
+                    <li>Email Marketing Agent</li>
+                    <li>PR & Communications Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Sales & CRM -->
+            <div class="category-card cat-sales">
+                <div class="category-icon">🎯</div>
+                <h3>Sales & CRM</h3>
+                <p>Leads, pipeline, proposals, accounts, enablement</p>
+                <ul class="specialist-list">
+                    <li>Lead Qualification Agent</li>
+                    <li>Pipeline Manager Agent</li>
+                    <li>Proposal Generator Agent</li>
+                    <li>Account Manager Agent</li>
+                    <li>Sales Enablement Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Development -->
+            <div class="category-card cat-dev">
+                <div class="category-icon">💻</div>
+                <h3>Development</h3>
+                <p>Frontend, backend, DevOps, QA, security, docs</p>
+                <ul class="specialist-list">
+                    <li>Frontend Developer Agent</li>
+                    <li>Backend Developer Agent</li>
+                    <li>DevOps Engineer Agent</li>
+                    <li>QA Engineer Agent</li>
+                    <li>Security Engineer Agent</li>
+                    <li>Documentation Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Data & Analytics -->
+            <div class="category-card cat-data">
+                <div class="category-icon">📊</div>
+                <h3>Data & Analytics</h3>
+                <p>BI, data engineering, ML, insights</p>
+                <ul class="specialist-list">
+                    <li>Business Intelligence Agent</li>
+                    <li>Data Engineer Agent</li>
+                    <li>ML Engineer Agent</li>
+                    <li>Analytics Translator Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Operations -->
+            <div class="category-card cat-ops">
+                <div class="category-icon">⚙️</div>
+                <h3>Operations</h3>
+                <p>Scheduling, inventory, logistics, facilities</p>
+                <ul class="specialist-list">
+                    <li>Scheduling Agent</li>
+                    <li>Inventory Manager Agent</li>
+                    <li>Logistics Coordinator Agent</li>
+                    <li>Facilities Manager Agent</li>
+                    <li>Procurement Agent</li>
+                </ul>
+            </div>
+            
+            <!-- HR & People -->
+            <div class="category-card cat-hr">
+                <div class="category-icon">👥</div>
+                <h3>HR & People</h3>
+                <p>Recruiting, onboarding, payroll, benefits</p>
+                <ul class="specialist-list">
+                    <li>Recruiting Agent</li>
+                    <li>Onboarding Agent</li>
+                    <li>Payroll Agent</li>
+                    <li>Benefits Administrator Agent</li>
+                    <li>Employee Relations Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Customer Success -->
+            <div class="category-card cat-cs">
+                <div class="category-icon">🌟</div>
+                <h3>Customer Success</h3>
+                <p>Support, success management, VoC, retention</p>
+                <ul class="specialist-list">
+                    <li>Support Agent</li>
+                    <li>Customer Success Manager Agent</li>
+                    <li>Voice of Customer Agent</li>
+                    <li>Retention Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Creative -->
+            <div class="category-card cat-creative">
+                <div class="category-icon">🎨</div>
+                <h3>Creative</h3>
+                <p>Design, copy, video, audio, UX writing</p>
+                <ul class="specialist-list">
+                    <li>Graphic Designer Agent</li>
+                    <li>Copywriter Agent</li>
+                    <li>Video Producer Agent</li>
+                    <li>Audio Producer Agent</li>
+                    <li>UX Writer Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Research -->
+            <div class="category-card cat-research">
+                <div class="category-icon">🔬</div>
+                <h3>Research</h3>
+                <p>Market, competitive, academic, user research</p>
+                <ul class="specialist-list">
+                    <li>Market Research Agent</li>
+                    <li>Competitive Intelligence Agent</li>
+                    <li>Academic Research Agent</li>
+                    <li>User Research Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Communication -->
+            <div class="category-card cat-comm">
+                <div class="category-icon">💬</div>
+                <h3>Communication</h3>
+                <p>Email, voice, messaging, translation</p>
+                <ul class="specialist-list">
+                    <li>Email Manager Agent</li>
+                    <li>Voice Communication Agent</li>
+                    <li>Messaging Agent</li>
+                    <li>Translation Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Project Management -->
+            <div class="category-card cat-pm">
+                <div class="category-icon">📋</div>
+                <h3>Project Management</h3>
+                <p>Planning, tracking, resources, meetings</p>
+                <ul class="specialist-list">
+                    <li>Project Planner Agent</li>
+                    <li>Task Tracker Agent</li>
+                    <li>Resource Manager Agent</li>
+                    <li>Meeting Facilitator Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Security -->
+            <div class="category-card cat-security">
+                <div class="category-icon">🛡️</div>
+                <h3>Security</h3>
+                <p>Audit, threat analysis, compliance, access</p>
+                <ul class="specialist-list">
+                    <li>Security Auditor Agent</li>
+                    <li>Threat Analyst Agent</li>
+                    <li>Compliance Monitor Agent</li>
+                    <li>Access Manager Agent</li>
+                </ul>
+            </div>
+            
+            <!-- Industry Verticals -->
+            <div class="category-card cat-vertical">
+                <div class="category-icon">🏢</div>
+                <h3>Industry Verticals</h3>
+                <p>Specialized for specific industries</p>
+                <ul class="specialist-list">
+                    <li>Real Estate Agent</li>
+                    <li>Healthcare Coordinator Agent</li>
+                    <li>Legal Practice Agent</li>
+                    <li>E-commerce Operations Agent</li>
+                    <li>Restaurant Operations Agent</li>
+                    <li>+ More verticals</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Voice Integration -->
+        <div class="section-header">
+            <span class="section-number">4</span>
+            <h2>Voice Integration</h2>
+        </div>
+        
+        <div class="voice-grid">
+            <div class="voice-persona">
+                <div class="persona-avatar abby">👩</div>
+                <div class="persona-info">
+                    <h4>Abby</h4>
+                    <div class="voice-id">11labs-Amy • Professional</div>
+                    <p>Jonathan's personal assistant. Warm, professional, capable. "Hey! Abby here. What's up?"</p>
+                </div>
+            </div>
+            
+            <div class="voice-persona">
+                <div class="persona-avatar dave">🏄</div>
+                <div class="persona-info">
+                    <h4>Surf Shop Dave</h4>
+                    <div class="voice-id">11labs-James • Casual</div>
+                    <p>Laid-back Huntington Beach surf shop owner. "Yeah, totally", "Right on", "For sure"</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="specialist-detail">
+            <div class="specialist-header">
+                <h4>Post-Call Processing Pipeline</h4>
+            </div>
+            <div class="specialist-body">
+                <div class="capability-section">
+                    <h5>Extraction</h5>
+                    <ul>
+                        <li>Transcript capture</li>
+                        <li>Entity extraction (names, dates)</li>
+                        <li>Action item identification</li>
+                        <li>Key facts and decisions</li>
+                    </ul>
+                </div>
+                <div class="capability-section">
+                    <h5>Integration</h5>
+                    <ul>
+                        <li>Webhook to Clawdbot</li>
+                        <li>Knowledge card updates</li>
+                        <li>Task creation</li>
+                        <li>Summary delivery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LLM Routing -->
+        <div class="section-header">
+            <span class="section-number">5</span>
+            <h2>LLM Routing Matrix</h2>
+        </div>
+        
+        <table class="routing-table">
+            <thead>
+                <tr>
+                    <th>Task Type</th>
+                    <th>Complexity</th>
+                    <th>Latency</th>
+                    <th>Primary</th>
+                    <th>Fallback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Quick lookup</td>
+                    <td>Low</td>
+                    <td>&lt;1s</td>
+                    <td>Mistral 7B</td>
+                    <td>Llama 3 8B</td>
+                </tr>
+                <tr>
+                    <td>Email drafting</td>
+                    <td>Medium</td>
+                    <td>&lt;3s</td>
+                    <td>Llama 3 8B</td>
+                    <td>Kimi K2.5</td>
+                </tr>
+                <tr>
+                    <td>Code generation</td>
+                    <td>High</td>
+                    <td>&lt;10s</td>
+                    <td>CodeLlama 13B</td>
+                    <td>Kimi K2.5</td>
+                </tr>
+                <tr>
+                    <td>Complex reasoning</td>
+                    <td>High</td>
+                    <td>&lt;15s</td>
+                    <td>Kimi K2.5</td>
+                    <td>Claude 4.5</td>
+                </tr>
+                <tr>
+                    <td>Contract analysis</td>
+                    <td>Very High</td>
+                    <td>&lt;30s</td>
+                    <td>Kimi K2.5</td>
+                    <td>Claude Opus 4</td>
+                </tr>
+                <tr>
+                    <td>Real-time chat</td>
+                    <td>Low</td>
+                    <td>&lt;500ms</td>
+                    <td>Mistral 7B</td>
+                    <td>Llama 3 8B</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Build Phases -->
+        <div class="section-header">
+            <span class="section-number">6</span>
+            <h2>Build Phases</h2>
+        </div>
+        
+        <div class="phase-timeline">
+            <div class="phase-item current">
+                <h4>Phase 1: Foundation (Current)</h4>
+                <ul>
+                    <li class="done">Gateway v2 running</li>
+                    <li class="done">Local models (Mistral, Llama, CodeLlama)</li>
+                    <li class="done">Kimi K2.5 cloud fallback</li>
+                    <li class="done">Voice agents (Abby, Dave)</li>
+                    <li class="pending">Webhook integration for voice-to-text</li>
+                    <li class="pending">Transcription service operational</li>
+                </ul>
+            </div>
+            
+            <div class="phase-item">
+                <h4>Phase 2: Manager + First Specialists</h4>
+                <ul>
+                    <li class="pending">Manager Agent (Molt) implementation</li>
+                    <li class="pending">Communication specialists</li>
+                    <li class="pending">Financial specialists</li>
+                    <li class="pending">Global Corpus schema</li>
+                </ul>
+            </div>
+            
+            <div class="phase-item">
+                <h4>Phase 3: Expanded Specialists</h4>
+                <ul>
+                    <li class="pending">All 15 categories operational</li>
+                    <li class="pending">Cross-agent memory sharing</li>
+                    <li class="pending">Full Knowledge Card system</li>
+                </ul>
+            </div>
+            
+            <div class="phase-item">
+                <h4>Phase 4: Clawdbot UI</h4>
+                <ul>
+                    <li class="pending">Unified interface</li>
+                    <li class="pending">Real-time specialist routing</li>
+                    <li class="pending">Dashboard and monitoring</li>
+                </ul>
+            </div>
+            
+            <div class="phase-item">
+                <h4>Phase 5: SaaS Ready</h4>
+                <ul>
+                    <li class="pending">Multi-tenant support</li>
+                    <li class="pending">Per-tenant isolation</li>
+                    <li class="pending">Usage-based billing</li>
+                    <li class="pending">White-labeling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Clawdbot Architecture v1.0 • CasaXAI</p>
+            <p style="margin-top: 0.5rem;">Based on architecture vision call • February 1, 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
