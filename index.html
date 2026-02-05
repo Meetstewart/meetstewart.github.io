@@ -1410,5 +1410,483 @@
             <p class="footer-copy">© 2026 Stewart AI. All rights reserved.</p>
         </div>
     </footer>
+
+<!-- Voice Trial Modal CSS -->
+<style>
+/* Voice Modal Styles */
+.voice-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+.voice-modal-overlay.active {
+    display: flex;
+}
+.voice-modal {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.voice-modal h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+.voice-modal .subtitle {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+.voice-timer {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #d4af37;
+    margin: 20px 0;
+    font-family: 'SF Mono', Monaco, monospace;
+}
+.voice-timer.warning {
+    color: #ff6b6b;
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+.mic-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+.mic-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+}
+.mic-button.active {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    animation: mic-pulse 1.5s infinite;
+}
+@keyframes mic-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+    50% { box-shadow: 0 0 0 20px rgba(76, 175, 80, 0); }
+}
+.mic-button svg {
+    width: 50px;
+    height: 50px;
+    fill: #1a1a2e;
+}
+.waveform {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 20px 0;
+}
+.waveform .bar {
+    width: 4px;
+    background: #d4af37;
+    border-radius: 2px;
+    animation: wave 0.5s infinite ease-in-out;
+    animation-play-state: paused;
+}
+.waveform.active .bar {
+    animation-play-state: running;
+}
+.waveform .bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+.waveform .bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
+.waveform .bar:nth-child(3) { height: 25px; animation-delay: 0.2s; }
+.waveform .bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
+.waveform .bar:nth-child(5) { height: 30px; animation-delay: 0.4s; }
+.waveform .bar:nth-child(6) { height: 50px; animation-delay: 0.15s; }
+.waveform .bar:nth-child(7) { height: 35px; animation-delay: 0.25s; }
+.waveform .bar:nth-child(8) { height: 20px; animation-delay: 0.35s; }
+@keyframes wave {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.5); }
+}
+.voice-status {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+.voice-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.voice-close:hover {
+    color: #fff;
+}
+
+/* Signup Modal Styles */
+.signup-modal {
+    display: none;
+}
+.signup-modal.active {
+    display: block;
+}
+.signup-form {
+    text-align: left;
+}
+.signup-form .form-group {
+    margin-bottom: 20px;
+}
+.signup-form label {
+    display: block;
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.signup-form input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+.signup-form input:focus {
+    outline: none;
+    border-color: #d4af37;
+}
+.signup-form input::placeholder {
+    color: #555;
+}
+.verify-code-group {
+    display: none;
+}
+.verify-code-group.active {
+    display: block;
+}
+.signup-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    border: none;
+    border-radius: 8px;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+.signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+.signup-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+.trial-benefits {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.trial-benefits h4 {
+    color: #4CAF50;
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+.trial-benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.trial-benefits li {
+    color: #aaa;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    padding-left: 25px;
+    position: relative;
+}
+.trial-benefits li::before {
+    content: "✓";
+    color: #4CAF50;
+    position: absolute;
+    left: 0;
+}
+.back-to-voice {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+.back-to-voice:hover {
+    color: #d4af37;
+}
+
+/* Try Stewart Button for Hero */
+.try-stewart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    color: #1a1a2e;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+.try-stewart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+}
+.try-stewart-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+</style>
+
+<!-- Voice Trial Modal HTML -->
+<div class="voice-modal-overlay" id="voiceModal">
+    <div class="voice-modal" style="position: relative;">
+        <button class="voice-close" onclick="closeVoiceModal()">&times;</button>
+        
+        <!-- Voice Interface -->
+        <div id="voiceInterface">
+            <h2>Talk to Stewart</h2>
+            <p class="subtitle">2-minute free trial • No signup required</p>
+            
+            <div class="voice-timer" id="voiceTimer">2:00</div>
+            
+            <button class="mic-button" id="micButton" onclick="toggleMic()">
+                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h3v2H9v-2h3v-3.07z"/></svg>
+            </button>
+            
+            <div class="waveform" id="waveform">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            
+            <p class="voice-status" id="voiceStatus">Click the microphone to start talking</p>
+        </div>
+        
+        <!-- Signup Form (hidden initially) -->
+        <div class="signup-modal" id="signupModal">
+            <h2>Continue Your Conversation</h2>
+            <p class="subtitle">Unlock 14-day free trial</p>
+            
+            <div class="trial-benefits">
+                <h4>🎁 Your Free Trial Includes:</h4>
+                <ul>
+                    <li>5 minutes of voice time per day</li>
+                    <li>70 total minutes over 14 days</li>
+                    <li>5 StewDays of actual work completed</li>
+                    <li>Full access to all Stewart capabilities</li>
+                </ul>
+            </div>
+            
+            <form class="signup-form" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="you@company.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="signupPhone" placeholder="+1 (555) 123-4567" required>
+                </div>
+                
+                <div class="form-group verify-code-group" id="verifyCodeGroup">
+                    <label>Verification Code (sent via SMS)</label>
+                    <input type="text" id="verifyCode" placeholder="123456" maxlength="6">
+                </div>
+                
+                <button type="submit" class="signup-btn" id="signupBtn">Send Verification Code</button>
+            </form>
+            
+            <button class="back-to-voice" onclick="backToVoice()">← Back to voice</button>
+        </div>
+    </div>
+</div>
+
+<!-- Voice Trial JavaScript -->
+<script>
+// Voice Trial State
+const voiceState = {
+    isActive: false,
+    timeRemaining: 120, // 2 minutes in seconds
+    timerInterval: null,
+    hasTrialEnded: false
+};
+
+function openVoiceModal() {
+    document.getElementById('voiceModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeVoiceModal() {
+    document.getElementById('voiceModal').classList.remove('active');
+    document.body.style.overflow = '';
+    stopMic();
+}
+
+function toggleMic() {
+    if (voiceState.hasTrialEnded) {
+        showSignupModal();
+        return;
+    }
+    
+    if (voiceState.isActive) {
+        stopMic();
+    } else {
+        startMic();
+    }
+}
+
+function startMic() {
+    voiceState.isActive = true;
+    document.getElementById('micButton').classList.add('active');
+    document.getElementById('waveform').classList.add('active');
+    document.getElementById('voiceStatus').textContent = 'Stewart is listening...';
+    
+    // Start countdown timer
+    voiceState.timerInterval = setInterval(updateTimer, 1000);
+    
+    // TODO: Connect to actual WebRTC/WebSocket for voice
+    console.log('Starting voice connection to Stewart...');
+}
+
+function stopMic() {
+    voiceState.isActive = false;
+    document.getElementById('micButton').classList.remove('active');
+    document.getElementById('waveform').classList.remove('active');
+    document.getElementById('voiceStatus').textContent = 'Click the microphone to continue';
+    
+    if (voiceState.timerInterval) {
+        clearInterval(voiceState.timerInterval);
+    }
+}
+
+function updateTimer() {
+    voiceState.timeRemaining--;
+    
+    const minutes = Math.floor(voiceState.timeRemaining / 60);
+    const seconds = voiceState.timeRemaining % 60;
+    const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    const timerEl = document.getElementById('voiceTimer');
+    timerEl.textContent = display;
+    
+    // Warning when under 30 seconds
+    if (voiceState.timeRemaining <= 30) {
+        timerEl.classList.add('warning');
+    }
+    
+    // Time's up!
+    if (voiceState.timeRemaining <= 0) {
+        voiceState.hasTrialEnded = true;
+        stopMic();
+        showSignupModal();
+    }
+}
+
+function showSignupModal() {
+    document.getElementById('voiceInterface').style.display = 'none';
+    document.getElementById('signupModal').classList.add('active');
+}
+
+function backToVoice() {
+    document.getElementById('signupModal').classList.remove('active');
+    document.getElementById('voiceInterface').style.display = 'block';
+}
+
+let verificationStep = false;
+
+function handleSignup(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('signupEmail').value;
+    const phone = document.getElementById('signupPhone').value;
+    const btn = document.getElementById('signupBtn');
+    
+    if (!verificationStep) {
+        // Step 1: Send verification code
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        
+        // TODO: Call API to send SMS verification
+        setTimeout(() => {
+            document.getElementById('verifyCodeGroup').classList.add('active');
+            btn.disabled = false;
+            btn.textContent = 'Verify & Start Trial';
+            verificationStep = true;
+        }, 1500);
+    } else {
+        // Step 2: Verify code and create account
+        const code = document.getElementById('verifyCode').value;
+        btn.disabled = true;
+        btn.textContent = 'Verifying...';
+        
+        // TODO: Call API to verify code and create account
+        setTimeout(() => {
+            // Success! Reload with trial access
+            alert('🎉 Welcome to Stewart! Your 14-day trial has started.');
+            closeVoiceModal();
+            // In production: redirect to dashboard or reload with auth token
+        }, 1500);
+    }
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVoiceModal();
+});
+
+// Close modal on overlay click
+document.getElementById('voiceModal').addEventListener('click', (e) => {
+    if (e.target.id === 'voiceModal') closeVoiceModal();
+});
+</script>
+
 </body>
 </html>
