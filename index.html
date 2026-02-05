@@ -27,17 +27,40 @@
             color: var(--light);
             line-height: 1.6;
             overflow-x: hidden;
+            padding-top: 44px; /* Space for banner */
+        }
+        
+        /* Announcement Banner */
+        .announcement-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .announcement-banner a {
+            color: #ffd700;
+            text-decoration: underline;
+            margin-left: 8px;
         }
         
         /* Navigation */
         nav {
             position: fixed;
-            top: 0;
+            top: 44px; /* Below banner */
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 1rem 2rem;
-            background: rgba(2, 6, 23, 0.8);
+            padding: 0.75rem 2rem;
+            background: rgba(2, 6, 23, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
@@ -117,7 +140,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 2rem 3rem;
             position: relative;
             overflow: hidden;
         }
@@ -199,13 +222,13 @@
         
         /* Section Styles */
         section {
-            padding: 5rem 2rem;
+            padding: 3rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
         
         section + section {
-            padding-top: 3rem;
+            padding-top: 2rem;
         }
         
         .section-tag {
@@ -292,9 +315,10 @@
         .comm-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
+            gap: 1.25rem;
             max-width: 1200px;
             margin: 0 auto;
+            align-items: stretch;
         }
         
         @media (max-width: 1024px) {
@@ -319,10 +343,14 @@
             background: var(--card-bg);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1.25rem;
             transition: all 0.3s;
             width: 100%;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
         
         .comm-card:hover {
@@ -332,15 +360,15 @@
         }
         
         .comm-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
         }
         
         .comm-card h3 {
@@ -436,27 +464,22 @@
             gap: 1rem;
             width: 100%;
             max-width: 100%;
+            justify-items: center;
         }
         
         @media (min-width: 768px) {
             .integration-grid-new {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 1rem;
             }
         }
         
         .stewart-integration-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            grid-column: 1 / -1;
-            order: -1;
+            display: none; /* Hide second Memoji - keep single hero image */
         }
         
         .stewart-integration-card img {
-            width: 120px;
+            width: 100px;
             height: auto;
         }
         
@@ -516,8 +539,8 @@
         .team-card {
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
             border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
+            border-radius: 1.25rem;
+            padding: 1.5rem 1.25rem;
             transition: all 0.3s;
         }
         
@@ -527,14 +550,14 @@
         }
         
         .team-avatar {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.5rem;
             margin: 0 auto 1.5rem;
         }
         
@@ -620,8 +643,8 @@
         .pricing-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1.5rem;
-            padding: 3rem 2rem;
+            border-radius: 1.25rem;
+            padding: 2rem 1.5rem;
             transition: all 0.3s;
         }
         
@@ -903,8 +926,8 @@
         </style>
 </head>
 <body>
-<div style="background: linear-gradient(90deg, #6366f1, #8b5cf6); color: white; text-align: center; padding: 12px 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px;">
-    🚀 PRE-LAUNCH BETA — Be among the first to experience Stewart. <a href="#pricing" style="color: #ffd700; text-decoration: underline; margin-left: 8px;">Join the waitlist →</a>
+<div class="announcement-banner">
+    🚀 PRE-LAUNCH BETA — Be among the first to experience Stewart. <a href="#pricing">Join the waitlist →</a>
 </div>
     <!-- Navigation -->
     <nav>
