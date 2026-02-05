@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #2d3436 0%, #1a1a2e 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .stewart-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #d4af37;
+        }
+        
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .login-header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .login-form {
+            padding: 40px 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8960c 100%);
+            border: none;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+        
+        .divider span {
+            padding: 0 15px;
+        }
+        
+        .btn-voice {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            color: #333;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-voice:hover {
+            border-color: #d4af37;
+            background: #fafafa;
+        }
+        
+        .btn-voice svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .footer-links {
+            text-align: center;
+            padding: 20px 30px 30px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #d4af37;
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+                background: #1a1a2e;
+            }
+            
+            .login-container {
+                border-radius: 0;
+                min-height: 100vh;
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 50px 24px 40px;
+            }
+            
+            .stewart-avatar {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .login-header h1 {
+                font-size: 32px;
+            }
+            
+            .login-form {
+                padding: 30px 24px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group input {
+                padding: 16px;
+                font-size: 17px; /* Prevents iOS zoom on focus */
+                border-radius: 14px;
+            }
+            
+            .btn-login, .btn-voice {
+                padding: 18px;
+                font-size: 17px;
+                border-radius: 14px;
+            }
+            
+            .footer-links {
+                padding: 24px;
+            }
+            
+            .footer-links a {
+                font-size: 16px;
+            }
+        }
+        
+        /* Safe area for iPhone notch/home indicator */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .login-container {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            .login-header {
+                padding-top: calc(40px + env(safe-area-inset-top));
+            }
+        }
+        
+        /* Prevent iOS zoom on input focus */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            input[type="email"],
+            input[type="password"],
+            input[type="text"] {
+                font-size: 16px;
+            }
+        }
+        
+        /* Touch-friendly tap targets */
+        @media (pointer: coarse) {
+            .form-group input {
+                min-height: 50px;
+            }
+            
+            .btn-login, .btn-voice {
+                min-height: 54px;
+            }
+            
+            .footer-links a {
+                display: inline-block;
+                padding: 12px;
+            }
+        }
+        
+        /* Message states */
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .message.error {
+            background: #fee;
+            color: #c00;
+            border: 1px solid #fcc;
+            display: block;
+        }
+        
+        .message.success {
+            background: #efe;
+            color: #060;
+            border: 1px solid #cfc;
+            display: block;
+        }
+        
+        /* Setup Password Mode */
+        .setup-mode .login-header h1::after {
+            content: ' - Setup';
+        }
+        
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            border-radius: 2px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+        
+        .password-strength-bar.weak { width: 33%; background: #e74c3c; }
+        .password-strength-bar.medium { width: 66%; background: #f39c12; }
+        .password-strength-bar.strong { width: 100%; background: #27ae60; }
+        
+        .password-requirements {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .hidden { display: none !important; }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(26, 26, 46, 0.3);
+            border-top-color: #1a1a2e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <!-- Login Form -->
+        <div id="loginView">
+            <div class="login-header">
+                <img src="stew-wave.png" alt="Stewart" class="stewart-avatar" onerror="this.style.display='none'">
+                <h1>Stewart</h1>
+                <p>Your AI Business Partner</p>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div id="loginMessage" class="message"></div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="you@company.com" autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+                </div>
+                
+                <button type="submit" class="btn-login" id="loginBtn">Sign In</button>
+                
+                <div class="divider"><span>or</span></div>
+                
+                <button type="button" class="btn-voice" id="voiceLoginBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    Sign in with Voice
+                </button>
+            </form>
+            
+            <div class="footer-links">
+                <a href="#" id="forgotPasswordLink">Forgot password?</a>
+            </div>
+        </div>
+        
+        <!-- Setup Password Form (for new users) -->
+        <div id="setupView" class="hidden">
+            <div class="login-header">
+                <img src="stew-wave.png" alt="Stewart" class="stewart-avatar" onerror="this.style.display='none'">
+                <h1>Welcome!</h1>
+                <p>Create your password to get started</p>
+            </div>
+            
+            <form class="login-form" id="setupForm">
+                <div id="setupMessage" class="message"></div>
+                
+                <div class="form-group">
+                    <label for="setupEmail">Email Address</label>
+                    <input type="email" id="setupEmail" name="email" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="setupName">Display Name</label>
+                    <input type="text" id="setupName" name="name" required placeholder="How should Stewart address you?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">Create Password</label>
+                    <input type="password" id="newPassword" name="password" required placeholder="Minimum 8 characters" minlength="8">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="password-requirements">Use 8+ characters with letters and numbers</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter your password">
+                </div>
+                
+                <button type="submit" class="btn-login" id="setupBtn">Create Account</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://98.148.232.204:8082/api';
+        
+        // Check for invite token in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const inviteToken = urlParams.get('token');
+        const inviteEmail = urlParams.get('email');
+        
+        if (inviteToken && inviteEmail) {
+            // Show setup view
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('setupView').classList.remove('hidden');
+            document.getElementById('setupEmail').value = decodeURIComponent(inviteEmail);
+        }
+        
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const msg = document.getElementById('loginMessage');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Signing in...';
+            msg.className = 'message';
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('stewart_token', data.token);
+                    localStorage.setItem('stewart_user', JSON.stringify(data.user));
+                    msg.className = 'message success';
+                    msg.textContent = 'Welcome back! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = data.detail || 'Invalid email or password';
+                }
+            } catch (err) {
+                msg.className = 'message error';
+                msg.textContent = 'Unable to connect. Please try again.';
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Sign In';
+        });
+        
+        // Setup form handler
+        document.getElementById('setupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('setupBtn');
+            const msg = document.getElementById('setupMessage');
+            
+            const password = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirm) {
+                msg.className = 'message error';
+                msg.textContent = 'Passwords do not match';
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Creating account...';
+            msg.className = 'message';
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/setup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: inviteToken,
+                        email: document.getElementById('setupEmail').value,
+                        display_name: document.getElementById('setupName').value,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('stewart_token', data.token);
+                    localStorage.setItem('stewart_user', JSON.stringify(data.user));
+                    msg.className = 'message success';
+                    msg.textContent = 'Account created! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = data.detail || 'Setup failed. Please try again.';
+                }
+            } catch (err) {
+                msg.className = 'message error';
+                msg.textContent = 'Unable to connect. Please try again.';
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Create Account';
+        });
+        
+        // Password strength indicator
+        document.getElementById('newPassword').addEventListener('input', (e) => {
+            const bar = document.getElementById('strengthBar');
+            const val = e.target.value;
+            
+            bar.className = 'password-strength-bar';
+            
+            if (val.length >= 12 && /[A-Z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val)) {
+                bar.classList.add('strong');
+            } else if (val.length >= 8 && /[A-Za-z]/.test(val) && /[0-9]/.test(val)) {
+                bar.classList.add('medium');
+            } else if (val.length >= 6) {
+                bar.classList.add('weak');
+            }
+        });
+        
+        // Voice login button
+        document.getElementById('voiceLoginBtn').addEventListener('click', () => {
+            alert('Voice authentication coming soon! Call +1 (805) 261-5972 to authenticate by voice.');
+        });
+    </script>
+</body>
+</html>
