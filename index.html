@@ -1205,8 +1205,69 @@
         });
         
         // ========== VOICE DEMO ==========
-        function playDemo() {
-            alert('Voice demo coming soon! Call +1 (805) 261-5972 to talk to Stewart now.');
+        const DEMO_VOICE_ID = 'cjVigY5qzO86Huf0OWal'; // Eric - Stewart's default voice
+        const ELEVENLABS_KEY_DEMO = 'sk_933372d07bc70b591aad7041bf5a6e37d4f20c5d92e04c68';
+        let demoAudio = null;
+        let isPlayingDemo = false;
+        
+        async function playDemo() {
+            const btn = event.target.closest('button');
+            
+            if (isPlayingDemo && demoAudio) {
+                demoAudio.pause();
+                demoAudio = null;
+                isPlayingDemo = false;
+                btn.innerHTML = '<span>▶️</span> Play Sample';
+                return;
+            }
+            
+            btn.innerHTML = '<span>⏳</span> Loading...';
+            btn.disabled = true;
+            
+            const demoText = "Hello! I'm Stewart, your AI business partner. Imagine having a team of six working around the clock, handling emails, managing projects, analyzing data, and keeping everything running smoothly. That's what I do. I'm like having a sixty thousand dollar executive assistant, for five hundred a month. Want to see what I can do for you? Let's talk.";
+            
+            try {
+                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${DEMO_VOICE_ID}/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'xi-api-key': ELEVENLABS_KEY_DEMO,
+                        'Content-Type': 'application/json',
+                        'Accept': 'audio/mpeg'
+                    },
+                    body: JSON.stringify({
+                        text: demoText,
+                        model_id: 'eleven_turbo_v2_5',
+                        voice_settings: {
+                            stability: 0.5,
+                            similarity_boost: 0.75,
+                            style: 0.0
+                        }
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Audio generation failed');
+                
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                demoAudio = new Audio(audioUrl);
+                isPlayingDemo = true;
+                
+                btn.innerHTML = '<span>⏹️</span> Stop';
+                btn.disabled = false;
+                
+                demoAudio.onended = () => {
+                    isPlayingDemo = false;
+                    btn.innerHTML = '<span>▶️</span> Play Sample';
+                    URL.revokeObjectURL(audioUrl);
+                };
+                
+                await demoAudio.play();
+            } catch (error) {
+                console.error('Demo playback error:', error);
+                btn.innerHTML = '<span>▶️</span> Play Sample';
+                btn.disabled = false;
+                alert('Unable to play sample. Call +1 (805) 261-5972 to hear Stewart live!');
+            }
         }
     </script>
 </body>
