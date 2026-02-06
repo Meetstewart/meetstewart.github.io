@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart SMS Alerts - Opt-In</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+        .logo { text-align: center; margin-bottom: 40px; }
+        .logo h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: 0.3em; }
+        .card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 40px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.5rem; margin-bottom: 20px; font-weight: 500; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+        input[type="text"], input[type="tel"], input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; }
+        input:focus { outline: none; border-color: #4a9eff; }
+        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; margin: 24px 0; padding: 16px; background: rgba(74, 158, 255, 0.1); border-radius: 8px; border: 1px solid rgba(74, 158, 255, 0.3); }
+        .checkbox-group input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; }
+        .checkbox-group label { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.9); cursor: pointer; }
+        .disclosure { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin: 20px 0; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .disclosure p { margin-bottom: 8px; }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #4a9eff 0%, #0066cc 100%); border: none; border-radius: 8px; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 158, 255, 0.3); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .links { text-align: center; margin-top: 24px; }
+        .links a { color: #4a9eff; text-decoration: none; margin: 0 12px; font-size: 0.85rem; }
+        .success-message { display: none; text-align: center; padding: 40px; }
+        .success-message h3 { font-size: 1.5rem; margin-bottom: 16px; color: #4ade80; }
+        .policy-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .policy-content { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+        .policy-content h3 { font-size: 1.1rem; margin: 24px 0 12px; color: #fff; }
+        .policy-content p, .policy-content ul { margin-bottom: 12px; }
+        .policy-content ul { padding-left: 24px; }
+        .highlight { background: rgba(74, 158, 255, 0.2); padding: 16px; border-radius: 8px; margin: 16px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"><h1>STEWART</h1></div>
+        <div class="card" id="optinForm">
+            <h2>Sign Up for Stewart SMS Alerts</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">Receive important account notifications, support responses, and service updates directly to your phone.</p>
+            <form id="smsOptinForm">
+                <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" required placeholder="Your name"></div>
+                <div class="form-group"><label for="phone">Mobile Phone Number</label><input type="tel" id="phone" name="phone" required placeholder="(555) 555-5555"></div>
+                <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required placeholder="you@example.com"></div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" name="consent" required>
+                    <label for="consent">Yes, I agree to receive SMS text messages from Stewart regarding account notifications, customer support, and service updates. I understand that message and data rates may apply, message frequency varies, and I can reply STOP to unsubscribe at any time or HELP for assistance.</label>
+                </div>
+                <div class="disclosure">
+                    <p><strong>Program:</strong> Stewart Customer Service Alerts</p>
+                    <p><strong>Message Frequency:</strong> Message frequency varies based on your account activity and support requests.</p>
+                    <p><strong>Message and Data Rates:</strong> Message and data rates may apply.</p>
+                    <p><strong>Opt-Out:</strong> Reply <strong>STOP</strong> to cancel at any time.</p>
+                    <p><strong>Help:</strong> Reply <strong>HELP</strong> for assistance or contact support@meetstewart.com</p>
+                    <p><strong>Carriers:</strong> Carriers are not liable for any delayed or undelivered messages.</p>
+                </div>
+                <button type="submit" class="btn" id="submitBtn">Subscribe to SMS Alerts</button>
+            </form>
+            <div class="links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms & Conditions</a>
+                <a href="https://meetstewart.com">Back to Stewart</a>
+            </div>
+        </div>
+        <div class="success-message" id="successMessage"><h3>✓ You're Subscribed!</h3><p>Welcome to Stewart SMS Alerts. You'll receive a confirmation message shortly.</p><p style="margin-top: 16px; font-size: 0.85rem; color: rgba(255,255,255,0.6);">Reply STOP at any time to unsubscribe.</p></div>
+        <div class="policy-section" id="privacy">
+            <h2>Privacy Policy</h2>
+            <div class="policy-content">
+                <p><strong>Last Updated:</strong> February 5, 2026</p>
+                <p><strong>Stewart</strong> ("we," "us," or "our") operates the Stewart virtual assistant service. This Privacy Policy explains how we collect, use, and protect your information when you use our SMS messaging service.</p>
+                <h3>Information We Collect</h3>
+                <p>When you opt-in to our SMS service, we collect:</p>
+                <ul><li>Your name</li><li>Mobile phone number</li><li>Email address</li><li>Consent preferences</li></ul>
+                <h3>How We Use Your Information</h3>
+                <p>We use your information solely to:</p>
+                <ul><li>Send you account notifications and service updates</li><li>Respond to your customer support inquiries via SMS</li><li>Deliver important alerts about your Stewart account</li></ul>
+                <div class="highlight">
+                    <h3>SMS Opt-In Data Protection</h3>
+                    <p><strong>All SMS opt-in data and consent information will NOT be shared with any third parties for marketing or promotional purposes.</strong></p>
+                    <p>Your phone number and messaging consent are used exclusively for delivering the Stewart customer service messages you requested. We do not sell, rent, or share your opt-in data with third parties.</p>
+                </div>
+                <h3>Data Security</h3>
+                <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+                <h3>Your Rights</h3>
+                <p>You have the right to:</p>
+                <ul><li><strong>Opt-out:</strong> Reply STOP to any message to unsubscribe immediately</li><li><strong>Get help:</strong> Reply HELP to any message for assistance</li><li><strong>Access:</strong> Request a copy of your data by emailing privacy@meetstewart.com</li><li><strong>Delete:</strong> Request deletion of your data by emailing privacy@meetstewart.com</li></ul>
+                <h3>Contact Us</h3>
+                <p>For privacy questions or concerns:</p>
+                <ul><li>Email: privacy@meetstewart.com</li><li>Website: https://meetstewart.com</li></ul>
+            </div>
+        </div>
+        <div class="policy-section" id="terms">
+            <h2>SMS Terms & Conditions</h2>
+            <div class="policy-content">
+                <p><strong>Last Updated:</strong> February 5, 2026</p>
+                <h3>Program Name</h3><p>Stewart Customer Service SMS Alerts</p>
+                <h3>Program Description</h3>
+                <p>By opting in, you agree to receive SMS text messages from Stewart regarding:</p>
+                <ul><li>Account notifications and status updates</li><li>Customer support responses and follow-ups</li><li>Service alerts and important announcements</li><li>Appointment reminders and confirmations</li></ul>
+                <h3>Message Frequency</h3><p>Message frequency varies based on your account activity and support interactions. You may receive multiple messages per week depending on your usage.</p>
+                <h3>Message and Data Rates</h3><p><strong>Message and data rates may apply.</strong> Please contact your mobile carrier for details about your text messaging plan.</p>
+                <h3>Opt-Out Instructions</h3>
+                <p>You can cancel SMS messages at any time:</p>
+                <ul><li><strong>Reply STOP</strong> to any message to unsubscribe</li><li>After opting out, you will receive one final confirmation message</li><li>No further messages will be sent unless you opt back in</li></ul>
+                <h3>Help & Support</h3>
+                <ul><li><strong>Reply HELP</strong> to any message for assistance</li><li>Email: support@meetstewart.com</li><li>Website: https://meetstewart.com</li></ul>
+                <h3>Carrier Disclaimer</h3><p><strong>Carriers are not liable for any delayed or undelivered messages.</strong></p>
+                <h3>Supported Carriers</h3><p>Our SMS service is supported on all major US carriers including AT&T, Verizon, T-Mobile, Sprint, and others.</p>
+                <h3>Privacy</h3><p>See our <a href="#privacy" style="color: #4a9eff;">Privacy Policy</a> for information on how we handle your data.</p>
+                <h3>Changes to Terms</h3><p>We may update these terms from time to time. Continued use of the SMS service after changes constitutes acceptance of the new terms.</p>
+                <h3>Contact</h3><p>Stewart<br>Email: support@meetstewart.com<br>Website: https://meetstewart.com</p>
+            </div>
+        </div>
+        <footer style="text-align: center; margin-top: 60px; padding: 20px; color: rgba(255,255,255,0.5); font-size: 0.8rem;"><p>© 2026 Stewart. All rights reserved.</p><p style="margin-top: 8px;"><a href="https://meetstewart.com" style="color: rgba(255,255,255,0.5);">meetstewart.com</a></p></footer>
+    </div>
+    <script>
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+        document.getElementById('smsOptinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Subscribing...';
+            setTimeout(() => {
+                document.getElementById('optinForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
