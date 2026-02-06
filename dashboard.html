@@ -1687,14 +1687,14 @@
             <!-- Stewart Area -->
             <div class="stewart-area">
                 <div class="stewart-header">
-                    <div class="stewart-avatar" onclick="openCustomizeModal()">
+                    <div class="stewart-avatar" >
                         <div class="stewart-avatar-inner" id="mainBotAvatar"></div>
                     </div>
                     <div class="stewart-info">
                         <h1 id="botDisplayName">Stewart</h1>
                         <p>Your AI Business Partner</p>
                     </div>
-                    <button class="customize-btn" onclick="openCustomizeModal()">Customize</button>
+                    
                 </div>
                 
                 <div class="chat-area">
@@ -1957,18 +1957,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         </div>
     </div>
     
-    <!-- Customize Bot Modal (simplified - keeping from v4) -->
-    <div class="modal-overlay" id="customizeModal">
-        <div class="modal" style="max-width: 900px;">
-            <div class="modal-header">
-                <h2>Customize Your Assistant</h2>
-                <button class="modal-close" onclick="closeCustomizeModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: center; color: rgba(255,255,255,0.6);">Avatar customization coming soon...</p>
-            </div>
-        </div>
-    </div>
+    <!-- Avatar customization removed -->
 
     <script>
         // ===== VIEW SWITCHING =====
@@ -2438,13 +2427,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         }
         
         // ===== CUSTOMIZE MODAL =====
-        function openCustomizeModal() {
-            document.getElementById('customizeModal').classList.add('active');
-        }
         
-        function closeCustomizeModal() {
-            document.getElementById('customizeModal').classList.remove('active');
-        }
         
         // ===== INIT =====
         function initAvatar() {
