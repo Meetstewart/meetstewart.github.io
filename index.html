@@ -398,6 +398,291 @@
             color: rgba(255, 255, 255, 0.5);
         }
         
+        /* Voice Trial Section */
+        .voice-trial {
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, rgba(138, 92, 246, 0.1) 0%, transparent 100%);
+            text-align: center;
+        }
+        
+        .voice-trial h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #8a5cf6, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .voice-trial > p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .voice-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .voice-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(138, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 280px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .voice-card:hover {
+            border-color: #8a5cf6;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(138, 92, 246, 0.2);
+        }
+        
+        .voice-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .voice-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .voice-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .call-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .call-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(34, 197, 94, 0.4);
+        }
+        
+        .tier-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .tier-badge {
+            background: rgba(138, 92, 246, 0.15);
+            border: 1px solid rgba(138, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: #c084fc;
+        }
+        
+        /* Avatar Builder Section */
+        .avatar-builder-section {
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, transparent 0%, rgba(138, 92, 246, 0.05) 50%, transparent 100%);
+            text-align: center;
+        }
+        
+        .avatar-builder-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .avatar-builder-section > p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        .avatar-builder-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .avatar-preview-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 215, 0, 0.05));
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 300px;
+        }
+        
+        .avatar-preview-box h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+        
+        #avatarPreview {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        #avatarPreview img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .ve-name-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ve-name-input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        
+        .ve-name-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .avatar-options {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(138, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            width: 320px;
+            text-align: left;
+        }
+        
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .option-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .option-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option-btn:hover {
+            background: rgba(138, 92, 246, 0.2);
+            border-color: rgba(138, 92, 246, 0.4);
+        }
+        
+        .option-btn.active {
+            background: linear-gradient(135deg, #8a5cf6, #6d28d9);
+            border-color: #8a5cf6;
+            color: #fff;
+        }
+        
+        .color-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .color-btn:hover, .color-btn.active {
+            transform: scale(1.15);
+            border-color: #fff;
+        }
+        
+        .randomize-btn {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #8a5cf6, #6d28d9);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .randomize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(138, 92, 246, 0.3);
+        }
+        
+        .claim-ve-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        .claim-ve-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.4);
+        }
+        
         /* Mobile */
         @media (max-width: 768px) {
             .nav-links {
@@ -481,6 +766,38 @@
         </div>
     </section>
     
+    <!-- Voice Trial Section -->
+    <section class="voice-trial" id="voice-trial">
+        <h2>🎙️ Talk to Stewart Now</h2>
+        <p>Experience the future of AI assistants. Have a real conversation with Stewart - no signup required.</p>
+        
+        <div class="voice-container">
+            <div class="voice-card">
+                <div class="icon">📞</div>
+                <h3>Call Stewart</h3>
+                <p>Speak directly with Stewart on your phone. Ask anything!</p>
+                <a href="tel:+18052615972" class="call-button">
+                    <span>📱</span> Call Now
+                </a>
+            </div>
+            
+            <div class="voice-card">
+                <div class="icon">🎧</div>
+                <h3>Listen First</h3>
+                <p>Hear how Stewart handles real business conversations.</p>
+                <button class="call-button" style="background: linear-gradient(135deg, #8a5cf6, #6d28d9);" onclick="playDemo()">
+                    <span>▶️</span> Play Sample
+                </button>
+            </div>
+        </div>
+        
+        <div class="tier-badges">
+            <div class="tier-badge">🎁 Anonymous: 60-second sample</div>
+            <div class="tier-badge">⭐ Trial Users: 5 min/day for 14 days</div>
+            <div class="tier-badge">👑 Subscribers: Unlimited</div>
+        </div>
+    </section>
+    
     <!-- Video Section -->
     <section class="video-section" id="demo">
         <h2>See Stewart in Action</h2>
@@ -520,6 +837,72 @@
             <div class="feature-card">
                 <h3>🧠 Manager</h3>
                 <p>Stewart orchestrates the entire team, managing up to 10 staff members—virtual or human.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Avatar Builder Section -->
+    <section class="avatar-builder-section" id="build-ve">
+        <h2>✨ Build Your VE</h2>
+        <p>Design your Virtual Executive. Pick their look, name them, and claim them when you sign up.</p>
+        
+        <div class="avatar-builder-container">
+            <div class="avatar-preview-box">
+                <h3>Your VE</h3>
+                <div id="avatarPreview">
+                    <img id="avatarImg" src="" alt="Your VE Avatar">
+                </div>
+                <input type="text" class="ve-name-input" id="veName" placeholder="Name your VE..." maxlength="20">
+                <a href="/login.html" class="claim-ve-btn">Claim Your VE →</a>
+            </div>
+            
+            <div class="avatar-options">
+                <div class="option-group">
+                    <label>Hair Style</label>
+                    <div class="option-buttons" id="hairButtons">
+                        <button class="option-btn active" data-hair="shortHairShortFlat">Short</button>
+                        <button class="option-btn" data-hair="shortHairDreads01">Dreads</button>
+                        <button class="option-btn" data-hair="longHairStraight">Long</button>
+                        <button class="option-btn" data-hair="longHairCurly">Curly</button>
+                        <button class="option-btn" data-hair="shortHairShaggyMullet">Shaggy</button>
+                        <button class="option-btn" data-hair="hat">Hat</button>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <label>Hair Color</label>
+                    <div class="option-buttons" id="hairColorButtons">
+                        <button class="color-btn active" data-color="2c1b18" style="background: #2c1b18;"></button>
+                        <button class="color-btn" data-color="724133" style="background: #724133;"></button>
+                        <button class="color-btn" data-color="d6b370" style="background: #d6b370;"></button>
+                        <button class="color-btn" data-color="b58143" style="background: #b58143;"></button>
+                        <button class="color-btn" data-color="a55728" style="background: #a55728;"></button>
+                        <button class="color-btn" data-color="c93305" style="background: #c93305;"></button>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <label>Skin Tone</label>
+                    <div class="option-buttons" id="skinButtons">
+                        <button class="color-btn active" data-skin="f8d8c0" style="background: #f8d8c0;"></button>
+                        <button class="color-btn" data-skin="edb98a" style="background: #edb98a;"></button>
+                        <button class="color-btn" data-skin="d08b5b" style="background: #d08b5b;"></button>
+                        <button class="color-btn" data-skin="ae5d29" style="background: #ae5d29;"></button>
+                        <button class="color-btn" data-skin="614335" style="background: #614335;"></button>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <label>Outfit</label>
+                    <div class="option-buttons" id="clothingButtons">
+                        <button class="option-btn active" data-clothing="blazerAndShirt">Blazer</button>
+                        <button class="option-btn" data-clothing="blazerAndSweater">Sweater</button>
+                        <button class="option-btn" data-clothing="shirtCrewNeck">Casual</button>
+                        <button class="option-btn" data-clothing="hoodie">Hoodie</button>
+                    </div>
+                </div>
+                
+                <button class="randomize-btn" onclick="randomizeAvatar()">🎲 Randomize</button>
             </div>
         </div>
     </section>
@@ -631,6 +1014,102 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // ========== AVATAR BUILDER ==========
+        let avatarSettings = {
+            hair: 'shortHairShortFlat',
+            hairColor: '2c1b18',
+            skin: 'f8d8c0',
+            clothing: 'blazerAndShirt'
+        };
+        
+        function updateAvatar() {
+            const url = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Date.now()}&top=${avatarSettings.hair}&hairColor=${avatarSettings.hairColor}&skinColor=${avatarSettings.skin}&clothingGraphic=bat&clothing=${avatarSettings.clothing}`;
+            document.getElementById('avatarImg').src = url;
+        }
+        
+        // Initialize avatar
+        updateAvatar();
+        
+        // Hair style buttons
+        document.querySelectorAll('#hairButtons .option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#hairButtons .option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                avatarSettings.hair = btn.dataset.hair;
+                updateAvatar();
+            });
+        });
+        
+        // Hair color buttons
+        document.querySelectorAll('#hairColorButtons .color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#hairColorButtons .color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                avatarSettings.hairColor = btn.dataset.color;
+                updateAvatar();
+            });
+        });
+        
+        // Skin tone buttons
+        document.querySelectorAll('#skinButtons .color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#skinButtons .color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                avatarSettings.skin = btn.dataset.skin;
+                updateAvatar();
+            });
+        });
+        
+        // Clothing buttons
+        document.querySelectorAll('#clothingButtons .option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#clothingButtons .option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                avatarSettings.clothing = btn.dataset.clothing;
+                updateAvatar();
+            });
+        });
+        
+        // Randomize avatar
+        function randomizeAvatar() {
+            const hairs = ['shortHairShortFlat', 'shortHairDreads01', 'longHairStraight', 'longHairCurly', 'shortHairShaggyMullet', 'hat'];
+            const hairColors = ['2c1b18', '724133', 'd6b370', 'b58143', 'a55728', 'c93305'];
+            const skins = ['f8d8c0', 'edb98a', 'd08b5b', 'ae5d29', '614335'];
+            const clothes = ['blazerAndShirt', 'blazerAndSweater', 'shirtCrewNeck', 'hoodie'];
+            
+            avatarSettings.hair = hairs[Math.floor(Math.random() * hairs.length)];
+            avatarSettings.hairColor = hairColors[Math.floor(Math.random() * hairColors.length)];
+            avatarSettings.skin = skins[Math.floor(Math.random() * skins.length)];
+            avatarSettings.clothing = clothes[Math.floor(Math.random() * clothes.length)];
+            
+            // Update active buttons visually
+            document.querySelectorAll('#hairButtons .option-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.hair === avatarSettings.hair);
+            });
+            document.querySelectorAll('#hairColorButtons .color-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.color === avatarSettings.hairColor);
+            });
+            document.querySelectorAll('#skinButtons .color-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.skin === avatarSettings.skin);
+            });
+            document.querySelectorAll('#clothingButtons .option-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.clothing === avatarSettings.clothing);
+            });
+            
+            updateAvatar();
+        }
+        
+        // Save VE name to localStorage for signup
+        document.getElementById('veName').addEventListener('input', (e) => {
+            localStorage.setItem('veName', e.target.value);
+            localStorage.setItem('veAvatar', JSON.stringify(avatarSettings));
+        });
+        
+        // ========== VOICE DEMO ==========
+        function playDemo() {
+            alert('Voice demo coming soon! Call +1 (805) 261-5972 to talk to Stewart now.');
+        }
     </script>
 </body>
 </html>
