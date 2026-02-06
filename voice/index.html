@@ -281,17 +281,50 @@ Don't oversell. Be genuine. If asked about capabilities you don't have in this d
             transcript.textContent = text;
             isSpeaking = true;
             
+            try {
+                // ElevenLabs TTS via Beast proxy
+                const TTS_PROXY = 'https://ai.casaxai.com/tts';
+                const response = await fetch(TTS_PROXY, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text })
+                });
+                
+                if (!response.ok) throw new Error('ElevenLabs error');
+                
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+                
+                audio.onended = () => {
+                    isSpeaking = false;
+                    btn.classList.remove('speaking');
+                    status.textContent = 'Click to respond';
+                    URL.revokeObjectURL(audioUrl);
+                };
+                
+                audio.onerror = () => {
+                    fallbackTTS(text);
+                };
+                
+                audio.play();
+                
+            } catch (error) {
+                console.log('ElevenLabs unavailable, using browser TTS');
+                fallbackTTS(text);
+            }
+        }
+        
+        function fallbackTTS(text) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
             
-            // Find a good voice
             const voices = speechSynthesis.getVoices();
             const preferredVoice = voices.find(v => 
                 v.name.includes('Daniel') || 
                 v.name.includes('Google UK English Male') ||
-                v.name.includes('Alex') ||
-                (v.lang === 'en-GB' && v.name.includes('Male'))
+                v.name.includes('Alex')
             ) || voices.find(v => v.lang.startsWith('en'));
             
             if (preferredVoice) utterance.voice = preferredVoice;
@@ -300,12 +333,6 @@ Don't oversell. Be genuine. If asked about capabilities you don't have in this d
                 isSpeaking = false;
                 btn.classList.remove('speaking');
                 status.textContent = 'Click to respond';
-            };
-            
-            utterance.onerror = () => {
-                isSpeaking = false;
-                btn.classList.remove('speaking');
-                status.textContent = 'Click to continue';
             };
             
             speechSynthesis.speak(utterance);
