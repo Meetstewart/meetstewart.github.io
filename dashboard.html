@@ -4,1277 +4,1586 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stewart Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/HB0N0/AvataaarsJs@main/avataaars.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
             min-height: 100vh;
             color: #fff;
         }
-
-        /* Header */
-        .header {
+        
+        /* Stats Bar */
+        .stats-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
+            padding: 12px 24px;
             background: rgba(0,0,0,0.3);
             border-bottom: 1px solid rgba(212,175,55,0.2);
         }
-
-        .logo {
-            font-size: 24px;
+        
+        .stats-bar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-weight: 700;
-            color: #d4af37;
+            font-size: 1.1rem;
         }
-
-        .trial-badge {
-            background: rgba(212,175,55,0.2);
-            color: #d4af37;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
+        
+        .stats-bar .logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
         }
-
-        .stats-bar {
+        
+        .stats-bar .logo .bot-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .stats-bar .logo .bot-avatar svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .stats-items {
             display: flex;
             gap: 32px;
         }
-
-        .stat {
+        
+        .stat-item {
             text-align: center;
         }
-
+        
         .stat-value {
-            font-size: 24px;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #d4af37;
         }
-
+        
         .stat-label {
-            font-size: 11px;
-            color: #888;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
-
+        
+        .upgrade-btn {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
         /* Main Layout */
         .main-container {
             display: flex;
-            height: calc(100vh - 73px - 80px);
+            height: calc(100vh - 57px);
         }
-
+        
         /* Stewart Area - 2/3 */
         .stewart-area {
             flex: 2;
             display: flex;
             flex-direction: column;
+            padding: 24px;
+            border-right: 1px solid rgba(212,175,55,0.1);
+        }
+        
+        .stewart-header {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 40px;
-            position: relative;
+            gap: 16px;
+            margin-bottom: 20px;
         }
-
-        .stewart-avatar-container {
-            position: relative;
+        
+        .stewart-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            padding: 3px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.2s;
         }
-
-        .stewart-avatar-container:hover {
+        
+        .stewart-avatar:hover {
             transform: scale(1.05);
         }
-
-        .stewart-avatar-container:hover .customize-hint {
-            opacity: 1;
-        }
-
-        .stewart-avatar {
-            width: 180px;
-            height: 180px;
+        
+        .stewart-avatar-inner {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: linear-gradient(135deg, #2a2a4a, #1a1a2e);
-            border: 3px solid #d4af37;
+            background: #1a1a2e;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
-
-        .stewart-avatar img {
-            width: 160px;
-            height: 160px;
-            object-fit: contain;
+        
+        .stewart-avatar-inner svg {
+            width: 90%;
+            height: 90%;
         }
-
-        .customize-hint {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(212,175,55,0.9);
-            color: #1a1a2e;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
+        
+        .stewart-info h1 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
         }
-
-        .bot-name {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 8px;
+        
+        .stewart-info p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
         }
-
-        .greeting {
-            font-size: 32px;
-            font-weight: 600;
-            margin-top: 24px;
-            margin-bottom: 8px;
-        }
-
-        .greeting .wave {
-            display: inline-block;
-            animation: wave 2s infinite;
-            transform-origin: 70% 70%;
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(20deg); }
-            75% { transform: rotate(-10deg); }
-        }
-
-        .subtitle {
-            color: #888;
-            font-size: 16px;
-            margin-bottom: 32px;
-        }
-
-        .quick-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            max-width: 500px;
-        }
-
-        .quick-action {
+        
+        .customize-btn {
+            margin-left: auto;
             background: rgba(212,175,55,0.1);
             border: 1px solid rgba(212,175,55,0.3);
             color: #d4af37;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
         }
-
-        .quick-action:hover {
+        
+        .customize-btn:hover {
             background: rgba(212,175,55,0.2);
-            transform: translateY(-2px);
         }
-
-        /* Response Area */
-        .response-area {
-            margin-top: 32px;
-            width: 100%;
-            max-width: 600px;
-            min-height: 100px;
+        
+        /* Chat/Response Area */
+        .chat-area {
+            flex: 1;
             background: rgba(0,0,0,0.2);
             border-radius: 16px;
             padding: 20px;
-            display: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-
-        .response-area.active {
-            display: block;
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
         }
-
+        
+        .message {
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.bot {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .message.bot .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        
+        .message.bot .avatar svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .message.bot .content {
+            background: rgba(212,175,55,0.1);
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            padding: 12px 16px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .message.user .content {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #000;
+            border-radius: 16px;
+            border-top-right-radius: 4px;
+            padding: 12px 16px;
+            max-width: 80%;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .quick-action {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-action:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+        }
+        
         /* Cards Sidebar - 1/3 */
         .cards-sidebar {
             flex: 1;
-            background: rgba(0,0,0,0.2);
-            padding: 20px;
+            padding: 16px;
             overflow-y: auto;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            max-width: 380px;
         }
-
+        
         .card {
-            background: rgba(30,30,50,0.8);
-            border-radius: 16px;
-            margin-bottom: 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            margin-bottom: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
         }
-
+        
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
+            padding: 14px 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.2s;
         }
-
+        
         .card-header:hover {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03);
         }
-
-        .card-title {
+        
+        .card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 600;
+            gap: 8px;
         }
-
-        .card-icon {
-            font-size: 18px;
-        }
-
-        .card-count {
-            background: rgba(212,175,55,0.3);
-            color: #d4af37;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-
+        
         .card-toggle {
-            color: #888;
-            transition: transform 0.3s;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
         }
-
-        .card.expanded .card-toggle {
-            transform: rotate(180deg);
-        }
-
+        
         .card-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
         }
-
+        
         .card.expanded .card-content {
             max-height: 500px;
         }
-
-        .card-item {
+        
+        .card.expanded .card-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .card-inner {
+            padding: 0 16px 16px;
+        }
+        
+        .schedule-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
         .schedule-time {
-            font-size: 12px;
-            color: #888;
-            min-width: 70px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            min-width: 60px;
         }
-
-        .schedule-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #4ade80;
-        }
-
-        .schedule-dot.upcoming {
-            background: #f59e0b;
-        }
-
-        .project-progress {
+        
+        .schedule-title {
             flex: 1;
+            font-size: 0.85rem;
         }
-
+        
+        .schedule-item.current {
+            background: rgba(212,175,55,0.1);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-left: 3px solid #d4af37;
+        }
+        
+        .project-item {
+            margin-bottom: 12px;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        
         .project-name {
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 0.85rem;
         }
-
+        
+        .project-progress {
+            font-size: 0.75rem;
+            color: #d4af37;
+        }
+        
         .progress-bar {
             height: 4px;
             background: rgba(255,255,255,0.1);
             border-radius: 2px;
             overflow: hidden;
         }
-
+        
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            background: linear-gradient(90deg, #d4af37, #f4d35e);
             border-radius: 2px;
         }
-
-        .project-percent {
-            font-size: 12px;
-            color: #d4af37;
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
         }
-
+        
         .task-checkbox {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #4ade80;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        .task-checkbox.checked {
+            background: #d4af37;
+            border-color: #d4af37;
+        }
+        
+        .task-checkbox.checked::after {
+            content: '✓';
+            color: #000;
             font-size: 12px;
-            color: #4ade80;
-            background: rgba(74,222,128,0.2);
         }
-
-        .task-checkbox.pending {
-            border-color: #888;
-            background: transparent;
-            color: transparent;
-        }
-
+        
         .task-text {
-            font-size: 14px;
+            font-size: 0.85rem;
         }
-
-        .task-text.done {
+        
+        .task-text.completed {
             text-decoration: line-through;
-            color: #888;
+            opacity: 0.5;
         }
-
-        /* Voice Input */
+        
+        /* Voice Input Bar */
         .voice-input-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px 24px;
             background: rgba(26,26,46,0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
             border-top: 1px solid rgba(212,175,55,0.2);
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
-
-        .input-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 4px;
-        }
-
-        .text-input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: #fff;
-            padding: 12px 20px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .text-input::placeholder {
-            color: #666;
-        }
-
+        
         .voice-btn {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            background: linear-gradient(135deg, #d4af37, #b8960c);
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
         }
-
+        
         .voice-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(212,175,55,0.5);
+            transform: scale(1.05);
         }
-
-        .voice-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: #1a1a2e;
+        
+        .voice-btn.listening {
+            animation: pulse 1.5s infinite;
         }
-
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(212,175,55,0); }
+        }
+        
+        .text-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: rgba(212,175,55,0.5);
+        }
+        
+        .text-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .send-btn {
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
         /* Customization Modal */
         .modal-overlay {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.8);
-            display: none;
+            z-index: 1000;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            padding: 20px;
         }
-
+        
         .modal-overlay.active {
             display: flex;
         }
-
-        .customize-modal {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 24px;
-            width: 90%;
-            max-width: 800px;
+        
+        .modal {
+            background: linear-gradient(135deg, #1e1e3f, #151530);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px;
             max-height: 90vh;
             overflow: hidden;
-            border: 1px solid rgba(212,175,55,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(212,175,55,0.2);
+            display: flex;
+            flex-direction: column;
         }
-
+        
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px;
+            padding: 20px 24px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #d4af37;
+        
+        .modal-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
+        
         .modal-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: none;
             border: none;
-            color: #fff;
-            font-size: 24px;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
         }
-
-        .modal-close:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
+        
         .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            max-height: calc(90vh - 140px);
-        }
-
-        .customize-section {
-            margin-bottom: 32px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #d4af37;
-            margin-bottom: 16px;
             display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        /* Avatar Preview */
+        .avatar-preview-section {
+            width: 280px;
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            padding: 24px;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
-
-        /* Avatar Selection */
-        .avatar-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+        
+        .avatar-preview {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            border-radius: 50%;
+            padding: 4px;
+            margin-bottom: 20px;
         }
-
-        .avatar-option {
-            aspect-ratio: 1;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.05);
-            border: 3px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
+        
+        .avatar-preview-inner {
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
-
-        .avatar-option:hover {
-            background: rgba(255,255,255,0.1);
-            transform: scale(1.05);
+        
+        .avatar-preview-inner svg {
+            width: 95%;
+            height: 95%;
         }
-
-        .avatar-option.selected {
-            border-color: #d4af37;
-            background: rgba(212,175,55,0.1);
-        }
-
-        .avatar-option img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
-        }
-
-        .avatar-option .placeholder {
-            font-size: 48px;
-        }
-
-        /* Voice Selection */
-        .voice-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .voice-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .voice-option:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .voice-option.selected {
-            border-color: #d4af37;
-            background: rgba(212,175,55,0.1);
-        }
-
-        .voice-preview {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(212,175,55,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d4af37;
-            font-size: 18px;
-        }
-
-        .voice-info {
-            flex: 1;
-        }
-
-        .voice-name {
+        
+        .preview-name {
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 2px;
+            margin-bottom: 8px;
         }
-
-        .voice-desc {
-            font-size: 12px;
-            color: #888;
+        
+        .preview-voice {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 16px;
         }
-
-        .play-sample {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #d4af37;
-            border: none;
+        
+        .randomize-btn {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #d4af37;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .randomize-btn:hover {
+            background: rgba(212,175,55,0.2);
+        }
+        
+        /* Customization Options */
+        .customization-options {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        .option-section {
+            margin-bottom: 24px;
+        }
+        
+        .option-section h4 {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #1a1a2e;
-            transition: transform 0.3s;
-        }
-
-        .play-sample:hover {
-            transform: scale(1.1);
-        }
-
-        /* Speech Settings */
-        .speech-settings {
-            display: grid;
-            gap: 24px;
-        }
-
-        .setting-row {
-            display: flex;
-            flex-direction: column;
             gap: 8px;
         }
-
-        .setting-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        /* Name Input */
+        .name-input-group {
+            margin-bottom: 12px;
         }
-
-        .setting-name {
-            font-weight: 500;
-        }
-
-        .setting-value {
-            color: #d4af37;
-            font-weight: 600;
-        }
-
-        .setting-slider {
-            -webkit-appearance: none;
+        
+        .name-input {
             width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.1);
-            outline: none;
-        }
-
-        .setting-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37, #f4d03f);
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(212,175,55,0.5);
-        }
-
-        .setting-hint {
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* Bot Name */
-        .bot-name-input {
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
             color: #fff;
-            font-size: 18px;
+            font-size: 1rem;
+        }
+        
+        .name-input:focus {
             outline: none;
-            transition: border-color 0.3s;
+            border-color: rgba(212,175,55,0.5);
         }
-
-        .bot-name-input:focus {
-            border-color: #d4af37;
-        }
-
+        
         .name-suggestions {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 12px;
-            align-items: center;
         }
-
-        .suggestion-label {
-            color: rgba(255,255,255,0.5);
-            font-size: 13px;
-            margin-right: 4px;
-        }
-
+        
         .name-pill {
-            padding: 6px 14px;
-            background: rgba(212,175,55,0.15);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 20px;
-            color: #d4af37;
-            font-size: 13px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
         }
-
+        
         .name-pill:hover {
-            background: rgba(212,175,55,0.3);
-            transform: scale(1.05);
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+            color: #d4af37;
         }
-
-        .name-pill:active {
-            transform: scale(0.95);
+        
+        /* Option Grid */
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
         }
-
-        /* Save Button */
+        
+        .option-btn {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .option-btn:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+        }
+        
+        .option-btn.selected {
+            background: rgba(212,175,55,0.2);
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+        
+        /* Color Swatches */
+        .color-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .color-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-swatch.selected {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212,175,55,0.3);
+        }
+        
+        /* Voice Selection */
+        .voice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .voice-option {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .voice-option:hover {
+            background: rgba(212,175,55,0.1);
+        }
+        
+        .voice-option.selected {
+            border-color: #d4af37;
+            background: rgba(212,175,55,0.1);
+        }
+        
+        .voice-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .voice-desc {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        /* Sliders */
+        .slider-group {
+            margin-bottom: 16px;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .slider-value {
+            color: #d4af37;
+        }
+        
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #d4af37;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-hint {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 4px;
+        }
+        
+        /* Modal Footer */
         .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: flex-end;
             gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-
-        .btn {
-            padding: 12px 32px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary {
+        
+        .btn-cancel {
             background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #d4af37, #f4d03f);
             border: none;
-            color: #1a1a2e;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212,175,55,0.4);
+        
+        .btn-save {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            border: none;
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
-
-        /* Mobile Responsive */
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .main-container {
+            .modal-body {
                 flex-direction: column;
             }
-
-            .stewart-area {
-                padding: 20px;
+            
+            .avatar-preview-section {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 16px;
             }
-
-            .cards-sidebar {
-                border-left: none;
-                border-top: 1px solid rgba(255,255,255,0.1);
-            }
-
-            .stats-bar {
-                display: none;
-            }
-
-            .avatar-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .voice-grid {
-                grid-template-columns: 1fr;
+            
+            .avatar-preview {
+                width: 120px;
+                height: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">Stewart</div>
-        <div class="trial-badge">🎁 14 days left in trial</div>
-        <div class="stats-bar">
-            <div class="stat">
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="logo">
+            <div class="bot-avatar" id="headerAvatar"></div>
+            <span id="botNameDisplay">Stewart</span>
+        </div>
+        <div class="stats-items">
+            <div class="stat-item">
+                <div class="stat-value">14</div>
+                <div class="stat-label">Trial Days</div>
+            </div>
+            <div class="stat-item">
                 <div class="stat-value">47</div>
                 <div class="stat-label">Tasks Done</div>
             </div>
-            <div class="stat">
-                <div class="stat-value">12.5h</div>
-                <div class="stat-label">Saved</div>
+            <div class="stat-item">
+                <div class="stat-value">12.5</div>
+                <div class="stat-label">Hours Saved</div>
             </div>
-            <div class="stat">
+            <div class="stat-item">
                 <div class="stat-value">3.2</div>
                 <div class="stat-label">Stewdays</div>
             </div>
         </div>
-    </header>
-
-    <!-- Main Content -->
+        <button class="upgrade-btn">⚡ Upgrade</button>
+    </div>
+    
+    <!-- Main Container -->
     <div class="main-container">
-        <!-- Stewart Interaction Area -->
+        <!-- Stewart Area -->
         <div class="stewart-area">
-            <div class="bot-name" id="botNameDisplay">Stewart</div>
-            <div class="stewart-avatar-container" onclick="openCustomize()">
-                <div class="stewart-avatar">
-                    <img id="selectedAvatar" src="https://meetstewart.com/stew-wave.png" alt="Stewart">
+            <div class="stewart-header">
+                <div class="stewart-avatar" onclick="openCustomize()">
+                    <div class="stewart-avatar-inner" id="mainAvatar"></div>
                 </div>
-                <div class="customize-hint">✨ Customize</div>
+                <div class="stewart-info">
+                    <h1>Good evening, <span id="userName">Nick</span>! 👋</h1>
+                    <p>I'm <span id="botNameGreeting">Stewart</span>, your AI assistant. How can I help you today?</p>
+                </div>
+                <button class="customize-btn" onclick="openCustomize()">✨ Customize</button>
             </div>
             
-            <h1 class="greeting">Good evening, Nick <span class="wave">👋</span></h1>
-            <p class="subtitle">What can I help you accomplish today?</p>
-
-            <div class="quick-actions">
-                <button class="quick-action">📊 Show my priorities</button>
-                <button class="quick-action">📧 Check important emails</button>
-                <button class="quick-action">📅 What's on my schedule?</button>
-                <button class="quick-action">✍️ Draft a message</button>
-                <button class="quick-action">📈 Weekly summary</button>
-            </div>
-
-            <div class="response-area" id="responseArea">
-                <!-- Stewart's responses appear here -->
+            <div class="chat-area">
+                <div class="messages" id="messages">
+                    <div class="message bot">
+                        <div class="avatar" id="chatAvatar"></div>
+                        <div class="content">
+                            I've been keeping things running smoothly today! You have 2 meetings this afternoon and I've drafted 3 emails for your review. Want me to walk you through them?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-action">📅 What's on my schedule?</button>
+                    <button class="quick-action">📧 Check my inbox</button>
+                    <button class="quick-action">✅ Show my tasks</button>
+                    <button class="quick-action">📊 Weekly summary</button>
+                    <button class="quick-action">🔔 Any updates?</button>
+                </div>
             </div>
         </div>
-
+        
         <!-- Cards Sidebar -->
         <div class="cards-sidebar">
-            <!-- Today's Schedule -->
             <div class="card expanded">
                 <div class="card-header" onclick="toggleCard(this)">
-                    <div class="card-title">
-                        <span class="card-icon">📅</span>
-                        Today's Schedule
-                        <span class="card-count">4</span>
-                    </div>
-                    <span class="card-toggle">▲</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-item">
-                        <span class="schedule-time">9:00 AM</span>
-                        <span class="schedule-dot"></span>
-                        <span>Team standup</span>
-                    </div>
-                    <div class="card-item">
-                        <span class="schedule-time">11:30 AM</span>
-                        <span class="schedule-dot"></span>
-                        <span>Client call - Acme Corp</span>
-                    </div>
-                    <div class="card-item">
-                        <span class="schedule-time">2:00 PM</span>
-                        <span class="schedule-dot upcoming"></span>
-                        <span>Product review</span>
-                    </div>
-                    <div class="card-item">
-                        <span class="schedule-time">4:30 PM</span>
-                        <span class="schedule-dot upcoming"></span>
-                        <span>Weekly wrap-up</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Projects -->
-            <div class="card">
-                <div class="card-header" onclick="toggleCard(this)">
-                    <div class="card-title">
-                        <span class="card-icon">📊</span>
-                        Projects
-                        <span class="card-count">3</span>
-                    </div>
+                    <h3>📅 Today's Schedule</h3>
                     <span class="card-toggle">▼</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-item">
-                        <div class="project-progress">
-                            <div class="project-name">Q1 Marketing Campaign</div>
+                    <div class="card-inner">
+                        <div class="schedule-item">
+                            <span class="schedule-time">9:00 AM</span>
+                            <span class="schedule-title">✓ Team standup</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">11:30 AM</span>
+                            <span class="schedule-title">✓ Review Q4 projections</span>
+                        </div>
+                        <div class="schedule-item current">
+                            <span class="schedule-time">2:00 PM</span>
+                            <span class="schedule-title">Client call - Acme Corp</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">4:30 PM</span>
+                            <span class="schedule-title">Product roadmap review</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <h3>📊 Projects</h3>
+                    <span class="card-toggle">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">Website Redesign</span>
+                                <span class="project-progress">85%</span>
+                            </div>
                             <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
                         </div>
-                        <span class="project-percent">85%</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="project-progress">
-                            <div class="project-name">Website Redesign</div>
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">Mobile App v2</span>
+                                <span class="project-progress">62%</span>
+                            </div>
                             <div class="progress-bar"><div class="progress-fill" style="width: 62%"></div></div>
                         </div>
-                        <span class="project-percent">62%</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="project-progress">
-                            <div class="project-name">New Product Launch</div>
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">API Integration</span>
+                                <span class="project-progress">34%</span>
+                            </div>
                             <div class="progress-bar"><div class="progress-fill" style="width: 34%"></div></div>
                         </div>
-                        <span class="project-percent">34%</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Tasks -->
+            
             <div class="card">
                 <div class="card-header" onclick="toggleCard(this)">
-                    <div class="card-title">
-                        <span class="card-icon">✓</span>
-                        Tasks
-                        <span class="card-count">2/5</span>
-                    </div>
+                    <h3>✓ Tasks</h3>
                     <span class="card-toggle">▼</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-item">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text done">Review contract draft</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text done">Send weekly report</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="task-checkbox pending"></div>
-                        <span class="task-text">Prepare presentation slides</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="task-checkbox pending"></div>
-                        <span class="task-text">Schedule team lunch</span>
-                    </div>
-                    <div class="card-item">
-                        <div class="task-checkbox pending"></div>
-                        <span class="task-text">Review Q1 metrics</span>
+                    <div class="card-inner">
+                        <div class="task-item">
+                            <div class="task-checkbox checked"></div>
+                            <span class="task-text completed">Review PR #234</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox checked"></div>
+                            <span class="task-text completed">Send invoice to client</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Prepare demo for Friday</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Update documentation</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Schedule 1:1 meetings</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Activity -->
+            
             <div class="card">
                 <div class="card-header" onclick="toggleCard(this)">
-                    <div class="card-title">
-                        <span class="card-icon">🔔</span>
-                        Activity
-                    </div>
+                    <h3>🔔 Activity</h3>
                     <span class="card-toggle">▼</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-item">
-                        <span style="color: #4ade80">✓</span>
-                        <span>Email sent to marketing team</span>
-                    </div>
-                    <div class="card-item">
-                        <span style="color: #60a5fa">📅</span>
-                        <span>Meeting scheduled with Sarah</span>
-                    </div>
-                    <div class="card-item">
-                        <span style="color: #f59e0b">📄</span>
-                        <span>Report generated</span>
+                    <div class="card-inner">
+                        <div class="schedule-item">
+                            <span class="schedule-time">1h ago</span>
+                            <span class="schedule-title">New email from John</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">2h ago</span>
+                            <span class="schedule-title">Task completed: Review PR</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">3h ago</span>
+                            <span class="schedule-title">Meeting notes uploaded</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Voice Input Bar -->
     <div class="voice-input-bar">
-        <div class="input-container">
-            <input type="text" class="text-input" placeholder="Ask Stewart anything...">
-            <button class="voice-btn">
-                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
-            </button>
-        </div>
+        <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>
+        <input type="text" class="text-input" id="inputPlaceholder" placeholder="Ask Stewart anything...">
+        <button class="send-btn">➤</button>
     </div>
-
+    
     <!-- Customization Modal -->
     <div class="modal-overlay" id="customizeModal">
-        <div class="customize-modal">
+        <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">✨ Customize Your Bot</h2>
+                <h2>✨ Customize Your Bot</h2>
                 <button class="modal-close" onclick="closeCustomize()">×</button>
             </div>
+            
             <div class="modal-body">
-                <!-- Bot Name -->
-                <div class="customize-section">
-                    <h3 class="section-title">🏷️ Bot Name</h3>
-                    <input type="text" class="bot-name-input" id="botNameInput" value="Stewart" placeholder="Give your bot a name..." maxlength="16">
-                    <div class="name-suggestions">
-                        <span class="suggestion-label">Quick picks:</span>
-                        <button class="name-pill" onclick="setName('Stewart')">Stewart</button>
-                        <button class="name-pill" onclick="setName('Stew')">Stew</button>
-                        <button class="name-pill" onclick="setName('Steve')">Steve</button>
-                        <button class="name-pill" onclick="setName('Stevie')">Stevie</button>
-                        <button class="name-pill" onclick="setName('Stan')">Stan</button>
-                        <button class="name-pill" onclick="setName('Stu')">Stu</button>
-                        <button class="name-pill" onclick="setName('Chester')">Chester</button>
-                        <button class="name-pill" onclick="setName('Jarvis')">Jarvis</button>
-                        <button class="name-pill" onclick="setName('Friday')">Friday</button>
-                        <button class="name-pill" onclick="setName('Max')">Max</button>
+                <!-- Avatar Preview -->
+                <div class="avatar-preview-section">
+                    <div class="avatar-preview">
+                        <div class="avatar-preview-inner" id="previewAvatar"></div>
                     </div>
+                    <div class="preview-name" id="previewName">Stewart</div>
+                    <div class="preview-voice" id="previewVoice">Voice: Adam</div>
+                    <button class="randomize-btn" onclick="randomizeAvatar()">🎲 Randomize</button>
                 </div>
-
-                <!-- Avatar Selection -->
-                <div class="customize-section">
-                    <h3 class="section-title">🎭 Choose an Avatar</h3>
-                    <div class="avatar-grid">
-                        <div class="avatar-option selected" data-avatar="stew-wave.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-wave.png" alt="Waving">
+                
+                <!-- Customization Options -->
+                <div class="customization-options">
+                    <!-- Bot Name -->
+                    <div class="option-section">
+                        <h4>🏷️ Bot Name</h4>
+                        <div class="name-input-group">
+                            <input type="text" class="name-input" id="botNameInput" value="Stewart" oninput="updatePreviewName()">
                         </div>
-                        <div class="avatar-option" data-avatar="stew-callme.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-callme.png" alt="Call Me">
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-analyst.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-analyst.png" alt="Thinking">
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-admin.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-admin.png" alt="Thumbs Up">
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-creator.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-creator.png" alt="Working">
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-voice.png" onclick="selectAvatar(this)">
-                            <img src="https://meetstewart.com/stew-voice.png" alt="Voice">
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-14.png" onclick="selectAvatar(this)">
-                            <span class="placeholder">🤵</span>
-                        </div>
-                        <div class="avatar-option" data-avatar="stew-15.png" onclick="selectAvatar(this)">
-                            <span class="placeholder">💼</span>
+                        <div class="name-suggestions">
+                            <span class="name-pill" onclick="setName('Stewart')">Stewart</span>
+                            <span class="name-pill" onclick="setName('Stew')">Stew</span>
+                            <span class="name-pill" onclick="setName('Steve')">Steve</span>
+                            <span class="name-pill" onclick="setName('Stevie')">Stevie</span>
+                            <span class="name-pill" onclick="setName('Stan')">Stan</span>
+                            <span class="name-pill" onclick="setName('Stu')">Stu</span>
+                            <span class="name-pill" onclick="setName('Chester')">Chester</span>
+                            <span class="name-pill" onclick="setName('Jarvis')">Jarvis</span>
+                            <span class="name-pill" onclick="setName('Friday')">Friday</span>
+                            <span class="name-pill" onclick="setName('Max')">Max</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Voice Selection -->
-                <div class="customize-section">
-                    <h3 class="section-title">🎙️ Voice Selection</h3>
-                    <div class="voice-grid">
-                        <div class="voice-option selected" data-voice="adam" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Adam</div>
-                                <div class="voice-desc">Deep, professional, authoritative</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('adam')">▶</button>
-                        </div>
-                        <div class="voice-option" data-voice="rachel" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Rachel</div>
-                                <div class="voice-desc">Warm, friendly, conversational</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('rachel')">▶</button>
-                        </div>
-                        <div class="voice-option" data-voice="josh" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Josh</div>
-                                <div class="voice-desc">Young, energetic, casual</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('josh')">▶</button>
-                        </div>
-                        <div class="voice-option" data-voice="emily" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Emily</div>
-                                <div class="voice-desc">Calm, soothing, articulate</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('emily')">▶</button>
-                        </div>
-                        <div class="voice-option" data-voice="sam" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Sam</div>
-                                <div class="voice-desc">Neutral, clear, versatile</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('sam')">▶</button>
-                        </div>
-                        <div class="voice-option" data-voice="bella" onclick="selectVoice(this)">
-                            <div class="voice-preview">🎤</div>
-                            <div class="voice-info">
-                                <div class="voice-name">Bella</div>
-                                <div class="voice-desc">Expressive, dynamic, engaging</div>
-                            </div>
-                            <button class="play-sample" onclick="event.stopPropagation(); playVoiceSample('bella')">▶</button>
-                        </div>
+                    
+                    <!-- Skin Tone -->
+                    <div class="option-section">
+                        <h4>👤 Skin Tone</h4>
+                        <div class="color-grid" id="skinOptions"></div>
                     </div>
-                </div>
-
-                <!-- Speech Settings -->
-                <div class="customize-section">
-                    <h3 class="section-title">🔧 Speech Settings</h3>
-                    <div class="speech-settings">
-                        <div class="setting-row">
-                            <div class="setting-label">
-                                <span class="setting-name">Speaking Speed</span>
-                                <span class="setting-value" id="speedValue">1.0x</span>
+                    
+                    <!-- Hair Style -->
+                    <div class="option-section">
+                        <h4>💇 Hair Style</h4>
+                        <div class="option-grid" id="hairOptions"></div>
+                    </div>
+                    
+                    <!-- Hair Color -->
+                    <div class="option-section">
+                        <h4>🎨 Hair Color</h4>
+                        <div class="color-grid" id="hairColorOptions"></div>
+                    </div>
+                    
+                    <!-- Facial Hair -->
+                    <div class="option-section">
+                        <h4>🧔 Facial Hair</h4>
+                        <div class="option-grid" id="facialHairOptions"></div>
+                    </div>
+                    
+                    <!-- Accessories -->
+                    <div class="option-section">
+                        <h4>👓 Accessories</h4>
+                        <div class="option-grid" id="accessoryOptions"></div>
+                    </div>
+                    
+                    <!-- Clothing -->
+                    <div class="option-section">
+                        <h4>👔 Clothing</h4>
+                        <div class="option-grid" id="clothingOptions"></div>
+                    </div>
+                    
+                    <!-- Clothing Color -->
+                    <div class="option-section">
+                        <h4>🎨 Clothing Color</h4>
+                        <div class="color-grid" id="clothingColorOptions"></div>
+                    </div>
+                    
+                    <!-- Eyes -->
+                    <div class="option-section">
+                        <h4>👁️ Eyes</h4>
+                        <div class="option-grid" id="eyeOptions"></div>
+                    </div>
+                    
+                    <!-- Eyebrows -->
+                    <div class="option-section">
+                        <h4>🤨 Eyebrows</h4>
+                        <div class="option-grid" id="eyebrowOptions"></div>
+                    </div>
+                    
+                    <!-- Mouth -->
+                    <div class="option-section">
+                        <h4>👄 Mouth</h4>
+                        <div class="option-grid" id="mouthOptions"></div>
+                    </div>
+                    
+                    <!-- Voice Selection -->
+                    <div class="option-section">
+                        <h4>🎙️ Voice</h4>
+                        <div class="voice-grid" id="voiceOptions"></div>
+                    </div>
+                    
+                    <!-- Speech Settings -->
+                    <div class="option-section">
+                        <h4>🔧 Speech Settings</h4>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Speaking Speed</span>
+                                <span class="slider-value" id="speedValue">1.0x</span>
                             </div>
-                            <input type="range" class="setting-slider" id="speedSlider" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed(this.value)">
-                            <div class="setting-hint">Slower speeds are easier to follow, faster speeds for quick info</div>
+                            <input type="range" class="slider" id="speedSlider" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed()">
+                            <div class="slider-hint">Slower speeds are easier to follow, faster for quick info</div>
                         </div>
-                        <div class="setting-row">
-                            <div class="setting-label">
-                                <span class="setting-name">Stability</span>
-                                <span class="setting-value" id="stabilityValue">75%</span>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Stability</span>
+                                <span class="slider-value" id="stabilityValue">75%</span>
                             </div>
-                            <input type="range" class="setting-slider" id="stabilitySlider" min="0" max="100" step="5" value="75" oninput="updateStability(this.value)">
-                            <div class="setting-hint">Higher = more consistent, Lower = more expressive/varied</div>
+                            <input type="range" class="slider" id="stabilitySlider" min="0" max="100" value="75" oninput="updateStability()">
+                            <div class="slider-hint">Higher = more consistent, Lower = more expressive</div>
                         </div>
-                        <div class="setting-row">
-                            <div class="setting-label">
-                                <span class="setting-name">Clarity + Similarity</span>
-                                <span class="setting-value" id="clarityValue">75%</span>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span>Clarity</span>
+                                <span class="slider-value" id="clarityValue">75%</span>
                             </div>
-                            <input type="range" class="setting-slider" id="claritySlider" min="0" max="100" step="5" value="75" oninput="updateClarity(this.value)">
-                            <div class="setting-hint">Higher = clearer pronunciation, Lower = more natural/relaxed</div>
+                            <input type="range" class="slider" id="claritySlider" min="0" max="100" value="75" oninput="updateClarity()">
+                            <div class="slider-hint">Higher = clearer pronunciation, Lower = more natural</div>
                         </div>
                     </div>
                 </div>
             </div>
+            
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeCustomize()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveCustomization()">Save Changes</button>
+                <button class="btn-cancel" onclick="closeCustomize()">Cancel</button>
+                <button class="btn-save" onclick="saveCustomization()">Save Changes</button>
             </div>
         </div>
     </div>
-
+    
     <script>
-        // Card toggle
-        function toggleCard(header) {
-            const card = header.parentElement;
-            card.classList.toggle('expanded');
+        // Avatar configuration
+        let avatarConfig = {
+            skin: 'light',
+            top: 'shortWaved',
+            hairColor: 'brown',
+            facialHair: 'none',
+            accessories: 'none',
+            clothing: 'blazerAndShirt',
+            clothingColor: 'blue02',
+            eyes: 'default',
+            eyebrows: 'defaultNatural',
+            mouth: 'smile'
+        };
+        
+        let botName = 'Stewart';
+        let selectedVoice = 'adam';
+        
+        // Option definitions
+        const skinColors = {
+            'tanned': '#d08b5b',
+            'yellow': '#f8d25c',
+            'pale': '#ffdbb4',
+            'light': '#edb98a',
+            'brown': '#c68642',
+            'darkBrown': '#8d5524',
+            'black': '#614335'
+        };
+        
+        const hairColors = {
+            'auburn': '#a55728',
+            'black': '#2c1b18',
+            'blonde': '#b58143',
+            'blondeGolden': '#d6b370',
+            'brown': '#724133',
+            'brownDark': '#4a312c',
+            'pastelPink': '#f59797',
+            'platinum': '#ecdcbf',
+            'red': '#c93305',
+            'silverGray': '#a8a8a8'
+        };
+        
+        const clothingColors = {
+            'black': '#262e33',
+            'blue01': '#65c9ff',
+            'blue02': '#5199e4',
+            'blue03': '#25557c',
+            'gray01': '#e6e6e6',
+            'gray02': '#929598',
+            'heather': '#3c4f5c',
+            'pastelBlue': '#b1e2ff',
+            'pastelGreen': '#a7ffc4',
+            'pastelOrange': '#ffdeb5',
+            'pastelRed': '#ffafb9',
+            'pastelYellow': '#ffffb1',
+            'pink': '#ff488e',
+            'red': '#ff5c5c',
+            'white': '#ffffff'
+        };
+        
+        const hairStyles = {
+            'none': 'None',
+            'shortWaved': 'Short Wavy',
+            'shortFlat': 'Short Flat',
+            'shortCurly': 'Short Curly',
+            'shortRound': 'Short Round',
+            'sides': 'Sides Only',
+            'theCaesar': 'Caesar',
+            'dreads01': 'Dreads',
+            'dreads02': 'Long Dreads',
+            'frizzle': 'Frizzle',
+            'shaggyMullet': 'Mullet',
+            'bigHair': 'Big Hair',
+            'bob': 'Bob',
+            'bun': 'Bun',
+            'curly': 'Long Curly',
+            'curvy': 'Curvy',
+            'fro': 'Afro',
+            'straight01': 'Straight',
+            'straight02': 'Long Straight',
+            'miaWallace': 'Bangs',
+            'hat': 'Hat',
+            'winterHat01': 'Beanie',
+            'hijab': 'Hijab',
+            'turban': 'Turban'
+        };
+        
+        const facialHairStyles = {
+            'none': 'None',
+            'beardLight': 'Light Beard',
+            'beardMedium': 'Medium Beard',
+            'beardMagestic': 'Full Beard',
+            'moustacheFancy': 'Fancy Mustache',
+            'moustacheMagnum': 'Magnum'
+        };
+        
+        const accessoryTypes = {
+            'none': 'None',
+            'prescription01': 'Glasses',
+            'prescription02': 'Round Glasses',
+            'round': 'Round Shades',
+            'sunglasses': 'Sunglasses',
+            'wayfarers': 'Wayfarers',
+            'kurt': 'Kurt'
+        };
+        
+        const clothingTypes = {
+            'blazerAndShirt': 'Blazer',
+            'blazerAndSweater': 'Blazer + Sweater',
+            'collarAndSweater': 'Collar Sweater',
+            'hoodie': 'Hoodie',
+            'overall': 'Overall',
+            'shirtCrewNeck': 'Crew Neck',
+            'shirtScoopNeck': 'Scoop Neck',
+            'shirtVNeck': 'V-Neck',
+            'graphicShirt': 'Graphic Tee'
+        };
+        
+        const eyeTypes = {
+            'default': 'Normal',
+            'happy': 'Happy',
+            'hearts': 'Hearts',
+            'side': 'Side',
+            'squint': 'Squint',
+            'surprised': 'Surprised',
+            'wink': 'Wink',
+            'winkWacky': 'Wacky Wink',
+            'closed': 'Closed',
+            'cry': 'Cry',
+            'eyeRoll': 'Eye Roll',
+            'xDizzy': 'Dizzy'
+        };
+        
+        const eyebrowTypes = {
+            'defaultNatural': 'Natural',
+            'default': 'Default',
+            'raisedExcited': 'Raised',
+            'raisedExcitedNatural': 'Raised Natural',
+            'sadConcerned': 'Sad',
+            'sadConcernedNatural': 'Worried',
+            'angry': 'Angry',
+            'angryNatural': 'Angry Natural',
+            'flatNatural': 'Flat',
+            'unibrowNatural': 'Unibrow',
+            'upDown': 'Up Down',
+            'upDownNatural': 'Up Down Natural'
+        };
+        
+        const mouthTypes = {
+            'smile': 'Smile',
+            'default': 'Default',
+            'twinkle': 'Twinkle',
+            'serious': 'Serious',
+            'tongue': 'Tongue',
+            'eating': 'Eating',
+            'grimace': 'Grimace',
+            'sad': 'Sad',
+            'concerned': 'Concerned',
+            'disbelief': 'Disbelief',
+            'screamOpen': 'Scream',
+            'vomit': 'Sick'
+        };
+        
+        const voices = {
+            'adam': { name: 'Adam', desc: 'Deep & Professional' },
+            'rachel': { name: 'Rachel', desc: 'Clear & Friendly' },
+            'josh': { name: 'Josh', desc: 'Casual & Warm' },
+            'bella': { name: 'Bella', desc: 'Soft & Elegant' },
+            'antoni': { name: 'Antoni', desc: 'Well-rounded' },
+            'arnold': { name: 'Arnold', desc: 'Crisp & Direct' },
+            'domi': { name: 'Domi', desc: 'Strong & Confident' },
+            'elli': { name: 'Elli', desc: 'Young & Emotional' }
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedSettings();
+            renderAllOptions();
+            updateAllAvatars();
+        });
+        
+        function loadSavedSettings() {
+            const saved = localStorage.getItem('stewartBotConfig');
+            if (saved) {
+                const config = JSON.parse(saved);
+                avatarConfig = config.avatar || avatarConfig;
+                botName = config.name || botName;
+                selectedVoice = config.voice || selectedVoice;
+            }
         }
-
-        // Customization modal
+        
+        function generateAvatar() {
+            return Avataaars.create({
+                style: 'circle',
+                background: '#1a1a2e',
+                ...avatarConfig
+            });
+        }
+        
+        function updateAllAvatars() {
+            const svg = generateAvatar();
+            document.getElementById('headerAvatar').innerHTML = svg;
+            document.getElementById('mainAvatar').innerHTML = svg;
+            document.getElementById('chatAvatar').innerHTML = svg;
+            document.getElementById('previewAvatar').innerHTML = svg;
+            
+            document.getElementById('botNameDisplay').textContent = botName;
+            document.getElementById('botNameGreeting').textContent = botName;
+            document.getElementById('previewName').textContent = botName;
+            document.getElementById('previewVoice').textContent = `Voice: ${voices[selectedVoice]?.name || 'Adam'}`;
+            document.getElementById('inputPlaceholder').placeholder = `Ask ${botName} anything...`;
+        }
+        
+        function renderAllOptions() {
+            // Skin colors
+            renderColorOptions('skinOptions', skinColors, avatarConfig.skin, 'skin');
+            
+            // Hair styles
+            renderOptions('hairOptions', hairStyles, avatarConfig.top, 'top');
+            
+            // Hair colors
+            renderColorOptions('hairColorOptions', hairColors, avatarConfig.hairColor, 'hairColor');
+            
+            // Facial hair
+            renderOptions('facialHairOptions', facialHairStyles, avatarConfig.facialHair, 'facialHair');
+            
+            // Accessories
+            renderOptions('accessoryOptions', accessoryTypes, avatarConfig.accessories, 'accessories');
+            
+            // Clothing
+            renderOptions('clothingOptions', clothingTypes, avatarConfig.clothing, 'clothing');
+            
+            // Clothing colors
+            renderColorOptions('clothingColorOptions', clothingColors, avatarConfig.clothingColor, 'clothingColor');
+            
+            // Eyes
+            renderOptions('eyeOptions', eyeTypes, avatarConfig.eyes, 'eyes');
+            
+            // Eyebrows
+            renderOptions('eyebrowOptions', eyebrowTypes, avatarConfig.eyebrows, 'eyebrows');
+            
+            // Mouth
+            renderOptions('mouthOptions', mouthTypes, avatarConfig.mouth, 'mouth');
+            
+            // Voices
+            renderVoiceOptions();
+        }
+        
+        function renderColorOptions(containerId, colors, selected, configKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            Object.entries(colors).forEach(([key, color]) => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch' + (key === selected ? ' selected' : '');
+                swatch.style.backgroundColor = color;
+                swatch.onclick = () => selectOption(configKey, key, containerId);
+                container.appendChild(swatch);
+            });
+        }
+        
+        function renderOptions(containerId, options, selected, configKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            Object.entries(options).forEach(([key, label]) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn' + (key === selected ? ' selected' : '');
+                btn.textContent = label;
+                btn.onclick = () => selectOption(configKey, key, containerId);
+                container.appendChild(btn);
+            });
+        }
+        
+        function renderVoiceOptions() {
+            const container = document.getElementById('voiceOptions');
+            container.innerHTML = '';
+            
+            Object.entries(voices).forEach(([key, voice]) => {
+                const option = document.createElement('div');
+                option.className = 'voice-option' + (key === selectedVoice ? ' selected' : '');
+                option.innerHTML = `
+                    <div class="voice-name">${voice.name}</div>
+                    <div class="voice-desc">${voice.desc}</div>
+                `;
+                option.onclick = () => selectVoice(key);
+                container.appendChild(option);
+            });
+        }
+        
+        function selectOption(configKey, value, containerId) {
+            avatarConfig[configKey] = value;
+            
+            // Update selection UI
+            const container = document.getElementById(containerId);
+            container.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            // Update preview
+            document.getElementById('previewAvatar').innerHTML = generateAvatar();
+        }
+        
+        function selectVoice(key) {
+            selectedVoice = key;
+            document.getElementById('previewVoice').textContent = `Voice: ${voices[key].name}`;
+            
+            const container = document.getElementById('voiceOptions');
+            container.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.voice-option').classList.add('selected');
+        }
+        
+        function setName(name) {
+            document.getElementById('botNameInput').value = name;
+            updatePreviewName();
+        }
+        
+        function updatePreviewName() {
+            const name = document.getElementById('botNameInput').value || 'Stewart';
+            document.getElementById('previewName').textContent = name;
+        }
+        
+        function updateSpeed() {
+            const value = document.getElementById('speedSlider').value;
+            document.getElementById('speedValue').textContent = value + 'x';
+        }
+        
+        function updateStability() {
+            const value = document.getElementById('stabilitySlider').value;
+            document.getElementById('stabilityValue').textContent = value + '%';
+        }
+        
+        function updateClarity() {
+            const value = document.getElementById('claritySlider').value;
+            document.getElementById('clarityValue').textContent = value + '%';
+        }
+        
+        function randomizeAvatar() {
+            const randomFrom = (obj) => {
+                const keys = Object.keys(obj);
+                return keys[Math.floor(Math.random() * keys.length)];
+            };
+            
+            avatarConfig = {
+                skin: randomFrom(skinColors),
+                top: randomFrom(hairStyles),
+                hairColor: randomFrom(hairColors),
+                facialHair: Math.random() > 0.5 ? randomFrom(facialHairStyles) : 'none',
+                accessories: Math.random() > 0.7 ? randomFrom(accessoryTypes) : 'none',
+                clothing: randomFrom(clothingTypes),
+                clothingColor: randomFrom(clothingColors),
+                eyes: randomFrom(eyeTypes),
+                eyebrows: randomFrom(eyebrowTypes),
+                mouth: randomFrom(mouthTypes)
+            };
+            
+            renderAllOptions();
+            document.getElementById('previewAvatar').innerHTML = generateAvatar();
+        }
+        
         function openCustomize() {
             document.getElementById('customizeModal').classList.add('active');
+            document.getElementById('botNameInput').value = botName;
+            renderAllOptions();
+            document.getElementById('previewAvatar').innerHTML = generateAvatar();
         }
-
+        
         function closeCustomize() {
             document.getElementById('customizeModal').classList.remove('active');
         }
-
-        // Avatar selection
-        let selectedAvatarUrl = 'https://meetstewart.com/stew-wave.png';
         
-        function selectAvatar(element) {
-            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            const avatarFile = element.dataset.avatar;
-            selectedAvatarUrl = `https://meetstewart.com/${avatarFile}`;
-        }
-
-        // Name quick pick
-        function setName(name) {
-            document.getElementById('botNameInput').value = name;
-            // Add visual feedback
-            document.querySelectorAll('.name-pill').forEach(pill => pill.style.background = 'rgba(212,175,55,0.15)');
-            event.target.style.background = 'rgba(212,175,55,0.4)';
-        }
-
-        // Voice selection
-        let selectedVoice = 'adam';
-        
-        function selectVoice(element) {
-            document.querySelectorAll('.voice-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedVoice = element.dataset.voice;
-        }
-
-        function playVoiceSample(voice) {
-            // In production, this would play an actual ElevenLabs sample
-            console.log(`Playing sample for voice: ${voice}`);
-            alert(`Voice sample for "${voice}" would play here.\n\nIn production, this connects to ElevenLabs API.`);
-        }
-
-        // Speech settings
-        function updateSpeed(value) {
-            document.getElementById('speedValue').textContent = value + 'x';
-        }
-
-        function updateStability(value) {
-            document.getElementById('stabilityValue').textContent = value + '%';
-        }
-
-        function updateClarity(value) {
-            document.getElementById('clarityValue').textContent = value + '%';
-        }
-
-        // Save customization
         function saveCustomization() {
-            const botName = document.getElementById('botNameInput').value || 'Stewart';
-            const speed = document.getElementById('speedSlider').value;
-            const stability = document.getElementById('stabilitySlider').value;
-            const clarity = document.getElementById('claritySlider').value;
-
-            // Update UI
-            document.getElementById('botNameDisplay').textContent = botName;
-            document.getElementById('selectedAvatar').src = selectedAvatarUrl;
-            document.querySelector('.logo').textContent = botName;
-            document.querySelector('.text-input').placeholder = `Ask ${botName} anything...`;
-
-            // Save to localStorage (in production, save to API)
-            const settings = {
-                botName,
-                avatar: selectedAvatarUrl,
+            botName = document.getElementById('botNameInput').value || 'Stewart';
+            
+            // Save to localStorage
+            localStorage.setItem('stewartBotConfig', JSON.stringify({
+                avatar: avatarConfig,
+                name: botName,
                 voice: selectedVoice,
-                speed: parseFloat(speed),
-                stability: parseInt(stability),
-                clarity: parseInt(clarity)
-            };
-            localStorage.setItem('stewartSettings', JSON.stringify(settings));
-
-            console.log('Saved settings:', settings);
+                speed: document.getElementById('speedSlider').value,
+                stability: document.getElementById('stabilitySlider').value,
+                clarity: document.getElementById('claritySlider').value
+            }));
+            
+            updateAllAvatars();
             closeCustomize();
-
-            // Show confirmation
-            showNotification('Settings saved! ✨');
         }
-
-        // Load saved settings
-        function loadSettings() {
-            const saved = localStorage.getItem('stewartSettings');
-            if (saved) {
-                const settings = JSON.parse(saved);
-                document.getElementById('botNameDisplay').textContent = settings.botName;
-                document.getElementById('botNameInput').value = settings.botName;
-                document.getElementById('selectedAvatar').src = settings.avatar;
-                document.querySelector('.logo').textContent = settings.botName;
-                document.querySelector('.text-input').placeholder = `Ask ${settings.botName} anything...`;
-                selectedAvatarUrl = settings.avatar;
-                selectedVoice = settings.voice;
-                
-                document.getElementById('speedSlider').value = settings.speed;
-                document.getElementById('speedValue').textContent = settings.speed + 'x';
-                document.getElementById('stabilitySlider').value = settings.stability;
-                document.getElementById('stabilityValue').textContent = settings.stability + '%';
-                document.getElementById('claritySlider').value = settings.clarity;
-                document.getElementById('clarityValue').textContent = settings.clarity + '%';
-
-                // Update selected states
-                document.querySelectorAll('.avatar-option').forEach(opt => {
-                    opt.classList.toggle('selected', opt.dataset.avatar === settings.avatar.split('/').pop());
-                });
-                document.querySelectorAll('.voice-option').forEach(opt => {
-                    opt.classList.toggle('selected', opt.dataset.voice === settings.voice);
-                });
-            }
+        
+        function toggleCard(header) {
+            header.closest('.card').classList.toggle('expanded');
         }
-
-        // Notification
-        function showNotification(message) {
-            const notif = document.createElement('div');
-            notif.style.cssText = `
-                position: fixed;
-                bottom: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: linear-gradient(135deg, #d4af37, #f4d03f);
-                color: #1a1a2e;
-                padding: 12px 24px;
-                border-radius: 25px;
-                font-weight: 600;
-                z-index: 2000;
-                animation: fadeInUp 0.3s ease;
-            `;
-            notif.textContent = message;
-            document.body.appendChild(notif);
-            setTimeout(() => notif.remove(), 3000);
+        
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            btn.classList.toggle('listening');
         }
-
-        // Initialize
-        loadSettings();
-
-        // Close modal on escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeCustomize();
-        });
-
-        // Close modal on overlay click
-        document.getElementById('customizeModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('customizeModal')) closeCustomize();
-        });
     </script>
 </body>
 </html>
