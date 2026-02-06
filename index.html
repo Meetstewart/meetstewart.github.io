@@ -692,6 +692,39 @@
             .speech-bubble {
                 font-size: 0.85rem;
                 max-width: 250px;
+                top: auto;
+                bottom: -60px;
+                white-space: normal;
+                text-align: center;
+            }
+            
+            .speech-bubble::after {
+                bottom: auto;
+                top: -10px;
+                border-top: none;
+                border-bottom: 12px solid rgba(255, 255, 255, 0.95);
+            }
+            
+            .click-hint {
+                bottom: -90px;
+            }
+            
+            .hero {
+                padding-top: 6rem;
+            }
+            
+            .stewart-container {
+                margin-bottom: 6rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+                padding: 0 1rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 1rem;
             }
             
             .price-card.featured {
