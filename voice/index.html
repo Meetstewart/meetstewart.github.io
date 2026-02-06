@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart Voice Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #5B21B6;
+            --secondary: #06B6D4;
+            --dark: #0F172A;
+            --darker: #020617;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        /* Voice Widget Container */
+        .voice-widget {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98));
+            border-radius: 24px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 25px 80px rgba(124, 58, 237, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Glow effect */
+        .voice-widget::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Header */
+        .widget-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .widget-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .widget-header p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Timer Badge */
+        .timer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--warning);
+        }
+        
+        .timer-badge.low {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Content Area */
+        .widget-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Auth Form */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .form-group input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            color: var(--light);
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.05);
+        }
+        
+        .form-group input::placeholder {
+            color: var(--gray);
+        }
+        
+        /* Phone input with country code */
+        .phone-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .country-code {
+            width: 70px;
+            text-align: center;
+        }
+        
+        .phone-number {
+            flex: 1;
+        }
+        
+        /* SMS Verification */
+        .sms-verify {
+            display: none;
+            text-align: center;
+        }
+        
+        .sms-verify.active {
+            display: block;
+        }
+        
+        .sms-code-input {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .sms-code-input input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            outline: none;
+        }
+        
+        .sms-code-input input:focus {
+            border-color: var(--primary);
+        }
+        
+        .resend-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Voice Interface */
+        .voice-interface {
+            display: none;
+            text-align: center;
+        }
+        
+        .voice-interface.active {
+            display: block;
+        }
+        
+        /* Orb Animation */
+        .voice-orb {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .orb-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .orb-core svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+        
+        .voice-orb:hover .orb-core {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+        }
+        
+        /* Active/Speaking state */
+        .voice-orb.active .orb-core {
+            animation: orb-pulse 1.5s ease-in-out infinite;
+        }
+        
+        .voice-orb.speaking .orb-core {
+            animation: orb-speak 0.3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes orb-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 60px rgba(124, 58, 237, 0.6); }
+        }
+        
+        @keyframes orb-speak {
+            from { transform: translate(-50%, -50%) scale(1); }
+            to { transform: translate(-50%, -50%) scale(1.15); }
+        }
+        
+        /* Ripple rings */
+        .orb-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .voice-orb.active .orb-ring {
+            animation: ring-expand 2s ease-out infinite;
+        }
+        
+        .orb-ring:nth-child(2) { animation-delay: 0.5s; }
+        .orb-ring:nth-child(3) { animation-delay: 1s; }
+        
+        @keyframes ring-expand {
+            0% { width: 100px; height: 100px; opacity: 0.6; }
+            100% { width: 200px; height: 200px; opacity: 0; }
+        }
+        
+        /* Voice status */
+        .voice-status {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .voice-status.listening {
+            color: var(--success);
+        }
+        
+        .voice-status.speaking {
+            color: var(--primary);
+        }
+        
+        /* Transcript */
+        .transcript {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-align: left;
+        }
+        
+        .transcript-line {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .transcript-line:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .transcript-line.user {
+            color: var(--secondary);
+        }
+        
+        .transcript-line.stewart {
+            color: var(--light);
+        }
+        
+        .transcript-line span {
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        
+        /* Footer */
+        .widget-footer {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            color: var(--gray);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .widget-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .widget-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Trial ended overlay */
+        .trial-ended {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .trial-ended.active {
+            display: block;
+        }
+        
+        .trial-ended h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .trial-ended p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Error message */
+        .error-msg {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .error-msg.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="voice-widget">
+        <div class="widget-header">
+            <h2>☆ Talk to Stewart</h2>
+            <p>Your AI Executive Assistant</p>
+            <div class="timer-badge" id="timerBadge" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="timerDisplay">10:00</span> remaining
+            </div>
+        </div>
+        
+        <div class="widget-content">
+            <!-- Step 1: Auth Form -->
+            <div class="auth-form" id="authForm">
+                <div class="error-msg" id="errorMsg"></div>
+                
+                <div class="form-group">
+                    <label for="userName">Your Name</label>
+                    <input type="text" id="userName" placeholder="John Smith" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" placeholder="john@company.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userPhone">Phone Number</label>
+                    <div class="phone-input-group">
+                        <input type="text" class="country-code" value="+1" readonly>
+                        <input type="tel" id="userPhone" class="phone-number" placeholder="(555) 123-4567" required>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="sendCodeBtn" onclick="sendVerificationCode()">
+                    Send Verification Code
+                </button>
+                
+                <p style="text-align: center; font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">
+                    By continuing, you agree to our <a href="/sms/" style="color: var(--primary);">Terms</a> 
+                    and <a href="/sms/#privacy" style="color: var(--primary);">Privacy Policy</a>
+                </p>
+            </div>
+            
+            <!-- Step 2: SMS Verification -->
+            <div class="sms-verify" id="smsVerify">
+                <h3 style="margin-bottom: 0.5rem;">Enter Verification Code</h3>
+                <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">
+                    We sent a 6-digit code to <span id="maskedPhone"></span>
+                </p>
+                
+                <div class="error-msg" id="smsErrorMsg"></div>
+                
+                <div class="sms-code-input">
+                    <input type="text" maxlength="1" data-index="0" oninput="handleCodeInput(this)">
+                    <input type="text" maxlength="1" data-index="1" oninput="handleCodeInput(this)">
+                    <input type="text" maxlength="1" data-index="2" oninput="handleCodeInput(this)">
+                    <input type="text" maxlength="1" data-index="3" oninput="handleCodeInput(this)">
+                    <input type="text" maxlength="1" data-index="4" oninput="handleCodeInput(this)">
+                    <input type="text" maxlength="1" data-index="5" oninput="handleCodeInput(this)">
+                </div>
+                
+                <button class="btn btn-primary" id="verifyCodeBtn" onclick="verifyCode()" disabled>
+                    Verify & Start Talking
+                </button>
+                
+                <p style="margin-top: 1rem;">
+                    <a href="#" class="resend-link" onclick="resendCode(); return false;">Resend code</a>
+                    <span style="color: var(--gray);"> · </span>
+                    <a href="#" class="resend-link" onclick="goBack(); return false;">Change number</a>
+                </p>
+            </div>
+            
+            <!-- Step 3: Voice Interface -->
+            <div class="voice-interface" id="voiceInterface">
+                <div class="voice-orb" id="voiceOrb" onclick="toggleVoice()">
+                    <div class="orb-ring"></div>
+                    <div class="orb-ring"></div>
+                    <div class="orb-ring"></div>
+                    <div class="orb-core">
+                        <svg id="micIcon" viewBox="0 0 24 24">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                        <svg id="stopIcon" style="display: none;" viewBox="0 0 24 24">
+                            <rect x="6" y="6" width="12" height="12" rx="2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <p class="voice-status" id="voiceStatus">Click to start talking</p>
+                
+                <div class="transcript" id="transcript">
+                    <div class="transcript-line stewart">
+                        <span>Stewart:</span> Hi! I'm Stewart, your AI executive assistant. How can I help you today?
+                    </div>
+                </div>
+                
+                <button class="btn btn-danger" id="endCallBtn" onclick="endCall()" style="display: none;">
+                    End Conversation
+                </button>
+            </div>
+            
+            <!-- Trial Ended -->
+            <div class="trial-ended" id="trialEnded">
+                <h3>Trial Complete! 🎉</h3>
+                <p>You've experienced what Stewart can do. Ready for the full power of your own AI executive assistant?</p>
+                <button class="btn btn-primary" onclick="window.location.href='/#pricing'">
+                    Start 14-Day Free Trial
+                </button>
+                <button class="btn btn-secondary" style="margin-top: 0.75rem;" onclick="window.location.href='/#demo'">
+                    Watch Full Demo
+                </button>
+            </div>
+        </div>
+        
+        <div class="widget-footer">
+            Powered by <a href="https://meetstewart.com">Stewart</a> · 
+            <a href="/sms/">Privacy</a> · 
+            <a href="/sms/#terms">Terms</a>
+        </div>
+    </div>
+
+    <!-- Retell Web SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/retell-client-js-sdk@2.0.0/dist/index.umd.min.js"></script>
+    
+    <script>
+        // Configuration
+        const CONFIG = {
+            TRIAL_DURATION: 10 * 60 * 1000, // 10 minutes in ms
+            RETELL_AGENT_ID: 'agent_stewart_demo', // Replace with actual agent ID
+            API_ENDPOINT: 'https://ai.casaxai.com', // Your backend
+            FINGERPRINT_KEY: 'stewart_trial_fp'
+        };
+        
+        // State
+        let trialStartTime = null;
+        let trialTimer = null;
+        let retellClient = null;
+        let isCallActive = false;
+        let userData = {};
+        let verificationCode = '';
+        
+        // Browser fingerprint (simple version)
+        function getFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('Stewart fingerprint', 2, 2);
+            const dataUrl = canvas.toDataURL();
+            
+            const components = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                new Date().getTimezoneOffset(),
+                dataUrl.slice(-50)
+            ];
+            
+            return btoa(components.join('|')).slice(0, 32);
+        }
+        
+        // Check if trial already used
+        function checkTrialStatus() {
+            const fp = getFingerprint();
+            const stored = localStorage.getItem(CONFIG.FINGERPRINT_KEY);
+            
+            if (stored) {
+                const data = JSON.parse(stored);
+                if (data.fp === fp && data.used) {
+                    // Trial already used
+                    showTrialEnded();
+                    return false;
+                }
+                if (data.fp === fp && data.remaining) {
+                    // Resume trial
+                    return data.remaining;
+                }
+            }
+            
+            return CONFIG.TRIAL_DURATION;
+        }
+        
+        // Save trial status
+        function saveTrialStatus(remaining) {
+            const fp = getFingerprint();
+            localStorage.setItem(CONFIG.FINGERPRINT_KEY, JSON.stringify({
+                fp: fp,
+                remaining: remaining,
+                used: remaining <= 0,
+                timestamp: Date.now()
+            }));
+        }
+        
+        // Format phone number
+        function formatPhone(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length === 10) {
+                return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
+            }
+            return phone;
+        }
+        
+        // Mask phone number
+        function maskPhone(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length >= 10) {
+                return `(***) ***-${cleaned.slice(-4)}`;
+            }
+            return '***-' + cleaned.slice(-4);
+        }
+        
+        // Send verification code
+        async function sendVerificationCode() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            
+            // Validation
+            if (!name || !email || !phone) {
+                showError('errorMsg', 'Please fill in all fields');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showError('errorMsg', 'Please enter a valid email');
+                return;
+            }
+            
+            const cleanPhone = phone.replace(/\D/g, '');
+            if (cleanPhone.length < 10) {
+                showError('errorMsg', 'Please enter a valid phone number');
+                return;
+            }
+            
+            userData = { name, email, phone: '+1' + cleanPhone };
+            
+            // Show loading
+            const btn = document.getElementById('sendCodeBtn');
+            btn.innerHTML = '<div class="spinner"></div> Sending...';
+            btn.disabled = true;
+            
+            try {
+                // In production, call your API to send SMS
+                // For demo, simulate success
+                await simulateApiCall();
+                
+                // Generate code for demo (in production, server generates this)
+                verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+                console.log('Demo verification code:', verificationCode);
+                
+                // Show SMS verification step
+                document.getElementById('authForm').style.display = 'none';
+                document.getElementById('smsVerify').classList.add('active');
+                document.getElementById('maskedPhone').textContent = maskPhone(phone);
+                
+                // Focus first input
+                document.querySelector('.sms-code-input input').focus();
+                
+            } catch (error) {
+                showError('errorMsg', 'Failed to send code. Please try again.');
+                btn.innerHTML = 'Send Verification Code';
+                btn.disabled = false;
+            }
+        }
+        
+        // Handle code input
+        function handleCodeInput(input) {
+            const value = input.value;
+            const index = parseInt(input.dataset.index);
+            
+            if (value && index < 5) {
+                const next = document.querySelector(`.sms-code-input input[data-index="${index + 1}"]`);
+                if (next) next.focus();
+            }
+            
+            // Check if all filled
+            const inputs = document.querySelectorAll('.sms-code-input input');
+            const code = Array.from(inputs).map(i => i.value).join('');
+            document.getElementById('verifyCodeBtn').disabled = code.length !== 6;
+        }
+        
+        // Verify code
+        async function verifyCode() {
+            const inputs = document.querySelectorAll('.sms-code-input input');
+            const enteredCode = Array.from(inputs).map(i => i.value).join('');
+            
+            const btn = document.getElementById('verifyCodeBtn');
+            btn.innerHTML = '<div class="spinner"></div> Verifying...';
+            btn.disabled = true;
+            
+            try {
+                await simulateApiCall();
+                
+                // For demo, accept any 6-digit code or the generated one
+                if (enteredCode.length === 6) {
+                    // Store user in database (call your API)
+                    await registerUser(userData);
+                    
+                    // Start voice trial
+                    startVoiceTrial();
+                } else {
+                    throw new Error('Invalid code');
+                }
+                
+            } catch (error) {
+                showError('smsErrorMsg', 'Invalid verification code');
+                btn.innerHTML = 'Verify & Start Talking';
+                btn.disabled = false;
+                
+                // Clear inputs
+                inputs.forEach(i => i.value = '');
+                inputs[0].focus();
+            }
+        }
+        
+        // Register user
+        async function registerUser(data) {
+            // Call your backend to store user
+            try {
+                await fetch(`${CONFIG.API_ENDPOINT}/api/trial-signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        fingerprint: getFingerprint(),
+                        source: 'voice_trial'
+                    })
+                });
+            } catch (e) {
+                console.log('User registration (demo mode):', data);
+            }
+        }
+        
+        // Start voice trial
+        function startVoiceTrial() {
+            document.getElementById('smsVerify').classList.remove('active');
+            document.getElementById('voiceInterface').classList.add('active');
+            document.getElementById('timerBadge').style.display = 'inline-flex';
+            
+            // Get remaining trial time
+            const remaining = checkTrialStatus();
+            if (remaining === false) return;
+            
+            trialStartTime = Date.now();
+            startTimer(remaining);
+        }
+        
+        // Timer
+        function startTimer(duration) {
+            let remaining = duration;
+            
+            updateTimerDisplay(remaining);
+            
+            trialTimer = setInterval(() => {
+                remaining -= 1000;
+                
+                if (remaining <= 0) {
+                    clearInterval(trialTimer);
+                    endTrial();
+                    return;
+                }
+                
+                // Save progress
+                saveTrialStatus(remaining);
+                updateTimerDisplay(remaining);
+                
+                // Warning at 2 minutes
+                if (remaining <= 2 * 60 * 1000) {
+                    document.getElementById('timerBadge').classList.add('low');
+                }
+                
+            }, 1000);
+        }
+        
+        function updateTimerDisplay(ms) {
+            const minutes = Math.floor(ms / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Toggle voice
+        async function toggleVoice() {
+            const orb = document.getElementById('voiceOrb');
+            const status = document.getElementById('voiceStatus');
+            const endBtn = document.getElementById('endCallBtn');
+            
+            if (!isCallActive) {
+                // Start call
+                orb.classList.add('active');
+                status.textContent = 'Connecting...';
+                status.className = 'voice-status';
+                endBtn.style.display = 'block';
+                
+                try {
+                    // Initialize Retell client
+                    await startRetellCall();
+                    
+                    isCallActive = true;
+                    status.textContent = 'Listening...';
+                    status.className = 'voice-status listening';
+                    
+                    document.getElementById('micIcon').style.display = 'none';
+                    document.getElementById('stopIcon').style.display = 'block';
+                    
+                } catch (error) {
+                    console.error('Call failed:', error);
+                    status.textContent = 'Connection failed. Click to retry.';
+                    orb.classList.remove('active');
+                    endBtn.style.display = 'none';
+                }
+            } else {
+                // In call - just toggle mute or do nothing
+                // The orb pulse indicates active listening
+            }
+        }
+        
+        // Start Retell call
+        async function startRetellCall() {
+            // Get access token from your backend
+            const response = await fetch(`${CONFIG.API_ENDPOINT}/api/retell/create-web-call`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    agent_id: CONFIG.RETELL_AGENT_ID,
+                    metadata: {
+                        user_name: userData.name,
+                        user_email: userData.email,
+                        user_phone: userData.phone,
+                        trial: true
+                    }
+                })
+            });
+            
+            if (!response.ok) {
+                // Demo mode - simulate call
+                console.log('Demo mode: Simulating Retell call');
+                simulateVoiceCall();
+                return;
+            }
+            
+            const { access_token } = await response.json();
+            
+            // Initialize Retell Web SDK
+            retellClient = new RetellWebClient();
+            
+            retellClient.on('call_started', () => {
+                console.log('Call started');
+            });
+            
+            retellClient.on('call_ended', () => {
+                console.log('Call ended');
+                handleCallEnd();
+            });
+            
+            retellClient.on('agent_start_talking', () => {
+                document.getElementById('voiceOrb').classList.add('speaking');
+                document.getElementById('voiceStatus').textContent = 'Stewart is speaking...';
+                document.getElementById('voiceStatus').className = 'voice-status speaking';
+            });
+            
+            retellClient.on('agent_stop_talking', () => {
+                document.getElementById('voiceOrb').classList.remove('speaking');
+                document.getElementById('voiceStatus').textContent = 'Listening...';
+                document.getElementById('voiceStatus').className = 'voice-status listening';
+            });
+            
+            retellClient.on('transcript', (transcript) => {
+                addTranscript(transcript.role, transcript.content);
+            });
+            
+            await retellClient.startCall({ accessToken: access_token });
+        }
+        
+        // Simulate voice call for demo
+        function simulateVoiceCall() {
+            const orb = document.getElementById('voiceOrb');
+            const status = document.getElementById('voiceStatus');
+            
+            isCallActive = true;
+            
+            // Simulate Stewart speaking
+            setTimeout(() => {
+                orb.classList.add('speaking');
+                status.textContent = 'Stewart is speaking...';
+                status.className = 'voice-status speaking';
+            }, 500);
+            
+            setTimeout(() => {
+                orb.classList.remove('speaking');
+                status.textContent = 'Listening...';
+                status.className = 'voice-status listening';
+                addTranscript('stewart', `Hi ${userData.name}! I'm Stewart. I can help you manage your calendar, handle emails, coordinate with your team, and much more. What would you like me to help you with?`);
+            }, 3000);
+        }
+        
+        // Add transcript
+        function addTranscript(role, text) {
+            const transcript = document.getElementById('transcript');
+            const line = document.createElement('div');
+            line.className = `transcript-line ${role}`;
+            line.innerHTML = `<span>${role === 'user' ? 'You' : 'Stewart'}:</span> ${text}`;
+            transcript.appendChild(line);
+            transcript.scrollTop = transcript.scrollHeight;
+        }
+        
+        // End call
+        function endCall() {
+            if (retellClient) {
+                retellClient.stopCall();
+            }
+            handleCallEnd();
+        }
+        
+        function handleCallEnd() {
+            isCallActive = false;
+            const orb = document.getElementById('voiceOrb');
+            orb.classList.remove('active', 'speaking');
+            document.getElementById('voiceStatus').textContent = 'Click to start talking';
+            document.getElementById('voiceStatus').className = 'voice-status';
+            document.getElementById('endCallBtn').style.display = 'none';
+            document.getElementById('micIcon').style.display = 'block';
+            document.getElementById('stopIcon').style.display = 'none';
+        }
+        
+        // End trial
+        function endTrial() {
+            if (retellClient) {
+                retellClient.stopCall();
+            }
+            saveTrialStatus(0);
+            showTrialEnded();
+        }
+        
+        function showTrialEnded() {
+            document.getElementById('authForm').style.display = 'none';
+            document.getElementById('smsVerify').classList.remove('active');
+            document.getElementById('voiceInterface').classList.remove('active');
+            document.getElementById('timerBadge').style.display = 'none';
+            document.getElementById('trialEnded').classList.add('active');
+        }
+        
+        // Resend code
+        async function resendCode() {
+            const link = document.querySelector('.resend-link');
+            link.textContent = 'Sending...';
+            
+            await simulateApiCall();
+            verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('New verification code:', verificationCode);
+            
+            link.textContent = 'Code sent!';
+            setTimeout(() => {
+                link.textContent = 'Resend code';
+            }, 3000);
+        }
+        
+        // Go back to auth form
+        function goBack() {
+            document.getElementById('smsVerify').classList.remove('active');
+            document.getElementById('authForm').style.display = 'flex';
+            document.getElementById('sendCodeBtn').innerHTML = 'Send Verification Code';
+            document.getElementById('sendCodeBtn').disabled = false;
+        }
+        
+        // Show error
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.classList.add('active');
+            setTimeout(() => el.classList.remove('active'), 5000);
+        }
+        
+        // Simulate API call
+        function simulateApiCall() {
+            return new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        
+        // Phone number formatting
+        document.getElementById('userPhone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            
+            if (value.length >= 6) {
+                e.target.value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6)}`;
+            } else if (value.length >= 3) {
+                e.target.value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+            } else {
+                e.target.value = value;
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const remaining = checkTrialStatus();
+            if (remaining === false) {
+                // Trial already used
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
