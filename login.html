@@ -325,6 +325,13 @@
                     <input type="password" id="signup-confirm" placeholder="Confirm password" autocomplete="new-password">
                 </div>
                 
+                <div class="checkbox-group" style="margin: 16px 0;">
+                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #aaa; cursor: pointer;">
+                        <input type="checkbox" id="sms-optin" style="margin-top: 3px; accent-color: #D4AF37;">
+                        <span>I agree to receive SMS notifications from Stewart AI. Message & data rates may apply. Reply STOP to unsubscribe. See our <a href="/sms/" style="color: #D4AF37;">SMS Terms</a>.</span>
+                    </label>
+                </div>
+                
                 <button class="btn btn-primary" id="signup-btn" onclick="handleSignUp()">
                     Create Account
                 </button>
@@ -434,7 +441,7 @@
                 
                 const data = await response.json();
                 
-                if (response.ok && data.success) {
+                if (response.ok && data.status === 'success') {
                     // Store token and redirect
                     localStorage.setItem('stewart_token', data.token);
                     localStorage.setItem('stewart_user', JSON.stringify(data.user));
@@ -481,15 +488,22 @@
             hideMessage();
             
             try {
+                const smsOptin = document.getElementById('sms-optin').checked;
+                
                 const payload = { 
                     display_name: name, 
                     email, 
-                    password 
+                    password,
+                    sms_optin: smsOptin
                 };
                 
-                // Add phone if provided
+                // Add phone if provided (required if SMS opt-in)
                 if (phone) {
                     payload.phone = country + phone.replace(/\D/g, '');
+                } else if (smsOptin) {
+                    showMessage('Phone number is required for SMS notifications', 'error');
+                    setLoading('signup-btn', false);
+                    return;
                 }
                 
                 const response = await fetch(API_BASE + '/auth/register', {
@@ -500,7 +514,7 @@
                 
                 const data = await response.json();
                 
-                if (response.ok && data.success) {
+                if (response.ok && data.status === 'success') {
                     showMessage('Account created! Check your email to verify.', 'success');
                     setTimeout(() => showTab('signin'), 2000);
                 } else {
