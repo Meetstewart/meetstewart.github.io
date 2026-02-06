@@ -370,7 +370,7 @@
 
     <script>
         // API Configuration - Using Cloudflare quick tunnel (until permanent DNS propagates)
-        const API_BASE = 'https://introduction-focal-teachers-cat.trycloudflare.com/api';
+        const API_BASE = 'https://casablancaexpress.com/api';
         
         // Tab switching
         function showTab(tab) {
@@ -433,7 +433,7 @@
             hideMessage();
             
             try {
-                const response = await fetch(API_BASE + '/auth/login', {
+                const response = await fetch(API_BASE + '/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -506,7 +506,7 @@
                     return;
                 }
                 
-                const response = await fetch(API_BASE + '/auth/register', {
+                const response = await fetch(API_BASE + '/signup.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -541,7 +541,7 @@
             hideMessage();
             
             try {
-                const response = await fetch(API_BASE + '/auth/forgot-password', {
+                const response = await fetch(API_BASE + '/forgot.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
