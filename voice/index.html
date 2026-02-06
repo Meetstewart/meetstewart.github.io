@@ -3,541 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talk to Stewart</title>
+    <title>Talk to Stewart - Voice Demo</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #fff;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
         }
-        
+
         .logo {
             font-size: 2.5rem;
             font-weight: 300;
             letter-spacing: 0.3em;
             margin-bottom: 10px;
+            background: linear-gradient(135deg, #4a9eff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
+
         .tagline {
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
+            color: #888;
             margin-bottom: 40px;
+            font-size: 0.95rem;
         }
-        
-        .timer {
-            font-size: 3rem;
-            font-weight: 200;
+
+        .timer-container {
+            background: rgba(74, 158, 255, 0.1);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 25px;
             margin-bottom: 30px;
-            font-variant-numeric: tabular-nums;
+            display: none;
         }
-        
-        .timer.warning { color: #ff6b6b; }
-        
-        .voice-btn {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4a90a4 0%, #2d5a6b 100%);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
+
+        .timer-container.active { display: block; }
+
+        .timer-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
         }
-        
-        .voice-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(74, 144, 164, 0.4);
+
+        .timer {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'SF Mono', Monaco, monospace;
+            color: #4a9eff;
         }
-        
-        .voice-btn.listening {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
-            animation: pulse 1.5s infinite;
-        }
-        
-        .voice-btn.speaking {
-            background: linear-gradient(135deg, #4ecdc4 0%, #2d8a85 100%);
-        }
-        
+
+        .timer.warning { color: #f59e0b; }
+        .timer.critical { color: #ef4444; animation: pulse 1s ease-in-out infinite; }
+
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
-            50% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        
-        .voice-btn svg {
-            width: 50px;
-            height: 50px;
-            fill: white;
+
+        .voice-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
+            border: 3px solid #4a9eff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        
+
+        .voice-circle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(74, 158, 255, 0.3);
+        }
+
+        .voice-circle.listening {
+            border-color: #10b981;
+            animation: listening-pulse 1.5s ease-in-out infinite;
+        }
+
+        .voice-circle.speaking {
+            border-color: #8b5cf6;
+            animation: speaking-pulse 0.5s ease-in-out infinite;
+        }
+
+        .voice-circle.processing {
+            border-color: #f59e0b;
+        }
+
+        @keyframes listening-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(16, 185, 129, 0.5); }
+        }
+
+        @keyframes speaking-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+
+        .mic-icon {
+            font-size: 4rem;
+            color: #4a9eff;
+            transition: color 0.3s;
+        }
+
+        .voice-circle.listening .mic-icon { color: #10b981; }
+        .voice-circle.speaking .mic-icon { color: #8b5cf6; }
+        .voice-circle.processing .mic-icon { color: #f59e0b; }
+
         .status {
             font-size: 1.1rem;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             min-height: 30px;
+            color: #ccc;
         }
-        
-        .transcript {
-            background: rgba(255,255,255,0.05);
+
+        .transcript-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
             margin-bottom: 30px;
+            min-height: 80px;
+            text-align: left;
         }
-        
-        .message {
-            margin-bottom: 15px;
+
+        .transcript-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .transcript-text {
+            color: #fff;
+            font-size: 1rem;
             line-height: 1.5;
         }
-        
-        .message.user {
-            color: rgba(255,255,255,0.6);
+
+        .response-text {
+            color: #4a9eff;
         }
-        
-        .message.user::before {
-            content: "You: ";
-            font-weight: 600;
-            color: #4a90a4;
-        }
-        
-        .message.stewart::before {
-            content: "Stewart: ";
-            font-weight: 600;
-            color: #4ecdc4;
-        }
-        
+
         .voice-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .voice-option {
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        
-        .voice-option:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .voice-option.selected {
-            background: #4a90a4;
-            border-color: #4a90a4;
-        }
-        
-        .settings {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
             margin-bottom: 30px;
-            flex-wrap: wrap;
         }
-        
-        .setting {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+
+        .voice-selector label {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
         }
-        
-        .setting label {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.6);
-            text-transform: uppercase;
+
+        .voice-selector select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 0.95rem;
+            width: 100%;
+            cursor: pointer;
         }
-        
-        .setting input[type="range"] {
-            width: 100px;
-            accent-color: #4a90a4;
+
+        .voice-selector select option {
+            background: #1a1a2e;
+            color: #fff;
         }
-        
-        .cta {
+
+        .cta-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-text {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #4a9eff 0%, #8b5cf6 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+        }
+
+        .instructions {
+            color: #666;
+            font-size: 0.85rem;
             margin-top: 20px;
         }
-        
-        .cta-btn {
-            background: linear-gradient(135deg, #4a90a4 0%, #2d5a6b 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .logo { font-size: 2rem; }
+            .voice-circle { width: 150px; height: 150px; }
+            .mic-icon { font-size: 3rem; }
         }
-        
-        .cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(74, 144, 164, 0.4);
-        }
-        
-        .expired {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .expired.show {
-            display: flex;
-        }
-        
-        .demo-active { display: block; }
-        .demo-active.hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">STEWART</div>
-        <p class="tagline">Your AI Executive Assistant</p>
-        
-        <div class="demo-active" id="demoArea">
+        <div class="tagline">Your AI Business Partner</div>
+
+        <div class="timer-container" id="timerContainer">
+            <div class="timer-label">Demo Time Remaining</div>
             <div class="timer" id="timer">10:00</div>
-            
-            <button class="voice-btn" id="voiceBtn">
-                <svg viewBox="0 0 24 24" id="micIcon">
-                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
-                </svg>
-            </button>
-            
-            <p class="status" id="status">Click to start talking</p>
-            
-            <div class="voice-selector" id="voiceSelector">
-                <button class="voice-option selected" data-voice="cjVigY5qzO86Huf0OWal" data-name="Eric">Eric (Default)</button>
-                <button class="voice-option" data-voice="EXAVITQu4vr4xnSDxMaL" data-name="Bella">Bella</button>
-                <button class="voice-option" data-voice="JBFqnCBsd6RMkjVDRZzb" data-name="George">George (British)</button>
-                <button class="voice-option" data-voice="iP95p4xoKVk53GoZ742B" data-name="Chris">Chris</button>
-                <button class="voice-option" data-voice="nPczCjzI2devNBz1zQrb" data-name="Brian">Brian</button>
-                <button class="voice-option" data-voice="Xb7hH8MSUJpSbSDYk0k2" data-name="Alice">Alice (British)</button>
-            </div>
-            
-            <div class="settings">
-                <div class="setting">
-                    <label>Stability</label>
-                    <input type="range" id="stability" min="0" max="100" value="50">
-                </div>
-                <div class="setting">
-                    <label>Expression</label>
-                    <input type="range" id="expression" min="0" max="100" value="75">
-                </div>
-                <div class="setting">
-                    <label>Style</label>
-                    <input type="range" id="style" min="0" max="100" value="0">
-                </div>
-            </div>
-            
-            <div class="transcript" id="transcript"></div>
         </div>
-        
-        <div class="expired" id="expiredArea">
-            <h2>Time's Up!</h2>
-            <p>You've experienced what Stewart can do.</p>
-            <p>Ready for 24/7 AI assistance?</p>
-            <div class="cta">
-                <button class="cta-btn" onclick="window.location.href='https://meetstewart.com/signup'">
-                    Start 14-Day Free Trial
-                </button>
-            </div>
+
+        <div class="voice-selector">
+            <label>Stewart's Voice</label>
+            <select id="voiceSelect">
+                <option value="cjVigY5qzO86Huf0OWal">Eric - Professional & Trustworthy</option>
+                <option value="JBFqnCBsd6RMkjVDRZzb">George - Warm British Storyteller</option>
+                <option value="EXAVITQu4vr4xnSDxMaL">Bella - Bright & Professional</option>
+                <option value="onwK4e9ZLuTAKqWW03F9">Daniel - British Broadcaster</option>
+                <option value="pFZP5JQG7iQjIQuC4Bku">Lily - Velvety British Actress</option>
+                <option value="TX3LPaxmHKxFdv7VOQHJ">Liam - Energetic Creator</option>
+                <option value="XB0fDUnXU5powFXDhCwa">Charlotte - Seductive & Mysterious</option>
+                <option value="pqHfZKP75CvOlQylNhV4">Bill - Wise & Mature</option>
+                <option value="nPczCjzI2devNBz1zQrb">Brian - Deep & Comforting</option>
+                <option value="N2lVS1w4EtoT3dr4eOWO">Callum - Husky Trickster</option>
+                <option value="IKne3meq5aSn9XLyUdCD">Charlie - Deep Australian</option>
+                <option value="XrExE9yKIg1WjnnlVkGX">Matilda - Professional Narrator</option>
+            </select>
+        </div>
+
+        <div class="voice-circle" id="voiceCircle" onclick="toggleListening()">
+            <span class="mic-icon" id="micIcon">🎤</span>
+        </div>
+
+        <div class="status" id="status">Click to start talking to Stewart</div>
+
+        <div class="transcript-box">
+            <div class="transcript-label">Conversation</div>
+            <div class="transcript-text" id="transcript">Say hello to begin...</div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-text">Like what you see? Get 14 days free.</div>
+            <button class="cta-button" onclick="window.location.href='https://meetstewart.github.io/#signup'">Start Free Trial</button>
+        </div>
+
+        <div class="instructions">
+            Press the microphone and speak naturally.<br>
+            Stewart will respond with voice.
         </div>
     </div>
 
     <script>
-        // Configuration
-        const TTS_ENDPOINT = 'http://98.148.232.204:8091/tts';
-        const CHAT_ENDPOINT = 'http://98.148.232.204:8091/chat';
+        // ElevenLabs API (direct browser call)
+        const ELEVENLABS_KEY = 'sk_933372d07bc70b591aad7041bf5a6e37d4f20c5d92e04c68';
         
         // State
-        let timeRemaining = 600; // 10 minutes
-        let timerInterval;
-        let recognition;
         let isListening = false;
-        let isSpeaking = false;
-        let conversationHistory = [];
-        let selectedVoice = 'cjVigY5qzO86Huf0OWal';
-        let selectedVoiceName = 'Eric';
-        
+        let recognition = null;
+        let timerInterval = null;
+        let secondsRemaining = 600; // 10 minutes
+        let trialStarted = false;
+        let audioContext = null;
+
         // Elements
-        const timer = document.getElementById('timer');
-        const voiceBtn = document.getElementById('voiceBtn');
+        const voiceCircle = document.getElementById('voiceCircle');
+        const micIcon = document.getElementById('micIcon');
         const status = document.getElementById('status');
         const transcript = document.getElementById('transcript');
-        const demoArea = document.getElementById('demoArea');
-        const expiredArea = document.getElementById('expiredArea');
-        
-        // Voice selector
-        document.querySelectorAll('.voice-option').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.voice-option').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedVoice = btn.dataset.voice;
-                selectedVoiceName = btn.dataset.name;
-            });
-        });
-        
-        // Timer
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                const mins = Math.floor(timeRemaining / 60);
-                const secs = timeRemaining % 60;
-                timer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-                
-                if (timeRemaining <= 60) {
-                    timer.classList.add('warning');
-                }
-                
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    endDemo();
-                }
-            }, 1000);
-        }
-        
-        function endDemo() {
-            demoArea.classList.add('hidden');
-            expiredArea.classList.add('show');
-            if (recognition) recognition.stop();
-        }
-        
-        // Speech Recognition
-        function initSpeechRecognition() {
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                status.textContent = 'Speech recognition not supported';
-                return;
-            }
-            
+        const timerContainer = document.getElementById('timerContainer');
+        const timerDisplay = document.getElementById('timer');
+        const voiceSelect = document.getElementById('voiceSelect');
+
+        // Initialize speech recognition
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
             recognition.continuous = false;
-            recognition.interimResults = false;
+            recognition.interimResults = true;
             recognition.lang = 'en-US';
-            
+
             recognition.onstart = () => {
-                isListening = true;
-                voiceBtn.classList.add('listening');
+                voiceCircle.className = 'voice-circle listening';
+                micIcon.textContent = '🎙️';
                 status.textContent = 'Listening...';
             };
-            
-            recognition.onend = () => {
-                isListening = false;
-                voiceBtn.classList.remove('listening');
-                if (!isSpeaking) {
-                    status.textContent = 'Click to talk';
+
+            recognition.onresult = (event) => {
+                let finalTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const t = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript = t;
+                    }
+                }
+                if (finalTranscript) {
+                    handleUserInput(finalTranscript);
                 }
             };
-            
-            recognition.onresult = async (event) => {
-                const userText = event.results[0][0].transcript;
-                addMessage('user', userText);
-                status.textContent = 'Thinking...';
-                
-                try {
-                    const response = await getResponse(userText);
-                    addMessage('stewart', response);
-                    await speakResponse(response);
-                } catch (error) {
-                    console.error('Error:', error);
-                    const fallback = generateFallbackResponse(userText);
-                    addMessage('stewart', fallback);
-                    await speakResponseBrowser(fallback);
-                }
-            };
-            
+
             recognition.onerror = (event) => {
                 console.error('Speech recognition error:', event.error);
-                status.textContent = 'Click to try again';
-                voiceBtn.classList.remove('listening');
-            };
-        }
-        
-        // Get AI response
-        async function getResponse(userText) {
-            // Try Beast gateway first
-            try {
-                const response = await fetch(CHAT_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        messages: [
-                            { role: 'system', content: 'You are Stewart, an AI executive assistant. Be helpful, professional, and concise. Keep responses under 100 words.' },
-                            ...conversationHistory.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })),
-                            { role: 'user', content: userText }
-                        ]
-                    })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.choices?.[0]?.message?.content || data.response || generateFallbackResponse(userText);
+                resetState();
+                if (event.error === 'not-allowed') {
+                    status.textContent = 'Microphone access denied. Please enable it in browser settings.';
+                } else {
+                    status.textContent = 'Error: ' + event.error + '. Click to try again.';
                 }
-            } catch (e) {
-                console.log('Gateway unavailable, using fallback');
-            }
-            
-            return generateFallbackResponse(userText);
+            };
+
+            recognition.onend = () => {
+                if (isListening) {
+                    isListening = false;
+                }
+            };
+        } else {
+            status.textContent = 'Voice not supported in this browser. Try Chrome or Safari.';
+            voiceCircle.style.opacity = '0.5';
+            voiceCircle.style.cursor = 'not-allowed';
         }
-        
-        // Fallback response generator
-        function generateFallbackResponse(userText) {
-            const lower = userText.toLowerCase();
-            
-            if (lower.includes('hello') || lower.includes('hi ') || lower.includes('hey')) {
-                return "Hello! I'm Stewart, your AI executive assistant. How can I help you today?";
+
+        function toggleListening() {
+            if (!recognition) return;
+
+            if (!trialStarted) {
+                startTrial();
             }
-            if (lower.includes('what can you do') || lower.includes('help')) {
-                return "I can manage your emails, schedule meetings, draft documents, track your calendar, and handle administrative tasks. Think of me as your tireless executive assistant.";
+
+            if (isListening) {
+                recognition.stop();
+                resetState();
+            } else {
+                isListening = true;
+                recognition.start();
             }
-            if (lower.includes('email')) {
-                return "I can check your inbox for urgent messages, draft replies, and organize your email by priority. Would you like me to summarize your recent emails?";
-            }
-            if (lower.includes('schedule') || lower.includes('meeting') || lower.includes('calendar')) {
-                return "I can manage your calendar, schedule meetings, send invites, and remind you of upcoming appointments. What would you like me to schedule?";
-            }
-            if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
-                return "Stewart is $500 per month - that's a full-time executive assistant for about $17 per day. We also offer a 14-day free trial to experience the value firsthand.";
-            }
-            if (lower.includes('trial') || lower.includes('free')) {
-                return "Yes! We offer a 14-day free trial with full functionality. No credit card required to start. You'll see exactly how much time Stewart can save you.";
-            }
-            if (lower.includes('thank')) {
-                return "You're welcome! Is there anything else I can help you with?";
-            }
-            
-            return "I understand. As your executive assistant, I'm here to help with emails, scheduling, documents, and administrative tasks. What would you like me to focus on?";
         }
-        
-        // ElevenLabs TTS
-        async function speakResponse(text) {
-            isSpeaking = true;
-            voiceBtn.classList.add('speaking');
-            status.textContent = `${selectedVoiceName} is speaking...`;
+
+        function resetState() {
+            isListening = false;
+            voiceCircle.className = 'voice-circle';
+            micIcon.textContent = '🎤';
+            status.textContent = 'Click to talk to Stewart';
+        }
+
+        function startTrial() {
+            trialStarted = true;
+            timerContainer.classList.add('active');
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            secondsRemaining--;
+            if (secondsRemaining <= 0) {
+                clearInterval(timerInterval);
+                endTrial();
+                return;
+            }
+
+            const minutes = Math.floor(secondsRemaining / 60);
+            const seconds = secondsRemaining % 60;
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Warning colors
+            if (secondsRemaining <= 60) {
+                timerDisplay.className = 'timer critical';
+            } else if (secondsRemaining <= 180) {
+                timerDisplay.className = 'timer warning';
+            }
+        }
+
+        function endTrial() {
+            status.textContent = 'Demo time ended. Sign up for full access!';
+            voiceCircle.style.opacity = '0.5';
+            voiceCircle.onclick = null;
+            transcript.innerHTML = '<span class="response-text">Thanks for trying Stewart! Ready to see what we can do for your business? Start your 14-day free trial.</span>';
+        }
+
+        async function handleUserInput(text) {
+            voiceCircle.className = 'voice-circle processing';
+            micIcon.textContent = '⏳';
+            status.textContent = 'Thinking...';
+
+            transcript.innerHTML = `<strong>You:</strong> ${text}`;
+
+            // Generate response
+            const response = generateResponse(text);
             
+            transcript.innerHTML += `<br><br><span class="response-text"><strong>Stewart:</strong> ${response}</span>`;
+
+            // Speak response with ElevenLabs
+            await speakWithElevenLabs(response);
+
+            resetState();
+        }
+
+        function generateResponse(input) {
+            const lower = input.toLowerCase();
+
+            // Greetings
+            if (lower.match(/\b(hi|hello|hey|good morning|good afternoon)\b/)) {
+                return "Hello! I'm Stewart, your AI business partner. I handle the work so you can focus on what matters. What can I help you with today?";
+            }
+
+            // What can you do
+            if (lower.match(/\b(what can you do|what do you do|how do you work|capabilities|features)\b/)) {
+                return "I'm like having a full team working 24/7. I manage emails, coordinate projects, analyze data, and handle communications. Think of me as your executive assistant, analyst, and project manager rolled into one. What area of your business needs the most help?";
+            }
+
+            // Pricing
+            if (lower.match(/\b(price|cost|how much|pricing|subscription)\b/)) {
+                return "I start at $500 a month, which is like getting a $60,000 a year executive assistant. The Dream Team package gives you me plus five specialists for $2,000 a month. That's six virtual staff members for the price of one junior hire. Would you like to hear more about what each specialist does?";
+            }
+
+            // Team/specialists
+            if (lower.match(/\b(team|specialist|voice|builder|creator|analyst|support)\b/)) {
+                return "My team includes Voice for brand communications, Builder for technical work, Creator for design and content, Analyst for data and efficiency, and Support for coordination. Each one does the work of two humans. Together, we're like having twelve people on your team.";
+            }
+
+            // Trial
+            if (lower.match(/\b(trial|try|free|test)\b/)) {
+                return "You're already experiencing the trial! You've got this 10-minute voice demo, and when you're ready, we offer a 14-day full trial. No commitment, cancel anytime. Your data stays yours. Want me to tell you more about what you'd get in the full trial?";
+            }
+
+            // Business/company
+            if (lower.match(/\b(business|company|startup|entrepreneur)\b/)) {
+                return "I work with businesses of all sizes. From solo entrepreneurs who need their time back, to growing companies that can't hire fast enough. What kind of business are you running?";
+            }
+
+            // Data/privacy
+            if (lower.match(/\b(data|privacy|secure|security|safe)\b/)) {
+                return "Great question. We keep zero client data on our servers. Everything stays in your Dropbox or Google Drive. We never see your credentials. It's zero trust by design. Your data is always in your hands.";
+            }
+
+            // Default conversational
+            return "That's a great point. Tell me more about your situation and I can explain how I'd help. What's taking up most of your time right now?";
+        }
+
+        async function speakWithElevenLabs(text) {
+            voiceCircle.className = 'voice-circle speaking';
+            micIcon.textContent = '🔊';
+            status.textContent = 'Speaking...';
+
+            const voiceId = voiceSelect.value;
+
             try {
-                const stability = document.getElementById('stability').value / 100;
-                const expression = document.getElementById('expression').value / 100;
-                const style = document.getElementById('style').value / 100;
-                
-                const response = await fetch(TTS_ENDPOINT, {
+                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'xi-api-key': ELEVENLABS_KEY,
+                        'Content-Type': 'application/json',
+                        'Accept': 'audio/mpeg'
+                    },
                     body: JSON.stringify({
                         text: text,
-                        voice_id: selectedVoice,
-                        stability: stability,
-                        similarity_boost: expression,
-                        style: style
+                        model_id: 'eleven_turbo_v2_5',
+                        voice_settings: {
+                            stability: 0.5,
+                            similarity_boost: 0.75,
+                            style: 0.0
+                        }
                     })
                 });
-                
-                if (response.ok) {
-                    const audioBlob = await response.blob();
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    const audio = new Audio(audioUrl);
-                    
-                    audio.onended = () => {
-                        isSpeaking = false;
-                        voiceBtn.classList.remove('speaking');
-                        status.textContent = 'Click to talk';
-                        URL.revokeObjectURL(audioUrl);
-                        // Auto-listen after response
-                        if (timeRemaining > 0) {
-                            setTimeout(() => {
-                                if (!isListening && !isSpeaking) {
-                                    recognition?.start();
-                                }
-                            }, 500);
-                        }
-                    };
-                    
-                    audio.play();
-                    return;
+
+                if (!response.ok) {
+                    throw new Error('ElevenLabs API error: ' + response.status);
                 }
-            } catch (e) {
-                console.log('ElevenLabs unavailable, using browser TTS');
+
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+
+                return new Promise((resolve) => {
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                        resolve();
+                    };
+                    audio.onerror = () => {
+                        console.error('Audio playback error');
+                        resolve();
+                    };
+                    audio.play().catch(e => {
+                        console.error('Playback failed:', e);
+                        resolve();
+                    });
+                });
+            } catch (error) {
+                console.error('TTS Error:', error);
+                status.textContent = 'Voice unavailable - response shown above';
+                return Promise.resolve();
             }
-            
-            // Fallback to browser TTS
-            await speakResponseBrowser(text);
         }
-        
-        // Browser TTS fallback
-        async function speakResponseBrowser(text) {
-            return new Promise((resolve) => {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-                
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    voiceBtn.classList.remove('speaking');
-                    status.textContent = 'Click to talk';
-                    if (timeRemaining > 0) {
-                        setTimeout(() => {
-                            if (!isListening && !isSpeaking) {
-                                recognition?.start();
-                            }
-                        }, 500);
-                    }
-                    resolve();
-                };
-                
-                speechSynthesis.speak(utterance);
-            });
-        }
-        
-        // Add message to transcript
-        function addMessage(role, text) {
-            conversationHistory.push({ role, text });
-            
-            const div = document.createElement('div');
-            div.className = `message ${role}`;
-            div.textContent = text;
-            transcript.appendChild(div);
-            transcript.scrollTop = transcript.scrollHeight;
-        }
-        
-        // Voice button click
-        voiceBtn.addEventListener('click', () => {
-            if (isSpeaking) return;
-            
-            if (!timerInterval) {
-                startTimer();
-            }
-            
-            if (isListening) {
-                recognition?.stop();
-            } else {
-                recognition?.start();
-            }
-        });
-        
-        // Initialize
-        initSpeechRecognition();
     </script>
 </body>
 </html>
