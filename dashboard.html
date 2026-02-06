@@ -1960,6 +1960,38 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
     <!-- Avatar customization removed -->
 
     <script>
+        // ===== AUTHENTICATION CHECK =====
+        const API_BASE = 'https://casablancaexpress.com/api';
+        
+        // Check for valid session on page load
+        (function checkAuth() {
+            const token = localStorage.getItem('stewart_token');
+            const user = localStorage.getItem('stewart_user');
+            
+            if (!token || !user) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // Verify token is still valid
+            fetch(API_BASE + '/verify.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.valid) {
+                    localStorage.removeItem('stewart_token');
+                    localStorage.removeItem('stewart_user');
+                    window.location.href = '/login.html';
+                }
+            })
+            .catch(() => {
+                console.log('Could not verify token - allowing cached session');
+            });
+        })();
+
         // ===== VIEW SWITCHING =====
         let currentView = 'chat';
         
@@ -2365,6 +2397,56 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             "I've scheduled that meeting for Thursday at 10 AM. I'll send calendar invites to all participants.",
         ];
         
+
+        // ===== CONTEXTUAL RESPONSES =====
+        function getContextualResponse(input) {
+            const lower = input.toLowerCase();
+            
+            // Calendar/schedule related
+            if (lower.includes('calendar') || lower.includes('meeting') || lower.includes('schedule') || lower.includes('appointment')) {
+                return "I've checked your calendar and you have 3 meetings today. Your next one is with the development team at 2 PM. Would you like me to reschedule anything?";
+            }
+            
+            // Email related
+            if (lower.includes('email') || lower.includes('mail') || lower.includes('inbox')) {
+                return "I found 5 emails that need your attention. 2 are marked urgent from the sales team. Want me to summarize them for you?";
+            }
+            
+            // Task related
+            if (lower.includes('task') || lower.includes('todo') || lower.includes('to-do') || lower.includes('to do')) {
+                return "Your task list has been updated. You have 8 items remaining this week, with 3 due tomorrow. Should I prioritize them for you?";
+            }
+            
+            // Report/analysis related
+            if (lower.includes('report') || lower.includes('analysis') || lower.includes('data') || lower.includes('numbers')) {
+                return "I've analyzed the latest data. Revenue is up 12% this quarter, with strongest growth in enterprise. Want me to create a detailed breakdown?";
+            }
+            
+            // Help
+            if (lower.includes('help') || lower.includes('what can you')) {
+                return "I can help with: calendar management, email drafting, task tracking, data analysis, and more. What would you like to do?";
+            }
+            
+            // Greeting
+            if (lower.includes('hello') || lower.includes('hi ') || lower === 'hi' || lower.includes('hey') || lower === 'yo') {
+                const user = JSON.parse(localStorage.getItem('stewart_user') || '{}');
+                return `Hey ${user.name || 'there'}! Great to see you. What can I help you with today?`;
+            }
+            
+            // Thanks
+            if (lower.includes('thank')) {
+                return "You're welcome! Let me know if there's anything else I can help with.";
+            }
+            
+            // Default
+            const defaults = [
+                "I'm on it! Let me look into that for you.",
+                "Great question! Give me just a moment to gather that information.",
+                "Absolutely! I'll take care of that right away.",
+            ];
+            return defaults[Math.floor(Math.random() * defaults.length)];
+        }
+
         function handleKeyPress(e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('messageInput');
@@ -2374,7 +2456,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                     input.value = '';
                     // Show typing indicator then response
                     setTimeout(() => {
-                        const response = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+                        const response = getContextualResponse(text);
                         addMessage(response, 'bot');
                     }, 800 + Math.random() * 700);
                 }
