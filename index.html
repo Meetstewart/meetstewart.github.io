@@ -27,34 +27,12 @@
             color: var(--light);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: 44px;
-        }
-        
-        /* Announcement Banner */
-        .announcement-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            color: white;
-            text-align: center;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .announcement-banner a {
-            color: #ffd700;
-            text-decoration: underline;
-            margin-left: 8px;
         }
         
         /* Navigation */
         nav {
             position: fixed;
-            top: 44px;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -100,11 +78,8 @@
         .nav-links a:hover { color: var(--light); }
         
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
@@ -114,56 +89,65 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
         }
         
         .btn-outline {
             background: transparent;
-            color: var(--light);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 2px solid var(--primary);
+            color: var(--primary);
         }
         
         .btn-outline:hover {
-            background: rgba(255,255,255,0.05);
+            background: var(--primary);
+            color: white;
         }
-        
+
         /* Hero Section with Animated Stewart */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 8rem 2rem 4rem;
+            justify-content: center;
+            padding: 120px 2rem 4rem;
+            background: linear-gradient(180deg, var(--darker) 0%, #0F0A1E 100%);
             position: relative;
+            overflow: hidden;
         }
         
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .hero-content {
             max-width: 1400px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .hero-text h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
+            font-size: 3.5rem;
+            font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
         }
@@ -182,12 +166,12 @@
             max-width: 500px;
         }
         
-        .hero-buttons {
+        .hero-cta {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
         }
-        
+
         /* Animated Stewart Character */
         .stewart-container {
             position: relative;
@@ -196,13 +180,25 @@
             align-items: center;
         }
         
-        .stewart-avatar {
+        .stewart-character {
+            position: relative;
             width: 300px;
             height: 300px;
+        }
+        
+        .stewart-avatar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
             animation: float 3s ease-in-out infinite;
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.4);
             cursor: pointer;
             transition: transform 0.3s;
-            filter: drop-shadow(0 20px 40px rgba(124, 58, 237, 0.3));
         }
         
         .stewart-avatar:hover {
@@ -210,102 +206,234 @@
         }
         
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
         
+        /* Speech Bubble */
         .speech-bubble {
             position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
             background: white;
             color: var(--dark);
             padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            font-weight: 500;
+            border-radius: 20px;
             max-width: 280px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
         
-        .speech-bubble::before {
+        .speech-bubble.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .speech-bubble::after {
             content: '';
             position: absolute;
-            top: -10px;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid white;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            border: 10px solid transparent;
-            border-bottom-color: white;
         }
         
-        .stewart-container:hover .speech-bubble {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-10px);
-        }
-        
-        .click-hint {
-            position: absolute;
-            bottom: -60px;
+        .speech-bubble.top {
+            top: -80px;
             left: 50%;
-            transform: translateX(-50%);
-            color: var(--secondary);
-            font-size: 0.875rem;
+            transform: translateX(-50%) scale(0.8);
+        }
+        
+        .speech-bubble.top.active {
+            transform: translateX(-50%) scale(1);
+        }
+        
+        .speech-bubble.right {
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+        }
+        
+        .speech-bubble.right::after {
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid white;
+            border-left: none;
+            left: -15px;
+            top: 50%;
+            bottom: auto;
+            transform: translateY(-50%);
+        }
+        
+        .speech-bubble.right.active {
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Stats Section */
+        .stats {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: pulse 2s infinite;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .stat {
+            text-align: left;
         }
         
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* Video Section */
         .video-section {
             padding: 6rem 2rem;
-            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
+            background: var(--dark);
+            text-align: center;
+        }
+        
+        .video-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .video-section p {
+            color: var(--gray);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
         }
         
         .video-container {
             max-width: 900px;
             margin: 0 auto;
-            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
         }
         
-        .video-container h2 {
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+        
+        .section-header h2 {
             font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
         }
         
-        .video-container p {
+        .section-header p {
             color: var(--gray);
-            margin-bottom: 2rem;
+            font-size: 1.125rem;
         }
         
-        .video-wrapper {
-            position: relative;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            aspect-ratio: 16/9;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Team Section */
+        .team {
+            padding: 6rem 2rem;
             background: var(--dark);
         }
         
-        .video-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .team-member {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .member-avatar {
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -313,310 +441,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-        }
-        
-        .play-button:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.5);
-        }
-        
-        .play-button svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-            margin-left: 5px;
-        }
-        
-        /* Stewart Explains Section - Interactive */
-        .stew-explains {
-            padding: 6rem 2rem;
-            background: var(--dark);
-        }
-        
-        .stew-explains-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-        
-        .stew-sidebar {
-            position: sticky;
-            top: 120px;
-            text-align: center;
-        }
-        
-        .stew-talking {
-            width: 180px;
-            height: 180px;
+            font-size: 2rem;
             margin: 0 auto 1rem;
         }
         
-        .stew-talking.talking {
-            animation: talk 0.3s ease-in-out infinite;
-        }
-        
-        @keyframes talk {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02) rotate(1deg); }
-        }
-        
-        .stew-status {
-            color: var(--secondary);
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        
-        .voice-select {
-            width: 100%;
-            padding: 0.75rem;
-            background: var(--darker);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 0.5rem;
-            color: var(--light);
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .topic-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .topic-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .topic-card:hover {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-        
-        .topic-card.active {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: var(--primary);
-        }
-        
-        .topic-card h3 {
+        .team-member h4 {
             font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .topic-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .topic-card .play-icon {
-            margin-left: auto;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .topic-card:hover .play-icon {
-            opacity: 1;
-        }
-        
-        /* Sections */
-        section { padding: 6rem 2rem; }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        .section-label {
-            color: var(--secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        
-        .section-header h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 1rem;
-        }
-        
-        .section-header p {
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Channels */
-        .channels-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .channel-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .channel-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        .channel-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .channel-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .channel-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        
-        .channel-stat {
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-        
-        /* Capabilities */
-        .capabilities-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .capability-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .capability-card:hover {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(255,255,255,0.1);
-        }
-        
-        .capability-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        
-        .capability-card h4 {
-            margin-bottom: 0.25rem;
-        }
-        
-        .capability-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* Team Section */
-        .team-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .specialist-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .specialist-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        .specialist-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .specialist-card h3 {
-            margin-bottom: 0.25rem;
-        }
-        
-        .specialist-role {
-            color: var(--secondary);
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        
-        .specialist-card p {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-        }
-        
-        .specialist-price {
-            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--light);
+            margin-bottom: 0.25rem;
         }
         
-        /* Pricing */
+        .team-member .role {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member .price {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+        
         .pricing-grid {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
         
         .pricing-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1.5rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
             padding: 2.5rem;
             position: relative;
             transition: all 0.3s;
         }
         
-        .pricing-card:hover {
-            transform: translateY(-5px);
-        }
-        
         .pricing-card.featured {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.1));
             border-color: var(--primary);
+            transform: scale(1.05);
         }
         
         .pricing-card.featured::before {
@@ -627,560 +499,508 @@
             transform: translateX(-50%);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 0.25rem 1rem;
-            border-radius: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
         }
         
         .pricing-card h3 {
             font-size: 1.5rem;
+            font-weight: 800;
             margin-bottom: 0.5rem;
         }
         
         .pricing-card .price {
             font-size: 3rem;
-            font-weight: 800;
+            font-weight: 900;
             margin: 1rem 0;
         }
         
         .pricing-card .price span {
             font-size: 1rem;
-            font-weight: 400;
             color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .pricing-card .description {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .pricing-card ul {
             list-style: none;
-            margin: 1.5rem 0;
+            margin-bottom: 2rem;
         }
         
         .pricing-card li {
             padding: 0.5rem 0;
-            color: var(--gray);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
         
         .pricing-card li::before {
             content: '✓';
             color: var(--success);
-            font-weight: bold;
+            font-weight: 700;
         }
-        
-        .pricing-card .btn {
-            width: 100%;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        
-        /* CTA */
-        .cta-section {
+
+        /* CTA Section */
+        .cta {
             padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             text-align: center;
-            background: linear-gradient(180deg, var(--dark), var(--darker));
         }
         
-        .cta-content {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .cta-content h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
         }
         
-        .cta-content p {
-            color: var(--gray);
-            margin-bottom: 2rem;
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
         
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .cta .btn {
+            background: white;
+            color: var(--primary);
+            font-size: 1.125rem;
+            padding: 1rem 2.5rem;
         }
         
+        .cta .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
         /* Footer */
         footer {
+            padding: 4rem 2rem 2rem;
             background: var(--darker);
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 3rem 2rem;
-            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .footer-brand p {
+            color: var(--gray);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
             color: var(--gray);
         }
         
-        /* Mobile */
-        @media (max-width: 768px) {
+        .footer-links a {
+            display: block;
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
             
-            .hero-text p { margin: 0 auto 2rem; }
-            .hero-buttons { justify-content: center; }
-            
-            .stew-explains-container {
-                grid-template-columns: 1fr;
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
             }
             
-            .stew-sidebar {
-                position: static;
+            .hero-cta {
+                justify-content: center;
             }
             
+            .stats {
+                justify-content: center;
+            }
+            
+            .stewart-container {
+                order: -1;
+            }
+            
+            .speech-bubble.right {
+                right: auto;
+                left: 50%;
+                top: -80px;
+                transform: translateX(-50%) scale(0.8);
+            }
+            
+            .speech-bubble.right::after {
+                border: none;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+                border-top: 15px solid white;
+                left: 50%;
+                bottom: -15px;
+                top: auto;
+                transform: translateX(-50%);
+            }
+            
+            .speech-bubble.right.active {
+                transform: translateX(-50%) scale(1);
+            }
+        }
+        
+        @media (max-width: 768px) {
             .nav-links { display: none; }
+            
+            .hero-text h1 { font-size: 2.5rem; }
+            
+            .stats { flex-wrap: wrap; gap: 2rem; }
+            
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+            
+            .pricing-card.featured { transform: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Announcement Banner -->
-    <div class="announcement-banner">
-        🚀 PRE-LAUNCH BETA — Be among the first to experience Stewart. <a href="#pricing">Join the waitlist →</a>
-    </div>
-
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
             <a href="#" class="logo">
-                <img src="stew-wave.png" alt="Stewart">
+                <img src="assets/stewart-star-icon.png" alt="Stewart">
                 Stewart
             </a>
             <div class="nav-links">
-                <a href="#stew-explains">How It Works</a>
-                <a href="#capabilities">Capabilities</a>
+                <a href="#features">Features</a>
                 <a href="#team">Team</a>
                 <a href="#pricing">Pricing</a>
-                <a href="voice/" class="btn btn-primary">🎤 Try Voice Demo</a>
+                <a href="voice/" class="btn btn-outline">Try Voice Demo</a>
+                <a href="#trial" class="btn btn-primary">Start Free Trial</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero with Animated Stewart -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Meet <span>Stewart</span>—Your Virtual Executive</h1>
-                <p>Six AI staff members. Yours, 24/7. We handle the work. You run the business.</p>
-                <div class="hero-buttons">
+                <h1>Meet <span>Stewart</span>,<br>Your Virtual Executive</h1>
+                <p>Six AI staff members working 24/7. We handle the work, you run the business. It's that simple.</p>
+                <div class="hero-cta">
                     <a href="voice/" class="btn btn-primary">🎤 Talk to Stewart</a>
-                    <a href="#stew-explains" class="btn btn-outline">Watch Him Explain</a>
+                    <a href="#pricing" class="btn btn-outline">See Pricing</a>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Always Available</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">AI Specialists</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">$500</div>
+                        <div class="stat-label">Starts at /mo</div>
+                    </div>
                 </div>
             </div>
+            
             <div class="stewart-container">
-                <img src="stew-wave.png" alt="Stewart waving" class="stewart-avatar" id="stewAvatar">
-                <div class="speech-bubble" id="speechBubble">
-                    Hey there! Click me or scroll down to hear what I can do for you! 👋
-                </div>
-                <div class="click-hint">
-                    <span>🔊</span> Click Stewart to hear him
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stewart Explains - Interactive TTS Section -->
-    <section class="stew-explains" id="stew-explains">
-        <div class="stew-explains-container">
-            <div class="stew-sidebar">
-                <img src="stew-wave.png" alt="Stewart" class="stew-talking" id="stewTalking">
-                <div class="stew-status" id="stewStatus">Click a topic to hear me explain!</div>
-                <select class="voice-select" id="voiceSelect">
-                    <option value="EXAVITQu4vr4xnSDxMaL">Sarah (Professional)</option>
-                    <option value="onwK4e9ZLuTAKqWW03F9">Daniel (British)</option>
-                    <option value="TX3LPaxmHKxFdv7VOQHJ">Liam (Energetic)</option>
-                    <option value="pFZP5JQG7iQjIQuC4Bku">Lily (Warm)</option>
-                    <option value="CwhRBWXzGAHq8TQ4Fs17">Roger (Casual)</option>
-                    <option value="XB0fDUnXU5powFXDhCwa">Charlotte (Swedish)</option>
-                </select>
-                <button class="btn btn-outline" onclick="stopSpeaking()" style="width:100%;margin-top:0.5rem;">⏹ Stop</button>
-            </div>
-            <div class="topic-cards">
-                <div class="topic-card" onclick="explainTopic('intro')">
-                    <h3>👋 Who Am I? <span class="play-icon">▶</span></h3>
-                    <p>A quick intro to Stewart and what makes me different from other AI assistants.</p>
-                </div>
-                <div class="topic-card" onclick="explainTopic('value')">
-                    <h3>💰 The Value Proposition <span class="play-icon">▶</span></h3>
-                    <p>Why businesses are switching from human assistants to me (hint: I'm cheaper AND better).</p>
-                </div>
-                <div class="topic-card" onclick="explainTopic('team')">
-                    <h3>👥 My Team <span class="play-icon">▶</span></h3>
-                    <p>Meet Voice, Builder, Creator, Analyst, and Support—my specialist colleagues.</p>
-                </div>
-                <div class="topic-card" onclick="explainTopic('channels')">
-                    <h3>📱 How to Reach Me <span class="play-icon">▶</span></h3>
-                    <p>Phone, text, email, chat—I'm wherever you need me, whenever you need me.</p>
-                </div>
-                <div class="topic-card" onclick="explainTopic('security')">
-                    <h3>🔒 Your Data, Your Control <span class="play-icon">▶</span></h3>
-                    <p>Zero data on our servers. Your files stay in YOUR Dropbox or Google Drive.</p>
-                </div>
-                <div class="topic-card" onclick="explainTopic('pricing')">
-                    <h3>🏷️ Simple Pricing <span class="play-icon">▶</span></h3>
-                    <p>No hidden fees, no contracts, cancel anytime. I'll break down the numbers.</p>
+                <div class="stewart-character">
+                    <div class="stewart-avatar" id="stewartAvatar">
+                        👋
+                    </div>
+                    <div class="speech-bubble top" id="speechBubble">
+                        Hi! I'm Stewart. Click me and I'll tell you what I can do!
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Channels Section -->
-    <section class="channels-section" id="channels">
+    <!-- Video Section -->
+    <section class="video-section" id="video">
+        <h2>See Stewart in Action</h2>
+        <p>Watch how Stewart and the team handle real business tasks, so you don't have to.</p>
+        <div class="video-container">
+            <video controls poster="assets/stewart-logo.png">
+                <source src="assets/stewart-demo.mp4" type="video/mp4">
+                Your browser doesn't support video. <a href="assets/stewart-demo.mp4">Download instead</a>.
+            </video>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="section-header">
-            <div class="section-label">Always Connected</div>
-            <h2>How Stewart Reaches Your World</h2>
-            <p>Multiple channels, simultaneous conversations, zero missed connections.</p>
+            <h2>One Thing Done Right</h2>
+            <p>We create value through virtual staff members. That's it. No enterprise complexity, no task automation gimmicks.</p>
         </div>
-        <div class="channels-grid">
-            <div class="channel-card">
-                <div class="channel-icon">📞</div>
-                <h3>Voice Calls</h3>
-                <p>I answer calls 24/7 and can make outbound calls to your entire team simultaneously.</p>
-                <div class="channel-stat">20 concurrent calls</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📞</div>
+                <h3>Talk, Don't Type</h3>
+                <p>Call Stewart anytime. Have a natural conversation. Get things done without touching a keyboard.</p>
             </div>
-            <div class="channel-card">
-                <div class="channel-icon">💬</div>
-                <h3>Text & iMessage</h3>
-                <p>Quick updates, urgent alerts, or casual check-ins. I text like a real colleague.</p>
-                <div class="channel-stat">Instant delivery</div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Your Data, Your Control</h3>
+                <p>Zero data on our servers. Everything stays in your Dropbox, Drive, or local StewBox. We never see it.</p>
             </div>
-            <div class="channel-card">
-                <div class="channel-icon">📧</div>
-                <h3>Email</h3>
-                <p>Professional correspondence, detailed reports, and document delivery—all handled.</p>
-                <div class="channel-stat">On your behalf</div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Manages Your Team</h3>
+                <p>Stewart coordinates up to 10 staff members—virtual or human—so everyone stays on the same page.</p>
             </div>
-            <div class="channel-card">
-                <div class="channel-icon">🌐</div>
-                <h3>Web Chat</h3>
-                <p>Real-time conversation through the Stewart portal. Voice input supported.</p>
-                <div class="channel-stat">Voice + text</div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>All Your Channels</h3>
+                <p>Email, Slack, phone, text—Stewart communicates on your behalf wherever your business happens.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Capabilities Section -->
-    <section class="capabilities-section" id="capabilities">
-        <div class="section-header">
-            <div class="section-label">Capabilities</div>
-            <h2>What Stewart Does</h2>
-            <p>A complete skill set for running your business.</p>
-        </div>
-        <div class="capabilities-grid">
-            <div class="capability-card">
-                <div class="capability-icon">📊</div>
-                <div>
-                    <h4>Monitor Any Metric</h4>
-                    <p>Track sales, inventory, website traffic, social engagement—I watch what matters.</p>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Proof of Value</h3>
+                <p>Monthly reports show exactly what Stewart did, time saved, and ROI delivered. No guessing.</p>
             </div>
-            <div class="capability-card">
-                <div class="capability-icon">📋</div>
-                <div>
-                    <h4>Instant Reports</h4>
-                    <p>Request a report and get it immediately. Daily summaries, weekly rollups, real-time dashboards.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">✍️</div>
-                <div>
-                    <h4>Draft & Send Communications</h4>
-                    <p>Emails, memos, proposals, contracts. I write professionally and send on your behalf.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">📅</div>
-                <div>
-                    <h4>Calendar & Scheduling</h4>
-                    <p>Coordinate meetings, send reminders, manage your time. Never miss an appointment.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">🔍</div>
-                <div>
-                    <h4>Research & Analysis</h4>
-                    <p>Competitive research, market analysis, due diligence. I find what you need to know.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">💰</div>
-                <div>
-                    <h4>Financial Tracking</h4>
-                    <p>Monitor accounts, track expenses, flag anomalies. Keep your finger on the financial pulse.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">👥</div>
-                <div>
-                    <h4>Staff Management</h4>
-                    <p>Delegate tasks, follow up on deadlines, collect status updates from your team.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">📱</div>
-                <div>
-                    <h4>Social Media</h4>
-                    <p>Monitor mentions, draft posts, engage with your audience. Maintain your presence.</p>
-                </div>
-            </div>
-            <div class="capability-card">
-                <div class="capability-icon">🎨</div>
-                <div>
-                    <h4>Content Creation</h4>
-                    <p>Blog posts, presentations, marketing materials. I create polished content.</p>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Zero Lock-In</h3>
+                <p>Cancel anytime. All your work, all your data, always in your hands. We earn your business every month.</p>
             </div>
         </div>
     </section>
 
     <!-- Team Section -->
-    <section class="team-section" id="team">
+    <section class="team" id="team">
         <div class="section-header">
-            <div class="section-label">Build Your Team</div>
-            <h2>Even Stewart Needs Help</h2>
-            <p>Build a well-rounded virtual team with specialists—each dedicated to their domain.</p>
+            <h2>Meet the Team</h2>
+            <p>Six specialists, each doing the work of two humans. Your complete business running 24/7.</p>
         </div>
         <div class="team-grid">
-            <div class="specialist-card">
-                <div class="specialist-icon">🎙️</div>
-                <h3>Voice</h3>
-                <div class="specialist-role">Brand Ambassador</div>
-                <p>Customer service, sales support, brand communications, and every external touchpoint.</p>
-                <div class="specialist-price">$400/mo</div>
+            <div class="team-member">
+                <div class="member-avatar">⭐</div>
+                <h4>Stewart</h4>
+                <div class="role">The Manager</div>
+                <div class="price">$500/mo</div>
             </div>
-            <div class="specialist-card">
-                <div class="specialist-icon">🔧</div>
-                <h3>Builder</h3>
-                <div class="specialist-role">Technical & Coding</div>
-                <p>Coding projects, system administration, technical troubleshooting, and infrastructure.</p>
-                <div class="specialist-price">$400/mo</div>
+            <div class="team-member">
+                <div class="member-avatar">🎙️</div>
+                <h4>Voice</h4>
+                <div class="role">Brand Ambassador</div>
+                <div class="price">$400/mo</div>
             </div>
-            <div class="specialist-card">
-                <div class="specialist-icon">🎨</div>
-                <h3>Creator</h3>
-                <div class="specialist-role">Design & Content</div>
-                <p>Graphic design, video editing, copywriting, social media content, and creative production.</p>
-                <div class="specialist-price">$400/mo</div>
+            <div class="team-member">
+                <div class="member-avatar">🔧</div>
+                <h4>Builder</h4>
+                <div class="role">Technical</div>
+                <div class="price">$400/mo</div>
             </div>
-            <div class="specialist-card">
-                <div class="specialist-icon">📊</div>
-                <h3>Analyst</h3>
-                <div class="specialist-role">Data & Efficiency</div>
-                <p>Reporting, analytics, process optimization, and finding efficiencies you didn't know existed.</p>
-                <div class="specialist-price">$400/mo</div>
+            <div class="team-member">
+                <div class="member-avatar">🎨</div>
+                <h4>Creator</h4>
+                <div class="role">Design & Content</div>
+                <div class="price">$400/mo</div>
             </div>
-            <div class="specialist-card">
-                <div class="specialist-icon">🤝</div>
-                <h3>Support</h3>
-                <div class="specialist-role">Task & Coordination</div>
-                <p>Reduces workload for your entire staff. Handles processing and acts as assistant to everyone.</p>
-                <div class="specialist-price">$300/mo</div>
+            <div class="team-member">
+                <div class="member-avatar">📈</div>
+                <h4>Analyst</h4>
+                <div class="role">Data & Efficiency</div>
+                <div class="price">$400/mo</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">🤗</div>
+                <h4>Support</h4>
+                <div class="role">Task Coordination</div>
+                <div class="price">$300/mo</div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
+    <section class="pricing" id="pricing">
         <div class="section-header">
-            <div class="section-label">Pricing</div>
-            <h2>Simple, Transparent Pricing</h2>
-            <p>Start with Stewart alone, add specialists as you grow.</p>
+            <h2>Simple, Honest Pricing</h2>
+            <p>No hidden fees. No onboarding charges. Cancel anytime.</p>
         </div>
         <div class="pricing-grid">
             <div class="pricing-card">
-                <h3>Stewart Solo</h3>
-                <p style="color:var(--gray);">Your virtual executive, ready to work</p>
-                <div class="price">$500<span>/month</span></div>
+                <h3>Solo</h3>
+                <div class="price">$500<span>/mo</span></div>
+                <p class="description">Stewart manages your day so you can focus on what matters.</p>
                 <ul>
-                    <li>24/7 availability</li>
-                    <li>Phone, text, email, chat</li>
-                    <li>20 concurrent calls</li>
-                    <li>Manage up to 10 staff</li>
-                    <li>All integrations included</li>
+                    <li>Stewart (The Manager)</li>
+                    <li>Manages up to 10 staff</li>
+                    <li>All communication channels</li>
+                    <li>Monthly ROI reports</li>
+                    <li>Zero data on our servers</li>
                 </ul>
-                <a href="#cta" class="btn btn-outline">Get Started</a>
+                <a href="#trial" class="btn btn-outline" style="width: 100%; display: block; text-align: center;">Start Free Trial</a>
             </div>
             <div class="pricing-card featured">
-                <h3>Dream Team Bundle</h3>
-                <p style="color:var(--gray);">Stewart + all 5 specialists</p>
-                <div class="price">$2,000<span>/month</span></div>
+                <h3>Dream Team</h3>
+                <div class="price">$2,000<span>/mo</span></div>
+                <p class="description">A complete business running 24/7. All six specialists working for you.</p>
                 <ul>
-                    <li>Everything in Stewart Solo</li>
-                    <li>Voice specialist</li>
-                    <li>Builder specialist</li>
-                    <li>Creator specialist</li>
-                    <li>Analyst specialist</li>
-                    <li><strong>Support specialist FREE</strong></li>
-                    <li><strong>= 10 full-time employees</strong></li>
+                    <li>Stewart + All 5 Specialists</li>
+                    <li>Support included FREE</li>
+                    <li>12 humans worth of capacity</li>
+                    <li>Save $400 vs à la carte</li>
+                    <li>Priority everything</li>
                 </ul>
-                <a href="#cta" class="btn btn-primary">Get Started</a>
+                <a href="#trial" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Start Free Trial</a>
             </div>
             <div class="pricing-card">
                 <h3>Industry Expert</h3>
-                <p style="color:var(--gray);">Stewart + your industry specialization</p>
-                <div class="price">$600<span>/month</span></div>
+                <div class="price">$600<span>/mo</span></div>
+                <p class="description">Stewart plus deep expertise in your specific industry.</p>
                 <ul>
-                    <li>Everything in Stewart Solo</li>
-                    <li>Real Estate, Healthcare, Legal...</li>
-                    <li>Industry-specific workflows</li>
-                    <li>Specialized knowledge base</li>
-                    <li>Compliance-aware operations</li>
+                    <li>Stewart (The Manager)</li>
+                    <li>Industry-specific knowledge</li>
+                    <li>Real Estate, Healthcare, etc.</li>
+                    <li>Domain best practices</li>
+                    <li>Specialized workflows</li>
                 </ul>
-                <a href="#cta" class="btn btn-outline">Get Started</a>
+                <a href="#trial" class="btn btn-outline" style="width: 100%; display: block; text-align: center;">Start Free Trial</a>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section" id="cta">
-        <div class="cta-content">
-            <h2>Ready to See for Yourself?</h2>
-            <p>14-day free trial. No contracts. Cancel anytime. All your data stays yours—always.</p>
-            <div class="cta-buttons">
-                <a href="voice/" class="btn btn-primary">🎤 Try Voice Demo</a>
-                <a href="#pricing" class="btn btn-outline">View Pricing</a>
-            </div>
-        </div>
+    <section class="cta" id="trial">
+        <h2>Ready to Meet Stewart?</h2>
+        <p>14-day free trial. No credit card for voice demo. Cancel anytime. All your data stays yours.</p>
+        <a href="voice/" class="btn">🎤 Talk to Stewart Now</a>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>© 2026 Stewart AI. All rights reserved.</p>
-        <p style="margin-top:0.5rem;"><a href="sms/#privacy" style="color:var(--secondary);">Privacy Policy</a> · <a href="sms/#terms" style="color:var(--secondary);">Terms of Service</a></p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <img src="assets/stewart-star-icon.png" alt="Stewart" style="width: 32px; height: 32px;">
+                    Stewart
+                </a>
+                <p>We handle the work. You run the business.<br>Built because we needed it. Now we're sharing it.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#team">Team</a>
+                <a href="#pricing">Pricing</a>
+                <a href="voice/">Voice Demo</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Careers</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <a href="sms/#privacy">Privacy Policy</a>
+                <a href="sms/#terms">Terms of Service</a>
+                <a href="sms/">SMS Opt-In</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Stewart. All rights reserved.</div>
+            <div>Made with ❤️ by the Stewart team</div>
+        </div>
     </footer>
 
-    <!-- ElevenLabs TTS Script -->
     <script>
-        const ELEVENLABS_KEY = 'sk_933372d07bc70b591aad7041bf5a6e37d4f20c5d92e04c68';
-        let currentAudio = null;
-        let isSpeaking = false;
+        // Stewart's witty dialogue
+        const stewartDialogue = [
+            "Hi! I'm Stewart. Click me and I'll tell you what I can do! 👋",
+            "I can manage your calendar, answer your emails, and still have time to tell dad jokes. 📅",
+            "My team works 24/7. We don't sleep, we don't eat, we just deliver. 🚀",
+            "Worried about your data? Don't be. It never touches our servers. Zero. Zilch. Nada. 🔒",
+            "I'm basically a $60k executive assistant... for $500/month. You're welcome. 💰",
+            "Six specialists, one mission: make you look good without you lifting a finger. ⭐",
+            "Fun fact: I've read every business book ever written. In one afternoon. 📚",
+            "I coordinate with humans AND AI. I'm basically the universal translator of productivity. 🌐",
+            "Cancel anytime! Though I'm told I'm pretty hard to quit. 😉",
+            "Try talking to me! Click the voice demo button. I promise I'm a good listener. 🎤"
+        ];
         
-        const topics = {
-            intro: `Hey there! I'm Stewart, and I'm not your typical AI assistant. Think of me as your virtual executive—the one who actually gets things done while you focus on the big picture. I manage calendars, draft emails, track projects, analyze data, and coordinate your entire team. And here's the fun part: I don't need coffee breaks, I don't take vacations, and I definitely don't complain about Mondays. I'm available 24/7 across phone, text, email, and chat. So basically, I'm the colleague everyone wishes they had—minus the small talk at the water cooler!`,
-            
-            value: `Let's talk numbers, because this is where it gets interesting. A human executive assistant costs about 60 thousand dollars a year minimum—and that's before benefits, sick days, and the inevitable "I'm working from home today" emails. I'm 500 bucks a month. That's 6 thousand a year. But here's the real kicker: I don't just match what a human can do—I exceed it. I can handle 20 phone calls simultaneously. I can monitor your metrics in real-time. I can send personalized emails to your entire customer list in seconds. And I never, ever forget a deadline. So you're not just saving money—you're getting superpowers.`,
-            
-            team: `So here's the thing—even I need help sometimes. That's why I've got a team of specialists. There's Voice, my brand ambassador who handles all customer-facing communication. Builder is our tech wizard—coding, systems, infrastructure. Creator makes everything look gorgeous—designs, videos, content. Analyst turns data into decisions faster than you can say "quarterly report." And Support? They're the ultimate utility player, taking tasks off everyone's plate. Each specialist does the work of two full-time employees. So when you get the whole team, that's like having 10 people working for you around the clock.`,
-            
-            channels: `You can reach me pretty much anywhere. Got a quick question? Text me. Need to talk something through? Call me—I can handle 20 calls at once, so I'll always pick up. Want a detailed response? Email works great. Prefer typing in real-time? Use the web chat. I'm on voice, text, email, and chat—simultaneously if needed. And here's the best part: I can reach out to YOUR team the same way. Need to rally everyone for an urgent project? I'll call all 20 people at once. Need status updates from your staff? I'll collect them automatically. I'm basically your communication hub with superpowers.`,
-            
-            security: `I know what you're thinking: "Where does all my data go?" The answer is: YOUR storage, not ours. Your files stay in YOUR Dropbox or Google Drive. We never store your credentials. We never store your documents. Everything Stewart produces gets delivered straight to your folder. We use a two-folder system: one for your source files that I can read, one for deliverables where I save my work. Zero trust by design. And if you want to go even further, get a StewBox—it's your own local AI server. Your data never even touches the internet if you don't want it to. We believe in earning trust, not holding your data hostage.`,
-            
-            pricing: `Simple pricing, no surprises. Stewart Solo is 500 bucks a month—that's me, your virtual executive, 24/7. Want industry expertise? 600 a month gets you Stewart plus specialized knowledge for real estate, healthcare, legal, whatever your field. But the real value is the Dream Team Bundle at 2000 a month. You get me plus ALL five specialists—Voice, Builder, Creator, Analyst, AND Support is free in the bundle. That's essentially 10 full-time employees worth of work capacity, running around the clock. Oh, and we have a 14-day free trial. No credit card required to start. No contracts ever. Cancel anytime. We're confident enough in what we deliver that we don't need to lock you in.`
-        };
+        let dialogueIndex = 0;
+        const avatar = document.getElementById('stewartAvatar');
+        const bubble = document.getElementById('speechBubble');
         
-        async function explainTopic(topicKey) {
-            const text = topics[topicKey];
-            const voiceId = document.getElementById('voiceSelect').value;
-            
-            // Stop any current audio
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-            
-            // Update UI
-            document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            document.getElementById('stewStatus').textContent = '🎤 Speaking...';
-            document.getElementById('stewTalking').classList.add('talking');
-            isSpeaking = true;
-            
-            try {
-                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'xi-api-key': ELEVENLABS_KEY
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        model_id: 'eleven_turbo_v2_5',
-                        voice_settings: {
-                            stability: 0.5,
-                            similarity_boost: 0.75,
-                            style: 0.3,
-                            use_speaker_boost: true
-                        }
-                    })
-                });
-                
-                if (!response.ok) throw new Error('TTS failed');
-                
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                currentAudio = new Audio(audioUrl);
-                
-                currentAudio.onended = () => {
-                    document.getElementById('stewStatus').textContent = 'Click another topic!';
-                    document.getElementById('stewTalking').classList.remove('talking');
-                    isSpeaking = false;
-                };
-                
-                currentAudio.play();
-            } catch (error) {
-                console.error('TTS Error:', error);
-                document.getElementById('stewStatus').textContent = '❌ Voice unavailable - try again';
-                document.getElementById('stewTalking').classList.remove('talking');
-                isSpeaking = false;
-            }
-        }
+        // Emojis for different states
+        const emojis = ['👋', '😊', '🤓', '🔒', '💡', '⭐', '📚', '🌟', '😎', '🎤'];
         
-        function stopSpeaking() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-            document.getElementById('stewStatus').textContent = 'Click a topic to hear me explain!';
-            document.getElementById('stewTalking').classList.remove('talking');
-            document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
-            isSpeaking = false;
-        }
+        // Show initial bubble after 2 seconds
+        setTimeout(() => {
+            bubble.classList.add('active');
+        }, 2000);
         
-        // Hero avatar click
-        document.getElementById('stewAvatar').addEventListener('click', () => {
-            if (!isSpeaking) {
-                const quickIntro = "Hey! I'm Stewart. Want to see what I can do? Scroll down and click any topic—I'll explain it in my own words. Or just ask me anything in the voice demo!";
-                explainText(quickIntro);
-            }
+        // Cycle through dialogue on click
+        avatar.addEventListener('click', () => {
+            dialogueIndex = (dialogueIndex + 1) % stewartDialogue.length;
+            
+            // Hide bubble
+            bubble.classList.remove('active');
+            
+            // Change emoji
+            avatar.textContent = emojis[dialogueIndex];
+            
+            // Update text and show after animation
+            setTimeout(() => {
+                bubble.textContent = stewartDialogue[dialogueIndex];
+                bubble.classList.add('active');
+            }, 300);
         });
         
-        async function explainText(text) {
-            const voiceId = 'EXAVITQu4vr4xnSDxMaL'; // Sarah
-            
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-            
-            isSpeaking = true;
-            
-            try {
-                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'xi-api-key': ELEVENLABS_KEY
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        model_id: 'eleven_turbo_v2_5',
-                        voice_settings: {
-                            stability: 0.5,
-                            similarity_boost: 0.75
-                        }
-                    })
-                });
-                
-                const audioBlob = await response.blob();
-                currentAudio = new Audio(URL.createObjectURL(audioBlob));
-                currentAudio.onended = () => { isSpeaking = false; };
-                currentAudio.play();
-            } catch (e) {
-                isSpeaking = false;
-            }
-        }
+        // Auto-cycle every 8 seconds if user hasn't clicked
+        let autoInterval = setInterval(() => {
+            avatar.click();
+        }, 8000);
+        
+        // Stop auto-cycle on user interaction
+        avatar.addEventListener('click', () => {
+            clearInterval(autoInterval);
+            // Restart after 15 seconds of no interaction
+            autoInterval = setInterval(() => {
+                avatar.click();
+            }, 8000);
+        });
     </script>
 </body>
 </html>
