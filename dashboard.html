@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>VE Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/HB0N0/AvataaarsJs@main/avataaars.js"></script>
@@ -14,6 +14,9 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
             min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
             color: #fff;
         }
         
@@ -22,7 +25,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 24px;
+            padding: max(12px, env(safe-area-inset-top)) 16px 12px 16px;
             background: rgba(0,0,0,0.3);
             border-bottom: 1px solid rgba(212,175,55,0.2);
         }
@@ -173,7 +176,7 @@
             display: flex;
         }
         
-        /* Stewart Area - 2/3 */
+        /* VE Area - 2/3 */
         .stewart-area {
             flex: 2;
             display: flex;
@@ -1230,12 +1233,48 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .stats-bar {
+                padding: max(16px, env(safe-area-inset-top)) 12px 10px 12px;
+                gap: 8px;
+            }
+            .stats-bar .logo {
+                font-size: 0.95rem;
+            }
+            .view-selector-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
             .stats-items { display: none; }
             .main-container { flex-direction: column; }
-            .stewart-area { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); }
+            .ve-area { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); }
             .cards-sidebar { max-height: 40vh; }
             .people-grid { grid-template-columns: 1fr; }
             .person-contact-grid { grid-template-columns: 1fr; }
+            .input-bar {
+                padding: 12px;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-bar {
+                padding: max(14px, env(safe-area-inset-top)) 10px 8px 10px;
+            }
+            .stats-bar .logo {
+                font-size: 0.9rem;
+                gap: 6px;
+            }
+            .stats-bar .logo .bot-avatar {
+                width: 28px;
+                height: 28px;
+            }
+            .view-selector-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+            .input-bar input {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
         }
     </style>
 </head>
@@ -1244,7 +1283,7 @@
     <div class="stats-bar">
         <div class="logo">
             <div class="bot-avatar" id="navBotAvatar"></div>
-            <span id="navBotName">Stewart</span>
+            <span id="navBotName">VE/span>
         </div>
         
         <!-- View Selector -->
@@ -1257,7 +1296,7 @@
             <div class="view-dropdown">
                 <div class="view-option active" data-view="chat" onclick="switchView('chat')">
                     <span class="icon">💬</span>
-                    <span>Chat with Stewart</span>
+                    <span>Chat with VE</span>
                 </div>
                 <div class="view-option" data-view="calendar" onclick="switchView('calendar')">
                     <span class="icon">📆</span>
@@ -1294,14 +1333,14 @@
     <div class="main-container">
         <!-- CHAT VIEW -->
         <div class="view-container active" id="chatView">
-            <!-- Stewart Area -->
+            <!-- VE Area -->
             <div class="stewart-area">
                 <div class="stewart-header">
                     <div class="stewart-avatar" onclick="openCustomizeModal()">
                         <div class="stewart-avatar-inner" id="mainBotAvatar"></div>
                     </div>
                     <div class="stewart-info">
-                        <h1 id="botDisplayName">Stewart</h1>
+                        <h1 id="botDisplayName">VE</h1>
                         <p>Your AI Business Partner</p>
                     </div>
                     <button class="customize-btn" onclick="openCustomizeModal()">Customize</button>
@@ -1522,7 +1561,7 @@
     <!-- Input Bar -->
     <div class="input-bar">
         <div class="input-container">
-            <input type="text" class="input-field" placeholder="Ask Stewart anything..." id="messageInput" onkeypress="handleKeyPress(event)">
+            <input type="text" class="input-field" placeholder="Ask your VE anything..." id="messageInput" onkeypress="handleKeyPress(event)">
             <button class="voice-btn" onclick="toggleVoice()">🎤</button>
         </div>
     </div>
@@ -1554,10 +1593,10 @@
                 </div>
                 <div class="form-group">
                     <label>Description / Communication Style</label>
-                    <textarea id="personDescription" placeholder="How should Stewart interact with this person? Include their personality, preferences, communication style, and what they care about.
+                    <textarea id="personDescription" placeholder="How should your VE interact with this person? Include their personality, preferences, communication style, and what they care about.
 
 Example: Suzy is in charge of shipping. She's really nice and always likes to make jokes. Keep conversations light and friendly - she appreciates humor."></textarea>
-                    <div class="form-hint">This helps Stewart understand how to communicate with this person - whether they prefer brief updates or detailed explanations, humor or just facts, etc.</div>
+                    <div class="form-hint">This helps your VE understand how to communicate with this person - whether they prefer brief updates or detailed explanations, humor or just facts, etc.</div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1833,7 +1872,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                     <div class="empty-state" style="grid-column: 1 / -1;">
                         <div class="empty-state-icon">👥</div>
                         <h3>No people added yet</h3>
-                        <p>Add important contacts so Stewart knows how to communicate with them. Include personality notes, communication preferences, and key details.</p>
+                        <p>Add important contacts so your VE knows how to communicate with them. Include personality notes, communication preferences, and key details.</p>
                     </div>
                 `;
                 return;
