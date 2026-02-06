@@ -441,7 +441,7 @@
                 
                 const data = await response.json();
                 
-                if (response.ok && data.status === 'success') {
+                if (response.ok && data.success) {
                     // Store token and redirect
                     localStorage.setItem('stewart_token', data.token);
                     localStorage.setItem('stewart_user', JSON.stringify(data.user));
@@ -514,7 +514,7 @@
                 
                 const data = await response.json();
                 
-                if (response.ok && data.status === 'success') {
+                if (response.ok && data.success) {
                     showMessage('Account created! Check your email to verify.', 'success');
                     setTimeout(() => showTab('signin'), 2000);
                 } else {
