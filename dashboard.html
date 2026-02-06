@@ -277,13 +277,16 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: visible;
+            min-height: 0;
         }
         
         .messages {
             flex: 1;
             overflow-y: auto;
             padding-right: 10px;
+            min-height: 100px;
+            max-height: calc(100vh - 400px);
         }
         
         .message {
@@ -323,6 +326,7 @@
             margin-top: 16px;
             padding-top: 16px;
             border-top: 1px solid rgba(212,175,55,0.1);
+            flex-shrink: 0;
         }
         
         .quick-action {
@@ -1252,8 +1256,155 @@
             margin-top: 6px;
         }
         
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 28px;
+            height: 22px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10;
+        }
+        
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: #d4af37;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        /* Mobile Drawer */
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-left: 1px solid rgba(212,175,55,0.3);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+        
+        .mobile-drawer.open {
+            right: 0;
+        }
+        
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .drawer-overlay.open {
+            opacity: 1;
+        }
+        
+        .drawer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .drawer-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        
+        .drawer-nav-item:hover,
+        .drawer-nav-item.active {
+            background: rgba(212,175,55,0.15);
+            border-color: rgba(212,175,55,0.4);
+            color: #d4af37;
+        }
+        
+        .drawer-nav-item .icon {
+            font-size: 1.3rem;
+        }
+        
+        .drawer-divider {
+            height: 1px;
+            background: rgba(212,175,55,0.2);
+            margin: 16px 0;
+        }
+        
+        .drawer-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .drawer-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .drawer-stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+        }
+        
+        .drawer-stat-value {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .mobile-drawer,
+            .drawer-overlay {
+                display: block;
+            }
+            
+            .view-selector {
+                display: none;
+            }
+            
+            .cards-sidebar {
+                display: none;
+            }
             .beta-banner {
                 font-size: 0.85rem;
                 padding: 10px 16px;
@@ -1468,6 +1619,66 @@
             </div>
         </div>
         <button class="upgrade-btn">Upgrade</button>
+        
+        <!-- Hamburger Menu (Mobile) -->
+        <button class="hamburger" onclick="toggleMobileDrawer()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    
+    <!-- Mobile Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeMobileDrawer()"></div>
+    
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <nav class="drawer-nav">
+            <div class="drawer-nav-item active" data-view="chat" onclick="switchViewMobile('chat')">
+                <span class="icon">💬</span>
+                <span>Chat with VE</span>
+            </div>
+            <div class="drawer-nav-item" data-view="calendar" onclick="switchViewMobile('calendar')">
+                <span class="icon">📆</span>
+                <span>Calendar</span>
+            </div>
+            <div class="drawer-nav-item" data-view="people" onclick="switchViewMobile('people')">
+                <span class="icon">👥</span>
+                <span>People</span>
+            </div>
+        </nav>
+        
+        <div class="drawer-divider"></div>
+        
+        <nav class="drawer-nav">
+            <div class="drawer-nav-item" onclick="openCustomizeModal(); closeMobileDrawer();">
+                <span class="icon">✨</span>
+                <span>Customize VE</span>
+            </div>
+            <div class="drawer-nav-item">
+                <span class="icon">⚙️</span>
+                <span>Settings</span>
+            </div>
+        </nav>
+        
+        <div class="drawer-stats">
+            <div class="drawer-stat">
+                <span class="drawer-stat-label">Trial Days Left</span>
+                <span class="drawer-stat-value">12</span>
+            </div>
+            <div class="drawer-stat">
+                <span class="drawer-stat-label">Tasks Completed</span>
+                <span class="drawer-stat-value">47</span>
+            </div>
+            <div class="drawer-stat">
+                <span class="drawer-stat-label">Hours Saved</span>
+                <span class="drawer-stat-value">18h</span>
+            </div>
+            <div class="drawer-stat">
+                <span class="drawer-stat-label">Stewdays Used</span>
+                <span class="drawer-stat-value">2.3</span>
+            </div>
+        </div>
     </div>
     
     <div class="main-container">
@@ -2153,6 +2364,18 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             messages.scrollTop = messages.scrollHeight;
         }
         
+        // Demo responses for beta
+        const demoResponses = [
+            "I've checked your calendar and you have 3 meetings today. Your next one is with the development team at 2 PM.",
+            "I've drafted that email for you. Would you like me to send it now or schedule it for later?",
+            "Based on your recent activity, I suggest prioritizing the client proposal today. I can help you outline the key points.",
+            "I found 5 emails that need your attention. 2 are marked urgent from the sales team.",
+            "Your task list has been updated. You have 8 items remaining this week, with 3 due tomorrow.",
+            "I've analyzed the report and here are the key insights: revenue is up 12% this quarter, with the strongest growth in the enterprise segment.",
+            "Great question! Let me pull together that information for you. This should just take a moment.",
+            "I've scheduled that meeting for Thursday at 10 AM. I'll send calendar invites to all participants.",
+        ];
+        
         function handleKeyPress(e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('messageInput');
@@ -2160,16 +2383,52 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                 if (text) {
                     addMessage(text, 'user');
                     input.value = '';
-                    // Simulate response
+                    // Show typing indicator then response
                     setTimeout(() => {
-                        addMessage("I'm processing your request...", 'bot');
-                    }, 500);
+                        const response = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+                        addMessage(response, 'bot');
+                    }, 800 + Math.random() * 700);
                 }
             }
         }
         
         function toggleVoice() {
-            alert('Voice input coming soon!');
+            alert('Voice input coming soon! In the full version, you can speak directly to your VE.');
+        }
+        
+        // ===== MOBILE DRAWER =====
+        function toggleMobileDrawer() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('open');
+            hamburger.classList.toggle('active');
+        }
+        
+        function closeMobileDrawer() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            drawer.classList.remove('open');
+            overlay.classList.remove('open');
+            hamburger.classList.remove('active');
+        }
+        
+        function switchViewMobile(view) {
+            // Update drawer nav items
+            document.querySelectorAll('.drawer-nav-item[data-view]').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.drawer-nav-item[data-view="${view}"]`).classList.add('active');
+            
+            // Switch the view
+            switchView(view);
+            
+            // Close drawer
+            closeMobileDrawer();
         }
         
         // ===== CARDS =====
