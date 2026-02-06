@@ -3,368 +3,923 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Stewart - Your AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        /* Top Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+        }
+
+        .stats-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .trial-badge {
+            background: rgba(212,175,55,0.15);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #d4af37;
+        }
+
+        .stats-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #d4af37;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        /* Stewart Response Area - Left 2/3 */
+        .stewart-area {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .conversation-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .message {
+            max-width: 85%;
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.stewart {
+            margin-right: auto;
+        }
+
+        .message.user {
+            margin-left: auto;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .message.stewart .message-name {
+            color: #d4af37;
+        }
+
+        .message.user .message-name {
+            color: #60a5fa;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .message-content {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .message.stewart .message-content {
+            border-radius: 4px 16px 16px 16px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .message.user .message-content {
+            background: rgba(96,165,250,0.1);
+            border-radius: 16px 4px 16px 16px;
+            border-right: 3px solid #60a5fa;
+        }
+
+        /* Welcome State */
+        .welcome-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .welcome-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 24px;
+            border: 3px solid rgba(212,175,55,0.3);
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 500px;
+        }
+
+        .quick-action {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: #d4af37;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action:hover {
+            background: rgba(212,175,55,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 16px 24px;
+            background: rgba(0,0,0,0.4);
+            border-top: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 30px;
+            padding: 8px 8px 8px 20px;
+        }
+
+        .input-container:focus-within {
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212,175,55,0.2);
+        }
+
+        .text-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .text-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .voice-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37, #b8962e);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(212,175,55,0.4);
+        }
+
+        .voice-btn.listening {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(212,175,55,0); }
+        }
+
+        .voice-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+        }
+
+        /* Right Sidebar - Cards */
+        .sidebar {
+            flex: 1;
+            max-width: 380px;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card.expanded {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(212,175,55,0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .card-header:hover {
+            background: rgba(212,175,55,0.05);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .card-icon {
+            font-size: 1.2rem;
+        }
+
+        .card-badge {
+            background: rgba(212,175,55,0.2);
+            color: #d4af37;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .card-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .card.expanded .card-toggle {
+            transform: rotate(180deg);
+            background: rgba(212,175,55,0.2);
+        }
+
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .card.expanded .card-content {
+            max-height: 400px;
+        }
+
+        .card-inner {
+            padding: 0 16px 16px;
+        }
+
+        /* Schedule Items */
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .schedule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .schedule-time {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            min-width: 55px;
+        }
+
+        .schedule-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d4af37;
+        }
+
+        .schedule-dot.current {
+            box-shadow: 0 0 10px #d4af37;
+        }
+
+        .schedule-dot.done {
+            background: #22c55e;
+        }
+
+        .schedule-title {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        /* Project Items */
+        .project-item {
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .project-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .project-progress {
+            font-size: 0.8rem;
+            color: #d4af37;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* Task Items */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(212,175,55,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .task-item.done .task-checkbox {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .task-item.done .task-text {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        /* Activity Items */
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .stewart-area {
+                border-right: none;
+                border-bottom: 1px solid rgba(212,175,55,0.15);
+                min-height: 60vh;
+            }
+
+            .sidebar {
+                max-width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                overflow-x: auto;
+                padding: 12px;
+            }
+
+            .card {
+                min-width: calc(50% - 6px);
+                flex: 1;
+            }
+
+            .stats-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                min-width: 100%;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+            .quick-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-left">
+            <div class="logo">Stewart</div>
+            <div class="trial-badge">🎁 14 days left in trial</div>
+        </div>
+        <div class="stats-right">
+            <div class="stat-item">
+                <div class="stat-value">47</div>
+                <div class="stat-label">Tasks Done</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12.5h</div>
+                <div class="stat-label">Saved</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3.2</div>
+                <div class="stat-label">Stewdays</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Stewart Response Area -->
+        <div class="stewart-area">
+            <div class="conversation-area" id="conversationArea">
+                <!-- Welcome State -->
+                <div class="welcome-state" id="welcomeState">
+                    <img src="https://meetstewart.github.io/assets/stew-wave.png" alt="Stewart" class="welcome-avatar">
+                    <h1 class="welcome-title">Good evening, Nick 👋</h1>
+                    <p class="welcome-subtitle">What can I help you accomplish today?</p>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="sendQuickAction(this)">📊 Show my priorities</div>
+                        <div class="quick-action" onclick="sendQuickAction(this)">📧 Check important emails</div>
+                        <div class="quick-action" onclick="sendQuickAction(this)">📅 What's on my schedule?</div>
+                        <div class="quick-action" onclick="sendQuickAction(this)">✍️ Draft a message</div>
+                        <div class="quick-action" onclick="sendQuickAction(this)">📈 Weekly summary</div>
+                    </div>
+                </div>
+
+                <!-- Messages will appear here -->
+                <div id="messages" style="display: none;"></div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" class="text-input" placeholder="Ask Stewart anything..." id="textInput" onkeypress="handleKeyPress(event)">
+                    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+                        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h4v2H8v-2h4v-3.07z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar">
+            <!-- Schedule Card -->
+            <div class="card" id="scheduleCard">
+                <div class="card-header" onclick="toggleCard('scheduleCard')">
+                    <div class="card-title">
+                        <span class="card-icon">📅</span>
+                        Today's Schedule
+                        <span class="card-badge">4</span>
+                    </div>
+                    <div class="card-toggle">▼</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="schedule-item">
+                            <span class="schedule-time">9:00 AM</span>
+                            <span class="schedule-dot done"></span>
+                            <span class="schedule-title">Team standup</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">11:30 AM</span>
+                            <span class="schedule-dot done"></span>
+                            <span class="schedule-title">Client call - Acme Corp</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">2:00 PM</span>
+                            <span class="schedule-dot current"></span>
+                            <span class="schedule-title">Product review</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="schedule-time">4:30 PM</span>
+                            <span class="schedule-dot"></span>
+                            <span class="schedule-title">1:1 with Sarah</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Card -->
+            <div class="card" id="projectsCard">
+                <div class="card-header" onclick="toggleCard('projectsCard')">
+                    <div class="card-title">
+                        <span class="card-icon">📊</span>
+                        Projects
+                        <span class="card-badge">3</span>
+                    </div>
+                    <div class="card-toggle">▼</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">Q1 Marketing Campaign</span>
+                                <span class="project-progress">85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">Website Redesign</span>
+                                <span class="project-progress">62%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%"></div>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-name">New Product Launch</span>
+                                <span class="project-progress">34%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 34%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Card -->
+            <div class="card" id="tasksCard">
+                <div class="card-header" onclick="toggleCard('tasksCard')">
+                    <div class="card-title">
+                        <span class="card-icon">✓</span>
+                        Tasks
+                        <span class="card-badge">2/5</span>
+                    </div>
+                    <div class="card-toggle">▼</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="task-item done" onclick="toggleTask(this)">
+                            <div class="task-checkbox">✓</div>
+                            <span class="task-text">Review contract draft</span>
+                        </div>
+                        <div class="task-item done" onclick="toggleTask(this)">
+                            <div class="task-checkbox">✓</div>
+                            <span class="task-text">Send weekly report</span>
+                        </div>
+                        <div class="task-item" onclick="toggleTask(this)">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Prepare presentation slides</span>
+                        </div>
+                        <div class="task-item" onclick="toggleTask(this)">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Follow up with vendors</span>
+                        </div>
+                        <div class="task-item" onclick="toggleTask(this)">
+                            <div class="task-checkbox"></div>
+                            <span class="task-text">Schedule Q2 planning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Card -->
+            <div class="card" id="activityCard">
+                <div class="card-header" onclick="toggleCard('activityCard')">
+                    <div class="card-title">
+                        <span class="card-icon">🔔</span>
+                        Activity
+                    </div>
+                    <div class="card-toggle">▼</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="activity-item">
+                            <div class="activity-icon">✅</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Completed "Review contract draft"</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">📧</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Email sent to Sarah re: meeting</div>
+                                <div class="activity-time">3 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">📅</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Scheduled call with Acme Corp</div>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'stewart-gold': '#D4A853',
-                        'stewart-gold-dark': '#B8923D',
-                        'stewart-dark': '#1a1a2e',
-                        'stewart-darker': '#0f0f1a',
-                        'stewart-card': '#252540',
-                        'stewart-border': '#3a3a5c'
-                    }
+        // Toggle card expansion
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            card.classList.toggle('expanded');
+        }
+
+        // Toggle task completion
+        function toggleTask(element) {
+            element.classList.toggle('done');
+            const checkbox = element.querySelector('.task-checkbox');
+            checkbox.textContent = element.classList.contains('done') ? '✓' : '';
+            updateTaskBadge();
+        }
+
+        // Update tasks badge count
+        function updateTaskBadge() {
+            const tasks = document.querySelectorAll('#tasksCard .task-item');
+            const done = document.querySelectorAll('#tasksCard .task-item.done').length;
+            const badge = document.querySelector('#tasksCard .card-badge');
+            badge.textContent = `${done}/${tasks.length}`;
+        }
+
+        // Handle quick action click
+        function sendQuickAction(element) {
+            const text = element.textContent;
+            sendMessage(text);
+        }
+
+        // Handle enter key
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const input = document.getElementById('textInput');
+                if (input.value.trim()) {
+                    sendMessage(input.value);
+                    input.value = '';
                 }
             }
         }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-gold { background: linear-gradient(135deg, #D4A853 0%, #B8923D 100%); }
-        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite; }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1); opacity: 0.3; }
-            100% { transform: scale(0.8); opacity: 0.5; }
+
+        // Send message
+        function sendMessage(text) {
+            // Hide welcome state
+            document.getElementById('welcomeState').style.display = 'none';
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.style.display = 'block';
+
+            // Add user message
+            const userMsg = createMessage(text, 'user', 'Nick');
+            messagesDiv.appendChild(userMsg);
+
+            // Simulate Stewart response
+            setTimeout(() => {
+                const response = getStewartResponse(text);
+                const stewartMsg = createMessage(response, 'stewart', 'Stewart');
+                messagesDiv.appendChild(stewartMsg);
+                scrollToBottom();
+            }, 1000);
+
+            scrollToBottom();
         }
-        .progress-animate { transition: width 0.5s ease-out; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1a2e; }
-        ::-webkit-scrollbar-thumb { background: #3a3a5c; border-radius: 3px; }
-    </style>
-</head>
-<body class="bg-stewart-darker text-white min-h-screen">
-    <div id="root"></div>
-    
-    <script type="text/babel">
-        const { useState, useEffect } = React;
 
-        // Sample data
-        const scheduleData = [
-            { time: '9:00 AM', title: 'Team standup', type: 'meeting', status: 'completed' },
-            { time: '10:30 AM', title: 'Review Q1 projections', type: 'task', status: 'current' },
-            { time: '12:00 PM', title: 'Lunch with investor', type: 'meeting', status: 'upcoming' },
-            { time: '2:00 PM', title: 'Product demo prep', type: 'task', status: 'upcoming' },
-            { time: '4:00 PM', title: 'Weekly sync - Engineering', type: 'meeting', status: 'upcoming' },
-        ];
-
-        const projectsData = [
-            { name: 'Website Redesign', progress: 85, dueDate: 'Feb 7', priority: 'high' },
-            { name: 'API Integration', progress: 62, dueDate: 'Feb 10', priority: 'medium' },
-            { name: 'Mobile App v2', progress: 34, dueDate: 'Feb 20', priority: 'low' },
-            { name: 'Customer Portal', progress: 91, dueDate: 'Feb 6', priority: 'high' },
-        ];
-
-        const responsibilitiesData = {
-            daily: [
-                { task: 'Check emails and prioritize', done: true },
-                { task: 'Review team updates', done: true },
-                { task: 'Update project boards', done: false },
-                { task: 'End-of-day summary', done: false },
-            ],
-            weekly: [
-                { task: 'Monday: Sprint planning', done: true },
-                { task: 'Wednesday: 1:1 meetings', done: false },
-                { task: 'Friday: Team retrospective', done: false },
-            ]
-        };
-
-        const activityData = [
-            { action: 'Completed task', detail: 'Draft investor update email', time: '10 min ago', icon: '✓' },
-            { action: 'Scheduled meeting', detail: 'Product review with Sarah', time: '25 min ago', icon: '📅' },
-            { action: 'Analyzed report', detail: 'Q4 revenue trends identified', time: '1 hour ago', icon: '📊' },
-            { action: 'Sent reminder', detail: 'Contract deadline tomorrow', time: '2 hours ago', icon: '⏰' },
-            { action: 'Updated project', detail: 'Website Redesign → 85%', time: '3 hours ago', icon: '📈' },
-        ];
-
-        // Components
-        const Header = ({ userName }) => (
-            <header className="flex items-center justify-between p-6 border-b border-stewart-border">
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full gradient-gold flex items-center justify-center text-xl">
-                        👋
-                    </div>
-                    <div>
-                        <h1 className="text-2xl font-semibold">Good morning, {userName}</h1>
-                        <p className="text-gray-400 text-sm">Thursday, February 5, 2026</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right">
-                        <p className="text-stewart-gold font-semibold">14 days left</p>
-                        <p className="text-gray-400 text-xs">in your trial</p>
-                    </div>
-                    <button className="px-4 py-2 gradient-gold rounded-lg text-black font-medium hover:opacity-90 transition">
-                        Upgrade
-                    </button>
-                </div>
-            </header>
-        );
-
-        const WorkUnitsCard = () => {
-            const [animated, setAnimated] = useState(false);
-            useEffect(() => { setTimeout(() => setAnimated(true), 100); }, []);
+        // Create message element
+        function createMessage(text, type, name) {
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
             
-            return (
-                <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold">Work Impact</h2>
-                        <span className="text-xs text-gray-400">This week</span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="text-center">
-                            <div className="text-3xl font-bold text-stewart-gold">{animated ? '47' : '0'}</div>
-                            <div className="text-xs text-gray-400 mt-1">Tasks Done</div>
-                        </div>
-                        <div className="text-center border-x border-stewart-border">
-                            <div className="text-3xl font-bold text-green-400">{animated ? '12.5' : '0'}</div>
-                            <div className="text-xs text-gray-400 mt-1">Hours Saved</div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-3xl font-bold text-blue-400">{animated ? '3.2' : '0'}</div>
-                            <div className="text-xs text-gray-400 mt-1">Stewdays Used</div>
-                        </div>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-stewart-border">
-                        <div className="flex justify-between text-sm mb-2">
-                            <span className="text-gray-400">Weekly capacity</span>
-                            <span className="text-stewart-gold">64%</span>
-                        </div>
-                        <div className="h-2 bg-stewart-darker rounded-full overflow-hidden">
-                            <div className={`h-full gradient-gold rounded-full progress-animate ${animated ? 'w-[64%]' : 'w-0'}`}></div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const TodaySchedule = () => (
-            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold">Today's Schedule</h2>
-                    <button className="text-stewart-gold text-sm hover:underline">View calendar</button>
-                </div>
-                <div className="space-y-3">
-                    {scheduleData.map((item, i) => (
-                        <div key={i} className={`flex items-center gap-3 p-3 rounded-lg transition ${
-                            item.status === 'current' ? 'bg-stewart-gold/10 border border-stewart-gold/30' :
-                            item.status === 'completed' ? 'opacity-50' : 'hover:bg-stewart-darker'
-                        }`}>
-                            <div className={`w-2 h-2 rounded-full ${
-                                item.status === 'completed' ? 'bg-green-500' :
-                                item.status === 'current' ? 'bg-stewart-gold' : 'bg-gray-500'
-                            }`}></div>
-                            <span className="text-gray-400 text-sm w-20">{item.time}</span>
-                            <span className={item.status === 'completed' ? 'line-through text-gray-500' : ''}>
-                                {item.title}
-                            </span>
-                            <span className={`ml-auto text-xs px-2 py-1 rounded ${
-                                item.type === 'meeting' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'
-                            }`}>
-                                {item.type}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-
-        const OpenProjects = () => (
-            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold">Open Projects</h2>
-                    <span className="text-xs text-gray-400">{projectsData.length} active</span>
-                </div>
-                <div className="space-y-4">
-                    {projectsData.map((project, i) => (
-                        <div key={i} className="group">
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                    <span className={`w-2 h-2 rounded-full ${
-                                        project.priority === 'high' ? 'bg-red-500' :
-                                        project.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                                    }`}></span>
-                                    <span className="font-medium group-hover:text-stewart-gold transition">{project.name}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-xs text-gray-400">Due {project.dueDate}</span>
-                                    <span className="text-sm font-semibold text-stewart-gold">{project.progress}%</span>
-                                </div>
-                            </div>
-                            <div className="h-2 bg-stewart-darker rounded-full overflow-hidden">
-                                <div 
-                                    className="h-full rounded-full transition-all duration-500"
-                                    style={{ 
-                                        width: `${project.progress}%`,
-                                        background: project.progress > 80 ? 'linear-gradient(90deg, #22c55e, #16a34a)' :
-                                                   project.progress > 50 ? 'linear-gradient(90deg, #D4A853, #B8923D)' :
-                                                   'linear-gradient(90deg, #3b82f6, #2563eb)'
-                                    }}
-                                ></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-
-        const Responsibilities = () => {
-            const [activeTab, setActiveTab] = useState('daily');
-            const items = activeTab === 'daily' ? responsibilitiesData.daily : responsibilitiesData.weekly;
+            const avatar = type === 'stewart' 
+                ? 'https://meetstewart.github.io/assets/stew-wave.png'
+                : 'https://ui-avatars.com/api/?name=Nick&background=60a5fa&color=fff';
             
-            return (
-                <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold">Responsibilities</h2>
-                        <div className="flex gap-1 bg-stewart-darker rounded-lg p-1">
-                            <button 
-                                onClick={() => setActiveTab('daily')}
-                                className={`px-3 py-1 text-sm rounded-md transition ${
-                                    activeTab === 'daily' ? 'bg-stewart-gold text-black' : 'text-gray-400 hover:text-white'
-                                }`}
-                            >Daily</button>
-                            <button 
-                                onClick={() => setActiveTab('weekly')}
-                                className={`px-3 py-1 text-sm rounded-md transition ${
-                                    activeTab === 'weekly' ? 'bg-stewart-gold text-black' : 'text-gray-400 hover:text-white'
-                                }`}
-                            >Weekly</button>
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        {items.map((item, i) => (
-                            <label key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-stewart-darker cursor-pointer transition">
-                                <input 
-                                    type="checkbox" 
-                                    defaultChecked={item.done}
-                                    className="w-5 h-5 rounded border-2 border-stewart-border bg-transparent checked:bg-stewart-gold checked:border-stewart-gold"
-                                />
-                                <span className={item.done ? 'text-gray-500 line-through' : ''}>{item.task}</span>
-                            </label>
-                        ))}
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-stewart-border flex justify-between text-sm">
-                        <span className="text-gray-400">
-                            {items.filter(i => i.done).length}/{items.length} completed
-                        </span>
-                        <button className="text-stewart-gold hover:underline">+ Add task</button>
-                    </div>
-                </div>
-            );
-        };
-
-        const RecentActivity = () => (
-            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold">Recent Activity</h2>
-                    <button className="text-stewart-gold text-sm hover:underline">View all</button>
-                </div>
-                <div className="space-y-3">
-                    {activityData.map((item, i) => (
-                        <div key={i} className="flex items-start gap-3 p-2 hover:bg-stewart-darker rounded-lg transition">
-                            <div className="w-8 h-8 rounded-full bg-stewart-darker flex items-center justify-center text-sm">
-                                {item.icon}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="font-medium text-sm">{item.action}</p>
-                                <p className="text-gray-400 text-xs truncate">{item.detail}</p>
-                            </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap">{item.time}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-
-        const VoiceInputBar = () => {
-            const [isListening, setIsListening] = useState(false);
-            const [inputText, setInputText] = useState('');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
-            return (
-                <div className="fixed bottom-0 left-0 right-0 bg-stewart-dark border-t border-stewart-border p-4">
-                    <div className="max-w-6xl mx-auto flex items-center gap-4">
-                        <button 
-                            onClick={() => setIsListening(!isListening)}
-                            className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                                isListening ? 'bg-green-500' : 'gradient-gold'
-                            }`}
-                        >
-                            {isListening && <div className="absolute inset-0 rounded-full bg-green-500/30 pulse-ring"></div>}
-                            <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h4v2H8v-2h4v-3.07z"/>
-                            </svg>
-                        </button>
-                        <div className="flex-1 relative">
-                            <input
-                                type="text"
-                                value={inputText}
-                                onChange={(e) => setInputText(e.target.value)}
-                                placeholder={isListening ? "Listening..." : "Ask Stewart anything..."}
-                                className="w-full bg-stewart-darker border border-stewart-border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-stewart-gold transition"
-                            />
-                            <button className="absolute right-3 top-1/2 -translate-y-1/2 text-stewart-gold hover:text-stewart-gold-dark transition">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div className="hidden md:flex items-center gap-2 text-sm text-gray-400">
-                            <kbd className="px-2 py-1 bg-stewart-darker rounded border border-stewart-border">⌘</kbd>
-                            <kbd className="px-2 py-1 bg-stewart-darker rounded border border-stewart-border">K</kbd>
-                            <span>for commands</span>
-                        </div>
-                    </div>
+            msg.innerHTML = `
+                <div class="message-header">
+                    <img src="${avatar}" class="message-avatar" alt="${name}">
+                    <span class="message-name">${name}</span>
+                    <span class="message-time">${time}</span>
                 </div>
-            );
-        };
+                <div class="message-content">${text}</div>
+            `;
+            return msg;
+        }
 
-        // Main Dashboard
-        const Dashboard = () => (
-            <div className="min-h-screen pb-24">
-                <Header userName="Nick" />
-                
-                <main className="p-6 max-w-7xl mx-auto">
-                    {/* Top row - Work Impact */}
-                    <div className="mb-6">
-                        <WorkUnitsCard />
-                    </div>
-                    
-                    {/* Main grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Left column - Schedule */}
-                        <div className="lg:col-span-1">
-                            <TodaySchedule />
-                        </div>
-                        
-                        {/* Middle column - Projects */}
-                        <div className="lg:col-span-1">
-                            <OpenProjects />
-                        </div>
-                        
-                        {/* Right column - Responsibilities */}
-                        <div className="lg:col-span-1">
-                            <Responsibilities />
-                        </div>
-                    </div>
-                    
-                    {/* Bottom row - Activity */}
-                    <div className="mt-6">
-                        <RecentActivity />
-                    </div>
-                </main>
-                
-                <VoiceInputBar />
-            </div>
-        );
+        // Get Stewart response (demo)
+        function getStewartResponse(input) {
+            const lower = input.toLowerCase();
+            
+            if (lower.includes('priorities') || lower.includes('priority')) {
+                return "Here are your top priorities for today:<br><br>1. <strong>Product review meeting</strong> at 2:00 PM - I've prepared the deck with Q4 metrics<br>2. <strong>Follow up with vendors</strong> - 3 pending responses<br>3. <strong>Prepare presentation</strong> for tomorrow's board meeting<br><br>Would you like me to help with any of these?";
+            }
+            if (lower.includes('email') || lower.includes('inbox')) {
+                return "I found 3 important emails that need your attention:<br><br>📧 <strong>Sarah Chen</strong> - Budget approval needed (2h ago)<br>📧 <strong>Acme Corp</strong> - Contract revision request (4h ago)<br>📧 <strong>Marketing Team</strong> - Campaign results ready (yesterday)<br><br>Want me to summarize any of these or draft a response?";
+            }
+            if (lower.includes('schedule') || lower.includes('calendar')) {
+                return "Here's your schedule for the rest of the day:<br><br>📍 <strong>2:00 PM</strong> - Product review (Conference Room A)<br>📍 <strong>4:30 PM</strong> - 1:1 with Sarah (30 min)<br><br>You have a 2-hour block free from 3:00-4:30 PM. Would you like me to protect that time for focused work?";
+            }
+            if (lower.includes('draft') || lower.includes('message') || lower.includes('write')) {
+                return "I'd be happy to help draft a message. Who would you like to send it to, and what's the main point you want to convey?";
+            }
+            if (lower.includes('summary') || lower.includes('weekly')) {
+                return "📊 <strong>Your Week in Review:</strong><br><br>✅ <strong>47 tasks</strong> completed<br>⏱️ <strong>12.5 hours</strong> saved through automation<br>📧 <strong>89 emails</strong> processed (23 flagged for your review)<br>📅 <strong>8 meetings</strong> attended<br><br>Top accomplishment: Closed the Acme Corp deal! 🎉<br><br>Want me to generate a detailed report?";
+            }
+            
+            return "I understand. Let me look into that for you. Is there anything specific you'd like me to focus on?";
+        }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
+        // Scroll to bottom
+        function scrollToBottom() {
+            const area = document.getElementById('conversationArea');
+            area.scrollTop = area.scrollHeight;
+        }
+
+        // Toggle voice
+        let isListening = false;
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            isListening = !isListening;
+            
+            if (isListening) {
+                btn.classList.add('listening');
+                // Would integrate with Retell/ElevenLabs here
+            } else {
+                btn.classList.remove('listening');
+            }
+        }
+
+        // Expand first card by default
+        document.getElementById('scheduleCard').classList.add('expanded');
     </script>
 </body>
 </html>
