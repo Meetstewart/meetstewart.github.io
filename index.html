@@ -682,6 +682,47 @@
             transition: all 0.3s;
         }
         
+        .avatar-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+        }
+        .preset-label {
+            color: #8b5cf6;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .preset-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .preset-btn:hover {
+            background: rgba(139, 92, 246, 0.3);
+            border-color: #8b5cf6;
+            transform: scale(1.05);
+        }
+        @media (max-width: 600px) {
+            .avatar-presets {
+                gap: 8px;
+                padding: 12px;
+            }
+            .preset-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
         .randomize-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(138, 92, 246, 0.3);
@@ -945,6 +986,17 @@
         <h2>✨ Build Your Virtual Exec</h2>
         <p>Design your Virtual Executive. Pick their look, name them, and claim them when you sign up.</p>
         
+        <!-- Quick Presets -->
+        <div class="avatar-presets">
+            <span class="preset-label">Quick Start:</span>
+            <button class="preset-btn" onclick="applyPreset('exec-male')" title="Executive Mark">👔 Mark</button>
+            <button class="preset-btn" onclick="applyPreset('exec-female')" title="Executive Sarah">👩‍💼 Sarah</button>
+            <button class="preset-btn" onclick="applyPreset('creative-male')" title="Creative Dev">🎨 Dev</button>
+            <button class="preset-btn" onclick="applyPreset('creative-female')" title="Creative Maya">✨ Maya</button>
+            <button class="preset-btn" onclick="applyPreset('tech-male')" title="Tech Alex">💻 Alex</button>
+            <button class="preset-btn" onclick="applyPreset('tech-female')" title="Tech Jordan">🚀 Jordan</button>
+        </div>
+        
         <div class="avatar-builder-container">
             <div class="avatar-preview-box">
                 <h3>Your Virtual Exec</h3>
@@ -963,6 +1015,9 @@
                         <button class="option-btn" data-hair="shortHairDreads01">Dreads</button>
                         <button class="option-btn" data-hair="longHairStraight">Long</button>
                         <button class="option-btn" data-hair="longHairCurly">Curly</button>
+                        <button class="option-btn" data-hair="longHairBob">Bob</button>
+                        <button class="option-btn" data-hair="longHairFrida">Frida</button>
+                        <button class="option-btn" data-hair="longHairMiaWallace">Mia</button>
                         <button class="option-btn" data-hair="shortHairShaggyMullet">Shaggy</button>
                         <button class="option-btn" data-hair="hat">Hat</button>
                     </div>
@@ -971,12 +1026,14 @@
                 <div class="option-group">
                     <label>Hair Color</label>
                     <div class="option-buttons" id="hairColorButtons">
-                        <button class="color-btn active" data-color="2c1b18" style="background: #2c1b18;"></button>
-                        <button class="color-btn" data-color="724133" style="background: #724133;"></button>
-                        <button class="color-btn" data-color="d6b370" style="background: #d6b370;"></button>
-                        <button class="color-btn" data-color="b58143" style="background: #b58143;"></button>
-                        <button class="color-btn" data-color="a55728" style="background: #a55728;"></button>
-                        <button class="color-btn" data-color="c93305" style="background: #c93305;"></button>
+                        <button class="color-btn active" data-color="2c1b18" style="background: #2c1b18;" title="Black"></button>
+                        <button class="color-btn" data-color="724133" style="background: #724133;" title="Brown"></button>
+                        <button class="color-btn" data-color="d6b370" style="background: #d6b370;" title="Blonde"></button>
+                        <button class="color-btn" data-color="b58143" style="background: #b58143;" title="Auburn"></button>
+                        <button class="color-btn" data-color="a55728" style="background: #a55728;" title="Ginger"></button>
+                        <button class="color-btn" data-color="c93305" style="background: #c93305;" title="Red"></button>
+                        <button class="color-btn" data-color="4a312c" style="background: #4a312c;" title="Dark Brown"></button>
+                        <button class="color-btn" data-color="ecdcbf" style="background: #ecdcbf;" title="Platinum"></button>
                     </div>
                 </div>
                 
@@ -998,6 +1055,8 @@
                         <button class="option-btn" data-clothing="blazerAndSweater">Sweater</button>
                         <button class="option-btn" data-clothing="shirtCrewNeck">Casual</button>
                         <button class="option-btn" data-clothing="hoodie">Hoodie</button>
+                        <button class="option-btn" data-clothing="collarAndSweater">Collar</button>
+                        <button class="option-btn" data-clothing="shirtVNeck">V-Neck</button>
                     </div>
                 </div>
                 
@@ -1140,6 +1199,40 @@
                 updateAvatar();
             });
         });
+        
+        // Preset avatar configurations
+        const avatarPresets = {
+            'exec-male': { hair: 'shortHairShortFlat', hairColor: '2c1b18', skin: 'f8d8c0', clothing: 'blazerAndShirt', name: 'Mark' },
+            'exec-female': { hair: 'longHairStraight', hairColor: '4a312c', skin: 'edb98a', clothing: 'blazerAndShirt', name: 'Sarah' },
+            'creative-male': { hair: 'shortHairDreads01', hairColor: '2c1b18', skin: 'd08b5b', clothing: 'hoodie', name: 'Dev' },
+            'creative-female': { hair: 'longHairCurly', hairColor: 'c93305', skin: 'f8d8c0', clothing: 'shirtVNeck', name: 'Maya' },
+            'tech-male': { hair: 'shortHairShaggyMullet', hairColor: '724133', skin: 'ae5d29', clothing: 'shirtCrewNeck', name: 'Alex' },
+            'tech-female': { hair: 'longHairBob', hairColor: 'd6b370', skin: 'edb98a', clothing: 'collarAndSweater', name: 'Jordan' }
+        };
+        
+        function applyPreset(presetName) {
+            const preset = avatarPresets[presetName];
+            if (preset) {
+                avatarSettings = { ...preset };
+                document.getElementById('veName').value = preset.name;
+                
+                // Update active buttons
+                document.querySelectorAll('#hairButtons .option-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.hair === preset.hair);
+                });
+                document.querySelectorAll('#hairColorButtons .color-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.color === preset.hairColor);
+                });
+                document.querySelectorAll('#skinButtons .color-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.skin === preset.skin);
+                });
+                document.querySelectorAll('#clothingButtons .option-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.clothing === preset.clothing);
+                });
+                
+                updateAvatar();
+            }
+        }
         
         // Hair color buttons
         document.querySelectorAll('#hairColorButtons .color-btn').forEach(btn => {
