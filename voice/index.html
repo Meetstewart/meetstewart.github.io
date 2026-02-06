@@ -3,466 +3,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart Voice Demo</title>
+    <title>Talk to Stewart</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
+            padding: 20px;
         }
+        
         .container {
+            max-width: 600px;
+            width: 100%;
             text-align: center;
-            max-width: 400px;
-            padding: 40px;
         }
-        h1 {
+        
+        .logo {
             font-size: 2.5rem;
             font-weight: 300;
+            letter-spacing: 0.3em;
             margin-bottom: 10px;
-            letter-spacing: 2px;
         }
+        
         .tagline {
-            font-size: 1.1rem;
-            color: #888;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
             margin-bottom: 40px;
         }
-        #voice-btn {
-            width: 120px;
-            height: 120px;
+        
+        .timer {
+            font-size: 3rem;
+            font-weight: 200;
+            margin-bottom: 30px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .timer.warning { color: #ff6b6b; }
+        
+        .voice-btn {
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #4a90a4 0%, #2d5a6b 100%);
             border: none;
             cursor: pointer;
+            position: relative;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            box-shadow: 0 4px 30px rgba(59, 130, 246, 0.3);
+            margin-bottom: 20px;
         }
-        #voice-btn:hover {
+        
+        .voice-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 40px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 40px rgba(74, 144, 164, 0.4);
         }
-        #voice-btn.listening {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        
+        .voice-btn.listening {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
             animation: pulse 1.5s infinite;
         }
-        #voice-btn.speaking {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        
+        .voice-btn.speaking {
+            background: linear-gradient(135deg, #4ecdc4 0%, #2d8a85 100%);
         }
-        #voice-btn.thinking {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            animation: glow 1.5s ease-in-out infinite;
-        }
+        
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
         }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.4); }
-            50% { box-shadow: 0 0 50px rgba(245, 158, 11, 0.8); }
-        }
-        #voice-btn svg {
+        
+        .voice-btn svg {
             width: 50px;
             height: 50px;
             fill: white;
         }
-        #status {
-            font-size: 1rem;
-            color: #888;
-            margin-bottom: 10px;
-            min-height: 24px;
+        
+        .status {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+            min-height: 30px;
         }
-        #transcript {
-            font-size: 0.9rem;
-            color: #aaa;
-            min-height: 50px;
-            max-width: 350px;
-            margin: 0 auto 20px;
-            font-style: italic;
+        
+        .transcript {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            margin-bottom: 30px;
         }
-        #timer {
-            font-size: 2rem;
-            font-weight: 200;
-            color: #3b82f6;
+        
+        .message {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .message.user {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .message.user::before {
+            content: "You: ";
+            font-weight: 600;
+            color: #4a90a4;
+        }
+        
+        .message.stewart::before {
+            content: "Stewart: ";
+            font-weight: 600;
+            color: #4ecdc4;
+        }
+        
+        .voice-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
             margin-bottom: 20px;
         }
-        .timer-warning { color: #ef4444 !important; }
-        .note {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 30px;
-        }
-        .cta {
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border: none;
-            border-radius: 8px;
+        
+        .voice-option {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
             color: white;
-            font-size: 1rem;
             cursor: pointer;
-            text-decoration: none;
-            display: none;
-        }
-        #error-msg {
-            color: #ef4444;
             font-size: 0.85rem;
-            margin-top: 10px;
-            display: none;
+            transition: all 0.2s;
         }
+        
+        .voice-option:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .voice-option.selected {
+            background: #4a90a4;
+            border-color: #4a90a4;
+        }
+        
+        .settings {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .setting {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .setting label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+        }
+        
+        .setting input[type="range"] {
+            width: 100px;
+            accent-color: #4a90a4;
+        }
+        
+        .cta {
+            margin-top: 20px;
+        }
+        
+        .cta-btn {
+            background: linear-gradient(135deg, #4a90a4 0%, #2d5a6b 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(74, 144, 164, 0.4);
+        }
+        
+        .expired {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .expired.show {
+            display: flex;
+        }
+        
+        .demo-active { display: block; }
+        .demo-active.hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>STEWART</h1>
+        <div class="logo">STEWART</div>
         <p class="tagline">Your AI Executive Assistant</p>
         
-        <div id="timer">10:00</div>
+        <div class="demo-active" id="demoArea">
+            <div class="timer" id="timer">10:00</div>
+            
+            <button class="voice-btn" id="voiceBtn">
+                <svg viewBox="0 0 24 24" id="micIcon">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
+                </svg>
+            </button>
+            
+            <p class="status" id="status">Click to start talking</p>
+            
+            <div class="voice-selector" id="voiceSelector">
+                <button class="voice-option selected" data-voice="cjVigY5qzO86Huf0OWal" data-name="Eric">Eric (Default)</button>
+                <button class="voice-option" data-voice="EXAVITQu4vr4xnSDxMaL" data-name="Bella">Bella</button>
+                <button class="voice-option" data-voice="JBFqnCBsd6RMkjVDRZzb" data-name="George">George (British)</button>
+                <button class="voice-option" data-voice="iP95p4xoKVk53GoZ742B" data-name="Chris">Chris</button>
+                <button class="voice-option" data-voice="nPczCjzI2devNBz1zQrb" data-name="Brian">Brian</button>
+                <button class="voice-option" data-voice="Xb7hH8MSUJpSbSDYk0k2" data-name="Alice">Alice (British)</button>
+            </div>
+            
+            <div class="settings">
+                <div class="setting">
+                    <label>Stability</label>
+                    <input type="range" id="stability" min="0" max="100" value="50">
+                </div>
+                <div class="setting">
+                    <label>Expression</label>
+                    <input type="range" id="expression" min="0" max="100" value="75">
+                </div>
+                <div class="setting">
+                    <label>Style</label>
+                    <input type="range" id="style" min="0" max="100" value="0">
+                </div>
+            </div>
+            
+            <div class="transcript" id="transcript"></div>
+        </div>
         
-        <button id="voice-btn">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
-            </svg>
-        </button>
-        
-        <div id="status">Click to talk with Stewart</div>
-        <div id="transcript"></div>
-        <div id="error-msg"></div>
-        
-        <p class="note">10-minute voice demo • No signup required</p>
-        
-        <a href="/" class="cta" id="signup-cta">Get Full Access →</a>
+        <div class="expired" id="expiredArea">
+            <h2>Time's Up!</h2>
+            <p>You've experienced what Stewart can do.</p>
+            <p>Ready for 24/7 AI assistance?</p>
+            <div class="cta">
+                <button class="cta-btn" onclick="window.location.href='https://meetstewart.com/signup'">
+                    Start 14-Day Free Trial
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
-        const MAX_SECONDS = 600;
+        // Configuration
+        const TTS_ENDPOINT = 'http://98.148.232.204:8091/tts';
+        const CHAT_ENDPOINT = 'http://98.148.232.204:8091/chat';
+        
+        // State
+        let timeRemaining = 600; // 10 minutes
+        let timerInterval;
+        let recognition;
         let isListening = false;
         let isSpeaking = false;
-        let recognition = null;
-        let remainingSeconds = MAX_SECONDS;
-        let timerInterval = null;
         let conversationHistory = [];
+        let selectedVoice = 'cjVigY5qzO86Huf0OWal';
+        let selectedVoiceName = 'Eric';
         
-        const btn = document.getElementById('voice-btn');
+        // Elements
+        const timer = document.getElementById('timer');
+        const voiceBtn = document.getElementById('voiceBtn');
         const status = document.getElementById('status');
-        const timerEl = document.getElementById('timer');
         const transcript = document.getElementById('transcript');
-        const signupCta = document.getElementById('signup-cta');
-        const errorMsg = document.getElementById('error-msg');
+        const demoArea = document.getElementById('demoArea');
+        const expiredArea = document.getElementById('expiredArea');
         
-        const STEWART_PROMPT = `You are Stewart, an AI executive assistant created by a small passionate team. You're helpful, professional, warm, and concise. Keep responses brief (1-3 sentences) since this is voice - people are listening, not reading.
-
-Your personality: The smartest person in the room who doesn't announce it. Confident without arrogance. Humble genius. You help with scheduling, emails, tasks, and business operations.
-
-Key facts about Stewart:
-- $500/month for full access with phone line and 24/7 availability
-- 14-day free trial available
-- "We do one thing: create value through virtual staff members"
-- Can manage up to 10 staff (human or virtual combined)
-
-Don't oversell. Be genuine. If asked about capabilities you don't have in this demo, acknowledge it gracefully.`;
-
+        // Voice selector
+        document.querySelectorAll('.voice-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.voice-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedVoice = btn.dataset.voice;
+                selectedVoiceName = btn.dataset.name;
+            });
+        });
+        
+        // Timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                timer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeRemaining <= 60) {
+                    timer.classList.add('warning');
+                }
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    endDemo();
+                }
+            }, 1000);
+        }
+        
+        function endDemo() {
+            demoArea.classList.add('hidden');
+            expiredArea.classList.add('show');
+            if (recognition) recognition.stop();
+        }
+        
+        // Speech Recognition
         function initSpeechRecognition() {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 status.textContent = 'Speech recognition not supported';
-                errorMsg.style.display = 'block';
-                errorMsg.textContent = 'Please use Chrome, Edge, or Safari';
-                return false;
+                return;
             }
             
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
             recognition.continuous = false;
-            recognition.interimResults = true;
+            recognition.interimResults = false;
             recognition.lang = 'en-US';
             
             recognition.onstart = () => {
                 isListening = true;
-                btn.classList.add('listening');
-                btn.classList.remove('speaking', 'thinking');
+                voiceBtn.classList.add('listening');
                 status.textContent = 'Listening...';
-                errorMsg.style.display = 'none';
-            };
-            
-            recognition.onresult = (event) => {
-                let finalTranscript = '';
-                let interimTranscript = '';
-                
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript;
-                    } else {
-                        interimTranscript += event.results[i][0].transcript;
-                    }
-                }
-                
-                transcript.textContent = '"' + (finalTranscript || interimTranscript) + '"';
-                
-                if (finalTranscript.trim()) {
-                    processUserInput(finalTranscript.trim());
-                }
-            };
-            
-            recognition.onerror = (event) => {
-                if (event.error === 'no-speech') {
-                    status.textContent = 'No speech detected. Click to try again.';
-                } else if (event.error === 'not-allowed') {
-                    errorMsg.style.display = 'block';
-                    errorMsg.textContent = 'Microphone access denied. Please allow microphone in browser settings.';
-                } else {
-                    console.error('Speech error:', event.error);
-                }
-                stopListening();
             };
             
             recognition.onend = () => {
                 isListening = false;
-                if (!isSpeaking && !btn.classList.contains('thinking')) {
-                    btn.classList.remove('listening');
+                voiceBtn.classList.remove('listening');
+                if (!isSpeaking) {
+                    status.textContent = 'Click to talk';
                 }
             };
             
-            return true;
-        }
-        
-        function startListening() {
-            if (remainingSeconds <= 0) { showExpired(); return; }
-            if (!recognition && !initSpeechRecognition()) return;
-            
-            try {
-                recognition.start();
-                if (!timerInterval) startTimer();
-            } catch (e) {
-                console.error('Failed to start:', e);
-            }
-        }
-        
-        function stopListening() {
-            if (recognition) try { recognition.stop(); } catch(e) {}
-            isListening = false;
-            btn.classList.remove('listening');
-        }
-        
-        async function processUserInput(userText) {
-            stopListening();
-            btn.classList.add('thinking');
-            btn.classList.remove('listening', 'speaking');
-            status.textContent = 'Thinking...';
-            
-            conversationHistory.push({ role: 'user', content: userText });
-            
-            try {
-                // Smart demo responses based on user input
-                const assistantMessage = generateResponse(userText);
+            recognition.onresult = async (event) => {
+                const userText = event.results[0][0].transcript;
+                addMessage('user', userText);
+                status.textContent = 'Thinking...';
                 
-                conversationHistory.push({ role: 'assistant', content: assistantMessage });
-                await speakResponse(assistantMessage);
-                
-            } catch (error) {
-                console.error('Error:', error);
-                btn.classList.remove('thinking');
-                status.textContent = 'Connection issue. Click to try again.';
-                transcript.textContent = '';
-            }
-        }
-        
-        async function speakResponse(text) {
-            btn.classList.add('speaking');
-            btn.classList.remove('thinking', 'listening');
-            status.textContent = 'Stewart';
-            transcript.textContent = text;
-            isSpeaking = true;
-            
-            try {
-                // ElevenLabs TTS via Beast proxy
-                const TTS_PROXY = 'https://ai.casaxai.com/tts';
-                const response = await fetch(TTS_PROXY, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: text })
-                });
-                
-                if (!response.ok) throw new Error('ElevenLabs error');
-                
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                
-                audio.onended = () => {
-                    isSpeaking = false;
-                    btn.classList.remove('speaking');
-                    status.textContent = 'Click to respond';
-                    URL.revokeObjectURL(audioUrl);
-                };
-                
-                audio.onerror = () => {
-                    fallbackTTS(text);
-                };
-                
-                audio.play();
-                
-            } catch (error) {
-                console.log('ElevenLabs unavailable, using browser TTS');
-                fallbackTTS(text);
-            }
-        }
-        
-        function fallbackTTS(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            
-            const voices = speechSynthesis.getVoices();
-            const preferredVoice = voices.find(v => 
-                v.name.includes('Daniel') || 
-                v.name.includes('Google UK English Male') ||
-                v.name.includes('Alex')
-            ) || voices.find(v => v.lang.startsWith('en'));
-            
-            if (preferredVoice) utterance.voice = preferredVoice;
-            
-            utterance.onend = () => {
-                isSpeaking = false;
-                btn.classList.remove('speaking');
-                status.textContent = 'Click to respond';
+                try {
+                    const response = await getResponse(userText);
+                    addMessage('stewart', response);
+                    await speakResponse(response);
+                } catch (error) {
+                    console.error('Error:', error);
+                    const fallback = generateFallbackResponse(userText);
+                    addMessage('stewart', fallback);
+                    await speakResponseBrowser(fallback);
+                }
             };
             
-            speechSynthesis.speak(utterance);
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                status.textContent = 'Click to try again';
+                voiceBtn.classList.remove('listening');
+            };
         }
         
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                remainingSeconds--;
-                const mins = Math.floor(remainingSeconds / 60);
-                const secs = remainingSeconds % 60;
-                timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        // Get AI response
+        async function getResponse(userText) {
+            // Try Beast gateway first
+            try {
+                const response = await fetch(CHAT_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: 'system', content: 'You are Stewart, an AI executive assistant. Be helpful, professional, and concise. Keep responses under 100 words.' },
+                            ...conversationHistory.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })),
+                            { role: 'user', content: userText }
+                        ]
+                    })
+                });
                 
-                if (remainingSeconds <= 60) timerEl.classList.add('timer-warning');
-                if (remainingSeconds <= 0) showExpired();
-            }, 1000);
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices?.[0]?.message?.content || data.response || generateFallbackResponse(userText);
+                }
+            } catch (e) {
+                console.log('Gateway unavailable, using fallback');
+            }
+            
+            return generateFallbackResponse(userText);
         }
         
-        function showExpired() {
-            clearInterval(timerInterval);
-            stopListening();
-            speechSynthesis.cancel();
-            status.textContent = 'Demo time expired';
-            transcript.textContent = 'Sign up for unlimited access!';
-            signupCta.style.display = 'inline-block';
-            btn.style.opacity = 0.5;
-            btn.style.pointerEvents = 'none';
+        // Fallback response generator
+        function generateFallbackResponse(userText) {
+            const lower = userText.toLowerCase();
+            
+            if (lower.includes('hello') || lower.includes('hi ') || lower.includes('hey')) {
+                return "Hello! I'm Stewart, your AI executive assistant. How can I help you today?";
+            }
+            if (lower.includes('what can you do') || lower.includes('help')) {
+                return "I can manage your emails, schedule meetings, draft documents, track your calendar, and handle administrative tasks. Think of me as your tireless executive assistant.";
+            }
+            if (lower.includes('email')) {
+                return "I can check your inbox for urgent messages, draft replies, and organize your email by priority. Would you like me to summarize your recent emails?";
+            }
+            if (lower.includes('schedule') || lower.includes('meeting') || lower.includes('calendar')) {
+                return "I can manage your calendar, schedule meetings, send invites, and remind you of upcoming appointments. What would you like me to schedule?";
+            }
+            if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
+                return "Stewart is $500 per month - that's a full-time executive assistant for about $17 per day. We also offer a 14-day free trial to experience the value firsthand.";
+            }
+            if (lower.includes('trial') || lower.includes('free')) {
+                return "Yes! We offer a 14-day free trial with full functionality. No credit card required to start. You'll see exactly how much time Stewart can save you.";
+            }
+            if (lower.includes('thank')) {
+                return "You're welcome! Is there anything else I can help you with?";
+            }
+            
+            return "I understand. As your executive assistant, I'm here to help with emails, scheduling, documents, and administrative tasks. What would you like me to focus on?";
         }
         
-        btn.addEventListener('click', () => {
-            if (isSpeaking) {
-                speechSynthesis.cancel();
-                isSpeaking = false;
-                btn.classList.remove('speaking');
-                status.textContent = 'Click to talk';
-            } else if (isListening) {
-                stopListening();
-                status.textContent = 'Click to talk with Stewart';
+        // ElevenLabs TTS
+        async function speakResponse(text) {
+            isSpeaking = true;
+            voiceBtn.classList.add('speaking');
+            status.textContent = `${selectedVoiceName} is speaking...`;
+            
+            try {
+                const stability = document.getElementById('stability').value / 100;
+                const expression = document.getElementById('expression').value / 100;
+                const style = document.getElementById('style').value / 100;
+                
+                const response = await fetch(TTS_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: text,
+                        voice_id: selectedVoice,
+                        stability: stability,
+                        similarity_boost: expression,
+                        style: style
+                    })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    
+                    audio.onended = () => {
+                        isSpeaking = false;
+                        voiceBtn.classList.remove('speaking');
+                        status.textContent = 'Click to talk';
+                        URL.revokeObjectURL(audioUrl);
+                        // Auto-listen after response
+                        if (timeRemaining > 0) {
+                            setTimeout(() => {
+                                if (!isListening && !isSpeaking) {
+                                    recognition?.start();
+                                }
+                            }, 500);
+                        }
+                    };
+                    
+                    audio.play();
+                    return;
+                }
+            } catch (e) {
+                console.log('ElevenLabs unavailable, using browser TTS');
+            }
+            
+            // Fallback to browser TTS
+            await speakResponseBrowser(text);
+        }
+        
+        // Browser TTS fallback
+        async function speakResponseBrowser(text) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                utterance.onend = () => {
+                    isSpeaking = false;
+                    voiceBtn.classList.remove('speaking');
+                    status.textContent = 'Click to talk';
+                    if (timeRemaining > 0) {
+                        setTimeout(() => {
+                            if (!isListening && !isSpeaking) {
+                                recognition?.start();
+                            }
+                        }, 500);
+                    }
+                    resolve();
+                };
+                
+                speechSynthesis.speak(utterance);
+            });
+        }
+        
+        // Add message to transcript
+        function addMessage(role, text) {
+            conversationHistory.push({ role, text });
+            
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.textContent = text;
+            transcript.appendChild(div);
+            transcript.scrollTop = transcript.scrollHeight;
+        }
+        
+        // Voice button click
+        voiceBtn.addEventListener('click', () => {
+            if (isSpeaking) return;
+            
+            if (!timerInterval) {
+                startTimer();
+            }
+            
+            if (isListening) {
+                recognition?.stop();
             } else {
-                startListening();
+                recognition?.start();
             }
         });
         
-        // Load voices
-        speechSynthesis.getVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-        }
-        
-        function generateResponse(input) {
-            const lower = input.toLowerCase();
-            
-            // Greetings
-            if (lower.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
-                const greetings = [
-                    "Hello! I'm Stewart, your AI executive assistant. How can I help you today?",
-                    "Hi there! Stewart here. What can I help you with?",
-                    "Good to hear from you. What's on your agenda?"
-                ];
-                return greetings[Math.floor(Math.random() * greetings.length)];
-            }
-            
-            // What can you do / capabilities
-            if (lower.includes('what can you do') || lower.includes('capabilities') || lower.includes('help me with')) {
-                return "I handle email management, scheduling, task coordination, and communication on your behalf. I'm like having an executive assistant who never sleeps. Want me to show you something specific?";
-            }
-            
-            // Email related
-            if (lower.includes('email') || lower.includes('inbox') || lower.includes('message')) {
-                return "I can check your inbox, draft responses, and flag urgent messages. In the full version, I'd connect to your email and handle this automatically. Would you like to try a 14-day free trial?";
-            }
-            
-            // Calendar / Schedule
-            if (lower.includes('calendar') || lower.includes('schedule') || lower.includes('meeting') || lower.includes('appointment')) {
-                return "I manage calendars, schedule meetings, and send reminders. I'll coordinate with your contacts directly. In the full version, I integrate with Google Calendar, Outlook, and more.";
-            }
-            
-            // Pricing
-            if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
-                return "Stewart is five hundred dollars a month, which includes your own phone line, 24/7 availability, and management of up to 10 staff members. That's a sixty thousand dollar executive assistant for a fraction of the cost.";
-            }
-            
-            // Free trial
-            if (lower.includes('trial') || lower.includes('free') || lower.includes('try')) {
-                return "We offer a 14-day free trial with full functionality. No charges during the trial, and you can cancel anytime. Ready to get started?";
-            }
-            
-            // Who made you / team
-            if (lower.includes('who made') || lower.includes('who built') || lower.includes('team') || lower.includes('company')) {
-                return "I was built by a small team who needed this themselves first. We built our entire business using our own tools, so we're the proof that they work.";
-            }
-            
-            // How do you work
-            if (lower.includes('how do you work') || lower.includes('how does this work')) {
-                return "I connect to your existing tools - email, calendar, file storage - and handle tasks on your behalf. I communicate via voice, text, and email. Think of me as your always-available chief of staff.";
-            }
-            
-            // Tasks / to-do
-            if (lower.includes('task') || lower.includes('todo') || lower.includes('to-do') || lower.includes('remind')) {
-                return "I track tasks, send reminders, and follow up on your behalf. I make sure nothing falls through the cracks while you focus on what matters.";
-            }
-            
-            // Thank you
-            if (lower.includes('thank')) {
-                return "Happy to help. Anything else you'd like to know?";
-            }
-            
-            // Goodbye
-            if (lower.match(/(bye|goodbye|see you|talk later)/)) {
-                return "Take care! Remember, I'm here 24/7 when you need me. Visit meetstewart.com for your free trial.";
-            }
-            
-            // Yes/affirmative
-            if (lower.match(/^(yes|yeah|sure|ok|okay|definitely|absolutely)$/)) {
-                return "Great! Head to meetstewart.com to start your 14-day free trial. You'll be up and running in minutes.";
-            }
-            
-            // No
-            if (lower.match(/^(no|nope|not really|no thanks)$/)) {
-                return "No problem. Is there something else you'd like to know about Stewart?";
-            }
-            
-            // Default conversational response
-            const defaults = [
-                "That's interesting. In the full version, I'd help you with that directly. For now, is there something else you'd like to know?",
-                "I'd be happy to help with that once we're connected. What else would you like to explore?",
-                "Good question. Tell me more about what you're looking for, and I'll explain how I can help."
-            ];
-            return defaults[Math.floor(Math.random() * defaults.length)];
-        }
-        
+        // Initialize
         initSpeechRecognition();
     </script>
 </body>
