@@ -35,12 +35,6 @@
             font-size: 1.1rem;
         }
         
-        .stats-bar .logo img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
         .stats-bar .logo .bot-avatar {
             width: 32px;
             height: 32px;
@@ -51,6 +45,82 @@
         .stats-bar .logo .bot-avatar svg {
             width: 100%;
             height: 100%;
+        }
+        
+        /* View Selector Dropdown */
+        .view-selector {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-selector-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #d4af37;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .view-selector-btn:hover {
+            background: rgba(212,175,55,0.2);
+        }
+        
+        .view-selector-btn .arrow {
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+        
+        .view-selector.open .view-selector-btn .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .view-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: #1a1a2e;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 180px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .view-selector.open .view-dropdown {
+            display: block;
+        }
+        
+        .view-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .view-option:hover {
+            background: rgba(212,175,55,0.1);
+        }
+        
+        .view-option.active {
+            background: rgba(212,175,55,0.15);
+            color: #d4af37;
+        }
+        
+        .view-option .icon {
+            font-size: 1.1rem;
         }
         
         .stats-items {
@@ -90,6 +160,17 @@
         .main-container {
             display: flex;
             height: calc(100vh - 57px);
+        }
+        
+        /* View Containers */
+        .view-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .view-container.active {
+            display: flex;
         }
         
         /* Stewart Area - 2/3 */
@@ -183,93 +264,74 @@
         
         .message {
             margin-bottom: 16px;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message.bot {
             display: flex;
-            gap: 12px;
-        }
-        
-        .message.bot .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-        
-        .message.bot .avatar svg {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .message.bot .content {
-            background: rgba(212,175,55,0.1);
-            border-radius: 16px;
-            border-top-left-radius: 4px;
-            padding: 12px 16px;
-            max-width: 80%;
+            flex-direction: column;
         }
         
         .message.user {
-            display: flex;
-            justify-content: flex-end;
+            align-items: flex-end;
         }
         
-        .message.user .content {
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .message.bot .message-bubble {
+            background: rgba(212,175,55,0.15);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message.user .message-bubble {
             background: linear-gradient(135deg, #d4af37, #b8960c);
             color: #000;
-            border-radius: 16px;
-            border-top-right-radius: 4px;
-            padding: 12px 16px;
-            max-width: 80%;
+            border-bottom-right-radius: 4px;
         }
         
         .quick-actions {
             display: flex;
-            gap: 8px;
             flex-wrap: wrap;
+            gap: 8px;
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(212,175,55,0.1);
         }
         
         .quick-action {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            color: rgba(255,255,255,0.8);
             padding: 8px 14px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
         }
         
         .quick-action:hover {
-            background: rgba(212,175,55,0.1);
-            border-color: rgba(212,175,55,0.3);
+            background: rgba(212,175,55,0.2);
+            border-color: rgba(212,175,55,0.4);
         }
         
         /* Cards Sidebar - 1/3 */
         .cards-sidebar {
             flex: 1;
-            padding: 16px;
+            padding: 24px;
             overflow-y: auto;
-            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
         
         .card {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.2);
             border-radius: 12px;
-            margin-bottom: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.1);
         }
         
         .card-header {
@@ -282,11 +344,11 @@
         }
         
         .card-header:hover {
-            background: rgba(255,255,255,0.03);
+            background: rgba(212,175,55,0.05);
         }
         
         .card-header h3 {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -296,12 +358,13 @@
         .card-toggle {
             color: rgba(255,255,255,0.4);
             font-size: 0.8rem;
+            transition: transform 0.3s;
         }
         
         .card-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease-out;
         }
         
         .card.expanded .card-content {
@@ -320,7 +383,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
@@ -330,25 +393,29 @@
         
         .schedule-time {
             font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
-            min-width: 60px;
+            color: #d4af37;
+            min-width: 70px;
         }
         
         .schedule-title {
-            flex: 1;
             font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
         }
         
         .schedule-item.current {
             background: rgba(212,175,55,0.1);
             margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
-            border-left: 3px solid #d4af37;
+            padding: 8px 16px;
+            border-radius: 6px;
         }
         
+        /* Project styles */
         .project-item {
             margin-bottom: 12px;
+        }
+        
+        .project-item:last-child {
+            margin-bottom: 0;
         }
         
         .project-header {
@@ -362,7 +429,7 @@
         }
         
         .project-progress {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #d4af37;
         }
         
@@ -375,26 +442,25 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #d4af37, #f4d35e);
+            background: linear-gradient(90deg, #d4af37, #b8960c);
             border-radius: 2px;
         }
         
+        /* Task styles */
         .task-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 0;
+            padding: 6px 0;
         }
         
         .task-checkbox {
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(212,175,55,0.4);
             border-radius: 4px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.2s;
         }
         
         .task-checkbox.checked {
@@ -404,8 +470,12 @@
         
         .task-checkbox.checked::after {
             content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #000;
-            font-size: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
         
         .task-text {
@@ -414,22 +484,84 @@
         
         .task-text.completed {
             text-decoration: line-through;
-            opacity: 0.5;
+            color: rgba(255,255,255,0.4);
         }
         
-        /* Voice Input Bar */
-        .voice-input-bar {
+        /* Activity styles */
+        .activity-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        /* Input Bar */
+        .input-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(26,26,46,0.95);
-            backdrop-filter: blur(10px);
             padding: 16px 24px;
-            border-top: 1px solid rgba(212,175,55,0.2);
+            background: linear-gradient(to top, rgba(15,15,35,0.98), rgba(15,15,35,0.9));
+            border-top: 1px solid rgba(212,175,55,0.1);
+        }
+        
+        .input-container {
             display: flex;
             align-items: center;
             gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .input-field {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 24px;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .input-field:focus {
+            border-color: #d4af37;
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.4);
         }
         
         .voice-btn {
@@ -450,72 +582,541 @@
             transform: scale(1.05);
         }
         
-        .voice-btn.listening {
-            animation: pulse 1.5s infinite;
+        /* ===== CALENDAR VIEW ===== */
+        /* Calendar Tabs */
+        .calendar-tabs {
+            display: flex;
+            gap: 5px;
+        }
+        .cal-tab {
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 20px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .cal-tab:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .cal-tab.active {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 600;
+        }
+        .cal-tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .cal-tab-content.active {
+            display: block;
         }
         
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
-            50% { box-shadow: 0 0 0 15px rgba(212,175,55,0); }
+        /* Today Banner */
+        .today-banner {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(244,208,63,0.1));
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .today-day {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+        .today-full {
+            display: block;
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
         }
         
-        .text-input {
+        /* Today Events List */
+        .today-events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .today-event-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            border-left: 4px solid #d4af37;
+        }
+        .today-event-card.past {
+            opacity: 0.5;
+            border-left-color: rgba(255,255,255,0.3);
+        }
+        .event-time-block {
+            text-align: center;
+            min-width: 60px;
+        }
+        .event-time {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d4af37;
+        }
+        .event-ampm {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+        .event-details {
             flex: 1;
+        }
+        .event-title-main {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .event-meta {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+        .no-events-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        .no-events-message span {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        /* Week View */
+        .week-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .week-nav-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .week-nav-btn:hover {
+            background: rgba(212,175,55,0.3);
+        }
+        #weekRangeLabel {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d4af37;
+        }
+        .week-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .week-day-row {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .week-day-row.today {
+            background: rgba(212,175,55,0.15);
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .week-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+        }
+        .week-day-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        .week-day-row.today .week-day-name {
+            color: #d4af37;
+        }
+        .week-day-date {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+        .week-day-events {
+            padding: 0 15px 12px;
+        }
+        .week-event-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .week-event-item:last-child {
+            border-bottom: none;
+        }
+        .week-event-time {
+            font-size: 13px;
+            color: #d4af37;
+            min-width: 70px;
+        }
+        .week-event-title {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+        .week-no-events {
+            padding: 8px 0;
+            color: rgba(255,255,255,0.3);
+            font-style: italic;
+            font-size: 13px;
+        }
+        
+        .calendar-view {
+            width: 100%;
+            height: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .calendar-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .calendar-view-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .calendar-nav-btns {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .calendar-nav-btn {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #d4af37;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .calendar-nav-btn:hover {
+            background: rgba(212,175,55,0.2);
+        }
+        
+        .calendar-full-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: auto repeat(6, 1fr);
+            gap: 4px;
+            max-height: calc(100vh - 200px);
+        }
+        
+        .calendar-day-label {
+            text-align: center;
+            padding: 12px;
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 0.85rem;
+        }
+        
+        .calendar-cell {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 8px;
+            padding: 8px;
+            min-height: 80px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .calendar-cell:hover {
+            background: rgba(212,175,55,0.05);
+            border-color: rgba(212,175,55,0.3);
+        }
+        
+        .calendar-cell.other-month {
+            opacity: 0.3;
+        }
+        
+        .calendar-cell.today {
+            border-color: #d4af37;
+            background: rgba(212,175,55,0.1);
+        }
+        
+        .calendar-cell-date {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .calendar-cell.today .calendar-cell-date {
+            color: #d4af37;
+        }
+        
+        .calendar-event {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #000;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* ===== PEOPLE VIEW ===== */
+        .people-view {
+            width: 100%;
+            height: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .people-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .people-view-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .add-person-btn-large {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .add-person-btn-large:hover {
+            opacity: 0.9;
+        }
+        
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .person-card-large {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        
+        .person-card-large:hover {
+            border-color: rgba(212,175,55,0.4);
+            transform: translateY(-2px);
+        }
+        
+        .person-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .person-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #000;
+            flex-shrink: 0;
+        }
+        
+        .person-card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        
+        .person-card-role {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+        }
+        
+        .person-card-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .person-action-btn {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 12px 20px;
-            color: #fff;
-            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .text-input:focus {
-            outline: none;
-            border-color: rgba(212,175,55,0.5);
+        .person-action-btn:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+            color: #d4af37;
         }
         
-        .text-input::placeholder {
+        .person-action-btn.delete:hover {
+            background: rgba(255,100,100,0.1);
+            border-color: rgba(255,100,100,0.3);
+            color: #ff6464;
+        }
+        
+        .person-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .person-contact-item-large {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+        
+        .person-contact-icon {
+            font-size: 1rem;
+        }
+        
+        .person-contact-value {
+            font-size: 0.85rem;
+        }
+        
+        .person-contact-value a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+        
+        .person-contact-value a:hover {
+            text-decoration: underline;
+        }
+        
+        .person-description-large {
+            background: rgba(0,0,0,0.3);
+            border-left: 3px solid #d4af37;
+            padding: 14px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .person-description-label {
+            font-size: 0.75rem;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-style: normal;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
             color: rgba(255,255,255,0.4);
         }
         
-        .send-btn {
-            background: none;
-            border: none;
-            color: #d4af37;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 8px;
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
         }
         
-        /* Customization Modal */
+        .empty-state h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .empty-state p {
+            font-size: 0.9rem;
+            max-width: 400px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        /* Modal styles */
         .modal-overlay {
-            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: rgba(0,0,0,0.8);
-            z-index: 1000;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
         }
         
         .modal-overlay.active {
-            display: flex;
+            opacity: 1;
+            visibility: visible;
         }
         
         .modal {
-            background: linear-gradient(135deg, #1e1e3f, #151530);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid rgba(212,175,55,0.3);
             border-radius: 20px;
-            width: 100%;
-            max-width: 900px;
+            width: 90%;
+            max-width: 600px;
             max-height: 90vh;
-            overflow: hidden;
-            border: 1px solid rgba(212,175,55,0.2);
-            display: flex;
-            flex-direction: column;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
         }
         
         .modal-header {
@@ -523,14 +1124,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(212,175,55,0.2);
         }
         
         .modal-header h2 {
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.25rem;
         }
         
         .modal-close {
@@ -539,321 +1137,105 @@
             color: rgba(255,255,255,0.6);
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #fff;
         }
         
         .modal-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        
-        /* Avatar Preview */
-        .avatar-preview-section {
-            width: 280px;
-            background: rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 24px;
-            border-right: 1px solid rgba(255,255,255,0.1);
         }
         
-        .avatar-preview {
-            width: 180px;
-            height: 180px;
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(212,175,55,0.2);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid rgba(212,175,55,0.3);
+            background: rgba(212,175,55,0.1);
+            color: #d4af37;
+            font-weight: 500;
+        }
+        
+        .modal-btn:hover {
+            background: rgba(212,175,55,0.2);
+        }
+        
+        .modal-btn-primary {
             background: linear-gradient(135deg, #d4af37, #b8960c);
-            border-radius: 50%;
-            padding: 4px;
+            color: #000;
+            border: none;
+        }
+        
+        .modal-btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        /* Form styles */
+        .form-group {
             margin-bottom: 20px;
         }
         
-        .avatar-preview-inner {
-            width: 100%;
-            height: 100%;
-            background: #1a1a2e;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+        .form-group:last-child {
+            margin-bottom: 0;
         }
         
-        .avatar-preview-inner svg {
-            width: 95%;
-            height: 95%;
-        }
-        
-        .preview-name {
-            font-size: 1.2rem;
-            font-weight: 600;
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
             margin-bottom: 8px;
         }
         
-        .preview-voice {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 16px;
-        }
-        
-        .randomize-btn {
-            background: rgba(212,175,55,0.1);
-            border: 1px solid rgba(212,175,55,0.3);
-            color: #d4af37;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        
-        .randomize-btn:hover {
-            background: rgba(212,175,55,0.2);
-        }
-        
-        /* Customization Options */
-        .customization-options {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-        }
-        
-        .option-section {
-            margin-bottom: 24px;
-        }
-        
-        .option-section h4 {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* Name Input */
-        .name-input-group {
-            margin-bottom: 12px;
-        }
-        
-        .name-input {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 10px;
             padding: 12px 16px;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
         }
         
-        .name-input:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
-            border-color: rgba(212,175,55,0.5);
-        }
-        
-        .name-suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .name-pill {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.8);
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .name-pill:hover {
-            background: rgba(212,175,55,0.1);
-            border-color: rgba(212,175,55,0.3);
-            color: #d4af37;
-        }
-        
-        /* Option Grid */
-        .option-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 8px;
-        }
-        
-        .option-btn {
-            background: rgba(0,0,0,0.3);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            padding: 10px 8px;
-            color: rgba(255,255,255,0.8);
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .option-btn:hover {
-            background: rgba(212,175,55,0.1);
-            border-color: rgba(212,175,55,0.3);
-        }
-        
-        .option-btn.selected {
-            background: rgba(212,175,55,0.2);
             border-color: #d4af37;
-            color: #d4af37;
         }
         
-        /* Color Swatches */
-        .color-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
         
-        .color-swatch {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .color-swatch:hover {
-            transform: scale(1.1);
-        }
-        
-        .color-swatch.selected {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 2px rgba(212,175,55,0.3);
-        }
-        
-        /* Voice Selection */
-        .voice-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        
-        .voice-option {
-            background: rgba(0,0,0,0.3);
-            border: 2px solid transparent;
-            border-radius: 10px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .voice-option:hover {
-            background: rgba(212,175,55,0.1);
-        }
-        
-        .voice-option.selected {
-            border-color: #d4af37;
-            background: rgba(212,175,55,0.1);
-        }
-        
-        .voice-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-        }
-        
-        .voice-desc {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        /* Sliders */
-        .slider-group {
-            margin-bottom: 16px;
-        }
-        
-        .slider-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-        
-        .slider-value {
-            color: #d4af37;
-        }
-        
-        .slider {
-            width: 100%;
-            -webkit-appearance: none;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            outline: none;
-        }
-        
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            background: #d4af37;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .slider-hint {
+        .form-hint {
             font-size: 0.75rem;
             color: rgba(255,255,255,0.4);
-            margin-top: 4px;
-        }
-        
-        /* Modal Footer */
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            padding: 16px 24px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .btn-cancel {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        .btn-save {
-            background: linear-gradient(135deg, #d4af37, #b8960c);
-            border: none;
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
+            margin-top: 6px;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .modal-body {
-                flex-direction: column;
-            }
-            
-            .avatar-preview-section {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-                padding: 16px;
-            }
-            
-            .avatar-preview {
-                width: 120px;
-                height: 120px;
-            }
+            .stats-items { display: none; }
+            .main-container { flex-direction: column; }
+            .stewart-area { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); }
+            .cards-sidebar { max-height: 40vh; }
+            .people-grid { grid-template-columns: 1fr; }
+            .person-contact-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -861,12 +1243,36 @@
     <!-- Stats Bar -->
     <div class="stats-bar">
         <div class="logo">
-            <div class="bot-avatar" id="headerAvatar"></div>
-            <span id="botNameDisplay">Stewart</span>
+            <div class="bot-avatar" id="navBotAvatar"></div>
+            <span id="navBotName">Stewart</span>
         </div>
+        
+        <!-- View Selector -->
+        <div class="view-selector" id="viewSelector">
+            <button class="view-selector-btn" onclick="toggleViewDropdown()">
+                <span id="currentViewIcon">💬</span>
+                <span id="currentViewLabel">Chat</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="view-dropdown">
+                <div class="view-option active" data-view="chat" onclick="switchView('chat')">
+                    <span class="icon">💬</span>
+                    <span>Chat with Stewart</span>
+                </div>
+                <div class="view-option" data-view="calendar" onclick="switchView('calendar')">
+                    <span class="icon">📆</span>
+                    <span>Calendar</span>
+                </div>
+                <div class="view-option" data-view="people" onclick="switchView('people')">
+                    <span class="icon">👥</span>
+                    <span>People</span>
+                </div>
+            </div>
+        </div>
+        
         <div class="stats-items">
             <div class="stat-item">
-                <div class="stat-value">14</div>
+                <div class="stat-value">12</div>
                 <div class="stat-label">Trial Days</div>
             </div>
             <div class="stat-item">
@@ -874,716 +1280,765 @@
                 <div class="stat-label">Tasks Done</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">12.5</div>
+                <div class="stat-value">18h</div>
                 <div class="stat-label">Hours Saved</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">3.2</div>
-                <div class="stat-label">Stewdays</div>
+                <div class="stat-value">2.3</div>
+                <div class="stat-label">Stewdays Used</div>
             </div>
         </div>
-        <button class="upgrade-btn">⚡ Upgrade</button>
+        <button class="upgrade-btn">Upgrade</button>
     </div>
     
-    <!-- Main Container -->
     <div class="main-container">
-        <!-- Stewart Area -->
-        <div class="stewart-area">
-            <div class="stewart-header">
-                <div class="stewart-avatar" onclick="openCustomize()">
-                    <div class="stewart-avatar-inner" id="mainAvatar"></div>
+        <!-- CHAT VIEW -->
+        <div class="view-container active" id="chatView">
+            <!-- Stewart Area -->
+            <div class="stewart-area">
+                <div class="stewart-header">
+                    <div class="stewart-avatar" onclick="openCustomizeModal()">
+                        <div class="stewart-avatar-inner" id="mainBotAvatar"></div>
+                    </div>
+                    <div class="stewart-info">
+                        <h1 id="botDisplayName">Stewart</h1>
+                        <p>Your AI Business Partner</p>
+                    </div>
+                    <button class="customize-btn" onclick="openCustomizeModal()">Customize</button>
                 </div>
-                <div class="stewart-info">
-                    <h1>Good evening, <span id="userName">Nick</span>! 👋</h1>
-                    <p>I'm <span id="botNameGreeting">Stewart</span>, your AI assistant. How can I help you today?</p>
+                
+                <div class="chat-area">
+                    <div class="messages" id="messages">
+                        <div class="message bot">
+                            <div class="message-bubble">
+                                Good morning! I've reviewed your schedule and prepared your daily briefing. You have 3 meetings today, including an important client call at 2 PM. Your top priority task is preparing the demo for Friday.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action">📅 What's on my schedule?</button>
+                        <button class="quick-action">📧 Check my emails</button>
+                        <button class="quick-action">✅ Show my tasks</button>
+                        <button class="quick-action">📊 Project status</button>
+                    </div>
                 </div>
-                <button class="customize-btn" onclick="openCustomize()">✨ Customize</button>
             </div>
             
-            <div class="chat-area">
-                <div class="messages" id="messages">
-                    <div class="message bot">
-                        <div class="avatar" id="chatAvatar"></div>
-                        <div class="content">
-                            I've been keeping things running smoothly today! You have 2 meetings this afternoon and I've drafted 3 emails for your review. Want me to walk you through them?
+            <!-- Cards Sidebar -->
+            <div class="cards-sidebar">
+                <div class="card expanded">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3>📅 Today's Schedule</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-inner">
+                            <div class="schedule-item">
+                                <span class="schedule-time">9:00 AM</span>
+                                <span class="schedule-title">✓ Team standup</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="schedule-time">11:30 AM</span>
+                                <span class="schedule-title">✓ Review Q4 projections</span>
+                            </div>
+                            <div class="schedule-item current">
+                                <span class="schedule-time">2:00 PM</span>
+                                <span class="schedule-title">Client call - Acme Corp</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="schedule-time">4:30 PM</span>
+                                <span class="schedule-title">Product roadmap review</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="quick-actions">
-                    <button class="quick-action">📅 What's on my schedule?</button>
-                    <button class="quick-action">📧 Check my inbox</button>
-                    <button class="quick-action">✅ Show my tasks</button>
-                    <button class="quick-action">📊 Weekly summary</button>
-                    <button class="quick-action">🔔 Any updates?</button>
+                <div class="card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3>📊 Projects</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-inner">
+                            <div class="project-item">
+                                <div class="project-header">
+                                    <span class="project-name">Website Redesign</span>
+                                    <span class="project-progress">85%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+                            </div>
+                            <div class="project-item">
+                                <div class="project-header">
+                                    <span class="project-name">Mobile App v2</span>
+                                    <span class="project-progress">62%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 62%"></div></div>
+                            </div>
+                            <div class="project-item">
+                                <div class="project-header">
+                                    <span class="project-name">API Integration</span>
+                                    <span class="project-progress">34%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 34%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3>✓ Tasks</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-inner">
+                            <div class="task-item">
+                                <div class="task-checkbox checked"></div>
+                                <span class="task-text completed">Review PR #234</span>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox checked"></div>
+                                <span class="task-text completed">Send invoice to client</span>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox"></div>
+                                <span class="task-text">Prepare demo for Friday</span>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox"></div>
+                                <span class="task-text">Update documentation</span>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox"></div>
+                                <span class="task-text">Schedule 1:1 meetings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3>🔔 Activity</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-inner">
+                            <div class="activity-item">
+                                <div class="activity-icon">📧</div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Replied to Sarah's email</div>
+                                    <div class="activity-time">10 min ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📄</div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Updated project timeline</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">🎤</div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Transcribed meeting notes</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CALENDAR VIEW -->
+        <div class="view-container" id="calendarView">
+            <div class="calendar-view">
+                <div class="calendar-view-header">
+                    <h2>📆 Calendar</h2>
+                    <div class="calendar-tabs">
+                        <button class="cal-tab active" data-calview="today" onclick="switchCalendarTab('today')">Today</button>
+                        <button class="cal-tab" data-calview="week" onclick="switchCalendarTab('week')">Week</button>
+                        <button class="cal-tab" data-calview="month" onclick="switchCalendarTab('month')">Month</button>
+                    </div>
+                </div>
+                
+                <!-- TODAY TAB -->
+                <div class="cal-tab-content active" id="calTodayTab">
+                    <div class="today-banner">
+                        <span class="today-day" id="todayDayName">Thursday</span>
+                        <span class="today-full" id="todayFullDate">February 5, 2026</span>
+                    </div>
+                    <div class="today-events-list" id="todayEventsList">
+                        <!-- Events rendered by JS -->
+                    </div>
+                    <div class="no-events-message" id="noTodayEvents" style="display:none;">
+                        <span>🎉</span>
+                        <p>No events scheduled for today</p>
+                    </div>
+                </div>
+                
+                <!-- WEEK TAB -->
+                <div class="cal-tab-content" id="calWeekTab">
+                    <div class="week-nav">
+                        <button class="week-nav-btn" onclick="changeWeek(-1)">← Previous</button>
+                        <span id="weekRangeLabel">Feb 3 - Feb 9, 2026</span>
+                        <button class="week-nav-btn" onclick="changeWeek(1)">Next →</button>
+                    </div>
+                    <div class="week-grid" id="weekGrid">
+                        <!-- Week days rendered by JS -->
+                    </div>
+                </div>
+                
+                <!-- MONTH TAB -->
+                <div class="cal-tab-content" id="calMonthTab">
+                    <div class="calendar-nav-btns">
+                        <button class="calendar-nav-btn" onclick="changeCalendarMonth(-1)">← Previous</button>
+                        <span id="calendarMonthYear">February 2026</span>
+                        <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)">Next →</button>
+                    </div>
+                    <div class="calendar-full-grid" id="calendarFullGrid">
+                        <!-- Calendar will be rendered by JS -->
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Cards Sidebar -->
-        <div class="cards-sidebar">
-            <div class="card expanded">
-                <div class="card-header" onclick="toggleCard(this)">
-                    <h3>📅 Today's Schedule</h3>
-                    <span class="card-toggle">▼</span>
+        <!-- PEOPLE VIEW -->
+        <div class="view-container" id="peopleView">
+            <div class="people-view">
+                <div class="people-view-header">
+                    <h2>👥 Important People</h2>
+                    <button class="add-person-btn-large" onclick="openAddPersonModal()">
+                        <span>+</span> Add Person
+                    </button>
                 </div>
-                <div class="card-content">
-                    <div class="card-inner">
-                        <div class="schedule-item">
-                            <span class="schedule-time">9:00 AM</span>
-                            <span class="schedule-title">✓ Team standup</span>
-                        </div>
-                        <div class="schedule-item">
-                            <span class="schedule-time">11:30 AM</span>
-                            <span class="schedule-title">✓ Review Q4 projections</span>
-                        </div>
-                        <div class="schedule-item current">
-                            <span class="schedule-time">2:00 PM</span>
-                            <span class="schedule-title">Client call - Acme Corp</span>
-                        </div>
-                        <div class="schedule-item">
-                            <span class="schedule-time">4:30 PM</span>
-                            <span class="schedule-title">Product roadmap review</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header" onclick="toggleCard(this)">
-                    <h3>📊 Projects</h3>
-                    <span class="card-toggle">▼</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-inner">
-                        <div class="project-item">
-                            <div class="project-header">
-                                <span class="project-name">Website Redesign</span>
-                                <span class="project-progress">85%</span>
-                            </div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
-                        </div>
-                        <div class="project-item">
-                            <div class="project-header">
-                                <span class="project-name">Mobile App v2</span>
-                                <span class="project-progress">62%</span>
-                            </div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 62%"></div></div>
-                        </div>
-                        <div class="project-item">
-                            <div class="project-header">
-                                <span class="project-name">API Integration</span>
-                                <span class="project-progress">34%</span>
-                            </div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 34%"></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header" onclick="toggleCard(this)">
-                    <h3>✓ Tasks</h3>
-                    <span class="card-toggle">▼</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-inner">
-                        <div class="task-item">
-                            <div class="task-checkbox checked"></div>
-                            <span class="task-text completed">Review PR #234</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-checkbox checked"></div>
-                            <span class="task-text completed">Send invoice to client</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-checkbox"></div>
-                            <span class="task-text">Prepare demo for Friday</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-checkbox"></div>
-                            <span class="task-text">Update documentation</span>
-                        </div>
-                        <div class="task-item">
-                            <div class="task-checkbox"></div>
-                            <span class="task-text">Schedule 1:1 meetings</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header" onclick="toggleCard(this)">
-                    <h3>🔔 Activity</h3>
-                    <span class="card-toggle">▼</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-inner">
-                        <div class="schedule-item">
-                            <span class="schedule-time">1h ago</span>
-                            <span class="schedule-title">New email from John</span>
-                        </div>
-                        <div class="schedule-item">
-                            <span class="schedule-time">2h ago</span>
-                            <span class="schedule-title">Task completed: Review PR</span>
-                        </div>
-                        <div class="schedule-item">
-                            <span class="schedule-time">3h ago</span>
-                            <span class="schedule-title">Meeting notes uploaded</span>
-                        </div>
-                    </div>
+                <div class="people-grid" id="peopleGrid">
+                    <!-- People cards will be rendered by JS -->
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Voice Input Bar -->
-    <div class="voice-input-bar">
-        <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>
-        <input type="text" class="text-input" id="inputPlaceholder" placeholder="Ask Stewart anything...">
-        <button class="send-btn">➤</button>
+    <!-- Input Bar -->
+    <div class="input-bar">
+        <div class="input-container">
+            <input type="text" class="input-field" placeholder="Ask Stewart anything..." id="messageInput" onkeypress="handleKeyPress(event)">
+            <button class="voice-btn" onclick="toggleVoice()">🎤</button>
+        </div>
     </div>
     
-    <!-- Customization Modal -->
-    <div class="modal-overlay" id="customizeModal">
+    <!-- Add Person Modal -->
+    <div class="modal-overlay" id="addPersonModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>✨ Customize Your Bot</h2>
-                <button class="modal-close" onclick="closeCustomize()">×</button>
+                <h2 id="personModalTitle">Add Important Person</h2>
+                <button class="modal-close" onclick="closeAddPersonModal()">×</button>
             </div>
-            
             <div class="modal-body">
-                <!-- Avatar Preview -->
-                <div class="avatar-preview-section">
-                    <div class="avatar-preview">
-                        <div class="avatar-preview-inner" id="previewAvatar"></div>
-                    </div>
-                    <div class="preview-name" id="previewName">Stewart</div>
-                    <div class="preview-voice" id="previewVoice">Voice: Adam</div>
-                    <button class="randomize-btn" onclick="randomizeAvatar()">🎲 Randomize</button>
+                <input type="hidden" id="editPersonId">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="personName" placeholder="e.g., Suzy Johnson" required>
                 </div>
-                
-                <!-- Customization Options -->
-                <div class="customization-options">
-                    <!-- Bot Name -->
-                    <div class="option-section">
-                        <h4>🏷️ Bot Name</h4>
-                        <div class="name-input-group">
-                            <input type="text" class="name-input" id="botNameInput" value="Stewart" oninput="updatePreviewName()">
-                        </div>
-                        <div class="name-suggestions">
-                            <span class="name-pill" onclick="setName('Stewart')">Stewart</span>
-                            <span class="name-pill" onclick="setName('Stew')">Stew</span>
-                            <span class="name-pill" onclick="setName('Steve')">Steve</span>
-                            <span class="name-pill" onclick="setName('Stevie')">Stevie</span>
-                            <span class="name-pill" onclick="setName('Stan')">Stan</span>
-                            <span class="name-pill" onclick="setName('Stu')">Stu</span>
-                            <span class="name-pill" onclick="setName('Chester')">Chester</span>
-                            <span class="name-pill" onclick="setName('Jarvis')">Jarvis</span>
-                            <span class="name-pill" onclick="setName('Friday')">Friday</span>
-                            <span class="name-pill" onclick="setName('Max')">Max</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Skin Tone -->
-                    <div class="option-section">
-                        <h4>👤 Skin Tone</h4>
-                        <div class="color-grid" id="skinOptions"></div>
-                    </div>
-                    
-                    <!-- Hair Style -->
-                    <div class="option-section">
-                        <h4>💇 Hair Style</h4>
-                        <div class="option-grid" id="hairOptions"></div>
-                    </div>
-                    
-                    <!-- Hair Color -->
-                    <div class="option-section">
-                        <h4>🎨 Hair Color</h4>
-                        <div class="color-grid" id="hairColorOptions"></div>
-                    </div>
-                    
-                    <!-- Facial Hair -->
-                    <div class="option-section">
-                        <h4>🧔 Facial Hair</h4>
-                        <div class="option-grid" id="facialHairOptions"></div>
-                    </div>
-                    
-                    <!-- Accessories -->
-                    <div class="option-section">
-                        <h4>👓 Accessories</h4>
-                        <div class="option-grid" id="accessoryOptions"></div>
-                    </div>
-                    
-                    <!-- Clothing -->
-                    <div class="option-section">
-                        <h4>👔 Clothing</h4>
-                        <div class="option-grid" id="clothingOptions"></div>
-                    </div>
-                    
-                    <!-- Clothing Color -->
-                    <div class="option-section">
-                        <h4>🎨 Clothing Color</h4>
-                        <div class="color-grid" id="clothingColorOptions"></div>
-                    </div>
-                    
-                    <!-- Eyes -->
-                    <div class="option-section">
-                        <h4>👁️ Eyes</h4>
-                        <div class="option-grid" id="eyeOptions"></div>
-                    </div>
-                    
-                    <!-- Eyebrows -->
-                    <div class="option-section">
-                        <h4>🤨 Eyebrows</h4>
-                        <div class="option-grid" id="eyebrowOptions"></div>
-                    </div>
-                    
-                    <!-- Mouth -->
-                    <div class="option-section">
-                        <h4>👄 Mouth</h4>
-                        <div class="option-grid" id="mouthOptions"></div>
-                    </div>
-                    
-                    <!-- Voice Selection -->
-                    <div class="option-section">
-                        <h4>🎙️ Voice</h4>
-                        <div class="voice-grid" id="voiceOptions"></div>
-                    </div>
-                    
-                    <!-- Speech Settings -->
-                    <div class="option-section">
-                        <h4>🔧 Speech Settings</h4>
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Speaking Speed</span>
-                                <span class="slider-value" id="speedValue">1.0x</span>
-                            </div>
-                            <input type="range" class="slider" id="speedSlider" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed()">
-                            <div class="slider-hint">Slower speeds are easier to follow, faster for quick info</div>
-                        </div>
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Stability</span>
-                                <span class="slider-value" id="stabilityValue">75%</span>
-                            </div>
-                            <input type="range" class="slider" id="stabilitySlider" min="0" max="100" value="75" oninput="updateStability()">
-                            <div class="slider-hint">Higher = more consistent, Lower = more expressive</div>
-                        </div>
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Clarity</span>
-                                <span class="slider-value" id="clarityValue">75%</span>
-                            </div>
-                            <input type="range" class="slider" id="claritySlider" min="0" max="100" value="75" oninput="updateClarity()">
-                            <div class="slider-hint">Higher = clearer pronunciation, Lower = more natural</div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label>Role / Title</label>
+                    <input type="text" id="personRole" placeholder="e.g., Shipping Manager">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="personPhone" placeholder="e.g., +1 (555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="personEmail" placeholder="e.g., suzy@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Description / Communication Style</label>
+                    <textarea id="personDescription" placeholder="How should Stewart interact with this person? Include their personality, preferences, communication style, and what they care about.
+
+Example: Suzy is in charge of shipping. She's really nice and always likes to make jokes. Keep conversations light and friendly - she appreciates humor."></textarea>
+                    <div class="form-hint">This helps Stewart understand how to communicate with this person - whether they prefer brief updates or detailed explanations, humor or just facts, etc.</div>
                 </div>
             </div>
-            
             <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeCustomize()">Cancel</button>
-                <button class="btn-save" onclick="saveCustomization()">Save Changes</button>
+                <button class="modal-btn" onclick="closeAddPersonModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="savePerson()">Save Person</button>
             </div>
         </div>
     </div>
     
+    <!-- Customize Bot Modal (simplified - keeping from v4) -->
+    <div class="modal-overlay" id="customizeModal">
+        <div class="modal" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2>Customize Your Assistant</h2>
+                <button class="modal-close" onclick="closeCustomizeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="text-align: center; color: rgba(255,255,255,0.6);">Avatar customization coming soon...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Avatar configuration
-        let avatarConfig = {
-            skin: 'light',
-            top: 'shortWaved',
-            hairColor: 'brown',
-            facialHair: 'none',
-            accessories: 'none',
-            clothing: 'blazerAndShirt',
-            clothingColor: 'blue02',
-            eyes: 'default',
-            eyebrows: 'defaultNatural',
-            mouth: 'smile'
-        };
+        // ===== VIEW SWITCHING =====
+        let currentView = 'chat';
         
-        let botName = 'Stewart';
-        let selectedVoice = 'adam';
+        function toggleViewDropdown() {
+            document.getElementById('viewSelector').classList.toggle('open');
+        }
         
-        // Option definitions
-        const skinColors = {
-            'tanned': '#d08b5b',
-            'yellow': '#f8d25c',
-            'pale': '#ffdbb4',
-            'light': '#edb98a',
-            'brown': '#c68642',
-            'darkBrown': '#8d5524',
-            'black': '#614335'
-        };
+        function switchView(view) {
+            currentView = view;
+            
+            // Update dropdown
+            document.getElementById('viewSelector').classList.remove('open');
+            document.querySelectorAll('.view-option').forEach(opt => opt.classList.remove('active'));
+            document.querySelector(`.view-option[data-view="${view}"]`).classList.add('active');
+            
+            // Update button label
+            const labels = { chat: 'Chat', calendar: 'Calendar', people: 'People' };
+            const icons = { chat: '💬', calendar: '📆', people: '👥' };
+            document.getElementById('currentViewLabel').textContent = labels[view];
+            document.getElementById('currentViewIcon').textContent = icons[view];
+            
+            // Show/hide views
+            document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+            document.getElementById(view + 'View').classList.add('active');
+            
+            // Render content if needed
+            if (view === 'calendar') renderTodayView();
+            if (view === 'people') renderPeopleGrid();
+        }
         
-        const hairColors = {
-            'auburn': '#a55728',
-            'black': '#2c1b18',
-            'blonde': '#b58143',
-            'blondeGolden': '#d6b370',
-            'brown': '#724133',
-            'brownDark': '#4a312c',
-            'pastelPink': '#f59797',
-            'platinum': '#ecdcbf',
-            'red': '#c93305',
-            'silverGray': '#a8a8a8'
-        };
-        
-        const clothingColors = {
-            'black': '#262e33',
-            'blue01': '#65c9ff',
-            'blue02': '#5199e4',
-            'blue03': '#25557c',
-            'gray01': '#e6e6e6',
-            'gray02': '#929598',
-            'heather': '#3c4f5c',
-            'pastelBlue': '#b1e2ff',
-            'pastelGreen': '#a7ffc4',
-            'pastelOrange': '#ffdeb5',
-            'pastelRed': '#ffafb9',
-            'pastelYellow': '#ffffb1',
-            'pink': '#ff488e',
-            'red': '#ff5c5c',
-            'white': '#ffffff'
-        };
-        
-        const hairStyles = {
-            'none': 'None',
-            'shortWaved': 'Short Wavy',
-            'shortFlat': 'Short Flat',
-            'shortCurly': 'Short Curly',
-            'shortRound': 'Short Round',
-            'sides': 'Sides Only',
-            'theCaesar': 'Caesar',
-            'dreads01': 'Dreads',
-            'dreads02': 'Long Dreads',
-            'frizzle': 'Frizzle',
-            'shaggyMullet': 'Mullet',
-            'bigHair': 'Big Hair',
-            'bob': 'Bob',
-            'bun': 'Bun',
-            'curly': 'Long Curly',
-            'curvy': 'Curvy',
-            'fro': 'Afro',
-            'straight01': 'Straight',
-            'straight02': 'Long Straight',
-            'miaWallace': 'Bangs',
-            'hat': 'Hat',
-            'winterHat01': 'Beanie',
-            'hijab': 'Hijab',
-            'turban': 'Turban'
-        };
-        
-        const facialHairStyles = {
-            'none': 'None',
-            'beardLight': 'Light Beard',
-            'beardMedium': 'Medium Beard',
-            'beardMagestic': 'Full Beard',
-            'moustacheFancy': 'Fancy Mustache',
-            'moustacheMagnum': 'Magnum'
-        };
-        
-        const accessoryTypes = {
-            'none': 'None',
-            'prescription01': 'Glasses',
-            'prescription02': 'Round Glasses',
-            'round': 'Round Shades',
-            'sunglasses': 'Sunglasses',
-            'wayfarers': 'Wayfarers',
-            'kurt': 'Kurt'
-        };
-        
-        const clothingTypes = {
-            'blazerAndShirt': 'Blazer',
-            'blazerAndSweater': 'Blazer + Sweater',
-            'collarAndSweater': 'Collar Sweater',
-            'hoodie': 'Hoodie',
-            'overall': 'Overall',
-            'shirtCrewNeck': 'Crew Neck',
-            'shirtScoopNeck': 'Scoop Neck',
-            'shirtVNeck': 'V-Neck',
-            'graphicShirt': 'Graphic Tee'
-        };
-        
-        const eyeTypes = {
-            'default': 'Normal',
-            'happy': 'Happy',
-            'hearts': 'Hearts',
-            'side': 'Side',
-            'squint': 'Squint',
-            'surprised': 'Surprised',
-            'wink': 'Wink',
-            'winkWacky': 'Wacky Wink',
-            'closed': 'Closed',
-            'cry': 'Cry',
-            'eyeRoll': 'Eye Roll',
-            'xDizzy': 'Dizzy'
-        };
-        
-        const eyebrowTypes = {
-            'defaultNatural': 'Natural',
-            'default': 'Default',
-            'raisedExcited': 'Raised',
-            'raisedExcitedNatural': 'Raised Natural',
-            'sadConcerned': 'Sad',
-            'sadConcernedNatural': 'Worried',
-            'angry': 'Angry',
-            'angryNatural': 'Angry Natural',
-            'flatNatural': 'Flat',
-            'unibrowNatural': 'Unibrow',
-            'upDown': 'Up Down',
-            'upDownNatural': 'Up Down Natural'
-        };
-        
-        const mouthTypes = {
-            'smile': 'Smile',
-            'default': 'Default',
-            'twinkle': 'Twinkle',
-            'serious': 'Serious',
-            'tongue': 'Tongue',
-            'eating': 'Eating',
-            'grimace': 'Grimace',
-            'sad': 'Sad',
-            'concerned': 'Concerned',
-            'disbelief': 'Disbelief',
-            'screamOpen': 'Scream',
-            'vomit': 'Sick'
-        };
-        
-        const voices = {
-            'adam': { name: 'Adam', desc: 'Deep & Professional' },
-            'rachel': { name: 'Rachel', desc: 'Clear & Friendly' },
-            'josh': { name: 'Josh', desc: 'Casual & Warm' },
-            'bella': { name: 'Bella', desc: 'Soft & Elegant' },
-            'antoni': { name: 'Antoni', desc: 'Well-rounded' },
-            'arnold': { name: 'Arnold', desc: 'Crisp & Direct' },
-            'domi': { name: 'Domi', desc: 'Strong & Confident' },
-            'elli': { name: 'Elli', desc: 'Young & Emotional' }
-        };
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSavedSettings();
-            renderAllOptions();
-            updateAllAvatars();
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.view-selector')) {
+                document.getElementById('viewSelector').classList.remove('open');
+            }
         });
         
-        function loadSavedSettings() {
-            const saved = localStorage.getItem('stewartBotConfig');
-            if (saved) {
-                const config = JSON.parse(saved);
-                avatarConfig = config.avatar || avatarConfig;
-                botName = config.name || botName;
-                selectedVoice = config.voice || selectedVoice;
+        // ===== CALENDAR =====
+        let calendarDate = new Date();
+        const calendarEvents = [
+            { date: '2026-02-05', title: 'Client meeting', time: '2:00 PM' },
+            { date: '2026-02-10', title: 'Team standup', time: '9:00 AM' },
+            { date: '2026-02-14', title: "Valentine's Day", time: 'All day' },
+            { date: '2026-02-20', title: 'Product launch', time: '10:00 AM' },
+            { date: '2026-02-25', title: 'Board presentation', time: '3:00 PM' },
+        ];
+        
+        function renderFullCalendar() {
+            const grid = document.getElementById('calendarFullGrid');
+            const year = calendarDate.getFullYear();
+            const month = calendarDate.getMonth();
+            
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const totalDays = lastDay.getDate();
+            
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            
+            let html = '';
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            days.forEach(d => html += `<div class="calendar-day-label">${d}</div>`);
+            
+            // Previous month
+            const prevMonth = new Date(year, month, 0);
+            const prevMonthDays = prevMonth.getDate();
+            for (let i = startDay - 1; i >= 0; i--) {
+                html += `<div class="calendar-cell other-month"><div class="calendar-cell-date">${prevMonthDays - i}</div></div>`;
+            }
+            
+            // Current month
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const isToday = dateStr === todayStr;
+                const dayEvents = calendarEvents.filter(e => e.date === dateStr);
+                
+                let cellClass = 'calendar-cell';
+                if (isToday) cellClass += ' today';
+                
+                let eventsHtml = dayEvents.map(e => 
+                    `<div class="calendar-event" title="${e.time}: ${e.title}">${e.title}</div>`
+                ).join('');
+                
+                html += `<div class="${cellClass}" onclick="showDayDetail('${dateStr}')">
+                    <div class="calendar-cell-date">${day}</div>
+                    ${eventsHtml}
+                </div>`;
+            }
+            
+            // Next month
+            const remainingCells = 42 - (startDay + totalDays);
+            for (let i = 1; i <= remainingCells; i++) {
+                html += `<div class="calendar-cell other-month"><div class="calendar-cell-date">${i}</div></div>`;
+            }
+            
+            grid.innerHTML = html;
+        }
+        
+        function changeCalendarMonth(delta) {
+            calendarDate.setMonth(calendarDate.getMonth() + delta);
+            renderFullCalendar();
+        }
+        
+        function goToToday() {
+            calendarDate = new Date();
+            renderFullCalendar();
+        }
+        
+        function showDayDetail(dateStr) {
+            const events = calendarEvents.filter(e => e.date === dateStr);
+            if (events.length > 0) {
+                alert(`Events on ${dateStr}:\n\n${events.map(e => `${e.time}: ${e.title}`).join('\n')}`);
             }
         }
         
-        function generateAvatar() {
-            return Avataaars.create({
-                style: 'circle',
-                background: '#1a1a2e',
-                ...avatarConfig
-            });
+        // Calendar Tab Switching
+        function switchCalendarTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.cal-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.cal-tab[data-calview="${tabName}"]`).classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.cal-tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`cal${tabName.charAt(0).toUpperCase() + tabName.slice(1)}Tab`).classList.add('active');
+            
+            // Render appropriate view
+            if (tabName === 'today') renderTodayView();
+            else if (tabName === 'week') renderWeekView();
+            else if (tabName === 'month') renderFullCalendar();
         }
         
-        function updateAllAvatars() {
-            const svg = generateAvatar();
-            document.getElementById('headerAvatar').innerHTML = svg;
-            document.getElementById('mainAvatar').innerHTML = svg;
-            document.getElementById('chatAvatar').innerHTML = svg;
-            document.getElementById('previewAvatar').innerHTML = svg;
+        // Today View
+        function renderTodayView() {
+            const today = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
             
-            document.getElementById('botNameDisplay').textContent = botName;
-            document.getElementById('botNameGreeting').textContent = botName;
-            document.getElementById('previewName').textContent = botName;
-            document.getElementById('previewVoice').textContent = `Voice: ${voices[selectedVoice]?.name || 'Adam'}`;
-            document.getElementById('inputPlaceholder').placeholder = `Ask ${botName} anything...`;
+            document.getElementById('todayDayName').textContent = days[today.getDay()];
+            document.getElementById('todayFullDate').textContent = `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+            
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            const todaysEvents = calendarEvents.filter(e => e.date === todayStr);
+            
+            const list = document.getElementById('todayEventsList');
+            const noEvents = document.getElementById('noTodayEvents');
+            
+            if (todaysEvents.length === 0) {
+                list.innerHTML = '';
+                noEvents.style.display = 'block';
+            } else {
+                noEvents.style.display = 'none';
+                list.innerHTML = todaysEvents.map(e => {
+                    const timeParts = e.time.match(/(\d+):?(\d*)\s*(AM|PM|am|pm)?/);
+                    let hour = timeParts ? timeParts[1] : '';
+                    let min = timeParts && timeParts[2] ? ':' + timeParts[2] : '';
+                    let ampm = timeParts && timeParts[3] ? timeParts[3].toUpperCase() : '';
+                    if (e.time === 'All day') { hour = ''; ampm = 'All day'; }
+                    
+                    return `<div class="today-event-card">
+                        <div class="event-time-block">
+                            <div class="event-time">${hour}${min}</div>
+                            <div class="event-ampm">${ampm}</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title-main">${e.title}</div>
+                            <div class="event-meta">${e.time}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
         }
         
-        function renderAllOptions() {
-            // Skin colors
-            renderColorOptions('skinOptions', skinColors, avatarConfig.skin, 'skin');
+        // Week View
+        let weekStartDate = new Date();
+        weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay()); // Start of current week (Sunday)
+        
+        function renderWeekView() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             
-            // Hair styles
-            renderOptions('hairOptions', hairStyles, avatarConfig.top, 'top');
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
             
-            // Hair colors
-            renderColorOptions('hairColorOptions', hairColors, avatarConfig.hairColor, 'hairColor');
+            // Week range label
+            const weekEnd = new Date(weekStartDate);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            document.getElementById('weekRangeLabel').textContent = 
+                `${months[weekStartDate.getMonth()]} ${weekStartDate.getDate()} - ${months[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekStartDate.getFullYear()}`;
             
-            // Facial hair
-            renderOptions('facialHairOptions', facialHairStyles, avatarConfig.facialHair, 'facialHair');
-            
-            // Accessories
-            renderOptions('accessoryOptions', accessoryTypes, avatarConfig.accessories, 'accessories');
-            
-            // Clothing
-            renderOptions('clothingOptions', clothingTypes, avatarConfig.clothing, 'clothing');
-            
-            // Clothing colors
-            renderColorOptions('clothingColorOptions', clothingColors, avatarConfig.clothingColor, 'clothingColor');
-            
-            // Eyes
-            renderOptions('eyeOptions', eyeTypes, avatarConfig.eyes, 'eyes');
-            
-            // Eyebrows
-            renderOptions('eyebrowOptions', eyebrowTypes, avatarConfig.eyebrows, 'eyebrows');
-            
-            // Mouth
-            renderOptions('mouthOptions', mouthTypes, avatarConfig.mouth, 'mouth');
-            
-            // Voices
-            renderVoiceOptions();
+            // Build week grid
+            let html = '';
+            for (let i = 0; i < 7; i++) {
+                const day = new Date(weekStartDate);
+                day.setDate(day.getDate() + i);
+                const dateStr = `${day.getFullYear()}-${String(day.getMonth()+1).padStart(2,'0')}-${String(day.getDate()).padStart(2,'0')}`;
+                const isToday = dateStr === todayStr;
+                const dayEvents = calendarEvents.filter(e => e.date === dateStr);
+                
+                let eventsHtml = dayEvents.length > 0 
+                    ? dayEvents.map(e => `<div class="week-event-item"><span class="week-event-time">${e.time}</span><span class="week-event-title">${e.title}</span></div>`).join('')
+                    : '<div class="week-no-events">No events</div>';
+                
+                html += `<div class="week-day-row${isToday ? ' today' : ''}">
+                    <div class="week-day-header">
+                        <span class="week-day-name">${days[i]}${isToday ? ' (Today)' : ''}</span>
+                        <span class="week-day-date">${months[day.getMonth()]} ${day.getDate()}</span>
+                    </div>
+                    <div class="week-day-events">${eventsHtml}</div>
+                </div>`;
+            }
+            document.getElementById('weekGrid').innerHTML = html;
         }
         
-        function renderColorOptions(containerId, colors, selected, configKey) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            Object.entries(colors).forEach(([key, color]) => {
-                const swatch = document.createElement('div');
-                swatch.className = 'color-swatch' + (key === selected ? ' selected' : '');
-                swatch.style.backgroundColor = color;
-                swatch.onclick = () => selectOption(configKey, key, containerId);
-                container.appendChild(swatch);
-            });
+        function changeWeek(delta) {
+            weekStartDate.setDate(weekStartDate.getDate() + (delta * 7));
+            renderWeekView();
         }
         
-        function renderOptions(containerId, options, selected, configKey) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            Object.entries(options).forEach(([key, label]) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn' + (key === selected ? ' selected' : '');
-                btn.textContent = label;
-                btn.onclick = () => selectOption(configKey, key, containerId);
-                container.appendChild(btn);
-            });
-        }
+        // ===== PEOPLE =====
+        let people = [
+            {
+                id: 1,
+                name: 'Suzy Johnson',
+                role: 'Shipping Manager',
+                phone: '+1 (555) 234-5678',
+                email: 'suzy@company.com',
+                description: "Suzy is in charge of shipping. She's really nice and always likes to make jokes. Keep conversations light and friendly - she appreciates humor and doesn't like overly formal communication. Always start with a friendly greeting."
+            },
+            {
+                id: 2,
+                name: 'Alan Chen',
+                role: 'IT Director',
+                phone: '+1 (555) 345-6789',
+                email: 'alan@company.com',
+                description: "Alan is in IT. He is very serious and wants just the information pertinent to the task at hand. He doesn't want long stories about how things came about and definitely doesn't want to chit chat or joke around. Be direct, technical, and concise."
+            }
+        ];
         
-        function renderVoiceOptions() {
-            const container = document.getElementById('voiceOptions');
-            container.innerHTML = '';
+        function renderPeopleGrid() {
+            const grid = document.getElementById('peopleGrid');
             
-            Object.entries(voices).forEach(([key, voice]) => {
-                const option = document.createElement('div');
-                option.className = 'voice-option' + (key === selectedVoice ? ' selected' : '');
-                option.innerHTML = `
-                    <div class="voice-name">${voice.name}</div>
-                    <div class="voice-desc">${voice.desc}</div>
+            if (people.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon">👥</div>
+                        <h3>No people added yet</h3>
+                        <p>Add important contacts so Stewart knows how to communicate with them. Include personality notes, communication preferences, and key details.</p>
+                    </div>
                 `;
-                option.onclick = () => selectVoice(key);
-                container.appendChild(option);
-            });
-        }
-        
-        function selectOption(configKey, value, containerId) {
-            avatarConfig[configKey] = value;
+                return;
+            }
             
-            // Update selection UI
-            const container = document.getElementById(containerId);
-            container.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-            event.target.classList.add('selected');
+            grid.innerHTML = people.map(person => `
+                <div class="person-card-large">
+                    <div class="person-card-header">
+                        <div class="person-avatar-large">${getInitials(person.name)}</div>
+                        <div class="person-card-info">
+                            <h3>${person.name}</h3>
+                            ${person.role ? `<div class="person-card-role">${person.role}</div>` : ''}
+                        </div>
+                        <div class="person-card-actions">
+                            <button class="person-action-btn" onclick="editPerson(${person.id})" title="Edit">✏️</button>
+                            <button class="person-action-btn delete" onclick="deletePerson(${person.id})" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="person-contact-grid">
+                        ${person.phone ? `
+                            <div class="person-contact-item-large">
+                                <span class="person-contact-icon">📱</span>
+                                <span class="person-contact-value"><a href="tel:${person.phone}">${person.phone}</a></span>
+                            </div>
+                        ` : ''}
+                        ${person.email ? `
+                            <div class="person-contact-item-large">
+                                <span class="person-contact-icon">✉️</span>
+                                <span class="person-contact-value"><a href="mailto:${person.email}">${person.email}</a></span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    ${person.description ? `
+                        <div class="person-description-large">
+                            <div class="person-description-label">Communication Style</div>
+                            ${person.description}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
+        
+        function openAddPersonModal() {
+            document.getElementById('personModalTitle').textContent = 'Add Important Person';
+            document.getElementById('editPersonId').value = '';
+            document.getElementById('personName').value = '';
+            document.getElementById('personRole').value = '';
+            document.getElementById('personPhone').value = '';
+            document.getElementById('personEmail').value = '';
+            document.getElementById('personDescription').value = '';
+            document.getElementById('addPersonModal').classList.add('active');
+        }
+        
+        function closeAddPersonModal() {
+            document.getElementById('addPersonModal').classList.remove('active');
+        }
+        
+        function editPerson(id) {
+            const person = people.find(p => p.id === id);
+            if (!person) return;
             
-            // Update preview
-            document.getElementById('previewAvatar').innerHTML = generateAvatar();
+            document.getElementById('personModalTitle').textContent = 'Edit Person';
+            document.getElementById('editPersonId').value = id;
+            document.getElementById('personName').value = person.name;
+            document.getElementById('personRole').value = person.role || '';
+            document.getElementById('personPhone').value = person.phone || '';
+            document.getElementById('personEmail').value = person.email || '';
+            document.getElementById('personDescription').value = person.description || '';
+            document.getElementById('addPersonModal').classList.add('active');
         }
         
-        function selectVoice(key) {
-            selectedVoice = key;
-            document.getElementById('previewVoice').textContent = `Voice: ${voices[key].name}`;
+        function savePerson() {
+            const id = document.getElementById('editPersonId').value;
+            const name = document.getElementById('personName').value.trim();
             
-            const container = document.getElementById('voiceOptions');
-            container.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-            event.target.closest('.voice-option').classList.add('selected');
-        }
-        
-        function setName(name) {
-            document.getElementById('botNameInput').value = name;
-            updatePreviewName();
-        }
-        
-        function updatePreviewName() {
-            const name = document.getElementById('botNameInput').value || 'Stewart';
-            document.getElementById('previewName').textContent = name;
-        }
-        
-        function updateSpeed() {
-            const value = document.getElementById('speedSlider').value;
-            document.getElementById('speedValue').textContent = value + 'x';
-        }
-        
-        function updateStability() {
-            const value = document.getElementById('stabilitySlider').value;
-            document.getElementById('stabilityValue').textContent = value + '%';
-        }
-        
-        function updateClarity() {
-            const value = document.getElementById('claritySlider').value;
-            document.getElementById('clarityValue').textContent = value + '%';
-        }
-        
-        function randomizeAvatar() {
-            const randomFrom = (obj) => {
-                const keys = Object.keys(obj);
-                return keys[Math.floor(Math.random() * keys.length)];
+            if (!name) {
+                alert('Please enter a name');
+                return;
+            }
+            
+            const personData = {
+                id: id ? parseInt(id) : Date.now(),
+                name: name,
+                role: document.getElementById('personRole').value.trim(),
+                phone: document.getElementById('personPhone').value.trim(),
+                email: document.getElementById('personEmail').value.trim(),
+                description: document.getElementById('personDescription').value.trim()
             };
             
-            avatarConfig = {
-                skin: randomFrom(skinColors),
-                top: randomFrom(hairStyles),
-                hairColor: randomFrom(hairColors),
-                facialHair: Math.random() > 0.5 ? randomFrom(facialHairStyles) : 'none',
-                accessories: Math.random() > 0.7 ? randomFrom(accessoryTypes) : 'none',
-                clothing: randomFrom(clothingTypes),
-                clothingColor: randomFrom(clothingColors),
-                eyes: randomFrom(eyeTypes),
-                eyebrows: randomFrom(eyebrowTypes),
-                mouth: randomFrom(mouthTypes)
-            };
+            if (id) {
+                // Update existing
+                const index = people.findIndex(p => p.id === parseInt(id));
+                if (index >= 0) people[index] = personData;
+            } else {
+                // Add new
+                people.push(personData);
+            }
             
-            renderAllOptions();
-            document.getElementById('previewAvatar').innerHTML = generateAvatar();
-        }
-        
-        function openCustomize() {
-            document.getElementById('customizeModal').classList.add('active');
-            document.getElementById('botNameInput').value = botName;
-            renderAllOptions();
-            document.getElementById('previewAvatar').innerHTML = generateAvatar();
-        }
-        
-        function closeCustomize() {
-            document.getElementById('customizeModal').classList.remove('active');
-        }
-        
-        function saveCustomization() {
-            botName = document.getElementById('botNameInput').value || 'Stewart';
+            savePeopleToStorage();
+            renderPeopleGrid();
+            closeAddPersonModal();
             
-            // Save to localStorage
-            localStorage.setItem('stewartBotConfig', JSON.stringify({
-                avatar: avatarConfig,
-                name: botName,
-                voice: selectedVoice,
-                speed: document.getElementById('speedSlider').value,
-                stability: document.getElementById('stabilitySlider').value,
-                clarity: document.getElementById('claritySlider').value
-            }));
-            
-            updateAllAvatars();
-            closeCustomize();
+            // Show confirmation in chat
+            addMessage(`Got it! I've ${id ? 'updated' : 'added'} ${name} to your contacts. I'll remember how to communicate with them.`, 'bot');
         }
         
-        function toggleCard(header) {
-            header.closest('.card').classList.toggle('expanded');
+        function deletePerson(id) {
+            const person = people.find(p => p.id === id);
+            if (confirm(`Remove ${person.name} from your contacts?`)) {
+                people = people.filter(p => p.id !== id);
+                savePeopleToStorage();
+                renderPeopleGrid();
+            }
+        }
+        
+        function savePeopleToStorage() {
+            localStorage.setItem('stewartPeople', JSON.stringify(people));
+        }
+        
+        function loadPeopleFromStorage() {
+            const stored = localStorage.getItem('stewartPeople');
+            if (stored) {
+                people = JSON.parse(stored);
+            }
+        }
+        
+        // ===== CHAT =====
+        function addMessage(text, type) {
+            const messages = document.getElementById('messages');
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            msg.innerHTML = `<div class="message-bubble">${text}</div>`;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                const input = document.getElementById('messageInput');
+                const text = input.value.trim();
+                if (text) {
+                    addMessage(text, 'user');
+                    input.value = '';
+                    // Simulate response
+                    setTimeout(() => {
+                        addMessage("I'm processing your request...", 'bot');
+                    }, 500);
+                }
+            }
         }
         
         function toggleVoice() {
-            const btn = document.getElementById('voiceBtn');
-            btn.classList.toggle('listening');
+            alert('Voice input coming soon!');
         }
+        
+        // ===== CARDS =====
+        function toggleCard(header) {
+            const card = header.parentElement;
+            card.classList.toggle('expanded');
+        }
+        
+        // ===== CUSTOMIZE MODAL =====
+        function openCustomizeModal() {
+            document.getElementById('customizeModal').classList.add('active');
+        }
+        
+        function closeCustomizeModal() {
+            document.getElementById('customizeModal').classList.remove('active');
+        }
+        
+        // ===== INIT =====
+        function initAvatar() {
+            const config = {
+                skinColor: 'light',
+                topType: 'shortHairShortFlat',
+                hairColor: 'brown',
+                facialHairType: 'blank',
+                clotheType: 'blazerSweater',
+                clotheColor: 'black',
+                eyeType: 'default',
+                eyebrowType: 'default',
+                mouthType: 'smile',
+                accessoriesType: 'blank'
+            };
+            
+            if (typeof generateAvatar === 'function') {
+                const svg = generateAvatar(config);
+                document.getElementById('mainBotAvatar').innerHTML = svg;
+                document.getElementById('navBotAvatar').innerHTML = svg;
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPeopleFromStorage();
+            initAvatar();
+            renderTodayView();
+            renderWeekView();
+            renderFullCalendar();
+            renderPeopleGrid();
+        });
     </script>
 </body>
 </html>
