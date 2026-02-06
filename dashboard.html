@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stewart-gold': '#D4A853',
+                        'stewart-gold-dark': '#B8923D',
+                        'stewart-dark': '#1a1a2e',
+                        'stewart-darker': '#0f0f1a',
+                        'stewart-card': '#252540',
+                        'stewart-border': '#3a3a5c'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-gold { background: linear-gradient(135deg, #D4A853 0%, #B8923D 100%); }
+        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite; }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        .progress-animate { transition: width 0.5s ease-out; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: #3a3a5c; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-stewart-darker text-white min-h-screen">
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Sample data
+        const scheduleData = [
+            { time: '9:00 AM', title: 'Team standup', type: 'meeting', status: 'completed' },
+            { time: '10:30 AM', title: 'Review Q1 projections', type: 'task', status: 'current' },
+            { time: '12:00 PM', title: 'Lunch with investor', type: 'meeting', status: 'upcoming' },
+            { time: '2:00 PM', title: 'Product demo prep', type: 'task', status: 'upcoming' },
+            { time: '4:00 PM', title: 'Weekly sync - Engineering', type: 'meeting', status: 'upcoming' },
+        ];
+
+        const projectsData = [
+            { name: 'Website Redesign', progress: 85, dueDate: 'Feb 7', priority: 'high' },
+            { name: 'API Integration', progress: 62, dueDate: 'Feb 10', priority: 'medium' },
+            { name: 'Mobile App v2', progress: 34, dueDate: 'Feb 20', priority: 'low' },
+            { name: 'Customer Portal', progress: 91, dueDate: 'Feb 6', priority: 'high' },
+        ];
+
+        const responsibilitiesData = {
+            daily: [
+                { task: 'Check emails and prioritize', done: true },
+                { task: 'Review team updates', done: true },
+                { task: 'Update project boards', done: false },
+                { task: 'End-of-day summary', done: false },
+            ],
+            weekly: [
+                { task: 'Monday: Sprint planning', done: true },
+                { task: 'Wednesday: 1:1 meetings', done: false },
+                { task: 'Friday: Team retrospective', done: false },
+            ]
+        };
+
+        const activityData = [
+            { action: 'Completed task', detail: 'Draft investor update email', time: '10 min ago', icon: '✓' },
+            { action: 'Scheduled meeting', detail: 'Product review with Sarah', time: '25 min ago', icon: '📅' },
+            { action: 'Analyzed report', detail: 'Q4 revenue trends identified', time: '1 hour ago', icon: '📊' },
+            { action: 'Sent reminder', detail: 'Contract deadline tomorrow', time: '2 hours ago', icon: '⏰' },
+            { action: 'Updated project', detail: 'Website Redesign → 85%', time: '3 hours ago', icon: '📈' },
+        ];
+
+        // Components
+        const Header = ({ userName }) => (
+            <header className="flex items-center justify-between p-6 border-b border-stewart-border">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full gradient-gold flex items-center justify-center text-xl">
+                        👋
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-semibold">Good morning, {userName}</h1>
+                        <p className="text-gray-400 text-sm">Thursday, February 5, 2026</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4">
+                    <div className="text-right">
+                        <p className="text-stewart-gold font-semibold">14 days left</p>
+                        <p className="text-gray-400 text-xs">in your trial</p>
+                    </div>
+                    <button className="px-4 py-2 gradient-gold rounded-lg text-black font-medium hover:opacity-90 transition">
+                        Upgrade
+                    </button>
+                </div>
+            </header>
+        );
+
+        const WorkUnitsCard = () => {
+            const [animated, setAnimated] = useState(false);
+            useEffect(() => { setTimeout(() => setAnimated(true), 100); }, []);
+            
+            return (
+                <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-semibold">Work Impact</h2>
+                        <span className="text-xs text-gray-400">This week</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-stewart-gold">{animated ? '47' : '0'}</div>
+                            <div className="text-xs text-gray-400 mt-1">Tasks Done</div>
+                        </div>
+                        <div className="text-center border-x border-stewart-border">
+                            <div className="text-3xl font-bold text-green-400">{animated ? '12.5' : '0'}</div>
+                            <div className="text-xs text-gray-400 mt-1">Hours Saved</div>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-blue-400">{animated ? '3.2' : '0'}</div>
+                            <div className="text-xs text-gray-400 mt-1">Stewdays Used</div>
+                        </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-stewart-border">
+                        <div className="flex justify-between text-sm mb-2">
+                            <span className="text-gray-400">Weekly capacity</span>
+                            <span className="text-stewart-gold">64%</span>
+                        </div>
+                        <div className="h-2 bg-stewart-darker rounded-full overflow-hidden">
+                            <div className={`h-full gradient-gold rounded-full progress-animate ${animated ? 'w-[64%]' : 'w-0'}`}></div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const TodaySchedule = () => (
+            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold">Today's Schedule</h2>
+                    <button className="text-stewart-gold text-sm hover:underline">View calendar</button>
+                </div>
+                <div className="space-y-3">
+                    {scheduleData.map((item, i) => (
+                        <div key={i} className={`flex items-center gap-3 p-3 rounded-lg transition ${
+                            item.status === 'current' ? 'bg-stewart-gold/10 border border-stewart-gold/30' :
+                            item.status === 'completed' ? 'opacity-50' : 'hover:bg-stewart-darker'
+                        }`}>
+                            <div className={`w-2 h-2 rounded-full ${
+                                item.status === 'completed' ? 'bg-green-500' :
+                                item.status === 'current' ? 'bg-stewart-gold' : 'bg-gray-500'
+                            }`}></div>
+                            <span className="text-gray-400 text-sm w-20">{item.time}</span>
+                            <span className={item.status === 'completed' ? 'line-through text-gray-500' : ''}>
+                                {item.title}
+                            </span>
+                            <span className={`ml-auto text-xs px-2 py-1 rounded ${
+                                item.type === 'meeting' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'
+                            }`}>
+                                {item.type}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        const OpenProjects = () => (
+            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold">Open Projects</h2>
+                    <span className="text-xs text-gray-400">{projectsData.length} active</span>
+                </div>
+                <div className="space-y-4">
+                    {projectsData.map((project, i) => (
+                        <div key={i} className="group">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                    <span className={`w-2 h-2 rounded-full ${
+                                        project.priority === 'high' ? 'bg-red-500' :
+                                        project.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                                    }`}></span>
+                                    <span className="font-medium group-hover:text-stewart-gold transition">{project.name}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-xs text-gray-400">Due {project.dueDate}</span>
+                                    <span className="text-sm font-semibold text-stewart-gold">{project.progress}%</span>
+                                </div>
+                            </div>
+                            <div className="h-2 bg-stewart-darker rounded-full overflow-hidden">
+                                <div 
+                                    className="h-full rounded-full transition-all duration-500"
+                                    style={{ 
+                                        width: `${project.progress}%`,
+                                        background: project.progress > 80 ? 'linear-gradient(90deg, #22c55e, #16a34a)' :
+                                                   project.progress > 50 ? 'linear-gradient(90deg, #D4A853, #B8923D)' :
+                                                   'linear-gradient(90deg, #3b82f6, #2563eb)'
+                                    }}
+                                ></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        const Responsibilities = () => {
+            const [activeTab, setActiveTab] = useState('daily');
+            const items = activeTab === 'daily' ? responsibilitiesData.daily : responsibilitiesData.weekly;
+            
+            return (
+                <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-semibold">Responsibilities</h2>
+                        <div className="flex gap-1 bg-stewart-darker rounded-lg p-1">
+                            <button 
+                                onClick={() => setActiveTab('daily')}
+                                className={`px-3 py-1 text-sm rounded-md transition ${
+                                    activeTab === 'daily' ? 'bg-stewart-gold text-black' : 'text-gray-400 hover:text-white'
+                                }`}
+                            >Daily</button>
+                            <button 
+                                onClick={() => setActiveTab('weekly')}
+                                className={`px-3 py-1 text-sm rounded-md transition ${
+                                    activeTab === 'weekly' ? 'bg-stewart-gold text-black' : 'text-gray-400 hover:text-white'
+                                }`}
+                            >Weekly</button>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        {items.map((item, i) => (
+                            <label key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-stewart-darker cursor-pointer transition">
+                                <input 
+                                    type="checkbox" 
+                                    defaultChecked={item.done}
+                                    className="w-5 h-5 rounded border-2 border-stewart-border bg-transparent checked:bg-stewart-gold checked:border-stewart-gold"
+                                />
+                                <span className={item.done ? 'text-gray-500 line-through' : ''}>{item.task}</span>
+                            </label>
+                        ))}
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-stewart-border flex justify-between text-sm">
+                        <span className="text-gray-400">
+                            {items.filter(i => i.done).length}/{items.length} completed
+                        </span>
+                        <button className="text-stewart-gold hover:underline">+ Add task</button>
+                    </div>
+                </div>
+            );
+        };
+
+        const RecentActivity = () => (
+            <div className="bg-stewart-card rounded-xl p-6 border border-stewart-border">
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold">Recent Activity</h2>
+                    <button className="text-stewart-gold text-sm hover:underline">View all</button>
+                </div>
+                <div className="space-y-3">
+                    {activityData.map((item, i) => (
+                        <div key={i} className="flex items-start gap-3 p-2 hover:bg-stewart-darker rounded-lg transition">
+                            <div className="w-8 h-8 rounded-full bg-stewart-darker flex items-center justify-center text-sm">
+                                {item.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="font-medium text-sm">{item.action}</p>
+                                <p className="text-gray-400 text-xs truncate">{item.detail}</p>
+                            </div>
+                            <span className="text-xs text-gray-500 whitespace-nowrap">{item.time}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        const VoiceInputBar = () => {
+            const [isListening, setIsListening] = useState(false);
+            const [inputText, setInputText] = useState('');
+            
+            return (
+                <div className="fixed bottom-0 left-0 right-0 bg-stewart-dark border-t border-stewart-border p-4">
+                    <div className="max-w-6xl mx-auto flex items-center gap-4">
+                        <button 
+                            onClick={() => setIsListening(!isListening)}
+                            className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                                isListening ? 'bg-green-500' : 'gradient-gold'
+                            }`}
+                        >
+                            {isListening && <div className="absolute inset-0 rounded-full bg-green-500/30 pulse-ring"></div>}
+                            <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h4v2H8v-2h4v-3.07z"/>
+                            </svg>
+                        </button>
+                        <div className="flex-1 relative">
+                            <input
+                                type="text"
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
+                                placeholder={isListening ? "Listening..." : "Ask Stewart anything..."}
+                                className="w-full bg-stewart-darker border border-stewart-border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-stewart-gold transition"
+                            />
+                            <button className="absolute right-3 top-1/2 -translate-y-1/2 text-stewart-gold hover:text-stewart-gold-dark transition">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="hidden md:flex items-center gap-2 text-sm text-gray-400">
+                            <kbd className="px-2 py-1 bg-stewart-darker rounded border border-stewart-border">⌘</kbd>
+                            <kbd className="px-2 py-1 bg-stewart-darker rounded border border-stewart-border">K</kbd>
+                            <span>for commands</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Main Dashboard
+        const Dashboard = () => (
+            <div className="min-h-screen pb-24">
+                <Header userName="Nick" />
+                
+                <main className="p-6 max-w-7xl mx-auto">
+                    {/* Top row - Work Impact */}
+                    <div className="mb-6">
+                        <WorkUnitsCard />
+                    </div>
+                    
+                    {/* Main grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Left column - Schedule */}
+                        <div className="lg:col-span-1">
+                            <TodaySchedule />
+                        </div>
+                        
+                        {/* Middle column - Projects */}
+                        <div className="lg:col-span-1">
+                            <OpenProjects />
+                        </div>
+                        
+                        {/* Right column - Responsibilities */}
+                        <div className="lg:col-span-1">
+                            <Responsibilities />
+                        </div>
+                    </div>
+                    
+                    {/* Bottom row - Activity */}
+                    <div className="mt-6">
+                        <RecentActivity />
+                    </div>
+                </main>
+                
+                <VoiceInputBar />
+            </div>
+        );
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
+    </script>
+</body>
+</html>
