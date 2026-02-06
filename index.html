@@ -1122,7 +1122,8 @@
         };
         
         function updateAvatar() {
-            const url = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Date.now()}&top=${avatarSettings.hair}&hairColor=${avatarSettings.hairColor}&skinColor=${avatarSettings.skin}&clothingGraphic=bat&clothing=${avatarSettings.clothing}`;
+            const seed = `${avatarSettings.hair}-${avatarSettings.hairColor}-${avatarSettings.skin}-${avatarSettings.clothing}`;
+            const url = `https://api.dicebear.com/9.x/avataaars/svg?seed=${seed}`;
             document.getElementById('avatarImg').src = url;
         }
         
