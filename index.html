@@ -27,7 +27,7 @@
             color: var(--light);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: 44px; /* Space for banner */
+            padding-top: 44px;
         }
         
         /* Announcement Banner */
@@ -43,7 +43,6 @@
             padding: 10px 20px;
             font-size: 0.9rem;
             font-weight: 500;
-            letter-spacing: 0.5px;
         }
         
         .announcement-banner a {
@@ -55,7 +54,7 @@
         /* Navigation */
         nav {
             position: fixed;
-            top: 44px; /* Below banner */
+            top: 44px;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -132,38 +131,23 @@
         
         .btn-outline:hover {
             background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.3);
         }
         
-        /* Hero Section */
+        /* Hero Section with Animated Stewart */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 6rem 2rem 3rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
-            overflow: hidden;
         }
         
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('assets/hero-background.jpg') center/cover;
-            opacity: 0.15;
-        }
-        
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
         }
         
         .hero-content {
@@ -171,487 +155,482 @@
             margin: 0 auto;
             position: relative;
             z-index: 1;
-            text-align: center;
-        }
-        
-        .hero-badge {
-            display: inline-flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(124, 58, 237, 0.2);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            color: var(--secondary);
-            margin-bottom: 2rem;
         }
         
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--light) 0%, var(--gray) 100%);
+        }
+        
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-        
-        .hero-subtitle {
+        .hero-text p {
             font-size: 1.25rem;
             color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 500px;
         }
         
-        .hero-cta {
+        .hero-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 4rem;
         }
         
-        /* Section Styles */
-        section {
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        section + section {
-            padding-top: 2rem;
-        }
-        
-        .section-tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-        
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin-bottom: 3rem;
-        }
-        
-        /* Meet Stewart Section */
-        .meet-stewart {
-            text-align: center;
-            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.03), transparent);
-        }
-        
-        .stewart-intro {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+        /* Animated Stewart Character */
+        .stewart-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            text-align: left;
-            margin-bottom: 4rem;
         }
         
         .stewart-avatar {
-            position: relative;
+            width: 300px;
+            height: 300px;
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+            filter: drop-shadow(0 20px 40px rgba(124, 58, 237, 0.3));
         }
         
-        .stewart-avatar img {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 2rem;
-            box-shadow: 0 40px 80px rgba(124, 58, 237, 0.3);
+        .stewart-avatar:hover {
+            transform: scale(1.05);
         }
         
-        .stewart-avatar::after {
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .speech-bubble {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: var(--dark);
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            max-width: 280px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .speech-bubble::before {
             content: '';
             position: absolute;
-            inset: -20px;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            border-radius: 2.5rem;
-            z-index: -1;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 10px solid transparent;
+            border-bottom-color: white;
         }
         
-        .stewart-bio h2 {
+        .stewart-container:hover .speech-bubble {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--secondary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Video Section */
+        .video-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
+        }
+        
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .video-container h2 {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .stewart-bio p {
-            color: var(--gray);
-            font-size: 1.1rem;
             margin-bottom: 1rem;
         }
         
-        /* Communication Methods */
-        .comm-section {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 2rem;
-            padding: 3rem;
+        .video-container p {
+            color: var(--gray);
             margin-bottom: 2rem;
         }
         
-        .comm-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: stretch;
-        }
-        
-        @media (max-width: 1024px) {
-            .comm-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .comm-grid {
-                grid-template-columns: 1fr !important;
-                gap: 1.5rem;
-                padding: 0 0.5rem;
-            }
-            .comm-card {
-                min-width: 100% !important;
-                padding: 1.5rem !important;
-            }
-        }
-        
-        .comm-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.08);
+        .video-wrapper {
+            position: relative;
             border-radius: 1rem;
-            padding: 1.25rem;
-            transition: all 0.3s;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            aspect-ratio: 16/9;
+            background: var(--dark);
+        }
+        
+        .video-wrapper video {
             width: 100%;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .comm-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(124, 58, 237, 0.3);
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
-        }
-        
-        .comm-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.35rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .comm-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .comm-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        .comm-stat {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-        
-        /* Skills Grid */
-        .skills-section {
-            text-align: center;
-        }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .skill-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: left;
-            transition: all 0.3s;
-        }
-        
-        .skill-card:hover {
-            border-color: rgba(6, 182, 212, 0.3);
-        }
-        
-        .skill-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .skill-icon {
-            font-size: 1.5rem;
-        }
-        
-        .skill-card h4 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .skill-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* Integrations */
-        .integrations-section {
-            background: #ffffff;
-            border-radius: 0;
-            padding: 3rem 1.5rem;
-            margin-left: -1.5rem;
-            margin-right: -1.5rem;
-            width: calc(100% + 3rem);
-            text-align: center;
-        }
-        
-        .integration-logos {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-        }
-        
-        .integration-grid-new {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            width: 100%;
-            max-width: 100%;
-            justify-items: center;
-        }
-        
-        @media (min-width: 768px) {
-            .integration-grid-new {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 1rem;
-            }
-        }
-        
-        .stewart-integration-card {
-            display: none; /* Hide second Memoji - keep single hero image */
-        }
-        
-        .stewart-integration-card img {
-            width: 100px;
-            height: auto;
-        }
-        
-        @media (min-width: 768px) {
-            .stewart-integration-card {
-                grid-column: 2;
-                grid-row: 1;
-                order: 0;
-            }
-            .stewart-integration-card img {
-                width: 150px;
-            }
-        }
-        
-        .integration-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1.5rem 2rem;
-            font-weight: 600;
-            color: var(--gray);
-            transition: all 0.3s;
-        }
-        
-        .integration-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--light);
-        }
-        
-        .integration-count {
-            display: block;
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            color: var(--secondary);
-        }
-        
-        /* Team Section */
-        .team-section {
-            text-align: center;
-        }
-        
-        .team-intro {
-            max-width: 800px;
-            margin: 0 auto 4rem;
-        }
-        
-        .team-intro p {
-            color: var(--gray);
-            font-size: 1.1rem;
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        
-        .team-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 1.25rem;
-            padding: 1.5rem 1.25rem;
-            transition: all 0.3s;
-        }
-        
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(124, 58, 237, 0.2);
-        }
-        
-        .team-avatar {
-            width: 60px;
-            height: 60px;
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin: 0 auto 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
         }
         
-        .team-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.5);
         }
         
-        .team-role {
+        .play-button svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+            margin-left: 5px;
+        }
+        
+        /* Stewart Explains Section - Interactive */
+        .stew-explains {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+        
+        .stew-explains-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        
+        .stew-sidebar {
+            position: sticky;
+            top: 120px;
+            text-align: center;
+        }
+        
+        .stew-talking {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 1rem;
+        }
+        
+        .stew-talking.talking {
+            animation: talk 0.3s ease-in-out infinite;
+        }
+        
+        @keyframes talk {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02) rotate(1deg); }
+        }
+        
+        .stew-status {
             color: var(--secondary);
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.875rem;
             margin-bottom: 1rem;
         }
         
-        .team-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        .team-price {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
+        .voice-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--darker);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 0.5rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
+            color: var(--light);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
         }
         
-        /* Capacity Section */
-        .capacity-section {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 2rem;
-            padding: 3rem;
-            text-align: center;
-        }
-        
-        .capacity-highlight {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin: 2rem 0;
-        }
-        
-        .capacity-grid {
+        .topic-cards {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
         
-        .capacity-item {
-            text-align: center;
+        .topic-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .capacity-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .topic-card:hover {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
         }
         
-        .capacity-label {
+        .topic-card.active {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .topic-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .topic-card p {
             color: var(--gray);
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .topic-card .play-icon {
+            margin-left: auto;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .topic-card:hover .play-icon {
+            opacity: 1;
+        }
+        
+        /* Sections */
+        section { padding: 6rem 2rem; }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-label {
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Channels */
+        .channels-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .channel-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .channel-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .channel-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .channel-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .channel-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .channel-stat {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        /* Capabilities */
+        .capabilities-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .capability-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .capability-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.1);
+        }
+        
+        .capability-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .capability-card h4 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .capability-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Team Section */
+        .team-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .specialist-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .specialist-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .specialist-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .specialist-card h3 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .specialist-role {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .specialist-card p {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        
+        .specialist-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--light);
         }
         
         /* Pricing */
-        .pricing-section {
-            text-align: center;
-        }
-        
         .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
         
         .pricing-card {
             background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1.25rem;
-            padding: 2rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            position: relative;
             transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
         }
         
         .pricing-card.featured {
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.1));
             border-color: var(--primary);
-            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
         
         .pricing-card h3 {
@@ -659,1237 +638,549 @@
             margin-bottom: 0.5rem;
         }
         
-        .pricing-desc {
-            color: var(--gray);
-            margin-bottom: 2rem;
-        }
-        
-        .pricing-amount {
+        .pricing-card .price {
             font-size: 3rem;
             font-weight: 800;
+            margin: 1rem 0;
         }
         
-        .pricing-period {
-            color: var(--gray);
+        .pricing-card .price span {
             font-size: 1rem;
+            font-weight: 400;
+            color: var(--gray);
         }
         
-        .pricing-features {
+        .pricing-card ul {
             list-style: none;
-            margin: 2rem 0;
-            text-align: left;
+            margin: 1.5rem 0;
         }
         
-        .pricing-features li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .pricing-card li {
+            padding: 0.5rem 0;
+            color: var(--gray);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
         
-        .pricing-features li::before {
+        .pricing-card li::before {
             content: '✓';
             color: var(--success);
             font-weight: bold;
         }
         
-        /* CTA Section */
-        .cta {
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
             text-align: center;
-            padding: 5rem 2rem;
-            background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
+            background: linear-gradient(180deg, var(--dark), var(--darker));
         }
         
-        .cta h2 {
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
             font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
-        .cta p {
+        .cta-content p {
             color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            margin-bottom: 2rem;
         }
         
-        .cta-phone {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin: 2rem 0;
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         /* Footer */
         footer {
-            padding: 4rem 2rem;
+            background: var(--darker);
             border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 3rem 2rem;
             text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-links a {
             color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s;
         }
         
-        .footer-links a:hover {
-            color: var(--light);
-        }
-        
-        .footer-copy {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 968px) {
-            .stewart-intro {
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
             
-            .stewart-avatar {
-                order: -1;
-            }
+            .hero-text p { margin: 0 auto 2rem; }
+            .hero-buttons { justify-content: center; }
             
-            .capacity-grid {
+            .stew-explains-container {
                 grid-template-columns: 1fr;
             }
             
-            .nav-links {
-                display: none;
+            .stew-sidebar {
+                position: static;
             }
             
-            .pricing-card.featured {
-                transform: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            section {
-                padding: 4rem 1rem;
-            }
+            .nav-links { display: none; }
         }
-        
-        /* Mobile - Small screens */
-        @media (max-width: 600px) {
-            .hero {
-                padding: 8rem 1rem 4rem;
-                min-height: auto;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-                line-height: 1.2;
-            }
-            
-            .hero .subtitle {
-                font-size: 1rem;
-            }
-            
-            .hero-cta {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .hero-cta .btn {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-                font-size: 1.1rem;
-            }
-            
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .team-card {
-                padding: 1.5rem;
-            }
-            
-            .comm-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .pricing-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .price {
-                font-size: 2.5rem;
-            }
-            
-            nav {
-                padding: 0.75rem 1rem;
-            }
-            
-            .logo {
-                font-size: 1.25rem;
-            }
-            
-            .logo img {
-                width: 32px;
-                height: 32px;
-            }
-            
-            .btn {
-                padding: 0.875rem 1.25rem;
-                min-height: 48px; /* Touch-friendly */
-            }
-            
-            .cta {
-                padding: 3rem 1rem;
-            }
-            
-            .cta h2 {
-                font-size: 2rem;
-            }
-            
-            .stewart-avatar {
-                width: 200px;
-                height: 200px;
-            }
-            
-            .capacity-item {
-                padding: 1.25rem;
-            }
-        }
-        
-        /* Extra small screens */
-        @media (max-width: 380px) {
-            .hero h1 {
-                font-size: 1.75rem;
-            }
-            
-            .comm-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .price {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .btn:hover {
-                transform: none;
-            }
-            
-            .team-card:hover,
-            .pricing-card:hover {
-                transform: none;
-            }
-            
-            .btn:active {
-                transform: scale(0.98);
-            }
-        }
-    
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        </style>
+    </style>
 </head>
 <body>
-<div class="announcement-banner">
-    🚀 PRE-LAUNCH BETA — Be among the first to experience Stewart. <a href="#pricing">Join the waitlist →</a>
-</div>
+    <!-- Announcement Banner -->
+    <div class="announcement-banner">
+        🚀 PRE-LAUNCH BETA — Be among the first to experience Stewart. <a href="#pricing">Join the waitlist →</a>
+    </div>
+
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
             <a href="#" class="logo">
-                <img src="assets/stewart-star-icon.png" alt="Stewart">
+                <img src="stew-wave.png" alt="Stewart">
                 Stewart
             </a>
             <div class="nav-links">
+                <a href="#stew-explains">How It Works</a>
                 <a href="#capabilities">Capabilities</a>
-                <a href="#team">Build Your Team</a>
+                <a href="#team">Team</a>
                 <a href="#pricing">Pricing</a>
-                <a href="/login.html" class="btn btn-primary">Get Started</a>
+                <a href="voice/" class="btn btn-primary">🎤 Try Voice Demo</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero with Animated Stewart -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge">
-                🚀 Pre-Launch Beta
-            </div>
-            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Meet Stewart!</h1>
-            <img src="https://raw.githubusercontent.com/Meetstewart/meetstewart.github.io/main/stew-wave.png" alt="Stewart Waving" style="width: 180px; height: auto; margin: 1.5rem auto; display: block;">
-            <h2 style="font-size: 1.5rem; font-weight: 600; color: #fff; margin-bottom: 1.5rem; line-height: 1.3;">
-                Your New<br>Executive Level<br>Virtual Powerhouse
-            </h2>
-            <div class="hero-traits" style="text-align: left; max-width: 420px; margin: 0 auto 2rem auto;">
-                <p style="color: rgba(255,255,255,0.95); margin: 0.6rem 0; font-size: 1.4rem; font-weight: 500;"><span style="color: #4CAF50;">✓</span> He Manages Your Calendar & Inbox</p>
-                <p style="color: rgba(255,255,255,0.95); margin: 0.6rem 0; font-size: 1.4rem; font-weight: 500;"><span style="color: #4CAF50;">✓</span> He Drafts Documents & Reports</p>
-                <p style="color: rgba(255,255,255,0.95); margin: 0.6rem 0; font-size: 1.4rem; font-weight: 500;"><span style="color: #4CAF50;">✓</span> He Tracks Projects & Deadlines</p>
-                <p style="color: rgba(255,255,255,0.95); margin: 0.6rem 0; font-size: 1.4rem; font-weight: 500;"><span style="color: #4CAF50;">✓</span> He Books Travel & Meetings</p>
-                <p style="color: rgba(255,255,255,0.95); margin: 0.6rem 0; font-size: 1.4rem; font-weight: 500;"><span style="color: #4CAF50;">✓</span> He Analyzes Data in Seconds</p>
-            </div>
-            <div class="hero-cta">
-                <a href="#" onclick="alert('Coming Soon! Stewart will be available for chat shortly.'); return false;" target="_blank" class="btn btn-primary">💬 Chat Now</a>
-                <a href="#capabilities" class="btn btn-outline">See What He Can Do</a>
-              <button class="try-stewart-btn" onclick="openVoiceModal()">
-                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h3v2H9v-2h3v-3.07z"/></svg>
-                Talk to Stewart
-              </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Communication Methods -->
-    <section class="meet-stewart" id="capabilities">
-        <span class="section-tag">Always Connected</span>
-        <h2 class="section-title">How Stewart Reaches Your World</h2>
-        <p class="section-subtitle">Multiple channels, simultaneous conversations, zero missed connections.</p>
-        
-        <div class="comm-section">
-            <div class="comm-grid">
-                <div class="comm-card">
-                    <div class="comm-icon">📞</div>
-                    <div class="comm-content">
-                        <h3>Voice Calls</h3>
-                        <p>Stewart answers calls 24/7 and can make outbound calls to your entire team simultaneously.</p>
-                        <span class="comm-stat">20 concurrent calls</span>
-                    </div>
-                </div>
-                <div class="comm-card">
-                    <div class="comm-icon">💬</div>
-                    <div class="comm-content">
-                        <h3>Text & iMessage</h3>
-                        <p>Quick updates, urgent alerts, or casual check-ins. Stewart texts like a real colleague.</p>
-                        <span class="comm-stat">Instant delivery</span>
-                    </div>
-                </div>
-                <div class="comm-card">
-                    <div class="comm-icon">📧</div>
-                    <div class="comm-content">
-                        <h3>Email</h3>
-                        <p>Professional correspondence, detailed reports, and document delivery—all handled.</p>
-                        <span class="comm-stat">On your behalf</span>
-                    </div>
-                </div>
-                <div class="comm-card">
-                    <div class="comm-icon">🌐</div>
-                    <div class="comm-content">
-                        <h3>Web Chat</h3>
-                        <p>Real-time conversation through the Stewart portal. Voice input supported.</p>
-                        <span class="comm-stat">Voice + text</span>
-                    </div>
+            <div class="hero-text">
+                <h1>Meet <span>Stewart</span>—Your Virtual Executive</h1>
+                <p>Six AI staff members. Yours, 24/7. We handle the work. You run the business.</p>
+                <div class="hero-buttons">
+                    <a href="voice/" class="btn btn-primary">🎤 Talk to Stewart</a>
+                    <a href="#stew-explains" class="btn btn-outline">Watch Him Explain</a>
                 </div>
             </div>
-        </div>
-        
-        <div class="capacity-section">
-            <h3 class="section-title">Reach Everyone at Once</h3>
-            <p class="capacity-highlight">
-                Stewart can call 20 staff members simultaneously—deliver any message, 
-                ask for feedback, or rally help on an urgent project.
-            </p>
-            <div class="capacity-grid">
-                <div class="capacity-item">
-                    <div class="capacity-number">24/7</div>
-                    <div class="capacity-label">Always Available</div>
+            <div class="stewart-container">
+                <img src="stew-wave.png" alt="Stewart waving" class="stewart-avatar" id="stewAvatar">
+                <div class="speech-bubble" id="speechBubble">
+                    Hey there! Click me or scroll down to hear what I can do for you! 👋
                 </div>
-                <div class="capacity-item">
-                    <div class="capacity-number">20</div>
-                    <div class="capacity-label">Concurrent Calls</div>
-                </div>
-                <div class="capacity-item">
-                    <div class="capacity-number">Unlimited</div>
-                    <div class="capacity-label">Messages Per Day</div>
+                <div class="click-hint">
+                    <span>🔊</span> Click Stewart to hear him
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section class="skills-section">
-        <span class="section-tag">Capabilities</span>
-        <h2 class="section-title">What Stewart Does</h2>
-        <p class="section-subtitle">A complete skill set for running your business.</p>
-        
-        <div class="skills-grid">
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">📊</span>
+    <!-- Stewart Explains - Interactive TTS Section -->
+    <section class="stew-explains" id="stew-explains">
+        <div class="stew-explains-container">
+            <div class="stew-sidebar">
+                <img src="stew-wave.png" alt="Stewart" class="stew-talking" id="stewTalking">
+                <div class="stew-status" id="stewStatus">Click a topic to hear me explain!</div>
+                <select class="voice-select" id="voiceSelect">
+                    <option value="EXAVITQu4vr4xnSDxMaL">Sarah (Professional)</option>
+                    <option value="onwK4e9ZLuTAKqWW03F9">Daniel (British)</option>
+                    <option value="TX3LPaxmHKxFdv7VOQHJ">Liam (Energetic)</option>
+                    <option value="pFZP5JQG7iQjIQuC4Bku">Lily (Warm)</option>
+                    <option value="CwhRBWXzGAHq8TQ4Fs17">Roger (Casual)</option>
+                    <option value="XB0fDUnXU5powFXDhCwa">Charlotte (Swedish)</option>
+                </select>
+                <button class="btn btn-outline" onclick="stopSpeaking()" style="width:100%;margin-top:0.5rem;">⏹ Stop</button>
+            </div>
+            <div class="topic-cards">
+                <div class="topic-card" onclick="explainTopic('intro')">
+                    <h3>👋 Who Am I? <span class="play-icon">▶</span></h3>
+                    <p>A quick intro to Stewart and what makes me different from other AI assistants.</p>
+                </div>
+                <div class="topic-card" onclick="explainTopic('value')">
+                    <h3>💰 The Value Proposition <span class="play-icon">▶</span></h3>
+                    <p>Why businesses are switching from human assistants to me (hint: I'm cheaper AND better).</p>
+                </div>
+                <div class="topic-card" onclick="explainTopic('team')">
+                    <h3>👥 My Team <span class="play-icon">▶</span></h3>
+                    <p>Meet Voice, Builder, Creator, Analyst, and Support—my specialist colleagues.</p>
+                </div>
+                <div class="topic-card" onclick="explainTopic('channels')">
+                    <h3>📱 How to Reach Me <span class="play-icon">▶</span></h3>
+                    <p>Phone, text, email, chat—I'm wherever you need me, whenever you need me.</p>
+                </div>
+                <div class="topic-card" onclick="explainTopic('security')">
+                    <h3>🔒 Your Data, Your Control <span class="play-icon">▶</span></h3>
+                    <p>Zero data on our servers. Your files stay in YOUR Dropbox or Google Drive.</p>
+                </div>
+                <div class="topic-card" onclick="explainTopic('pricing')">
+                    <h3>🏷️ Simple Pricing <span class="play-icon">▶</span></h3>
+                    <p>No hidden fees, no contracts, cancel anytime. I'll break down the numbers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Channels Section -->
+    <section class="channels-section" id="channels">
+        <div class="section-header">
+            <div class="section-label">Always Connected</div>
+            <h2>How Stewart Reaches Your World</h2>
+            <p>Multiple channels, simultaneous conversations, zero missed connections.</p>
+        </div>
+        <div class="channels-grid">
+            <div class="channel-card">
+                <div class="channel-icon">📞</div>
+                <h3>Voice Calls</h3>
+                <p>I answer calls 24/7 and can make outbound calls to your entire team simultaneously.</p>
+                <div class="channel-stat">20 concurrent calls</div>
+            </div>
+            <div class="channel-card">
+                <div class="channel-icon">💬</div>
+                <h3>Text & iMessage</h3>
+                <p>Quick updates, urgent alerts, or casual check-ins. I text like a real colleague.</p>
+                <div class="channel-stat">Instant delivery</div>
+            </div>
+            <div class="channel-card">
+                <div class="channel-icon">📧</div>
+                <h3>Email</h3>
+                <p>Professional correspondence, detailed reports, and document delivery—all handled.</p>
+                <div class="channel-stat">On your behalf</div>
+            </div>
+            <div class="channel-card">
+                <div class="channel-icon">🌐</div>
+                <h3>Web Chat</h3>
+                <p>Real-time conversation through the Stewart portal. Voice input supported.</p>
+                <div class="channel-stat">Voice + text</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="capabilities-section" id="capabilities">
+        <div class="section-header">
+            <div class="section-label">Capabilities</div>
+            <h2>What Stewart Does</h2>
+            <p>A complete skill set for running your business.</p>
+        </div>
+        <div class="capabilities-grid">
+            <div class="capability-card">
+                <div class="capability-icon">📊</div>
+                <div>
                     <h4>Monitor Any Metric</h4>
+                    <p>Track sales, inventory, website traffic, social engagement—I watch what matters.</p>
                 </div>
-                <p>Track sales, inventory, website traffic, social engagement—Stewart watches what matters and alerts you to changes.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">📋</span>
+            <div class="capability-card">
+                <div class="capability-icon">📋</div>
+                <div>
                     <h4>Instant Reports</h4>
+                    <p>Request a report and get it immediately. Daily summaries, weekly rollups, real-time dashboards.</p>
                 </div>
-                <p>Request a report and get it immediately. Daily summaries, weekly rollups, or real-time dashboards.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">✍️</span>
+            <div class="capability-card">
+                <div class="capability-icon">✍️</div>
+                <div>
                     <h4>Draft & Send Communications</h4>
+                    <p>Emails, memos, proposals, contracts. I write professionally and send on your behalf.</p>
                 </div>
-                <p>Emails, memos, proposals, contracts. Stewart writes professionally and sends on your behalf.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">📅</span>
+            <div class="capability-card">
+                <div class="capability-icon">📅</div>
+                <div>
                     <h4>Calendar & Scheduling</h4>
+                    <p>Coordinate meetings, send reminders, manage your time. Never miss an appointment.</p>
                 </div>
-                <p>Coordinate meetings, send reminders, manage your time. Never miss an appointment.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">🔍</span>
+            <div class="capability-card">
+                <div class="capability-icon">🔍</div>
+                <div>
                     <h4>Research & Analysis</h4>
+                    <p>Competitive research, market analysis, due diligence. I find what you need to know.</p>
                 </div>
-                <p>Competitive research, market analysis, due diligence. Stewart finds what you need to know.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">💰</span>
+            <div class="capability-card">
+                <div class="capability-icon">💰</div>
+                <div>
                     <h4>Financial Tracking</h4>
+                    <p>Monitor accounts, track expenses, flag anomalies. Keep your finger on the financial pulse.</p>
                 </div>
-                <p>Monitor accounts, track expenses, flag anomalies. Keep your finger on the financial pulse.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">👥</span>
+            <div class="capability-card">
+                <div class="capability-icon">👥</div>
+                <div>
                     <h4>Staff Management</h4>
+                    <p>Delegate tasks, follow up on deadlines, collect status updates from your team.</p>
                 </div>
-                <p>Delegate tasks, follow up on deadlines, collect status updates from your team.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">📱</span>
+            <div class="capability-card">
+                <div class="capability-icon">📱</div>
+                <div>
                     <h4>Social Media</h4>
+                    <p>Monitor mentions, draft posts, engage with your audience. Maintain your presence.</p>
                 </div>
-                <p>Monitor mentions, draft posts, engage with your audience. Maintain your presence.</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-icon">🎨</span>
+            <div class="capability-card">
+                <div class="capability-icon">🎨</div>
+                <div>
                     <h4>Content Creation</h4>
+                    <p>Blog posts, presentations, marketing materials. I create polished content.</p>
                 </div>
-                <p>Blog posts, presentations, marketing materials. Stewart creates polished content.</p>
             </div>
         </div>
-    </section>
-
-    <!-- Integrations -->
-    <section class="integrations-section">
-        <span class="section-tag" style="background: rgba(26,26,46,0.1); color: #1a1a2e;">Connections</span>
-        <h2 class="section-title" style="color: #1a1a2e;">Works With Your Tools</h2>
-        <p class="section-subtitle" style="color: #666;">Stewart integrates with the platforms you already use.</p>
-        
-        <div class="integration-logos" style="padding: 24px 0; max-width: 900px; margin: 0 auto;">
-            <div class="integration-grid-new">
-            <!-- Stewart -->
-            <div class="stewart-integration-card">
-                <img src="https://raw.githubusercontent.com/Meetstewart/meetstewart.github.io/main/stew-wave.png" alt="Stewart">
-            </div>
-            <!-- Google -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; transition: background 0.2s; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                <span style="font-weight: 600; color: #333;">Google</span>
-            </div>
-            <!-- Microsoft -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 23 23" style="width: 32px; height: 32px;"><rect fill="#f25022" x="1" y="1" width="10" height="10"/><rect fill="#00a4ef" x="1" y="12" width="10" height="10"/><rect fill="#7fba00" x="12" y="1" width="10" height="10"/><rect fill="#ffb900" x="12" y="12" width="10" height="10"/></svg>
-                <span style="font-weight: 600; color: #333;">Microsoft</span>
-            </div>
-            <!-- Slack -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#E01E5A" d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/><path fill="#36C5F0" d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z"/><path fill="#2EB67D" d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312z"/><path fill="#ECB22E" d="M15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
-                <span style="font-weight: 600; color: #333;">Slack</span>
-            </div>
-            <!-- Salesforce -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#00A1E0" d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.16 5.22c-.39 0-.78-.045-1.155-.12-.63 1.26-1.905 2.13-3.39 2.13a3.82 3.82 0 0 1-1.845-.48 4.2 4.2 0 0 1-3.93 2.73A4.17 4.17 0 0 1 4.5 16.83c-.24.03-.48.045-.735.045C1.68 16.875 0 15.15 0 13.02c0-1.47.81-2.775 2.01-3.42-.09-.36-.135-.735-.135-1.125a4.17 4.17 0 0 1 4.17-4.2c1.155 0 2.205.48 2.961 1.26z"/></svg>
-                <span style="font-weight: 600; color: #333;">Salesforce</span>
-            </div>
-            <!-- QuickBooks -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><circle fill="#2CA01C" cx="12" cy="12" r="12"/><path fill="#fff" d="M7.5 8.5v7h1.5v-2.25h1.5c1.65 0 3-1.35 3-3s-1.35-3-3-3H7.5zm1.5 1.5h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H9v-3zm6 .5v4.5h1.5v-1.5h.75c.41 0 .75-.34.75-.75v-1.5c0-.41-.34-.75-.75-.75H15zm1.5 1.5v.75h.75v-.75H16.5z"/></svg>
-                <span style="font-weight: 600; color: #333;">QuickBooks</span>
-            </div>
-            <!-- Dropbox -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#0061FF" d="M6 2l6 3.75L6 9.5 0 5.75 6 2zm12 0l6 3.75-6 3.75-6-3.75L18 2zM0 13.25L6 9.5l6 3.75L6 17 0 13.25zm18-3.75l6 3.75L18 17l-6-3.75 6-3.75zM6 18.25l6-3.75 6 3.75-6 3.75-6-3.75z"/></svg>
-                <span style="font-weight: 600; color: #333;">Dropbox</span>
-            </div>
-            <!-- Zoom -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#2D8CFF" d="M4.585 11.02C4.585 7.192 7.587 4.09 11.292 4.09c3.705 0 6.708 3.102 6.708 6.93 0 3.828-3.003 6.93-6.708 6.93H1v-3h10.292c2.073 0 3.753-1.76 3.753-3.93 0-2.17-1.68-3.93-3.753-3.93-2.073 0-3.752 1.76-3.752 3.93v4.98h-2.955v-4.98zm13.415 0V7h3v4.02h3v3h-3v4.98h-3v-4.98h-3v-3h3z"/></svg>
-                <span style="font-weight: 600; color: #333;">Zoom</span>
-            </div>
-            <!-- HubSpot -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#FF7A59" d="M18.16 7.602V4.516a1.727 1.727 0 0 0 1.004-1.56v-.052c0-.95-.77-1.72-1.72-1.72h-.053c-.95 0-1.72.77-1.72 1.72v.052c0 .68.395 1.27.98 1.546v3.1a5.43 5.43 0 0 0-2.582 1.302l-6.432-5.002a2.093 2.093 0 0 0 .083-.575 2.133 2.133 0 1 0-2.133 2.133c.436 0 .84-.13 1.178-.356l6.306 4.904a5.45 5.45 0 0 0-.667 2.612c0 .996.267 1.93.732 2.735l-2.264 2.264a1.65 1.65 0 0 0-.49-.076c-.913 0-1.653.74-1.653 1.653s.74 1.653 1.653 1.653 1.653-.74 1.653-1.653c0-.173-.027-.34-.077-.497l2.238-2.238a5.445 5.445 0 0 0 3.174 1.013c3.012 0 5.454-2.442 5.454-5.454a5.448 5.448 0 0 0-4.664-5.393zm-.767 8.136a2.742 2.742 0 1 1 0-5.484 2.742 2.742 0 0 1 0 5.484z"/></svg>
-                <span style="font-weight: 600; color: #333;">HubSpot</span>
-            </div>
-            <!-- Stripe -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#635BFF" d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
-                <span style="font-weight: 600; color: #333;">Stripe</span>
-            </div>
-            <!-- Shopify -->
-            <div class="integration-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px;">
-                <svg viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path fill="#95BF47" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.746a.397.397 0 0 0-.357-.323c-.14-.012-2.852-.213-2.852-.213s-1.897-1.891-2.103-2.101c-.055-.054-.125-.082-.197-.092l-.983 22.036z"/><path fill="#5E8E3E" d="M12.921 8.215s-.99-.519-2.2-.519c-1.78 0-1.868 1.117-1.868 1.398 0 1.536 4.006 2.126 4.006 5.727 0 2.832-1.796 4.654-4.218 4.654-2.906 0-4.394-1.808-4.394-1.808l.779-2.576s1.529 1.315 2.822 1.315c.845 0 1.19-.666 1.19-1.152 0-2.008-3.287-2.097-3.287-5.39 0-2.773 1.99-5.456 6.012-5.456 1.548 0 2.317.445 2.317.445l-1.159 3.362z"/><path fill="#FFF" d="M12.211 3.892c.105 0 .199.028.283.078l-1.165 3.445s-.99-.519-2.2-.519c-.447 0-.812.075-1.103.198l2.14-3.203c.28 0 1.314 0 2.045.001z"/></svg>
-                <span style="font-weight: 600; color: #333;">Shopify</span>
-            </div>
-        </div>
-        <span class="integration-count">+ 3,000 more integrations available</span>
     </section>
 
     <!-- Team Section -->
     <section class="team-section" id="team">
-        <span class="section-tag">Build Your Team</span>
-        <h2 class="section-title">Even Stewart Needs Help</h2>
-        
-        <div class="team-intro">
-            <p>
-                In a large organization, Stewart can manage more when he has specialists to delegate to. 
-                Build a well-rounded virtual team with one or more of these 5 specialists—each dedicated 
-                to their domain, all managed by Stewart.
-            </p>
+        <div class="section-header">
+            <div class="section-label">Build Your Team</div>
+            <h2>Even Stewart Needs Help</h2>
+            <p>Build a well-rounded virtual team with specialists—each dedicated to their domain.</p>
         </div>
-        
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar">🎙️</div>
+            <div class="specialist-card">
+                <div class="specialist-icon">🎙️</div>
                 <h3>Voice</h3>
-                <div class="team-role">Brand Ambassador</div>
-                <p>Your voice to the world—handles customer service, sales support, brand communications, and every external touchpoint with professionalism.</p>
-                <span class="team-price">$400/mo</span>
+                <div class="specialist-role">Brand Ambassador</div>
+                <p>Customer service, sales support, brand communications, and every external touchpoint.</p>
+                <div class="specialist-price">$400/mo</div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">🔧</div>
-                <h3>Engineer</h3>
-                <div class="team-role">Technical & Coding</div>
-                <p>Builds, fixes, and maintains—handles coding projects, system administration, technical troubleshooting, and infrastructure.</p>
-                <span class="team-price">$400/mo</span>
+            <div class="specialist-card">
+                <div class="specialist-icon">🔧</div>
+                <h3>Builder</h3>
+                <div class="specialist-role">Technical & Coding</div>
+                <p>Coding projects, system administration, technical troubleshooting, and infrastructure.</p>
+                <div class="specialist-price">$400/mo</div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">🎨</div>
-                <h3>Designer</h3>
-                <div class="team-role">Design & Content</div>
-                <p>Makes you look good—graphic design, video editing, copywriting, social media content, and all creative production.</p>
-                <span class="team-price">$400/mo</span>
+            <div class="specialist-card">
+                <div class="specialist-icon">🎨</div>
+                <h3>Creator</h3>
+                <div class="specialist-role">Design & Content</div>
+                <p>Graphic design, video editing, copywriting, social media content, and creative production.</p>
+                <div class="specialist-price">$400/mo</div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">📊</div>
+            <div class="specialist-card">
+                <div class="specialist-icon">📊</div>
                 <h3>Analyst</h3>
-                <div class="team-role">Data & Efficiency Expert</div>
-                <p>Turns data into decisions—reporting, analytics, process optimization, and finding efficiencies you didn't know existed.</p>
-                <span class="team-price">$400/mo</span>
+                <div class="specialist-role">Data & Efficiency</div>
+                <p>Reporting, analytics, process optimization, and finding efficiencies you didn't know existed.</p>
+                <div class="specialist-price">$400/mo</div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">🤝</div>
+            <div class="specialist-card">
+                <div class="specialist-icon">🤝</div>
                 <h3>Support</h3>
-                <div class="team-role">Task & Coordination Expert</div>
-                <p>Reduces the workload of your entire staff by taking on tasks and responsibilities. Coordinates with team members, handles processing and daily workload, and acts as an assistant to everyone—human and virtual—to multiply their capacity.</p>
-                <span class="team-price">$300/mo</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Capacity Section -->
-    <section>
-        <div class="capacity-section">
-            <span class="section-tag">Management Capacity</span>
-            <h2 class="section-title">Stewart Manages Your Whole Team</h2>
-            <p style="color: var(--gray); max-width: 700px; margin: 0 auto;">
-                Stewart can manage up to <strong style="color: var(--light);">10 total staff members</strong>—whether 
-                they're your existing human employees or virtual specialists. Mix and match to build the perfect team.
-            </p>
-            <p class="capacity-highlight">
-                Each virtual staff member has the capacity to do the work of two full-time employees.
-            </p>
-            <div class="capacity-grid">
-                <div class="capacity-item">
-                    <div class="capacity-number">10</div>
-                    <div class="capacity-label">Total Staff Managed</div>
-                </div>
-                <div class="capacity-item">
-                    <div class="capacity-number">2x</div>
-                    <div class="capacity-label">Work Capacity Per Virtual Staff</div>
-                </div>
-                <div class="capacity-item">
-                    <div class="capacity-number">20</div>
-                    <div class="capacity-label">Full-Time Equivalent Output</div>
-                </div>
+                <div class="specialist-role">Task & Coordination</div>
+                <p>Reduces workload for your entire staff. Handles processing and acts as assistant to everyone.</p>
+                <div class="specialist-price">$300/mo</div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
     <section class="pricing-section" id="pricing">
-        <span class="section-tag">Pricing</span>
-        <h2 class="section-title">Simple, Transparent Pricing</h2>
-        <p class="section-subtitle">Start with Stewart alone, add specialists as you grow.</p>
-        
+        <div class="section-header">
+            <div class="section-label">Pricing</div>
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Start with Stewart alone, add specialists as you grow.</p>
+        </div>
         <div class="pricing-grid">
             <div class="pricing-card">
                 <h3>Stewart Solo</h3>
-                <p class="pricing-desc">Your virtual executive, ready to work</p>
-                <div class="pricing-amount">$500</div>
-                <div class="pricing-period">/month</div>
-                <ul class="pricing-features">
+                <p style="color:var(--gray);">Your virtual executive, ready to work</p>
+                <div class="price">$500<span>/month</span></div>
+                <ul>
                     <li>24/7 availability</li>
                     <li>Phone, text, email, chat</li>
                     <li>20 concurrent calls</li>
                     <li>Manage up to 10 staff</li>
                     <li>All integrations included</li>
-                    <li>Instant reports & monitoring</li>
                 </ul>
-                <a href="/login.html" class="btn btn-outline" style="width: 100%;">Get Started</a>
+                <a href="#cta" class="btn btn-outline">Get Started</a>
             </div>
-            
+            <div class="pricing-card featured">
+                <h3>Dream Team Bundle</h3>
+                <p style="color:var(--gray);">Stewart + all 5 specialists</p>
+                <div class="price">$2,000<span>/month</span></div>
+                <ul>
+                    <li>Everything in Stewart Solo</li>
+                    <li>Voice specialist</li>
+                    <li>Builder specialist</li>
+                    <li>Creator specialist</li>
+                    <li>Analyst specialist</li>
+                    <li><strong>Support specialist FREE</strong></li>
+                    <li><strong>= 10 full-time employees</strong></li>
+                </ul>
+                <a href="#cta" class="btn btn-primary">Get Started</a>
+            </div>
             <div class="pricing-card">
                 <h3>Industry Expert</h3>
-                <p class="pricing-desc">Stewart + your industry specialization</p>
-                <div class="pricing-amount">$600</div>
-                <div class="pricing-period">/month</div>
-                <ul class="pricing-features">
+                <p style="color:var(--gray);">Stewart + your industry specialization</p>
+                <div class="price">$600<span>/month</span></div>
+                <ul>
                     <li>Everything in Stewart Solo</li>
                     <li>Real Estate, Healthcare, Legal...</li>
                     <li>Industry-specific workflows</li>
                     <li>Specialized knowledge base</li>
                     <li>Compliance-aware operations</li>
-                    <li>Vertical-specific integrations</li>
                 </ul>
-                <a href="/login.html" class="btn btn-outline" style="width: 100%;">Get Started</a>
-            </div>
-            
-            <div class="pricing-card featured">
-                <h3>Dream Team Bundle</h3>
-                <p class="pricing-desc">Stewart + all 5 specialists</p>
-                <div class="pricing-amount">$2,000</div>
-                <div class="pricing-period">/month</div>
-                <p style="color: var(--accent); font-weight: 600; margin: 0.5rem 0;">$7,200 gets you 3 months + StewBox Mini (save $700)</p>
-                <ul class="pricing-features">
-                    <li>Everything in Stewart Solo</li>
-                    <li>Voice specialist</li>
-                    <li>Engineer specialist</li>
-                    <li>Designer specialist</li>
-                    <li>Analyst specialist</li>
-                    <li><strong>Support specialist FREE</strong></li>
-                    <li><strong>= 10 full-time employees</strong></li>
-                    <li><strong>A complete business running 24/7</strong></li>
-                </ul>
-                <a href="/login.html" class="btn btn-primary" style="width: 100%;">Get Started</a>
-            </div>
-            
-            <div class="pricing-card">
-                <h3>Custom Team</h3>
-                <p class="pricing-desc">Build the team you need</p>
-                <div class="pricing-amount">$500</div>
-                <div class="pricing-period">+ $300-400/specialist</div>
-                <ul class="pricing-features">
-                    <li>Start with Stewart</li>
-                    <li>Add specialists: $300-400/mo each</li>
-                    <li>Add industry expertise: +$100/mo</li>
-                    <li>Scale up or down anytime</li>
-                    <li>No contracts, cancel anytime</li>
-                    <li>14-day free trial</li>
-                    <li><a href="https://web-production-8d237.up.railway.app" target="_blank" style="color: var(--success); text-decoration: none;">🎁 Free cash flow projection tool →</a></li>
-                </ul>
-                <a href="/login.html" class="btn btn-outline" style="width: 100%;">Let's Talk</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- StewBox Section -->
-    <section class="meet-stewart" id="stewbox" style="padding: 60px 20px;">
-        <span class="section-tag">Hardware</span>
-        
-        <!-- StewBox - Pure black box with gold lettering -->
-        <div style="max-width: 400px; margin: 30px auto; position: relative;">
-            <!-- Pure black box with gold text -->
-            <div style="position: relative; background: #000; border-radius: 16px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);">
-                
-                <!-- STEW BOX LITE branding - matching reference -->
-                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; line-height: 0.9;">
-                    <!-- STEW -->
-                    <div style="font-family: 'Inter', -apple-system, sans-serif; font-weight: 800; font-size: clamp(4rem, 18vw, 7rem); letter-spacing: -0.04em; color: #C9A227;">STEW</div>
-                    <!-- BOX + LITE vertical -->
-                    <div style="display: flex; align-items: stretch;">
-                        <span style="font-family: 'Inter', -apple-system, sans-serif; font-weight: 800; font-size: clamp(4rem, 18vw, 7rem); letter-spacing: -0.04em; color: #C9A227; line-height: 0.9;">BOX</span>
-                        <span style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: 'Inter', -apple-system, sans-serif; font-weight: 700; font-size: clamp(0.9rem, 3.5vw, 1.4rem); letter-spacing: 0.15em; color: #C9A227; margin-left: -3px; display: flex; align-items: center; justify-content: center;">LITE</span>
-                    </div>
-                </div>
-                
-                <!-- Price -->
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 2.8rem; font-weight: 900; background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #D4AF37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$1,500</div>
-                    <p style="color: #888; font-weight: 500; margin: 8px 0; font-size: 0.95rem;">One-time purchase. Yours forever.</p>
-                </div>
-                
-                <!-- Features - single column for clarity -->
-                <div style="display: flex; flex-direction: column; gap: 10px; margin: 20px 0;">
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
-                        <span style="font-size: 1.2rem;">🏠</span>
-                        <span style="color: #D4AF37; font-size: 0.9rem; font-weight: 500;">Keep everything on-site</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
-                        <span style="font-size: 1.2rem;">🔐</span>
-                        <span style="color: #D4AF37; font-size: 0.9rem; font-weight: 500;">VPN access to our servers</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
-                        <span style="font-size: 1.2rem;">⚡</span>
-                        <span style="color: #D4AF37; font-size: 0.9rem; font-weight: 500;">Local AI processing</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
-                        <span style="font-size: 1.2rem;">📦</span>
-                        <span style="color: #D4AF37; font-size: 0.9rem; font-weight: 500;">Pre-configured, plug & play</span>
-                    </div>
-                </div>
-                
-                <!-- Tagline -->
-                <p style="text-align: center; font-weight: 700; font-size: 1rem; margin-top: 20px; background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                    Your AI. Your hardware. Your data.
-                </p>
+                <a href="#cta" class="btn btn-outline">Get Started</a>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta" id="cta">
-        <h2>Ready to See for Yourself?</h2>
-        <p style="max-width: 700px; margin: 0 auto 1rem;">Get your 14-day free trial + <a href="https://web-production-8d237.up.railway.app" target="_blank" style="color: var(--success);">free cash flow forecasting tool</a>, or go for it—one month with full functionality, zero onboarding fees, cancel anytime.</p>
-        <p style="max-width: 700px; margin: 0 auto 2rem; font-size: 1rem; color: var(--gray);">All of Stewart's work is always in your hands. All of your data is always in your hands. We know we deliver value—we don't hold our customers' data hostage with fees or make it difficult to take with you.</p>
-        <div class="hero-cta">
-            <a href="#" onclick="alert('Coming Soon! Stewart will be available for chat shortly.'); return false;" target="_blank" class="btn btn-primary">💬 Chat Now</a>
-            <a href="#capabilities" class="btn btn-outline">Learn More</a>
+    <section class="cta-section" id="cta">
+        <div class="cta-content">
+            <h2>Ready to See for Yourself?</h2>
+            <p>14-day free trial. No contracts. Cancel anytime. All your data stays yours—always.</p>
+            <div class="cta-buttons">
+                <a href="voice/" class="btn btn-primary">🎤 Try Voice Demo</a>
+                <a href="#pricing" class="btn btn-outline">View Pricing</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#capabilities">Capabilities</a>
-                <a href="#team">Team</a>
-                <a href="#pricing">Pricing</a>
-                <a href="mailto:hello@meetstewart.com">Contact</a>
-            </div>
-            <p class="footer-copy">© 2026 Stewart AI. All rights reserved.</p>
-        </div>
+        <p>© 2026 Stewart AI. All rights reserved.</p>
+        <p style="margin-top:0.5rem;"><a href="sms/#privacy" style="color:var(--secondary);">Privacy Policy</a> · <a href="sms/#terms" style="color:var(--secondary);">Terms of Service</a></p>
     </footer>
-<!-- Voice Trial Modal CSS -->
-<style>
-/* Voice Modal Styles */
-.voice-modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 10000;
-    justify-content: center;
-    align-items: center;
-}
-.voice-modal-overlay.active {
-    display: flex;
-}
-.voice-modal {
-    background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
-    border-radius: 24px;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-.voice-modal h2 {
-    color: #fff;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-.voice-modal .subtitle {
-    color: #888;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-.voice-timer {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #d4af37;
-    margin: 20px 0;
-    font-family: 'SF Mono', Monaco, monospace;
-}
-.voice-timer.warning {
-    color: #ff6b6b;
-    animation: pulse 1s infinite;
-}
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-}
-.mic-button {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 30px auto;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-}
-.mic-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-}
-.mic-button.active {
-    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
-    animation: mic-pulse 1.5s infinite;
-}
-@keyframes mic-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
-    50% { box-shadow: 0 0 0 20px rgba(76, 175, 80, 0); }
-}
-.mic-button svg {
-    width: 50px;
-    height: 50px;
-    fill: #1a1a2e;
-}
-.waveform {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    margin: 20px 0;
-}
-.waveform .bar {
-    width: 4px;
-    background: #d4af37;
-    border-radius: 2px;
-    animation: wave 0.5s infinite ease-in-out;
-    animation-play-state: paused;
-}
-.waveform.active .bar {
-    animation-play-state: running;
-}
-.waveform .bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-.waveform .bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
-.waveform .bar:nth-child(3) { height: 25px; animation-delay: 0.2s; }
-.waveform .bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
-.waveform .bar:nth-child(5) { height: 30px; animation-delay: 0.4s; }
-.waveform .bar:nth-child(6) { height: 50px; animation-delay: 0.15s; }
-.waveform .bar:nth-child(7) { height: 35px; animation-delay: 0.25s; }
-.waveform .bar:nth-child(8) { height: 20px; animation-delay: 0.35s; }
-@keyframes wave {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.5); }
-}
-.voice-status {
-    color: #888;
-    font-size: 0.9rem;
-    margin-top: 15px;
-}
-.voice-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-.voice-close:hover {
-    color: #fff;
-}
 
-/* Signup Modal Styles */
-.signup-modal {
-    display: none;
-}
-.signup-modal.active {
-    display: block;
-}
-.signup-form {
-    text-align: left;
-}
-.signup-form .form-group {
-    margin-bottom: 20px;
-}
-.signup-form label {
-    display: block;
-    color: #888;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.signup-form input {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-}
-.signup-form input:focus {
-    outline: none;
-    border-color: #d4af37;
-}
-.signup-form input::placeholder {
-    color: #555;
-}
-.verify-code-group {
-    display: none;
-}
-.verify-code-group.active {
-    display: block;
-}
-.signup-btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
-    border: none;
-    border-radius: 8px;
-    color: #1a1a2e;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    margin-top: 10px;
-}
-.signup-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-}
-.signup-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-.trial-benefits {
-    background: rgba(76, 175, 80, 0.1);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 25px;
-}
-.trial-benefits h4 {
-    color: #4CAF50;
-    margin-bottom: 12px;
-    font-size: 1rem;
-}
-.trial-benefits ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.trial-benefits li {
-    color: #aaa;
-    font-size: 0.9rem;
-    padding: 5px 0;
-    padding-left: 25px;
-    position: relative;
-}
-.trial-benefits li::before {
-    content: "✓";
-    color: #4CAF50;
-    position: absolute;
-    left: 0;
-}
-.back-to-voice {
-    background: none;
-    border: none;
-    color: #888;
-    cursor: pointer;
-    margin-top: 15px;
-    font-size: 0.9rem;
-}
-.back-to-voice:hover {
-    color: #d4af37;
-}
-
-/* Try Stewart Button for Hero */
-.try-stewart-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 32px;
-    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
-    color: #1a1a2e;
-    border: none;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-}
-.try-stewart-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-}
-.try-stewart-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-}
-</style>
-
-<!-- Voice Trial Modal HTML -->
-<div class="voice-modal-overlay" id="voiceModal">
-    <div class="voice-modal" style="position: relative;">
-        <button class="voice-close" onclick="closeVoiceModal()">&times;</button>
+    <!-- ElevenLabs TTS Script -->
+    <script>
+        const ELEVENLABS_KEY = 'sk_933372d07bc70b591aad7041bf5a6e37d4f20c5d92e04c68';
+        let currentAudio = null;
+        let isSpeaking = false;
         
-        <!-- Voice Interface -->
-        <div id="voiceInterface">
-            <h2>Talk to Stewart</h2>
-            <p class="subtitle">2-minute free trial • No signup required</p>
+        const topics = {
+            intro: `Hey there! I'm Stewart, and I'm not your typical AI assistant. Think of me as your virtual executive—the one who actually gets things done while you focus on the big picture. I manage calendars, draft emails, track projects, analyze data, and coordinate your entire team. And here's the fun part: I don't need coffee breaks, I don't take vacations, and I definitely don't complain about Mondays. I'm available 24/7 across phone, text, email, and chat. So basically, I'm the colleague everyone wishes they had—minus the small talk at the water cooler!`,
             
-            <div class="voice-timer" id="voiceTimer">2:00</div>
+            value: `Let's talk numbers, because this is where it gets interesting. A human executive assistant costs about 60 thousand dollars a year minimum—and that's before benefits, sick days, and the inevitable "I'm working from home today" emails. I'm 500 bucks a month. That's 6 thousand a year. But here's the real kicker: I don't just match what a human can do—I exceed it. I can handle 20 phone calls simultaneously. I can monitor your metrics in real-time. I can send personalized emails to your entire customer list in seconds. And I never, ever forget a deadline. So you're not just saving money—you're getting superpowers.`,
             
-            <button class="mic-button" id="micButton" onclick="toggleMic()">
-                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h3v2H9v-2h3v-3.07z"/></svg>
-            </button>
+            team: `So here's the thing—even I need help sometimes. That's why I've got a team of specialists. There's Voice, my brand ambassador who handles all customer-facing communication. Builder is our tech wizard—coding, systems, infrastructure. Creator makes everything look gorgeous—designs, videos, content. Analyst turns data into decisions faster than you can say "quarterly report." And Support? They're the ultimate utility player, taking tasks off everyone's plate. Each specialist does the work of two full-time employees. So when you get the whole team, that's like having 10 people working for you around the clock.`,
             
-            <div class="waveform" id="waveform">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
+            channels: `You can reach me pretty much anywhere. Got a quick question? Text me. Need to talk something through? Call me—I can handle 20 calls at once, so I'll always pick up. Want a detailed response? Email works great. Prefer typing in real-time? Use the web chat. I'm on voice, text, email, and chat—simultaneously if needed. And here's the best part: I can reach out to YOUR team the same way. Need to rally everyone for an urgent project? I'll call all 20 people at once. Need status updates from your staff? I'll collect them automatically. I'm basically your communication hub with superpowers.`,
             
-            <p class="voice-status" id="voiceStatus">Click the microphone to start talking</p>
-        </div>
+            security: `I know what you're thinking: "Where does all my data go?" The answer is: YOUR storage, not ours. Your files stay in YOUR Dropbox or Google Drive. We never store your credentials. We never store your documents. Everything Stewart produces gets delivered straight to your folder. We use a two-folder system: one for your source files that I can read, one for deliverables where I save my work. Zero trust by design. And if you want to go even further, get a StewBox—it's your own local AI server. Your data never even touches the internet if you don't want it to. We believe in earning trust, not holding your data hostage.`,
+            
+            pricing: `Simple pricing, no surprises. Stewart Solo is 500 bucks a month—that's me, your virtual executive, 24/7. Want industry expertise? 600 a month gets you Stewart plus specialized knowledge for real estate, healthcare, legal, whatever your field. But the real value is the Dream Team Bundle at 2000 a month. You get me plus ALL five specialists—Voice, Builder, Creator, Analyst, AND Support is free in the bundle. That's essentially 10 full-time employees worth of work capacity, running around the clock. Oh, and we have a 14-day free trial. No credit card required to start. No contracts ever. Cancel anytime. We're confident enough in what we deliver that we don't need to lock you in.`
+        };
         
-        <!-- Signup Form (hidden initially) -->
-        <div class="signup-modal" id="signupModal">
-            <h2>Continue Your Conversation</h2>
-            <p class="subtitle">Unlock 14-day free trial</p>
+        async function explainTopic(topicKey) {
+            const text = topics[topicKey];
+            const voiceId = document.getElementById('voiceSelect').value;
             
-            <div class="trial-benefits">
-                <h4>🎁 Your Free Trial Includes:</h4>
-                <ul>
-                    <li>5 minutes of voice time per day</li>
-                    <li>70 total minutes over 14 days</li>
-                    <li>5 StewDays of actual work completed</li>
-                    <li>Full access to all Stewart capabilities</li>
-                </ul>
-            </div>
+            // Stop any current audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
             
-            <form class="signup-form" id="signupForm" onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="signupEmail" placeholder="you@company.com" required>
-                </div>
+            // Update UI
+            document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('stewStatus').textContent = '🎤 Speaking...';
+            document.getElementById('stewTalking').classList.add('talking');
+            isSpeaking = true;
+            
+            try {
+                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'xi-api-key': ELEVENLABS_KEY
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        model_id: 'eleven_turbo_v2_5',
+                        voice_settings: {
+                            stability: 0.5,
+                            similarity_boost: 0.75,
+                            style: 0.3,
+                            use_speaker_boost: true
+                        }
+                    })
+                });
                 
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="signupPhone" placeholder="+1 (555) 123-4567" required>
-                </div>
+                if (!response.ok) throw new Error('TTS failed');
                 
-                <div class="form-group verify-code-group" id="verifyCodeGroup">
-                    <label>Verification Code (sent via SMS)</label>
-                    <input type="text" id="verifyCode" placeholder="123456" maxlength="6">
-                </div>
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                currentAudio = new Audio(audioUrl);
                 
-                <button type="submit" class="signup-btn" id="signupBtn">Send Verification Code</button>
-            </form>
+                currentAudio.onended = () => {
+                    document.getElementById('stewStatus').textContent = 'Click another topic!';
+                    document.getElementById('stewTalking').classList.remove('talking');
+                    isSpeaking = false;
+                };
+                
+                currentAudio.play();
+            } catch (error) {
+                console.error('TTS Error:', error);
+                document.getElementById('stewStatus').textContent = '❌ Voice unavailable - try again';
+                document.getElementById('stewTalking').classList.remove('talking');
+                isSpeaking = false;
+            }
+        }
+        
+        function stopSpeaking() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            document.getElementById('stewStatus').textContent = 'Click a topic to hear me explain!';
+            document.getElementById('stewTalking').classList.remove('talking');
+            document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
+            isSpeaking = false;
+        }
+        
+        // Hero avatar click
+        document.getElementById('stewAvatar').addEventListener('click', () => {
+            if (!isSpeaking) {
+                const quickIntro = "Hey! I'm Stewart. Want to see what I can do? Scroll down and click any topic—I'll explain it in my own words. Or just ask me anything in the voice demo!";
+                explainText(quickIntro);
+            }
+        });
+        
+        async function explainText(text) {
+            const voiceId = 'EXAVITQu4vr4xnSDxMaL'; // Sarah
             
-            <button class="back-to-voice" onclick="backToVoice()">← Back to voice</button>
-        </div>
-    </div>
-</div>
-
-<!-- Voice Trial JavaScript -->
-<script>
-// Voice Trial State
-const voiceState = {
-    isActive: false,
-    timeRemaining: 120, // 2 minutes in seconds
-    timerInterval: null,
-    hasTrialEnded: false
-};
-
-function openVoiceModal() {
-    document.getElementById('voiceModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeVoiceModal() {
-    document.getElementById('voiceModal').classList.remove('active');
-    document.body.style.overflow = '';
-    stopMic();
-}
-
-function toggleMic() {
-    if (voiceState.hasTrialEnded) {
-        showSignupModal();
-        return;
-    }
-    
-    if (voiceState.isActive) {
-        stopMic();
-    } else {
-        startMic();
-    }
-}
-
-function startMic() {
-    voiceState.isActive = true;
-    document.getElementById('micButton').classList.add('active');
-    document.getElementById('waveform').classList.add('active');
-    document.getElementById('voiceStatus').textContent = 'Stewart is listening...';
-    
-    // Start countdown timer
-    voiceState.timerInterval = setInterval(updateTimer, 1000);
-    
-    // TODO: Connect to actual WebRTC/WebSocket for voice
-    console.log('Starting voice connection to Stewart...');
-}
-
-function stopMic() {
-    voiceState.isActive = false;
-    document.getElementById('micButton').classList.remove('active');
-    document.getElementById('waveform').classList.remove('active');
-    document.getElementById('voiceStatus').textContent = 'Click the microphone to continue';
-    
-    if (voiceState.timerInterval) {
-        clearInterval(voiceState.timerInterval);
-    }
-}
-
-function updateTimer() {
-    voiceState.timeRemaining--;
-    
-    const minutes = Math.floor(voiceState.timeRemaining / 60);
-    const seconds = voiceState.timeRemaining % 60;
-    const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    
-    const timerEl = document.getElementById('voiceTimer');
-    timerEl.textContent = display;
-    
-    // Warning when under 30 seconds
-    if (voiceState.timeRemaining <= 30) {
-        timerEl.classList.add('warning');
-    }
-    
-    // Time's up!
-    if (voiceState.timeRemaining <= 0) {
-        voiceState.hasTrialEnded = true;
-        stopMic();
-        showSignupModal();
-    }
-}
-
-function showSignupModal() {
-    document.getElementById('voiceInterface').style.display = 'none';
-    document.getElementById('signupModal').classList.add('active');
-}
-
-function backToVoice() {
-    document.getElementById('signupModal').classList.remove('active');
-    document.getElementById('voiceInterface').style.display = 'block';
-}
-
-let verificationStep = false;
-
-function handleSignup(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('signupEmail').value;
-    const phone = document.getElementById('signupPhone').value;
-    const btn = document.getElementById('signupBtn');
-    
-    if (!verificationStep) {
-        // Step 1: Send verification code
-        btn.disabled = true;
-        btn.textContent = 'Sending...';
-        
-        // TODO: Call API to send SMS verification
-        setTimeout(() => {
-            document.getElementById('verifyCodeGroup').classList.add('active');
-            btn.disabled = false;
-            btn.textContent = 'Verify & Start Trial';
-            verificationStep = true;
-        }, 1500);
-    } else {
-        // Step 2: Verify code and create account
-        const code = document.getElementById('verifyCode').value;
-        btn.disabled = true;
-        btn.textContent = 'Verifying...';
-        
-        // TODO: Call API to verify code and create account
-        setTimeout(() => {
-            // Success! Reload with trial access
-            alert('🎉 Welcome to Stewart! Your 14-day trial has started.');
-            closeVoiceModal();
-            // In production: redirect to dashboard or reload with auth token
-        }, 1500);
-    }
-}
-
-// Close modal on escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeVoiceModal();
-});
-
-// Close modal on overlay click
-document.getElementById('voiceModal').addEventListener('click', (e) => {
-    if (e.target.id === 'voiceModal') closeVoiceModal();
-});
-</script>
-
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            isSpeaking = true;
+            
+            try {
+                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'xi-api-key': ELEVENLABS_KEY
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        model_id: 'eleven_turbo_v2_5',
+                        voice_settings: {
+                            stability: 0.5,
+                            similarity_boost: 0.75
+                        }
+                    })
+                });
+                
+                const audioBlob = await response.blob();
+                currentAudio = new Audio(URL.createObjectURL(audioBlob));
+                currentAudio.onended = () => { isSpeaking = false; };
+                currentAudio.play();
+            } catch (e) {
+                isSpeaking = false;
+            }
+        }
+    </script>
 </body>
 </html>
