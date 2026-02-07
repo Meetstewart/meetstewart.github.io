@@ -641,6 +641,62 @@
         }
         
         /* ===== CALENDAR VIEW ===== */
+
+        /* Cash Flow Card */
+        .cashflow-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .cashflow-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cashflow-label {
+            color: #999;
+            font-size: 14px;
+        }
+        .cashflow-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .cashflow-value.positive {
+            color: #4ade80;
+        }
+        .cashflow-value.negative {
+            color: #f87171;
+        }
+        .cashflow-chart {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .mini-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 60px;
+        }
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #d4af37, #f4d03f);
+            border-radius: 3px 3px 0 0;
+            min-width: 20px;
+        }
+        .cashflow-link {
+            color: #d4af37;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .cashflow-link:hover {
+            text-decoration: underline;
+        }
+
         /* Calendar Tabs */
         .calendar-tabs {
             display: flex;
@@ -1806,6 +1862,43 @@
                 
                 <div class="card">
                     <div class="card-header" onclick="toggleCard(this)">
+                        <h3>💰 Cash Flow</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-inner">
+                            <div class="cashflow-summary">
+                                <div class="cashflow-stat">
+                                    <span class="cashflow-label">Current Balance</span>
+                                    <span class="cashflow-value positive">$47,850</span>
+                                </div>
+                                <div class="cashflow-stat">
+                                    <span class="cashflow-label">30-Day Forecast</span>
+                                    <span class="cashflow-value positive">+$12,400</span>
+                                </div>
+                                <div class="cashflow-stat">
+                                    <span class="cashflow-label">Runway</span>
+                                    <span class="cashflow-value">8.2 months</span>
+                                </div>
+                            </div>
+                            <div class="cashflow-chart">
+                                <div class="mini-chart">
+                                    <div class="chart-bar" style="height: 60%"></div>
+                                    <div class="chart-bar" style="height: 75%"></div>
+                                    <div class="chart-bar" style="height: 65%"></div>
+                                    <div class="chart-bar" style="height: 80%"></div>
+                                    <div class="chart-bar" style="height: 70%"></div>
+                                    <div class="chart-bar" style="height: 85%"></div>
+                                    <div class="chart-bar" style="height: 90%"></div>
+                                </div>
+                            </div>
+                            <a href="#" class="cashflow-link" onclick="openProjectR(); return false;">Open Full Dashboard →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header" onclick="toggleCard(this)">
                         <h3>✓ Tasks</h3>
                         <span class="card-toggle">▼</span>
                     </div>
@@ -2588,6 +2681,11 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             renderFullCalendar();
             renderPeopleGrid();
         });
+
+        function openProjectR() {
+            // Will connect to Project-R dashboard
+            showResponse("Opening Cash Flow Dashboard...<br><br>Project-R integration coming soon! This will show your full cash flow forecasting, transaction categorization, and financial insights.");
+        }
     </script>
 </body>
 </html>
