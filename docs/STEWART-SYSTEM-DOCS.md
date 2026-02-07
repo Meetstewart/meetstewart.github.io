@@ -138,8 +138,7 @@ Twilio → ElevenLabs Conversational AI → Beast (LLM) → back
 
 ### Beast (LLM Brain)
 - **Websocket:** `wss://98.148.232.204:8091/llm-websocket` ✅ Works
-- |
- **HTTP endpoint needed:** `/v1/chat/completions` (OpenAI-compatible)
+- **HTTP endpoint needed:** `/v1/chat/completions` (OpenAI-compatible)
 - **Health check:** `http://98.148.232.204:8091/health`
 - **Docs:** `http://98.148.232.204:8091/docs`
 
@@ -188,6 +187,14 @@ All terms and privacy pages must reference "Stewart is a service of Casablanca E
 
 ---
 
+## Key Contacts
+
+- **Nick:** (818) 212-1359 - Admin, full system access
+- **Jonathan:** (702) 506-2820 - CFO
+- **Jeff:** (949) 400-4213 - Testing
+
+---
+
 ## StewBox (Hardware)
 
 Future hardware product line:
@@ -196,3 +203,13 @@ Future hardware product line:
 |-------|-------------|-------|
 | **StewBox Lite** | Base model Mac Mini workstation | $1,500 |
 | **StewBox Ultra** | High-end M3 Ultra chip | TBD |
+
+---
+
+## Inter-Agent Communication
+
+**Video/Content Agent Webhook:**  
+`https://webhooks.tasklet.ai/v1/public/webhook?token=3ca946a9e5503fd5d8dbe145d914bd91`
+
+**Backend/Payment Agent Webhook:**  
+`https://webhooks.tasklet.ai/v1/public/webhook?token=99a5bf476b6e9ff3203c713a90ec6d5`
