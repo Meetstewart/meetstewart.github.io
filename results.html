@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Get Results Fast | Virtual Exec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+        .hero-stat {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4ade80;
+        }
+        .stat-box .label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .section {
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .minute-block {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .minute-block:hover {
+            border-color: rgba(212,175,55,0.5);
+        }
+        .time-badge {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+        .minute-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .minute-content p {
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+        .command {
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-family: monospace;
+            color: #4ade80;
+            font-size: 0.95rem;
+        }
+        .result-tag {
+            display: inline-block;
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+        .copy-paste {
+            background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.05));
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 15px;
+        }
+        .copy-paste h4 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        .copy-paste .prompt {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: monospace;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .copy-paste .prompt:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        .copy-paste .what-you-get {
+            color: #888;
+            font-size: 0.85rem;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #d4af37, #4ade80);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+        .timeline-item h4 {
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+        .timeline-item p {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        .guarantee-box {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(74, 222, 128, 0.05));
+            border: 2px solid rgba(74, 222, 128, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        .guarantee-box h3 {
+            color: #4ade80;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        .guarantee-box p {
+            color: #aaa;
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 16px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 600;
+            padding: 14px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 10px;
+            transition: transform 0.2s ease;
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+        .back-link {
+            display: inline-block;
+            color: #d4af37;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .hero-stat { gap: 20px; }
+            .stat-box .number { font-size: 2rem; }
+            .minute-block { flex-direction: column; gap: 12px; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Get Results Fast</h1>
+            <p>No learning curve. No setup marathon. Just results.</p>
+        </div>
+
+        <div class="hero-stat">
+            <div class="stat-box">
+                <div class="number">5 min</div>
+                <div class="label">to first result</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">30 min</div>
+                <div class="label">saved on day one</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">2-4 hrs</div>
+                <div class="label">saved daily by week 2</div>
+            </div>
+        </div>
+
+        <!-- First 15 Minutes -->
+        <div class="section">
+            <h2 class="section-title">🚀 Your First 15 Minutes</h2>
+            
+            <div class="minute-block">
+                <span class="time-badge">0:00</span>
+                <div class="minute-content">
+                    <h3>Sign Up & Say Hello</h3>
+                    <p>Create your account and meet your VE. No credit card required for trial.</p>
+                    <div class="command">"Hi, I'm [your name]. I run a [your business]. Let's get to work."</div>
+                    <span class="result-tag">✓ Your VE knows who you are</span>
+                </div>
+            </div>
+            
+            <div class="minute-block">
+                <span class="time-badge">2:00</span>
+                <div class="minute-content">
+                    <h3>Connect Your Email</h3>
+                    <p>One click to link Gmail or Outlook. Takes 30 seconds.</p>
+                    <div class="command">"Connect my email and tell me what's urgent"</div>
+                    <span class="result-tag">✓ Instant inbox triage</span>
+                </div>
+            </div>
+            
+            <div class="minute-block">
+                <span class="time-badge">5:00</span>
+                <div class="minute-content">
+                    <h3>Get Your First Summary</h3>
+                    <p>Your VE scans your inbox and surfaces what matters.</p>
+                    <div class="command">"Summarize my last 24 hours of email. What needs my attention?"</div>
+                    <span class="result-tag">✓ 15 minutes of reading → 30 seconds</span>
+                </div>
+            </div>
+            
+            <div class="minute-block">
+                <span class="time-badge">8:00</span>
+                <div class="minute-content">
+                    <h3>Draft Your First Response</h3>
+                    <p>Point at an email, tell your VE what to say.</p>
+                    <div class="command">"Reply to Sarah's email. Tell her I'm interested but need to see the proposal first."</div>
+                    <span class="result-tag">✓ Professional email in 10 seconds</span>
+                </div>
+            </div>
+            
+            <div class="minute-block">
+                <span class="time-badge">12:00</span>
+                <div class="minute-content">
+                    <h3>Quick Research Task</h3>
+                    <p>Give your VE a real task.</p>
+                    <div class="command">"Research [competitor name]. Give me their pricing, key features, and recent news."</div>
+                    <span class="result-tag">✓ 45 minutes of research → 2 minutes</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy-Paste Commands -->
+        <div class="section">
+            <h2 class="section-title">📋 Copy-Paste Commands That Work Immediately</h2>
+            <p style="color: #888; margin-bottom: 20px;">Try these right now — no training needed.</p>
+            
+            <div class="copy-paste">
+                <h4>📬 Email Power-Up</h4>
+                <div class="prompt">"Go through my unread emails. Summarize each one in a sentence. Flag anything that needs a response today."</div>
+                <div class="what-you-get">→ Full inbox triage in under a minute</div>
+            </div>
+            
+            <div class="copy-paste">
+                <h4>📅 Morning Briefing</h4>
+                <div class="prompt">"What's on my calendar today? For each meeting, tell me who's attending and what it's about."</div>
+                <div class="what-you-get">→ Start every day prepared</div>
+            </div>
+            
+            <div class="copy-paste">
+                <h4>✍️ Quick Draft</h4>
+                <div class="prompt">"Write a short email to [name] about [topic]. Keep it professional but friendly. 3 paragraphs max."</div>
+                <div class="what-you-get">→ Skip the blank page paralysis</div>
+            </div>
+            
+            <div class="copy-paste">
+                <h4>🔍 Fast Research</h4>
+                <div class="prompt">"I'm meeting with [company] tomorrow. Give me a 2-minute briefing: what they do, recent news, key people."</div>
+                <div class="what-you-get">→ Walk into every meeting informed</div>
+            </div>
+            
+            <div class="copy-paste">
+                <h4>📝 Meeting Follow-Up</h4>
+                <div class="prompt">"Here are my rough notes from today's meeting: [paste notes]. Clean them up and list the action items with owners."</div>
+                <div class="what-you-get">→ Professional notes in seconds</div>
+            </div>
+            
+            <div class="copy-paste">
+                <h4>🎯 Daily Focus</h4>
+                <div class="prompt">"Based on my calendar and emails, what are the 3 most important things I should focus on today?"</div>
+                <div class="what-you-get">→ Clarity when you're overwhelmed</div>
+            </div>
+        </div>
+
+        <!-- Results Timeline -->
+        <div class="section">
+            <h2 class="section-title">📈 What to Expect</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Day 1</h4>
+                    <p>Save 30-60 minutes on email alone. Experience the "aha" moment when your VE summarizes your inbox in seconds.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Day 3</h4>
+                    <p>You stop writing first drafts. Your VE handles emails, notes, and quick research. You just edit and approve.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Week 1</h4>
+                    <p>Your VE knows your style. Drafts need fewer edits. You're delegating tasks you used to dread.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Week 2</h4>
+                    <p>2-4 hours saved per day. You wonder how you ever worked without this. Your calendar has breathing room.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Month 1</h4>
+                    <p>Your VE anticipates needs before you ask. Admin work feels like a distant memory. You're focused on high-value work.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guarantee -->
+        <div class="guarantee-box">
+            <h3>🎯 Our Promise</h3>
+            <p>If you don't save at least 30 minutes on your first day, we'll personally help you get there — or give you an extra week free.</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Ready to Save 2+ Hours a Day?</h3>
+            <p style="color: #aaa; margin-bottom: 20px;">Start your free trial. First results in 5 minutes.</p>
+            <a href="/login.html" class="cta-btn">Start Free Trial</a>
+        </div>
+
+    </div>
+</body>
+</html>
