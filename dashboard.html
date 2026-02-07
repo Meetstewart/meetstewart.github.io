@@ -1291,21 +1291,25 @@
             display: none;
             flex-direction: column;
             justify-content: space-around;
-            width: 28px;
-            height: 22px;
+            width: 44px;
+            height: 44px;
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: 0;
-            z-index: 10;
+            padding: 10px;
+            z-index: 10001;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
         }
         
         .hamburger span {
-            width: 100%;
+            width: 24px;
             height: 3px;
             background: #d4af37;
             border-radius: 2px;
             transition: all 0.3s ease;
+            pointer-events: none;
         }
         
         .hamburger.active span:nth-child(1) {
@@ -2498,7 +2502,8 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         }
         
         // ===== MOBILE DRAWER =====
-        function toggleMobileDrawer() {
+        function toggleMobileDrawer(e) {
+            if (e) e.preventDefault();
             const drawer = document.getElementById('mobileDrawer');
             const overlay = document.getElementById('drawerOverlay');
             const hamburger = document.querySelector('.hamburger');
@@ -2507,6 +2512,17 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             overlay.classList.toggle('open');
             hamburger.classList.toggle('active');
         }
+        
+        // Add touch event for iOS Safari
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    toggleMobileDrawer();
+                }, { passive: false });
+            }
+        });
         
         function closeMobileDrawer() {
             const drawer = document.getElementById('mobileDrawer');
