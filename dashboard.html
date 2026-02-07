@@ -592,6 +592,29 @@
             color: rgba(255,255,255,0.4);
         }
         
+        .send-btn {
+            background: linear-gradient(135deg, #d4af37, #b8962e);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: #0f0f23;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+        
         .voice-btn {
             width: 48px;
             height: 48px;
@@ -1908,6 +1931,7 @@
     <div class="input-bar">
         <div class="input-container">
             <input type="text" class="input-field" placeholder="Ask Stewart anything..." id="messageInput" onkeypress="handleKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()" aria-label="Send">➤</button>
             <button class="voice-btn" onclick="toggleVoice()">🎤</button>
         </div>
     </div>
@@ -2442,19 +2466,23 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             return defaults[Math.floor(Math.random() * defaults.length)];
         }
 
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (text) {
+                addMessage(text, 'user');
+                input.value = '';
+                // Show typing indicator then response
+                setTimeout(() => {
+                    const response = getContextualResponse(text);
+                    addMessage(response, 'bot');
+                }, 800 + Math.random() * 700);
+            }
+        }
+        
         function handleKeyPress(e) {
             if (e.key === 'Enter') {
-                const input = document.getElementById('messageInput');
-                const text = input.value.trim();
-                if (text) {
-                    addMessage(text, 'user');
-                    input.value = '';
-                    // Show typing indicator then response
-                    setTimeout(() => {
-                        const response = getContextualResponse(text);
-                        addMessage(response, 'bot');
-                    }, 800 + Math.random() * 700);
-                }
+                sendMessage();
             }
         }
         
