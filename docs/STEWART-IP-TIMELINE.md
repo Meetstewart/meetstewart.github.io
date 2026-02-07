@@ -64,12 +64,12 @@ Twilio (805) 600-8901 → ElevenLabs Conversational AI → Beast WebSocket → R
 **Proprietary Hierarchy:**
 | Role | Function | Price |
 |------|----------|-------|
-| **Stewart (Manager)** | Orchestrates up to 10 human/virtual staff | $500/mo |
-| **Voice** | Brand Ambassador | $400/mo |
-| **Builder** | Technical/Coding | $400/mo |
-| **Creator** | Design/Content | $400/mo |
-| **Analyst** | Data/Efficiency | $400/mo |
-| **Support** | Task/Coordination | $300/mo |
+| **Stewart (Manager)** | Orchestrates up to 10 human/virtual staff | $199/mo ($99 intro) |
+| **Voice** | Brand Ambassador | $120/mo |
+| **Builder** | Technical/Coding | $120/mo |
+| **Creator** | Design/Content | $120/mo |
+| **Analyst** | Data/Efficiency | $120/mo |
+| **Support** | Task/Coordination | $80/mo |
 
 **Innovation:** AI agent hierarchy mimicking corporate management structure - first of its kind virtual executive team model
 

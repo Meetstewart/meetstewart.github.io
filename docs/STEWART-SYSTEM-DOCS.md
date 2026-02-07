@@ -12,23 +12,23 @@
 
 ## Product Structure
 
-### Stewart (The Manager) - $500/mo
+### Stewart (The Manager) - $199/mo ($99 intro)
 - AI virtual executive
 - Execution agent + light work in all areas
 - Manages up to 10 total staff (human OR virtual combined)
 - Orchestrates all work across team
 - Communicates on user's behalf via all channels
-- *"That's a $60k/year executive assistant. For $500/month."*
+- *"That's a $60k/year executive assistant. For $199/mo ($99 intro)nth."*
 
 ### 5 Specialists - Stewart's Team
 
 | Specialist | Role | Price |
 |-----------|------|-------|
-| **Voice** | Brand Ambassador | $400/mo |
-| **Builder** | Technical/Coding | $400/mo |
-| **Creator** | Design/Content | $400/mo |
-| **Analyst** | Data/Efficiency | $400/mo |
-| **Support** | Task/Coordination | $300/mo |
+| **Voice** | Brand Ambassador | $120/mo |
+| **Builder** | Technical/Coding | $120/mo |
+| **Creator** | Design/Content | $120/mo |
+| **Analyst** | Data/Efficiency | $120/mo |
+| **Support** | Task/Coordination | $80/mo |
 
 ### Package Tiers
 
@@ -63,7 +63,7 @@
 
 ---
 
-## $500/mo Paid Package Details
+## $199/mo ($99 intro) Paid Package Details
 
 ### Core Components
 - **Managed virtual AI shared workstation** - Their Stewart agent has actual VM access
