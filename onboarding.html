@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Your First Week with Virtual Exec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .day-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        .day-card:hover {
+            border-color: rgba(212,175,55,0.5);
+            transform: translateY(-2px);
+        }
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        .day-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .day-card p {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #ccc;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .tip-box {
+            background: rgba(212,175,55,0.1);
+            border-left: 3px solid #d4af37;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tip-box strong {
+            color: #d4af37;
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 16px;
+        }
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 600;
+            padding: 14px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: transform 0.2s ease;
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+        .back-link {
+            display: inline-block;
+            color: #d4af37;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            .day-card { padding: 20px; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Your First Week with Virtual Exec</h1>
+            <p>Here's what to expect as you get started</p>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day-card">
+            <span class="day-badge">DAY 1</span>
+            <h2>👋 Meet Your Virtual Exec</h2>
+            <p>Welcome aboard! Today is all about getting introduced and making your VE feel like yours.</p>
+            <ul class="checklist">
+                <li>Complete signup and verify your email</li>
+                <li>Name your VE (or keep "Stewart" — we like it too)</li>
+                <li>Choose their voice — male or female, calm or energetic</li>
+                <li>Pick an avatar that feels right</li>
+                <li>Have your first conversation — just say hello!</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Tell your VE about yourself — your role, your company, what keeps you busy. The more context, the better they can help.
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card">
+            <span class="day-badge">DAY 2</span>
+            <h2>📧 Connect Your World</h2>
+            <p>Time to give your VE access to the tools you use every day.</p>
+            <ul class="checklist">
+                <li>Connect your email (Gmail, Outlook)</li>
+                <li>Link your calendar</li>
+                <li>Add any task managers (Asana, Notion, etc.)</li>
+                <li>Set your communication preferences</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Start with email and calendar — that's where 80% of the magic happens. You can always add more integrations later.
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card">
+            <span class="day-badge">DAY 3</span>
+            <h2>🎯 Your First Real Task</h2>
+            <p>Let's put your VE to work on something meaningful.</p>
+            <ul class="checklist">
+                <li>Ask your VE to summarize your unread emails</li>
+                <li>Have them draft a response to something in your inbox</li>
+                <li>Request a briefing on tomorrow's meetings</li>
+                <li>Try: "What should I focus on today?"</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Don't be shy about giving feedback. "Make it shorter" or "more formal" helps your VE learn your style.
+            </div>
+        </div>
+
+        <!-- Day 4-5 -->
+        <div class="day-card">
+            <span class="day-badge">DAYS 4-5</span>
+            <h2>🧠 Building Your Rhythm</h2>
+            <p>Your VE is learning how you work. Keep the momentum going.</p>
+            <ul class="checklist">
+                <li>Start your day by asking for a morning briefing</li>
+                <li>Delegate your first research task</li>
+                <li>Have your VE prepare talking points for a meeting</li>
+                <li>Try voice mode — talk instead of type</li>
+                <li>Ask for a weekly schedule overview</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> The best users treat their VE like a new employee — give them context, explain your preferences, and let them grow into the role.
+            </div>
+        </div>
+
+        <!-- Day 6-7 -->
+        <div class="day-card">
+            <span class="day-badge">DAYS 6-7</span>
+            <h2>🚀 Full Speed Ahead</h2>
+            <p>By now, your VE knows your style. Time to unlock their full potential.</p>
+            <ul class="checklist">
+                <li>Set up recurring tasks (daily summaries, weekly reports)</li>
+                <li>Introduce your VE to your key contacts and projects</li>
+                <li>Try complex tasks: "Research competitors and summarize findings"</li>
+                <li>Explore the People section — add contacts your VE should know</li>
+                <li>Check your dashboard stats — see how much time you've saved!</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> The more you use your VE, the smarter they get. Users who engage daily see 3x more productivity gains by week two.
+            </div>
+        </div>
+
+        <!-- What's Next -->
+        <div class="day-card">
+            <span class="day-badge">WEEK 2+</span>
+            <h2>📈 What's Next</h2>
+            <p>You've got the basics down. Here's where it gets exciting.</p>
+            <ul class="checklist">
+                <li>Add specialist VEs to your team (Admin, Analyst, Creative)</li>
+                <li>Set up automated workflows</li>
+                <li>Explore the Cash Flow forecasting tool</li>
+                <li>Consider upgrading to dedicated phone line for calls on-the-go</li>
+                <li>Check out StewBox for always-on office integration</li>
+            </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3>Ready to Get Started?</h3>
+            <p style="color: #aaa;">Your Virtual Exec is waiting to meet you.</p>
+            <a href="/login.html" class="cta-btn">Start Your Free Trial</a>
+        </div>
+
+    </div>
+</body>
+</html>
