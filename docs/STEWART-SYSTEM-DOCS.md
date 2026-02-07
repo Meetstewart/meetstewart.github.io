@@ -18,7 +18,7 @@
 - Manages up to 10 total staff (human OR virtual combined)
 - Orchestrates all work across team
 - Communicates on user's behalf via all channels
-- *"That's a $60k/year executive assistant. For $199/mo ($99 intro)nth."*
+- *"That's a $60k/year executive assistant. For $199/mo."*
 
 ### 5 Specialists - Stewart's Team
 
