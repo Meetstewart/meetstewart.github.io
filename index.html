@@ -37,12 +37,24 @@
         }
         
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, #8a5cf6, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
+        }
+        
+        .logo-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(138, 92, 246, 0.5);
+            box-shadow: 0 0 15px rgba(138, 92, 246, 0.3);
         }
         
         .nav-links {
@@ -112,7 +124,13 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
-
+        
+        /* Stewart Robot SVG */
+        .stewart-robot {
+            width: 100%;
+            height: 100%;
+        }
+        
         /* Glow effect behind Stewart */
         .stewart-glow {
             position: absolute;
@@ -130,42 +148,44 @@
             0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
             50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         }
-
-        @keyframes bubble-side {
-            0%, 45% {
-                left: auto;
-                right: calc(100% + 20px);
-            }
-            50%, 95% {
-                left: calc(100% + 20px);
-                right: auto;
-            }
-            100% {
-                left: auto;
-                right: calc(100% + 20px);
-            }
+        
+        /* Speech Bubble */
+        .speech-bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a1a2e;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            max-width: 300px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: bubble-pop 0.4s ease-out;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
         }
         
-        @keyframes arrow-side {
-            0%, 45% {
-                left: auto;
-                right: -12px;
-                border-left: 12px solid rgba(255, 255, 255, 0.95);
-                border-right: none;
-            }
-            50%, 95% {
-                left: -12px;
-                right: auto;
-                border-right: 12px solid rgba(255, 255, 255, 0.95);
-                border-left: none;
-            }
-            100% {
-                left: auto;
-                right: -12px;
-                border-left: 12px solid rgba(255, 255, 255, 0.95);
-                border-right: none;
-            }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid rgba(255, 255, 255, 0.95);
         }
+        
+        @keyframes bubble-pop {
+            0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+            100% { transform: translateX(-50%) scale(1); opacity: 1; }
+        }
+        
+        /* Click hint */
+        .click-hint {
+            position: absolute;
             bottom: -40px;
             left: 50%;
             transform: translateX(-50%);
@@ -390,131 +410,15 @@
             color: rgba(255, 255, 255, 0.5);
         }
         
-        /* Voice Trial Section */
-        .voice-trial {
-            padding: 5rem 5%;
-            background: linear-gradient(180deg, rgba(138, 92, 246, 0.1) 0%, transparent 100%);
-            text-align: center;
-        }
-        
-        .voice-trial h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #8a5cf6, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .voice-trial > p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-        
-        .voice-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-        
-        .voice-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(138, 92, 246, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            width: 280px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .voice-card:hover {
-            border-color: #8a5cf6;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(138, 92, 246, 0.2);
-        }
-        
-        .voice-card .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .voice-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .voice-card p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .call-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #fff;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
-        }
-        
-        .call-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 30px rgba(34, 197, 94, 0.4);
-        }
-        
-        .tier-badges {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-        
-        .tier-badge {
-            background: rgba(138, 92, 246, 0.15);
-            border: 1px solid rgba(138, 92, 246, 0.3);
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            color: #c084fc;
-        }
-        
         /* Mobile */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-
             
-            
-
-            .hero {
-                padding-top: 6rem;
-            }
-            
-            .stewart-container {
-                margin-bottom: 3rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-                padding: 0 1rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-                padding: 0 1rem;
+            .speech-bubble {
+                font-size: 0.85rem;
+                max-width: 250px;
             }
             
             .price-card.featured {
@@ -525,12 +429,15 @@
 </head>
 <body>
     <nav>
-        <div class="logo">Stewart</div>
+        <div class="logo">
+            <img src="https://meetstewart.com/assets/stewart-waving.png" alt="Stewart" class="logo-avatar">
+            Stewart
+        </div>
         <div class="nav-links">
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
             <a href="/voice/">Voice Demo</a>
-            <a href="/subscribe/" class="cta-button">Start Free Trial</a>
+            <a href="#" class="cta-button">Start Free Trial</a>
         </div>
     </nav>
     
@@ -539,50 +446,53 @@
         <div class="stewart-container" id="stewartContainer">
             <div class="stewart-glow"></div>
             <div class="stewart-character">
-                <img src="assets/stewart-waving.png" alt="Stewart" class="stewart-image" style="width: 280px; height: auto; filter: drop-shadow(0 0 30px rgba(138, 92, 246, 0.5));">
+                <svg class="stewart-robot" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Body -->
+                    <rect x="50" y="80" width="100" height="90" rx="20" fill="#8a5cf6"/>
+                    <rect x="55" y="85" width="90" height="80" rx="15" fill="#6d28d9"/>
+                    
+                    <!-- Head -->
+                    <rect x="55" y="25" width="90" height="65" rx="15" fill="#8a5cf6"/>
+                    <rect x="60" y="30" width="80" height="55" rx="12" fill="#1a1a2e"/>
+                    
+                    <!-- Eyes -->
+                    <ellipse cx="85" cy="55" rx="12" ry="10" fill="#fff" class="eye left-eye"/>
+                    <ellipse cx="115" cy="55" rx="12" ry="10" fill="#fff" class="eye right-eye"/>
+                    <circle cx="85" cy="55" r="5" fill="#8a5cf6" class="pupil"/>
+                    <circle cx="115" cy="55" r="5" fill="#8a5cf6" class="pupil"/>
+                    
+                    <!-- Smile -->
+                    <path d="M 80 70 Q 100 85 120 70" stroke="#8a5cf6" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    
+                    <!-- Antenna -->
+                    <line x1="100" y1="25" x2="100" y2="10" stroke="#8a5cf6" stroke-width="4" stroke-linecap="round"/>
+                    <circle cx="100" cy="8" r="6" fill="#c084fc" class="antenna-light"/>
+                    
+                    <!-- Arms -->
+                    <rect x="30" y="90" width="25" height="50" rx="10" fill="#8a5cf6" class="arm left-arm"/>
+                    <rect x="145" y="90" width="25" height="50" rx="10" fill="#8a5cf6" class="arm right-arm">
+                        <animateTransform attributeName="transform" type="rotate" values="0 157.5 90; -20 157.5 90; 0 157.5 90" dur="1s" repeatCount="indefinite"/>
+                    </rect>
+                    
+                    <!-- Purple Bowtie -->
+                    <polygon points="85,82 100,90 115,82 115,98 100,90 85,98" fill="#c084fc"/>
+                    <circle cx="100" cy="90" r="5" fill="#a855f7"/>
+                    
+                    <!-- Chest Light -->
+                    <circle cx="100" cy="120" r="12" fill="#1a1a2e"/>
+                    <circle cx="100" cy="120" r="8" fill="#c084fc" class="chest-light"/>
+                </svg>
             </div>
-
+            <div class="speech-bubble" id="speechBubble">Hey there! I'm Stewart. Click me! 👋</div>
+            <div class="click-hint">Click Stewart to chat</div>
         </div>
         
         <h1>Meet Stewart<br>Your AI Staff, Ready to Work</h1>
-        <p>Schedule meetings. Manage projects. Analyze data. Create content. Build apps. Save hundreds of hours every month—just call, text, or email Stewart.</p>
+        <p>Six AI specialists working 24/7. Managing your business, handling your tasks, delivering results. All for less than one human hire.</p>
         
         <div class="hero-buttons">
             <a href="/voice/" class="cta-button">Try Voice Demo</a>
             <a href="#pricing" class="secondary-button">See Pricing</a>
-        </div>
-    </section>
-    
-    <!-- Voice Trial Section -->
-    <section class="voice-trial" id="voice-trial">
-        <h2>🎙️ Talk to Stewart Now</h2>
-        <p>Experience the future of AI assistants. Have a real conversation with Stewart - no signup required.</p>
-        
-        <div class="voice-container">
-            <div class="voice-card">
-                <div class="icon">📞</div>
-                <h3>Call Stewart</h3>
-                <p>Speak directly with Stewart on your phone. Ask anything!</p>
-                <a href="tel:+18056008901" class="call-button">
-                    <span>📱</span> (805) 600-8901
-                </a>
-                <p style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 10px; font-style: italic; line-height: 1.4;">Calls recorded for quality &amp; training. By calling, you consent to recording.</p>
-            </div>
-            
-            <div class="voice-card">
-                <div class="icon">🎧</div>
-                <h3>Listen First</h3>
-                <p>Hear how Stewart handles real business conversations.</p>
-                <button class="call-button" style="background: linear-gradient(135deg, #8a5cf6, #6d28d9);" onclick="playDemo()">
-                    <span>▶️</span> Play Sample
-                </button>
-            </div>
-        </div>
-        
-        <div class="tier-badges">
-            <div class="tier-badge">🎁 Anonymous: 60-second sample</div>
-            <div class="tier-badge">⭐ Trial Users: 5 min/day for 14 days</div>
-            <div class="tier-badge">👑 Subscribers: Unlimited</div>
         </div>
     </section>
     
@@ -592,7 +502,7 @@
         <p>Watch how Stewart handles real business tasks</p>
         <div class="video-container">
             <video controls poster="">
-                <source src="assets/stewart-demo.mp4" type="video/mp4">
+                <source src="assets/stewart-video.mp4" type="video/mp4">
                 Your browser doesn't support video.
             </video>
         </div>
@@ -600,140 +510,78 @@
     
     <!-- Features -->
     <section class="features" id="features">
-        <h2>What Stewart Can Do For You</h2>
+        <h2>What Stewart Does</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <h3>📅 Schedule & Coordinate</h3>
-                <p>Schedule meetings, manage calendars, and coordinate across teams—automatically.</p>
+                <h3>🎙️ Voice</h3>
+                <p>Brand ambassador handling calls, messages, and customer communications with your company's personality.</p>
             </div>
             <div class="feature-card">
-                <h3>📋 Project Management</h3>
-                <p>Manage team projects, delegate tasks, and keep everything moving forward.</p>
+                <h3>🔧 Builder</h3>
+                <p>Technical specialist managing development, systems integration, and technical execution.</p>
             </div>
             <div class="feature-card">
-                <h3>📊 Data & Reports</h3>
-                <p>Analyze your data and create professional reports with actionable insights.</p>
+                <h3>🎨 Creator</h3>
+                <p>Design and content specialist creating visuals, documents, and marketing materials.</p>
             </div>
             <div class="feature-card">
-                <h3>📱 Social & Content</h3>
-                <p>Handle social media, create content, and keep your brand voice consistent.</p>
+                <h3>📊 Analyst</h3>
+                <p>Data specialist delivering reports, insights, and efficiency optimization.</p>
             </div>
             <div class="feature-card">
-                <h3>🔧 Build & Connect</h3>
-                <p>Build websites, databases, apps, and APIs to connect all your data points.</p>
+                <h3>📋 Support</h3>
+                <p>Task coordinator handling administrative work and reducing your daily workload.</p>
             </div>
             <div class="feature-card">
-                <h3>📞 Always Available</h3>
-                <p>Call, text, or email Stewart anytime. 24/7 access right from your phone.</p>
+                <h3>🧠 Manager</h3>
+                <p>Stewart orchestrates the entire team, managing up to 10 staff members—virtual or human.</p>
             </div>
-        </div>
-    </section>
-    
-<!-- Meet Stewart Section -->
-    <section style="padding: 80px 20px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); text-align: center;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Meet Stewart</h2>
-        <p style="color: #a0a0a0; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem;">Your AI executive assistant, ready to work.</p>
-        <div style="max-width: 300px; margin: 0 auto;">
-            <img src="assets/stewart-waving.png" alt="Stewart" style="width: 200px; height: auto; margin-bottom: 20px;">
-            <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Stewart</h3>
-            <p style="color: #a0a0a0;">Your AI Manager</p>
         </div>
     </section>
     
     <!-- Pricing -->
     <section class="pricing" id="pricing">
         <h2>Simple, Transparent Pricing</h2>
-        <p class="pricing-subtitle">Your AI team, ready to work. 14-day free trial on all plans.</p>
+        <p class="pricing-subtitle">Each specialist does the work of two humans. No contracts, cancel anytime.</p>
         
         <div class="pricing-grid">
-            <div class="price-card featured">
-                <div style="background: linear-gradient(135deg, #d4af37, #f4d03f); color: #1a1a2e; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 15px; display: inline-block;">MOST POPULAR</div>
-                <h3>Stewart Solo</h3>
+            <div class="price-card">
+                <h3>Solo</h3>
                 <div class="price">$500<span>/mo</span></div>
                 <ul>
-                    <li>Your AI Virtual Executive</li>
-                    <li>Manages up to 10 staff (human or AI)</li>
-                    <li>Voice phone line included</li>
-                    <li>Text messaging included</li>
-                    <li>Managed virtual workstation</li>
-                    <li>Custom software setup</li>
-                    <li>Shows up Day 1, corner office ready in a week</li>
+                    <li>Stewart Manager</li>
+                    <li>Manages up to 10 staff</li>
+                    <li>All communication channels</li>
+                    <li>24/7 availability</li>
                 </ul>
-                <a href="/login.html" class="cta-button">Start 14-Day Trial</a>
+                <a href="#" class="cta-button">Start Free Trial</a>
             </div>
             
-            <div class="price-card">
-                <div style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 15px; display: inline-block;">BEST VALUE - SAVE $600</div>
+            <div class="price-card featured">
                 <h3>Dream Team</h3>
                 <div class="price">$2,000<span>/mo</span></div>
                 <ul>
                     <li>Stewart Manager</li>
-                    <li>Brand Ambassador (Voice)</li>
-                    <li>Builder (Technical/Coding)</li>
-                    <li>Creator (Design/Content)</li>
-                    <li>Analyst (Data/Efficiency)</li>
-                    <li>Support Coordinator <strong>FREE</strong></li>
+                    <li>Voice + Builder + Creator + Analyst</li>
+                    <li>Support included FREE</li>
+                    <li>Complete business running 24/7</li>
+                    <li>Saves $400 vs à la carte</li>
                 </ul>
-                <a href="/login.html" class="cta-button">Start 14-Day Trial</a>
+                <a href="#" class="cta-button">Start Free Trial</a>
+            </div>
+            
+            <div class="price-card">
+                <h3>Industry Expert</h3>
+                <div class="price">$600<span>/mo</span></div>
+                <ul>
+                    <li>Stewart Manager</li>
+                    <li>Domain-specific expertise</li>
+                    <li>Real Estate, Healthcare, etc.</li>
+                    <li>Industry best practices built in</li>
+                </ul>
+                <a href="#" class="cta-button">Start Free Trial</a>
             </div>
         </div>
-        
-        <h3 style="color: #d4af37; margin-top: 60px; margin-bottom: 30px;">Add Individual Specialists</h3>
-        <div class="pricing-grid">
-            <div class="price-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);">
-                <h3>🎙️ Brand Ambassador</h3>
-                <div class="price">$400<span>/mo</span></div>
-                <ul>
-                    <li>Voice & customer relations</li>
-                    <li>Outbound calls & follow-ups</li>
-                    <li>Customer communication</li>
-                </ul>
-            </div>
-            
-            <div class="price-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);">
-                <h3>🔧 Builder</h3>
-                <div class="price">$400<span>/mo</span></div>
-                <ul>
-                    <li>Technical & coding</li>
-                    <li>Automation setup</li>
-                    <li>System integration</li>
-                </ul>
-            </div>
-            
-            <div class="price-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);">
-                <h3>🎨 Creator</h3>
-                <div class="price">$400<span>/mo</span></div>
-                <ul>
-                    <li>Design & content</li>
-                    <li>Social media</li>
-                    <li>Marketing materials</li>
-                </ul>
-            </div>
-            
-            <div class="price-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);">
-                <h3>📊 Analyst</h3>
-                <div class="price">$400<span>/mo</span></div>
-                <ul>
-                    <li>Data & efficiency</li>
-                    <li>Reports & dashboards</li>
-                    <li>Process optimization</li>
-                </ul>
-            </div>
-            
-            <div class="price-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);">
-                <h3>🤝 Support</h3>
-                <div class="price">$300<span>/mo</span></div>
-                <ul>
-                    <li>Task coordination</li>
-                    <li>Scheduling & reminders</li>
-                    <li>Team communication</li>
-                </ul>
-            </div>
-        </div>
-        
-        <p style="color: #888; margin-top: 40px; font-size: 0.9rem;">
-            14-day free trial • Card required • Cancel anytime • First charge on day 15
-        </p>
     </section>
     
     <footer>
@@ -741,6 +589,44 @@
     </footer>
     
     <script>
+        // Stewart's witty dialogue
+        const stewartDialogue = [
+            "Hey there! I'm Stewart. Click me! 👋",
+            "I'm basically a $60k assistant... for $500/month. You're welcome. 💼",
+            "My team works 24/7. We don't sleep, we just deliver. ☕",
+            "Fun fact: I've read every business book. In one afternoon. 📚",
+            "Five of me equals ten humans. Math checks out. 🧮",
+            "I don't take vacations. But I do appreciate a good dad joke. 😄",
+            "Want to see something cool? Try the voice demo! 🎙️",
+            "I'm like Siri, but I actually finish the job. 🎯",
+            "My bowtie? Purple. My work ethic? Flawless. 🎀",
+            "The future of work is here. And it's wearing a bowtie. ✨",
+            "I handle your boring tasks so you can do the fun stuff. 🎉",
+            "Stewart out! Just kidding, I'm always here. Always. 👀"
+        ];
+        
+        let currentDialogue = 0;
+        const speechBubble = document.getElementById('speechBubble');
+        const stewartContainer = document.getElementById('stewartContainer');
+        
+        // Change dialogue on click
+        stewartContainer.addEventListener('click', () => {
+            currentDialogue = (currentDialogue + 1) % stewartDialogue.length;
+            speechBubble.style.animation = 'none';
+            speechBubble.offsetHeight; // Trigger reflow
+            speechBubble.style.animation = 'bubble-pop 0.4s ease-out';
+            speechBubble.textContent = stewartDialogue[currentDialogue];
+        });
+        
+        // Auto-cycle every 8 seconds
+        setInterval(() => {
+            currentDialogue = (currentDialogue + 1) % stewartDialogue.length;
+            speechBubble.style.animation = 'none';
+            speechBubble.offsetHeight;
+            speechBubble.style.animation = 'bubble-pop 0.4s ease-out';
+            speechBubble.textContent = stewartDialogue[currentDialogue];
+        }, 8000);
+        
         // Animate antenna light
         const style = document.createElement('style');
         style.textContent = `
@@ -760,73 +646,6 @@
             }
         `;
         document.head.appendChild(style);
-        
-        // ========== AVATAR BUILDER ==========
-        // ========== VOICE DEMO ==========
-        const DEMO_VOICE_ID = 'cjVigY5qzO86Huf0OWal'; // Eric - Stewart's default voice
-        const ELEVENLABS_KEY_DEMO = 'sk_933372d07bc70b591aad7041bf5a6e37d4f20c5d92e04c68';
-        let demoAudio = null;
-        let isPlayingDemo = false;
-        
-        async function playDemo() {
-            const btn = event.target.closest('button');
-            
-            if (isPlayingDemo && demoAudio) {
-                demoAudio.pause();
-                demoAudio = null;
-                isPlayingDemo = false;
-                btn.innerHTML = '<span>▶️</span> Play Sample';
-                return;
-            }
-            
-            btn.innerHTML = '<span>⏳</span> Loading...';
-            btn.disabled = true;
-            
-            const demoText = "Hello! I'm Stewart, your AI business partner. Imagine having a team of six working around the clock, handling emails, managing projects, analyzing data, and keeping everything running smoothly. That's what I do. I'm like having a sixty thousand dollar executive assistant, for five hundred a month. Want to see what I can do for you? Let's talk.";
-            
-            try {
-                const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${DEMO_VOICE_ID}/stream`, {
-                    method: 'POST',
-                    headers: {
-                        'xi-api-key': ELEVENLABS_KEY_DEMO,
-                        'Content-Type': 'application/json',
-                        'Accept': 'audio/mpeg'
-                    },
-                    body: JSON.stringify({
-                        text: demoText,
-                        model_id: 'eleven_turbo_v2_5',
-                        voice_settings: {
-                            stability: 0.5,
-                            similarity_boost: 0.75,
-                            style: 0.0
-                        }
-                    })
-                });
-                
-                if (!response.ok) throw new Error('Audio generation failed');
-                
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                demoAudio = new Audio(audioUrl);
-                isPlayingDemo = true;
-                
-                btn.innerHTML = '<span>⏹️</span> Stop';
-                btn.disabled = false;
-                
-                demoAudio.onended = () => {
-                    isPlayingDemo = false;
-                    btn.innerHTML = '<span>▶️</span> Play Sample';
-                    URL.revokeObjectURL(audioUrl);
-                };
-                
-                await demoAudio.play();
-            } catch (error) {
-                console.error('Demo playback error:', error);
-                btn.innerHTML = '<span>▶️</span> Play Sample';
-                btn.disabled = false;
-                alert('Unable to play sample. Call +1 (805) 261-5972 to hear Stewart live!');
-            }
-        }
     </script>
 </body>
 </html>
