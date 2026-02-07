@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Train Your Virtual Exec for Success</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            margin-bottom: 60px;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title span {
+            font-size: 2rem;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: rgba(212,175,55,0.5);
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #d4af37;
+        }
+        .card p {
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #ccc;
+        }
+        .card ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+        }
+        .example-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-top: 12px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #4ade80;
+        }
+        .example-box .label {
+            color: #888;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .quick-win {
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .quick-win .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .quick-win h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .quick-win p {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        .time-saved {
+            display: inline-block;
+            background: #4ade80;
+            color: #000;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+        .training-tip {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .training-tip .num {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 700;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .training-tip .content h4 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .training-tip .content p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        .capability-category {
+            margin-bottom: 40px;
+        }
+        .capability-category h3 {
+            font-size: 1.3rem;
+            color: #d4af37;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+        }
+        .capability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .capability-item {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .capability-item .check {
+            color: #4ade80;
+            font-size: 1.2rem;
+        }
+        .capability-item span {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 16px;
+        }
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            font-weight: 600;
+            padding: 14px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 10px;
+            transition: transform 0.2s ease;
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+        .cta-btn.secondary {
+            background: transparent;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+        }
+        .back-link {
+            display: inline-block;
+            color: #d4af37;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.4rem; }
+            .container { padding: 20px 15px; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/onboarding.html" class="back-link">← Back to Onboarding</a>
+        
+        <div class="header">
+            <h1>Train Your Virtual Exec for Success</h1>
+            <p>The more your VE knows, the more they can do</p>
+        </div>
+
+        <!-- Training Principles -->
+        <div class="section">
+            <h2 class="section-title"><span>🎓</span> Training Principles</h2>
+            
+            <div class="training-tip">
+                <div class="num">1</div>
+                <div class="content">
+                    <h4>Context is Everything</h4>
+                    <p>Tell your VE who you are, what you do, and what matters most. "I'm a sales director at a SaaS company. My biggest priority is closing Q1 deals."</p>
+                </div>
+            </div>
+            
+            <div class="training-tip">
+                <div class="num">2</div>
+                <div class="content">
+                    <h4>Introduce Your People</h4>
+                    <p>Let your VE know who's who. "Sarah is my CEO — always be formal. Mike is my co-founder — casual is fine." This shapes how they draft communications.</p>
+                </div>
+            </div>
+            
+            <div class="training-tip">
+                <div class="num">3</div>
+                <div class="content">
+                    <h4>Share Your Preferences</h4>
+                    <p>Tell them how you like things done. "Keep emails under 3 paragraphs. I prefer bullet points. Never schedule meetings before 10am."</p>
+                </div>
+            </div>
+            
+            <div class="training-tip">
+                <div class="num">4</div>
+                <div class="content">
+                    <h4>Correct and Refine</h4>
+                    <p>When something isn't quite right, say so. "Too formal — make it friendlier" or "Good, but add more detail about the pricing." They learn from every interaction.</p>
+                </div>
+            </div>
+            
+            <div class="training-tip">
+                <div class="num">5</div>
+                <div class="content">
+                    <h4>Build on Success</h4>
+                    <p>When they nail something, tell them. "Perfect, save that style for future investor updates." Positive reinforcement helps them understand your standards.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example Training Conversations -->
+        <div class="section">
+            <h2 class="section-title"><span>💬</span> Example Training Conversations</h2>
+            
+            <div class="card">
+                <h3>Teaching Your Role & Context</h3>
+                <div class="example-box">
+                    <div class="label">You say:</div>
+                    "I'm the founder of a 15-person marketing agency. We specialize in B2B tech companies. My biggest challenge is keeping up with client communication while also doing business development. I hate admin work."
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Teaching Your Communication Style</h3>
+                <div class="example-box">
+                    <div class="label">You say:</div>
+                    "When you draft emails for me, keep them short and direct. No fluff. I sign off with just my first name. For clients, be warm but professional. For my team, be casual."
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Teaching About Key People</h3>
+                <div class="example-box">
+                    <div class="label">You say:</div>
+                    "Lisa Chen is my most important client — CEO of TechFlow. She's very busy, appreciates brevity, and hates small talk. Always prioritize her emails. When scheduling with her, offer early morning slots."
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Giving Feedback</h3>
+                <div class="example-box">
+                    <div class="label">You say:</div>
+                    "That email was good but too long. Cut it in half. Also, don't use 'I hope this email finds you well' — I never say that. Start with the point."
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Wins: Week 1 -->
+        <div class="section">
+            <h2 class="section-title"><span>⚡</span> Quick Wins: What Your VE Can Do in Week 1</h2>
+            <p style="color: #888; margin-bottom: 25px;">These are immediate, high-value tasks your VE can handle right away — no extensive training needed.</p>
+            
+            <div class="grid-2">
+                <div class="quick-win">
+                    <div class="icon">📬</div>
+                    <h4>Email Triage</h4>
+                    <p>"Summarize my unread emails and flag anything urgent"</p>
+                    <span class="time-saved">Saves 30-60 min/day</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">✍️</div>
+                    <h4>Draft Responses</h4>
+                    <p>"Draft a reply to John's proposal — interested but need better pricing"</p>
+                    <span class="time-saved">Saves 15 min/email</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">📅</div>
+                    <h4>Meeting Prep</h4>
+                    <p>"Brief me on tomorrow's meetings — who, what, and what I should know"</p>
+                    <span class="time-saved">Saves 20 min/day</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">🔍</div>
+                    <h4>Quick Research</h4>
+                    <p>"Research Acme Corp before my call — key facts, recent news, decision makers"</p>
+                    <span class="time-saved">Saves 30 min/task</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">📝</div>
+                    <h4>Meeting Notes</h4>
+                    <p>"Turn these rough notes into a clean summary with action items"</p>
+                    <span class="time-saved">Saves 20 min/meeting</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">📊</div>
+                    <h4>Data Summary</h4>
+                    <p>"Look at this spreadsheet and give me the key insights"</p>
+                    <span class="time-saved">Saves 45 min/task</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">🗓️</div>
+                    <h4>Schedule Management</h4>
+                    <p>"Find 3 open slots next week for a 30-min call with someone in EST"</p>
+                    <span class="time-saved">Saves 10 min/task</span>
+                </div>
+                
+                <div class="quick-win">
+                    <div class="icon">📋</div>
+                    <h4>Task Prioritization</h4>
+                    <p>"What should I focus on today based on my calendar and deadlines?"</p>
+                    <span class="time-saved">Saves 15 min/day</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Capabilities -->
+        <div class="section">
+            <h2 class="section-title"><span>🛠️</span> Full Capabilities by Category</h2>
+            
+            <div class="capability-category">
+                <h3>📧 Email & Communication</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Read & summarize emails</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Draft responses in your voice</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Flag urgent messages</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Unsubscribe from junk</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Follow up on unanswered emails</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Write cold outreach</span></div>
+                </div>
+            </div>
+            
+            <div class="capability-category">
+                <h3>📅 Calendar & Scheduling</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Daily/weekly briefings</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Find meeting times</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Prep for upcoming meetings</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Reschedule conflicts</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Block focus time</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Send calendar invites</span></div>
+                </div>
+            </div>
+            
+            <div class="capability-category">
+                <h3>📝 Writing & Documents</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Write proposals & briefs</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Create presentations</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Edit & proofread</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Summarize long documents</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Meeting notes & action items</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Social media posts</span></div>
+                </div>
+            </div>
+            
+            <div class="capability-category">
+                <h3>🔍 Research & Analysis</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Company research</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Competitive analysis</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Market trends</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Summarize articles/reports</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Find contact info</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Price comparisons</span></div>
+                </div>
+            </div>
+            
+            <div class="capability-category">
+                <h3>📊 Data & Finance</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Analyze spreadsheets</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Cash flow forecasting</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Create charts & visuals</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Budget tracking</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Invoice summaries</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>KPI dashboards</span></div>
+                </div>
+            </div>
+            
+            <div class="capability-category">
+                <h3>🎯 Task & Project Management</h3>
+                <div class="capability-grid">
+                    <div class="capability-item"><span class="check">✓</span><span>Daily task prioritization</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Project status updates</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Deadline tracking</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Create task lists</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Follow up reminders</span></div>
+                    <div class="capability-item"><span class="check">✓</span><span>Weekly planning</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Investment -->
+        <div class="section">
+            <div class="card" style="background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05)); border-color: rgba(212,175,55,0.4);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 15px;">⏱️ Your Time Investment</h3>
+                <p style="color: #ccc; font-size: 1rem;">
+                    <strong style="color: #d4af37;">Week 1:</strong> Spend 15-20 minutes per day training and testing. Think of it as onboarding a new employee.<br><br>
+                    <strong style="color: #d4af37;">Week 2:</strong> Training drops to 5-10 minutes. Most interactions are productive tasks.<br><br>
+                    <strong style="color: #d4af37;">Week 3+:</strong> Minimal training. Your VE knows your style and anticipates your needs.<br><br>
+                    <strong style="color: #4ade80;">ROI:</strong> Users report saving 2-4 hours per day by week 3. That's 10-20 hours back every week.
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3>Ready to Start Training?</h3>
+            <p style="color: #aaa;">Your Virtual Exec gets smarter with every conversation.</p>
+            <a href="/dashboard.html" class="cta-btn">Go to Dashboard</a>
+            <a href="/onboarding.html" class="cta-btn secondary">Review Week 1 Guide</a>
+        </div>
+
+    </div>
+</body>
+</html>
