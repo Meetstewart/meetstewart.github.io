@@ -132,20 +132,6 @@
         .log-status.error { color: #EF4444; }
 
         /* Users */
-
-        .view-btn {
-            background: rgba(100, 149, 237, 0.2);
-            border: 1px solid cornflowerblue;
-            color: cornflowerblue;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-        .view-btn:hover {
-            background: rgba(100, 149, 237, 0.4);
-        }
-
         .user-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
         .stat {
             text-align: center;
@@ -166,26 +152,6 @@
         .user-row:hover { background: rgba(139,92,246,0.1); }
         .user-email { font-weight: 500; }
         .user-type { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; }
-        
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .view-btn {
-            background: rgba(100, 149, 237, 0.2);
-            border: 1px solid cornflowerblue;
-            color: cornflowerblue;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        .view-btn:hover {
-            background: rgba(100, 149, 237, 0.4);
-        }
-
         .user-type.trial { background: rgba(6,182,212,0.2); color: #06B6D4; }
         .user-type.paid { background: rgba(16,185,129,0.2); color: #10B981; }
         .user-type.admin { background: rgba(139,92,246,0.2); color: #8B5CF6; }
@@ -405,32 +371,24 @@
                 <div class="users-list" id="users-container">
                     <div class="user-row">
                         <div>
-                            <div class="user-email">nick@casablancaexpress.com</div>
+                            <div class="user-email">nickmc123</div>
                             <div style="font-size:0.75rem;color:#6B7280;">Last: 2 min ago</div>
                         </div>
-                        <div class="user-actions">
-                            <span class="user-type admin">Admin</span>
-                        </div>
+                        <span class="user-type admin">Admin</span>
                     </div>
                     <div class="user-row">
                         <div>
                             <div class="user-email">jeff@[pending]</div>
                             <div style="font-size:0.75rem;color:#6B7280;">VE: Bob</div>
                         </div>
-                        <div class="user-actions">
-                            <button class="view-btn" onclick="viewUserDashboard('jeff')">View Dashboard</button>
-                            <span class="user-type paid">Paid</span>
-                        </div>
+                        <span class="user-type paid">Paid</span>
                     </div>
                     <div class="user-row">
                         <div>
                             <div class="user-email">jonathan@[pending]</div>
                             <div style="font-size:0.75rem;color:#6B7280;">VE: Abby</div>
                         </div>
-                        <div class="user-actions">
-                            <button class="view-btn" onclick="viewUserDashboard('jonathan')">View Dashboard</button>
-                            <span class="user-type paid">Paid</span>
-                        </div>
+                        <span class="user-type paid">Paid</span>
                     </div>
                 </div>
             </div>
@@ -537,17 +495,6 @@
             loadServices();
             loadLogs();
         }, 30000);
-    
-        function viewUserDashboard(email) {
-            // Open user dashboard in view-as mode
-            window.open('/dashboard.html?view_as=' + encodeURIComponent(email), '_blank');
-        }
-        
-    
-        function viewUserDashboard(userId) {
-            window.open('/dashboard.html?view_as=' + encodeURIComponent(userId), '_blank');
-        }
-
     </script>
 </body>
 </html>
