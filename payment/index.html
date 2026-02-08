@@ -89,13 +89,13 @@
                             <span class="plan-name">14-Day Free Trial <span class="recommended">RECOMMENDED</span></span>
                             <span class="plan-price">$0 today</span>
                         </div>
-                        <div class="plan-desc">Try Stewart free. Then $500/mo after trial.</div>
+                        <div class="plan-desc">Try Stewart free. Then $199/mo after trial.</div>
                     </div>
                     <div class="plan-option" onclick="selectPlan('full')">
                         <input type="radio" name="plan" value="full">
                         <div class="plan-header">
                             <span class="plan-name">Full Membership</span>
-                            <span class="plan-price">$500/mo</span>
+                            <span class="plan-price">$199/mo</span>
                         </div>
                         <div class="plan-desc">Skip the trial. Start with full access today.</div>
                     </div>
@@ -123,7 +123,7 @@
                 
                 <div class="disclosure">
                     <strong>Automatic Renewal Terms:</strong><br>
-                    <span id="disclosure-text">Your subscription will automatically renew each month at $500/month until you cancel. If starting with a free trial, your first charge of $500 will occur on day 15.</span>
+                    <span id="disclosure-text">Your subscription will automatically renew each month at $199/month until you cancel. If starting with a free trial, your first charge of $199 will occur on day 15.</span>
                     <br><br>
                     <strong>How to Cancel:</strong> Log into your account dashboard and click "Manage Subscription" → "Cancel". Cancellation takes effect at the end of your current billing period.
                 </div>
@@ -188,14 +188,14 @@
         function updateUI() {
             const btn = document.getElementById('submit-btn');
             const text = document.getElementById('disclosure-text');
-            const rate = promoApplied ? '$99' : '$500';
-            const promoNote = promoApplied ? ' For the first 90 days, you pay $99/month, then $500/month.' : '';
+            const rate = promoApplied ? '$99' : '$199';
+            const promoNote = promoApplied ? ' For the first 90 days, you pay $99/month, then $199/month.' : '';
             
             if (selectedPlan === 'trial') {
                 btn.textContent = 'Start Free Trial';
                 text.innerHTML = 'Your subscription will automatically renew at '+rate+'/month. First charge occurs on day 15.'+promoNote;
             } else {
-                btn.textContent = promoApplied ? 'Subscribe - $99/mo' : 'Subscribe - $500/mo';
+                btn.textContent = promoApplied ? 'Subscribe - $99/mo' : 'Subscribe - $199/mo';
                 text.innerHTML = 'Your subscription will automatically renew at '+rate+'/month. First charge occurs today.'+promoNote;
             }
         }
