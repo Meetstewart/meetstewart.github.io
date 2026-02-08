@@ -456,6 +456,14 @@
     </div>
 
     <script>
+
+        // Require login
+        const token = localStorage.getItem('stewart_token');
+        if (!token) {
+            window.location.href = '/login/?redirect=/admin/';
+        }
+        
+
         // API base - will be configured by Beast
         const API_BASE = '/api/admin';
 
