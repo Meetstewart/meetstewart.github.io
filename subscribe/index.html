@@ -279,6 +279,12 @@
                     <textarea name="use_case" placeholder="Email management, scheduling, research..."></textarea>
                 </div>
                 
+                <div class="form-group">
+                    <label>Promo Code (optional)</label>
+                    <input type="text" name="promo_code" id="promo-code" placeholder="Enter promo code">
+                    <div id="promo-message" style="margin-top: 8px; font-size: 0.85rem;"></div>
+                </div>
+                
                 <div class="consent-section">
                     <label class="consent-checkbox">
                         <input type="checkbox" id="consent-checkbox" name="consent" required>
@@ -349,6 +355,26 @@
                 document.getElementById('signup-form').style.display = 'none';
                 document.getElementById('success-msg').style.display = 'block';
             }, 1000);
+        });
+
+        
+        // Promo code handling
+        const promoInput = document.getElementById('promo-code');
+        const promoMessage = document.getElementById('promo-message');
+        let promoApplied = false;
+        
+        promoInput.addEventListener('blur', function() {
+            const code = this.value.trim().toLowerCase();
+            if (code === '90for$99' || code === '90for99') {
+                promoMessage.innerHTML = '✅ <span style="color: #2ed573;">Promo applied! First 90 days at $99/month</span>';
+                promoApplied = true;
+            } else if (code !== '') {
+                promoMessage.innerHTML = '<span style="color: #ff6b6b;">Invalid promo code</span>';
+                promoApplied = false;
+            } else {
+                promoMessage.innerHTML = '';
+                promoApplied = false;
+            }
         });
     </script>
 </body>
