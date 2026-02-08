@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .admin-header {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(139,92,246,0.3);
+        }
+        .admin-header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .admin-user .status { 
+            width: 10px; height: 10px; 
+            background: #10B981; 
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(139,92,246,0.2);
+            overflow: hidden;
+        }
+        .card-header {
+            background: rgba(139,92,246,0.1);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #A78BFA;
+        }
+        .card-header .refresh {
+            background: none;
+            border: none;
+            color: #8B5CF6;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .card-body { padding: 1.5rem; }
+        
+        /* Node Status */
+        .node-grid { display: grid; gap: 1rem; }
+        .node {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .node-info { display: flex; align-items: center; gap: 1rem; }
+        .node-status {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+        .node-status.online { background: #10B981; box-shadow: 0 0 10px #10B981; }
+        .node-status.offline { background: #EF4444; box-shadow: 0 0 10px #EF4444; }
+        .node-status.warning { background: #F59E0B; box-shadow: 0 0 10px #F59E0B; }
+        .node-name { font-weight: 600; }
+        .node-ip { font-size: 0.8rem; color: #9CA3AF; }
+        .node-metrics { text-align: right; font-size: 0.85rem; }
+        .node-metrics .cpu { color: #06B6D4; }
+        .node-metrics .mem { color: #8B5CF6; }
+
+        /* Services */
+        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .service {
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .service-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .service-name { font-weight: 600; margin-bottom: 0.25rem; }
+        .service-status { font-size: 0.8rem; }
+        .service-status.up { color: #10B981; }
+        .service-status.down { color: #EF4444; }
+        .service-status.degraded { color: #F59E0B; }
+
+        /* Logs */
+        .logs-container { max-height: 400px; overflow-y: auto; }
+        .log-entry {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+        }
+        .log-entry:last-child { border-bottom: none; }
+        .log-time { color: #6B7280; }
+        .log-model { color: #8B5CF6; font-weight: 600; }
+        .log-response-time { color: #06B6D4; }
+        .log-status.success { color: #10B981; }
+        .log-status.error { color: #EF4444; }
+
+        /* Users */
+        .user-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .stat-value { font-size: 2rem; font-weight: 700; color: #8B5CF6; }
+        .stat-label { font-size: 0.8rem; color: #9CA3AF; margin-top: 0.25rem; }
+        .users-list { max-height: 250px; overflow-y: auto; }
+        .user-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .user-row:hover { background: rgba(139,92,246,0.1); }
+        .user-email { font-weight: 500; }
+        .user-type { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; }
+        .user-type.trial { background: rgba(6,182,212,0.2); color: #06B6D4; }
+        .user-type.paid { background: rgba(16,185,129,0.2); color: #10B981; }
+        .user-type.admin { background: rgba(139,92,246,0.2); color: #8B5CF6; }
+
+        /* Tools */
+        .tools-list { display: grid; gap: 1rem; }
+        .tool-item {
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            border-left: 3px solid #8B5CF6;
+        }
+        .tool-name { font-weight: 600; margin-bottom: 0.25rem; }
+        .tool-type { font-size: 0.75rem; color: #9CA3AF; }
+        .tool-owner { font-size: 0.8rem; color: #06B6D4; margin-top: 0.5rem; }
+
+        /* Analytics */
+        .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .analytics-card {
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .analytics-value { font-size: 2.5rem; font-weight: 700; }
+        .analytics-value.visitors { color: #8B5CF6; }
+        .analytics-value.pageviews { color: #06B6D4; }
+        .analytics-value.sessions { color: #10B981; }
+        .analytics-value.avgtime { color: #F59E0B; }
+        .analytics-label { font-size: 0.85rem; color: #9CA3AF; margin-top: 0.5rem; }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #6B7280;
+        }
+        .spinner {
+            width: 24px; height: 24px;
+            border: 3px solid rgba(139,92,246,0.2);
+            border-top-color: #8B5CF6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: #8B5CF6; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <h1>🔧 Stewart Developer Dashboard</h1>
+        <div class="admin-user">
+            <span>Nick McClendon</span>
+            <div class="status"></div>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Node Status -->
+        <div class="card">
+            <div class="card-header">
+                <h2>🖥️ Node Status</h2>
+                <button class="refresh" onclick="loadNodes()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="node-grid" id="nodes-container">
+                    <div class="node">
+                        <div class="node-info">
+                            <div class="node-status online"></div>
+                            <div>
+                                <div class="node-name">Beast (Mac Studio)</div>
+                                <div class="node-ip">100.91.160.117</div>
+                            </div>
+                        </div>
+                        <div class="node-metrics">
+                            <div class="cpu">CPU: 23%</div>
+                            <div class="mem">MEM: 48GB/128GB</div>
+                        </div>
+                    </div>
+                    <div class="node">
+                        <div class="node-info">
+                            <div class="node-status online"></div>
+                            <div>
+                                <div class="node-name">Titan (M3 Ultra)</div>
+                                <div class="node-ip">192.168.1.17</div>
+                            </div>
+                        </div>
+                        <div class="node-metrics">
+                            <div class="cpu">CPU: 67%</div>
+                            <div class="mem">MEM: 112GB/256GB</div>
+                        </div>
+                    </div>
+                    <div class="node">
+                        <div class="node-info">
+                            <div class="node-status offline"></div>
+                            <div>
+                                <div class="node-name">Bob's Mac Mini</div>
+                                <div class="node-ip">100.88.69.25</div>
+                            </div>
+                        </div>
+                        <div class="node-metrics">
+                            <div class="cpu">--</div>
+                            <div class="mem">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services -->
+        <div class="card">
+            <div class="card-header">
+                <h2>⚡ Primary Services</h2>
+                <button class="refresh" onclick="loadServices()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="service-grid" id="services-container">
+                    <div class="service">
+                        <div class="service-icon">🌐</div>
+                        <div class="service-name">Dashboard</div>
+                        <div class="service-status up">● Online</div>
+                    </div>
+                    <div class="service">
+                        <div class="service-icon">📞</div>
+                        <div class="service-name">Voice</div>
+                        <div class="service-status up">● Online</div>
+                    </div>
+                    <div class="service">
+                        <div class="service-icon">✉️</div>
+                        <div class="service-name">Email</div>
+                        <div class="service-status degraded">● Degraded</div>
+                    </div>
+                    <div class="service">
+                        <div class="service-icon">💬</div>
+                        <div class="service-name">Text/SMS</div>
+                        <div class="service-status degraded">● Degraded</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call Logs -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="card-header">
+                <h2>📊 API Call Logs</h2>
+                <button class="refresh" onclick="loadLogs()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="logs-container" id="logs-container">
+                    <div class="log-entry">
+                        <span class="log-time">03:42:18</span> |
+                        <span class="log-model">llama-3.1-405b</span> |
+                        <span class="log-response-time">2.3s</span> |
+                        <span class="log-status success">200 OK</span> |
+                        /v1/chat/completions
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">03:41:52</span> |
+                        <span class="log-model">gpt-4o-mini</span> |
+                        <span class="log-response-time">0.8s</span> |
+                        <span class="log-status success">200 OK</span> |
+                        ElevenLabs voice callback
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">03:40:11</span> |
+                        <span class="log-model">mistral-7b</span> |
+                        <span class="log-response-time">0.4s</span> |
+                        <span class="log-status success">200 OK</span> |
+                        /voice/bob
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">03:38:45</span> |
+                        <span class="log-model">llama-3.1-405b</span> |
+                        <span class="log-response-time">4.1s</span> |
+                        <span class="log-status error">500 Error</span> |
+                        /v1/chat/completions - timeout
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">03:35:22</span> |
+                        <span class="log-model">claude-sonnet</span> |
+                        <span class="log-response-time">1.2s</span> |
+                        <span class="log-status success">200 OK</span> |
+                        OpenRouter relay
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users -->
+        <div class="card">
+            <div class="card-header">
+                <h2>👥 Users</h2>
+                <button class="refresh" onclick="loadUsers()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="user-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="total-users">3</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="new-users">0</div>
+                        <div class="stat-label">New (24h)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="active-users">2</div>
+                        <div class="stat-label">Active Now</div>
+                    </div>
+                </div>
+                <div class="users-list" id="users-container">
+                    <div class="user-row">
+                        <div>
+                            <div class="user-email">nick@casablancaexpress.com</div>
+                            <div style="font-size:0.75rem;color:#6B7280;">Last: 2 min ago</div>
+                        </div>
+                        <span class="user-type admin">Admin</span>
+                    </div>
+                    <div class="user-row">
+                        <div>
+                            <div class="user-email">jeff@[pending]</div>
+                            <div style="font-size:0.75rem;color:#6B7280;">VE: Bob</div>
+                        </div>
+                        <span class="user-type paid">Paid</span>
+                    </div>
+                    <div class="user-row">
+                        <div>
+                            <div class="user-email">jonathan@[pending]</div>
+                            <div style="font-size:0.75rem;color:#6B7280;">VE: Abby</div>
+                        </div>
+                        <span class="user-type paid">Paid</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="card">
+            <div class="card-header">
+                <h2>📈 Analytics (Today)</h2>
+                <button class="refresh" onclick="loadAnalytics()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-value visitors" id="visitors">47</div>
+                        <div class="analytics-label">Unique Visitors</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value pageviews" id="pageviews">183</div>
+                        <div class="analytics-label">Page Views</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value sessions" id="sessions">62</div>
+                        <div class="analytics-label">Sessions</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value avgtime" id="avgtime">3:42</div>
+                        <div class="analytics-label">Avg. Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools & APIs -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="card-header">
+                <h2>🔌 User Tools, APIs & Connections</h2>
+                <button class="refresh" onclick="loadTools()">↻</button>
+            </div>
+            <div class="card-body">
+                <div class="tools-list" id="tools-container">
+                    <div class="tool-item">
+                        <div class="tool-name">iMessage Bridge</div>
+                        <div class="tool-type">Custom API • Port 8093</div>
+                        <div class="tool-owner">Owner: System (Beast)</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-name">Beast LLM Websocket</div>
+                        <div class="tool-type">WebSocket • wss://98.148.232.204:8091</div>
+                        <div class="tool-owner">Owner: System (Beast)</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-name">Titan 405B Endpoint</div>
+                        <div class="tool-type">HTTP API • 192.168.1.17:11434</div>
+                        <div class="tool-owner">Owner: System (Titan)</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-name">ElevenLabs Stewart Agent</div>
+                        <div class="tool-type">Voice API • agent_5801kgwv2c9qen3tcn9v264erj3w</div>
+                        <div class="tool-owner">Owner: System</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API base - will be configured by Beast
+        const API_BASE = '/api/admin';
+
+        async function loadNodes() {
+            // TODO: fetch from API_BASE + '/nodes'
+            console.log('Loading nodes...');
+        }
+
+        async function loadServices() {
+            // TODO: fetch from API_BASE + '/services'
+            console.log('Loading services...');
+        }
+
+        async function loadLogs() {
+            // TODO: fetch from API_BASE + '/logs'
+            console.log('Loading logs...');
+        }
+
+        async function loadUsers() {
+            // TODO: fetch from API_BASE + '/users'
+            console.log('Loading users...');
+        }
+
+        async function loadAnalytics() {
+            // TODO: fetch from API_BASE + '/analytics'
+            console.log('Loading analytics...');
+        }
+
+        async function loadTools() {
+            // TODO: fetch from API_BASE + '/tools'
+            console.log('Loading tools...');
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadNodes();
+            loadServices();
+            loadLogs();
+        }, 30000);
+    </script>
+</body>
+</html>
