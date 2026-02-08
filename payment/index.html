@@ -146,6 +146,26 @@
     <script>
         let selectedPlan = 'trial';
         let promoApplied = false;
+        let signupData = {};
+        
+        // Read signup data from sessionStorage
+        try {
+            const stored = sessionStorage.getItem('stewartSignup');
+            if (stored) {
+                signupData = JSON.parse(stored);
+                // Pre-fill name from signup
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (signupData.first_name && signupData.last_name) {
+                        document.getElementById('card-name').value = signupData.first_name + ' ' + signupData.last_name;
+                    }
+                    // Auto-apply promo if set
+                    if (signupData.promo && (signupData.promo === '90for$99' || signupData.promo === '90for99')) {
+                        document.getElementById('promo-code').value = signupData.promo;
+                        applyPromo();
+                    }
+                });
+            }
+        } catch(e) { console.log('No signup data'); }
         
         function selectPlan(plan) {
             selectedPlan = plan;
@@ -228,7 +248,8 @@
                         plan: selectedPlan,
                         promoCode: promoApplied ? '90for$99' : null,
                         name: document.getElementById('card-name').value,
-                        zip: document.getElementById('zip').value
+                        zip: document.getElementById('zip').value,
+                        ...signupData
                     })
                 });
                 const result = await response.json();
