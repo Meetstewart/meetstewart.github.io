@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Team - Stewart</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        .base-plan {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .base-plan h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .base-plan p {
+            opacity: 0.9;
+        }
+        .base-price {
+            text-align: right;
+        }
+        .base-price .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .base-price .period {
+            opacity: 0.8;
+        }
+        .promo-note {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #22c55e;
+        }
+        .addons-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #a0a0a0;
+        }
+        .addon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .addon-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .addon-item:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .addon-item.selected {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.15);
+        }
+        .addon-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .addon-item.selected .addon-checkbox {
+            background: #6366f1;
+            border-color: #6366f1;
+        }
+        .addon-checkbox svg {
+            width: 16px;
+            height: 16px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .addon-item.selected .addon-checkbox svg {
+            opacity: 1;
+        }
+        .addon-info {
+            flex: 1;
+        }
+        .addon-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .addon-desc {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+        }
+        .addon-price {
+            font-weight: 700;
+            color: #6366f1;
+            font-size: 1.1rem;
+        }
+        .summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .summary h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .summary-line:last-child {
+            border-bottom: none;
+        }
+        .summary-line.total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom: none;
+        }
+        .summary-line.promo {
+            color: #22c55e;
+        }
+        .btn {
+            width: 100%;
+            padding: 18px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #a0a0a0;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .base-plan {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .base-price { text-align: center; }
+            .addon-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/images/stewart-avatar.png" alt="Stewart" class="logo">
+            <h1>Build Your Team</h1>
+            <p class="subtitle">Start with Stewart, add specialists as you need them</p>
+        </div>
+
+        <div class="base-plan">
+            <div>
+                <h2>✓ Stewart Manager</h2>
+                <p>Your AI virtual executive - always included</p>
+            </div>
+            <div class="base-price">
+                <div class="amount">$199</div>
+                <div class="period">/month</div>
+            </div>
+        </div>
+
+        <div class="promo-note" id="promoNote" style="display: none;">
+            🎉 Promo code <strong>90for$99</strong> applied - First 90 days at $99/month!
+        </div>
+
+        <div class="addons-section">
+            <h3>Add Specialists & Services</h3>
+            <div class="addon-grid">
+                <div class="addon-item" data-addon="admin" data-price="80">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Admin/Support Specialist</div>
+                        <div class="addon-desc">Handle customer inquiries, scheduling, admin tasks</div>
+                    </div>
+                    <div class="addon-price">+$80/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="industry" data-price="100">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Industry Add-On</div>
+                        <div class="addon-desc">Specialized knowledge for your industry vertical</div>
+                    </div>
+                    <div class="addon-price">+$100/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="phone" data-price="100">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Dedicated Phone Line</div>
+                        <div class="addon-desc">Your own Stewart phone number for calls</div>
+                    </div>
+                    <div class="addon-price">+$100/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="voice" data-price="120">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Voice Specialist</div>
+                        <div class="addon-desc">Enhanced voice interactions and phone handling</div>
+                    </div>
+                    <div class="addon-price">+$120/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="builder" data-price="120">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Builder Specialist</div>
+                        <div class="addon-desc">Create apps, automations, and integrations</div>
+                    </div>
+                    <div class="addon-price">+$120/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="designer" data-price="120">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Designer Specialist</div>
+                        <div class="addon-desc">Graphics, presentations, brand materials</div>
+                    </div>
+                    <div class="addon-price">+$120/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="analyst" data-price="120">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Analyst Specialist</div>
+                        <div class="addon-desc">Data analysis, reports, business intelligence</div>
+                    </div>
+                    <div class="addon-price">+$120/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="server" data-price="200">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">Dedicated Server</div>
+                        <div class="addon-desc">Private compute resources for your team</div>
+                    </div>
+                    <div class="addon-price">+$200/mo</div>
+                </div>
+
+                <div class="addon-item" data-addon="stewbox" data-price="300">
+                    <div class="addon-checkbox">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="addon-info">
+                        <div class="addon-name">StewBox Support</div>
+                        <div class="addon-desc">Premium support for StewBox hardware owners</div>
+                    </div>
+                    <div class="addon-price">+$300/mo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h3>Your Plan Summary</h3>
+            <div id="summaryLines">
+                <div class="summary-line">
+                    <span>Stewart Manager (Base)</span>
+                    <span>$199/mo</span>
+                </div>
+            </div>
+            <div class="summary-line total">
+                <span>Monthly Total</span>
+                <span id="totalPrice">$199/mo</span>
+            </div>
+        </div>
+
+        <button class="btn" onclick="continueToPay()">Continue to Payment</button>
+
+        <div class="back-link">
+            <a href="/subscribe/">← Back to signup</a>
+        </div>
+    </div>
+
+    <script>
+        const basePrice = 199;
+        let selectedAddons = {};
+        let hasPromo = false;
+
+        // Check for promo code from signup
+        const userData = JSON.parse(sessionStorage.getItem('stewartSignup') || '{}');
+        if (userData.promoCode && userData.promoCode.toLowerCase() === '90for$99') {
+            hasPromo = true;
+            document.getElementById('promoNote').style.display = 'block';
+        }
+
+        // Add click handlers to addon items
+        document.querySelectorAll('.addon-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const addon = item.dataset.addon;
+                const price = parseInt(item.dataset.price);
+                
+                if (item.classList.contains('selected')) {
+                    item.classList.remove('selected');
+                    delete selectedAddons[addon];
+                } else {
+                    item.classList.add('selected');
+                    selectedAddons[addon] = {
+                        name: item.querySelector('.addon-name').textContent,
+                        price: price
+                    };
+                }
+                updateSummary();
+            });
+        });
+
+        function updateSummary() {
+            const summaryLines = document.getElementById('summaryLines');
+            let html = `<div class="summary-line"><span>Stewart Manager (Base)</span><span>$199/mo</span></div>`;
+            
+            let addonsTotal = 0;
+            for (const [key, addon] of Object.entries(selectedAddons)) {
+                html += `<div class="summary-line"><span>${addon.name}</span><span>+$${addon.price}/mo</span></div>`;
+                addonsTotal += addon.price;
+            }
+
+            if (hasPromo) {
+                html += `<div class="summary-line promo"><span>Promo: First 90 days</span><span>$99/mo base</span></div>`;
+            }
+
+            summaryLines.innerHTML = html;
+
+            const total = basePrice + addonsTotal;
+            const promoTotal = hasPromo ? (99 + addonsTotal) : total;
+            
+            if (hasPromo) {
+                document.getElementById('totalPrice').innerHTML = `<s style="opacity:0.5">$${total}</s> $${promoTotal}/mo`;
+            } else {
+                document.getElementById('totalPrice').textContent = `$${total}/mo`;
+            }
+        }
+
+        function continueToPay() {
+            // Save plan selection to sessionStorage
+            const planData = {
+                ...userData,
+                basePrice: basePrice,
+                addons: selectedAddons,
+                hasPromo: hasPromo,
+                totalMonthly: basePrice + Object.values(selectedAddons).reduce((sum, a) => sum + a.price, 0)
+            };
+            sessionStorage.setItem('stewartSignup', JSON.stringify(planData));
+            window.location.href = '/payment/';
+        }
+
+        // Initial summary
+        updateSummary();
+    </script>
+</body>
+</html>
