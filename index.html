@@ -52,11 +52,12 @@
         .hero-video {
             width: 100%;
             max-width: 500px;
+            margin: 0 auto 2rem;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(138, 92, 246, 0.3);
         }
-        .commercial-video {
+        .hero-video video {
             width: 100%;
             height: auto;
             display: block;
@@ -127,15 +128,9 @@
         }
         
         /* Stewart Character - Animated Robot */
-        .stewart-character {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            animation: float 3s ease-in-out infinite;
-        }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
+        
+        
             50% { transform: translateY(-15px); }
         }
         
@@ -143,17 +138,7 @@
         
         
         /* Glow effect behind Stewart */
-        .stewart-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(138, 92, 246, 0.4) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse-glow 2s ease-in-out infinite;
-            pointer-events: none;
-        }
+        
         
         @keyframes pulse-glow {
             0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
@@ -161,33 +146,9 @@
         }
         
         /* Speech Bubble */
-        .speech-bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.95);
-            color: #1a1a2e;
-            padding: 1rem 1.5rem;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            max-width: 300px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            animation: bubble-pop 0.4s ease-out;
-            top: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-        }
         
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid rgba(255, 255, 255, 0.95);
-        }
+        
+        
         
         @keyframes bubble-pop {
             0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
@@ -195,15 +156,7 @@
         }
         
         /* Click hint */
-        .click-hint {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            animation: hint-pulse 2s ease-in-out infinite;
-        }
+        
         
         @keyframes hint-pulse {
             0%, 100% { opacity: 0.5; }
@@ -427,10 +380,7 @@
                 display: none;
             }
             
-            .speech-bubble {
-                font-size: 0.85rem;
-                max-width: 250px;
-            }
+            
             
             .price-card.featured {
                 transform: scale(1);
@@ -454,13 +404,12 @@
     </nav>
     
     <section class="hero">
-        <!-- Stewart Animated Character -->
-        <div class="stewart-container" id="stewartContainer">
-            <div class="hero-video">
-                <video autoplay muted loop playsinline class="commercial-video">
-                    <source src="/assets/stewart-commercial.mp4" type="video/mp4">
-                </video>
-            </div>
+        <!-- Commercial Video -->
+        <div class="hero-video">
+            <video autoplay muted loop playsinline>
+                <source src="/assets/stewart-commercial.mp4" type="video/mp4">
+            </video>
+        </div>
         
         <h1>Meet Stewart<br>Your AI Staff, Ready to Work</h1>
         <p>Six AI specialists working 24/7. Managing your business, handling your tasks, delivering results. All for less than one human hire.</p>
@@ -615,8 +564,7 @@
                 0%, 100% { opacity: 1; }
                 50% { opacity: 0.3; }
             }
-            @keyframes pulse {
-                0%, 100% { r: 8; opacity: 1; }
+            
                 50% { r: 10; opacity: 0.7; }
             }
         `;
