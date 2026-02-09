@@ -1345,7 +1345,7 @@
                 return false;
             }
             // Load user data
-            const savedData = localStorage.getItem('stewart_user_data');
+            const savedData = localStorage.getItem('stewart_user');
             if (savedData) {
                 userData = JSON.parse(savedData);
                 applyUserData();
@@ -1433,7 +1433,7 @@
         
         function saveCustomization() {
             userData.bot_name = document.getElementById('botNameInput').value || 'Stewart';
-            localStorage.setItem('stewart_user_data', JSON.stringify(userData));
+            localStorage.setItem('stewart_user', JSON.stringify(userData));
             applyUserData();
             closeCustomizeModal();
             addBotMessage(`Got it! You can call me ${userData.bot_name} from now on.`);
@@ -1522,7 +1522,7 @@
         // Logout
         function logout() {
             localStorage.removeItem('stewart_token');
-            localStorage.removeItem('stewart_user_data');
+            localStorage.removeItem('stewart_user');
             window.location.href = '/';
         }
         
