@@ -788,26 +788,6 @@
         }
         
         /* Bot Name Input */
-        .name-suggestions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .name-chip {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            padding: 0.4rem 0.8rem;
-            border-radius: 1rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .name-chip:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
         .name-input {
             width: 100%;
             background: var(--dark);
@@ -1241,13 +1221,6 @@
                 <div class="modal-section">
                     <div class="modal-section-title">Name Your Assistant</div>
                     <input type="text" class="name-input" id="botNameInput" value="Stewart" placeholder="Enter a name...">
-                    <div class="name-suggestions">
-                        <span class="name-chip" onclick="selectName('Stewart')">Stewart</span>
-                        <span class="name-chip" onclick="selectName('Abby')">Abby</span>
-                        <span class="name-chip" onclick="selectName('Max')">Max</span>
-                        <span class="name-chip" onclick="selectName('Luna')">Luna</span>
-                        <span class="name-chip" onclick="selectName('Alex')">Alex</span>
-                    </div>
                 </div>
                 
                 <!-- Avatar Selection -->
@@ -1257,14 +1230,14 @@
                         <div class="avatar-option selected" onclick="selectAvatar(this, 'stewart')" data-avatar="stewart">
                             <img src="https://meetstewart.com/assets/stewart-avatar.png" alt="Stewart">
                         </div>
-                        <div class="avatar-option" onclick="selectAvatar(this, 'professional')" data-avatar="professional">
+                        <div class="avatar-option" onclick="selectAvatar(this, 'pro')" data-avatar="pro">
                             <div style="width:100%;height:100%;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">👔</div>
                         </div>
                         <div class="avatar-option" onclick="selectAvatar(this, 'friendly')" data-avatar="friendly">
                             <div style="width:100%;height:100%;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">😊</div>
                         </div>
-                        <div class="avatar-option" onclick="selectAvatar(this, 'tech')" data-avatar="tech">
-                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🤖</div>
+                        <div class="avatar-option" onclick="selectAvatar(this, 'executive')" data-avatar="executive">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💼</div>
                         </div>
                         <div class="avatar-option" onclick="selectAvatar(this, 'creative')" data-avatar="creative">
                             <div style="width:100%;height:100%;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎨</div>
@@ -1426,10 +1399,6 @@
         }
         
         // Customize modal
-        function selectName(name) {
-            document.getElementById('botNameInput').value = name;
-        }
-        
         function openCustomizeModal() {
             document.getElementById('customizeModal').classList.add('active');
             document.getElementById('botNameInput').value = userData.bot_name;
