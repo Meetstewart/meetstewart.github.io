@@ -1253,48 +1253,48 @@
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
                                 <div class="voice-name">Eric</div>
-                                <div class="voice-desc">Professional, warm baritone. Confident and reassuring.</div>
+                                <div class="voice-desc">Warm baritone. Stewart's default voice.</div>
                             </div>
                         </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'aria')" data-voice="aria">
+                        <div class="voice-option" onclick="selectVoice(this, 'rachel')" data-voice="rachel">
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
-                                <div class="voice-name">Aria</div>
-                                <div class="voice-desc">Friendly soprano. Upbeat and energetic.</div>
+                                <div class="voice-name">Rachel</div>
+                                <div class="voice-desc">Calm alto. Professional and clear.</div>
                             </div>
                         </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'marcus')" data-voice="marcus">
+                        <div class="voice-option" onclick="selectVoice(this, 'adam')" data-voice="adam">
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
-                                <div class="voice-name">Marcus</div>
-                                <div class="voice-desc">Deep bass. Authoritative and commanding.</div>
+                                <div class="voice-name">Adam</div>
+                                <div class="voice-desc">Deep and professional. Authoritative.</div>
                             </div>
                         </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'sofia')" data-voice="sofia">
+                        <div class="voice-option" onclick="selectVoice(this, 'bella')" data-voice="bella">
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
-                                <div class="voice-name">Sofia</div>
-                                <div class="voice-desc">Smooth alto. Calm and sophisticated.</div>
+                                <div class="voice-name">Bella</div>
+                                <div class="voice-desc">Friendly soprano. Warm and approachable.</div>
                             </div>
                         </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'alex')" data-voice="alex">
+                        <div class="voice-option" onclick="selectVoice(this, 'josh')" data-voice="josh">
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
-                                <div class="voice-name">Alex</div>
-                                <div class="voice-desc">Neutral tenor. Clear and articulate.</div>
+                                <div class="voice-name">Josh</div>
+                                <div class="voice-desc">Energetic tenor. Upbeat and engaging.</div>
                             </div>
                         </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'maya')" data-voice="maya">
+                        <div class="voice-option" onclick="selectVoice(this, 'elli')" data-voice="elli">
                             <div class="voice-sample">▶</div>
                             <div class="voice-info">
-                                <div class="voice-name">Maya</div>
-                                <div class="voice-desc">Warm mezzo. Nurturing and supportive.</div>
+                                <div class="voice-name">Elli</div>
+                                <div class="voice-desc">Nurturing mezzo. Supportive and kind.</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Speed Slider -->
+                <!-- Speed!-- Speed Slider -->
                 <div class="modal-section">
                     <div class="slider-container">
                         <div class="slider-label">
@@ -1345,7 +1345,7 @@
                 return false;
             }
             // Load user data
-            const savedData = localStorage.getItem('stewart_user');
+            const savedData = localStorage.getItem('stewart_user_data');
             if (savedData) {
                 userData = JSON.parse(savedData);
                 applyUserData();
@@ -1433,7 +1433,7 @@
         
         function saveCustomization() {
             userData.bot_name = document.getElementById('botNameInput').value || 'Stewart';
-            localStorage.setItem('stewart_user', JSON.stringify(userData));
+            localStorage.setItem('stewart_user_data', JSON.stringify(userData));
             applyUserData();
             closeCustomizeModal();
             addBotMessage(`Got it! You can call me ${userData.bot_name} from now on.`);
@@ -1522,7 +1522,7 @@
         // Logout
         function logout() {
             localStorage.removeItem('stewart_token');
-            localStorage.removeItem('stewart_user');
+            localStorage.removeItem('stewart_user_data');
             window.location.href = '/';
         }
         
