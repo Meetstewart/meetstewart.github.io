@@ -916,7 +916,31 @@
                 }
             } else if (cmdLower.startsWith('test sms')) {
                 const phone = cmd.split(' ').pop();
-                response = `SMS test to ${phone} - would send via Beast /dev-sms endpoint\n(Endpoint needs implementation on Beast)`;
+                if (!phone || phone === 'sms') {
+                    response = 'Usage: test sms <phone_number>';
+                } else {
+                    try {
+                        const formData = new URLSearchParams();
+                        formData.append('Body', 'Admin test message from Stewart dashboard');
+                        formData.append('From', 'admin');
+                        formData.append('To', phone);
+                        
+                        const r = await fetch(BEAST_API + '/dev-sms', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: formData.toString()
+                        });
+                        
+                        if (r.ok) {
+                            response = `SMS sent to ${phone} ✓`;
+                        } else {
+                            const err = await r.text();
+                            response = `SMS failed: ${err}`;
+                        }
+                    } catch (e) {
+                        response = `SMS error: ${e.message}\n(Check if Beast /dev-sms endpoint is running)`;
+                    }
+                }
             } else if (cmdLower === 'reload config') {
                 response = 'Config reloaded. ✓';
                 loadNodes();
