@@ -171,7 +171,7 @@
         
         // Check if already logged in
         const token = localStorage.getItem('stewart_token');
-        const redirect = new URLSearchParams(window.location.search).get('redirect') || '/dashboard.html';
+        const redirect = new URLSearchParams(window.location.search).get('redirect') || '/dashboard/';
         if (token) {
             window.location.href = redirect;
         }
