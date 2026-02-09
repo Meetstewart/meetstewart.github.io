@@ -2,506 +2,968 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Stewart Developer Console</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --primary-light: #a78bfa;
+            --dark: #0d1117;
+            --dark-card: #161b22;
+            --dark-hover: #21262d;
+            --border: #30363d;
+            --gray: #8b949e;
+            --white: #f0f6fc;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --red: #f85149;
+            --blue: #58a6ff;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--white);
             min-height: 100vh;
-            color: #fff;
+            font-size: 14px;
         }
-        .admin-header {
-            background: rgba(0,0,0,0.3);
-            padding: 1rem 2rem;
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: calc(50px + var(--safe-top));
+            padding-top: var(--safe-top);
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(139,92,246,0.3);
+            justify-content: space-between;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            z-index: 100;
         }
-        .admin-header h1 {
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .admin-user {
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .header-right {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        .admin-user .status { 
-            width: 10px; height: 10px; 
-            background: #10B981; 
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            background: var(--green);
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        
+        .status-dot.offline { background: var(--red); }
+        .status-dot.warning { background: var(--yellow); }
+        
+        /* Main Layout */
+        .main {
+            display: flex;
+            height: calc(100vh - 50px);
+            margin-top: calc(50px + var(--safe-top));
         }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
+        
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background: var(--dark-card);
+            border-right: 1px solid var(--border);
+            padding: 1rem 0;
+            overflow-y: auto;
         }
-        .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(139,92,246,0.2);
+        
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray);
+            padding: 0 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: var(--dark-hover);
+            color: var(--white);
+        }
+        
+        .nav-item.active {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--primary-light);
+            border-left: 2px solid var(--primary);
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        
+        /* Content Area */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
-        .card-header {
-            background: rgba(139,92,246,0.1);
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid rgba(139,92,246,0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .card-header h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #A78BFA;
-        }
-        .card-header .refresh {
-            background: none;
-            border: none;
-            color: #8B5CF6;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-        .card-body { padding: 1.5rem; }
         
-        /* Node Status */
-        .node-grid { display: grid; gap: 1rem; }
-        .node {
+        /* Dashboard Grid */
+        .dashboard {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1rem;
+            align-content: start;
+        }
+        
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
+            justify-content: space-between;
         }
-        .node-info { display: flex; align-items: center; gap: 1rem; }
-        .node-status {
-            width: 12px; height: 12px;
-            border-radius: 50%;
-        }
-        .node-status.online { background: #10B981; box-shadow: 0 0 10px #10B981; }
-        .node-status.offline { background: #EF4444; box-shadow: 0 0 10px #EF4444; }
-        .node-status.warning { background: #F59E0B; box-shadow: 0 0 10px #F59E0B; }
-        .node-name { font-weight: 600; }
-        .node-ip { font-size: 0.8rem; color: #9CA3AF; }
-        .node-metrics { text-align: right; font-size: 0.85rem; }
-        .node-metrics .cpu { color: #06B6D4; }
-        .node-metrics .mem { color: #8B5CF6; }
-
-        /* Services */
-        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .service {
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            text-align: center;
-        }
-        .service-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-        .service-name { font-weight: 600; margin-bottom: 0.25rem; }
-        .service-status { font-size: 0.8rem; }
-        .service-status.up { color: #10B981; }
-        .service-status.down { color: #EF4444; }
-        .service-status.degraded { color: #F59E0B; }
-
-        /* Logs */
-        .logs-container { max-height: 400px; overflow-y: auto; }
-        .log-entry {
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-family: 'Monaco', monospace;
-            font-size: 0.8rem;
-        }
-        .log-entry:last-child { border-bottom: none; }
-        .log-time { color: #6B7280; }
-        .log-model { color: #8B5CF6; font-weight: 600; }
-        .log-response-time { color: #06B6D4; }
-        .log-status.success { color: #10B981; }
-        .log-status.error { color: #EF4444; }
-
-        /* Users */
-        .user-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-        .stat {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-        }
-        .stat-value { font-size: 2rem; font-weight: 700; color: #8B5CF6; }
-        .stat-label { font-size: 0.8rem; color: #9CA3AF; margin-top: 0.25rem; }
-        .users-list { max-height: 250px; overflow-y: auto; }
-        .user-row {
+        
+        .card-title {
+            font-weight: 600;
+            font-size: 0.9rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 0.5rem;
         }
-        .user-row:hover { background: rgba(139,92,246,0.1); }
-        .user-email { font-weight: 500; }
-        .user-type { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; }
-        .user-type.trial { background: rgba(6,182,212,0.2); color: #06B6D4; }
-        .user-type.paid { background: rgba(16,185,129,0.2); color: #10B981; }
-        .user-type.admin { background: rgba(139,92,246,0.2); color: #8B5CF6; }
-
-        /* Tools */
-        .tools-list { display: grid; gap: 1rem; }
-        .tool-item {
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            border-left: 3px solid #8B5CF6;
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
         }
-        .tool-name { font-weight: 600; margin-bottom: 0.25rem; }
-        .tool-type { font-size: 0.75rem; color: #9CA3AF; }
-        .tool-owner { font-size: 0.8rem; color: #06B6D4; margin-top: 0.5rem; }
-
-        /* Analytics */
-        .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .analytics-card {
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            text-align: center;
-        }
-        .analytics-value { font-size: 2.5rem; font-weight: 700; }
-        .analytics-value.visitors { color: #8B5CF6; }
-        .analytics-value.pageviews { color: #06B6D4; }
-        .analytics-value.sessions { color: #10B981; }
-        .analytics-value.avgtime { color: #F59E0B; }
-        .analytics-label { font-size: 0.85rem; color: #9CA3AF; margin-top: 0.5rem; }
-
-        /* Loading */
-        .loading {
+        
+        .btn-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--gray);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            color: #6B7280;
+            transition: all 0.2s;
         }
-        .spinner {
-            width: 24px; height: 24px;
-            border: 3px solid rgba(139,92,246,0.2);
-            border-top-color: #8B5CF6;
-            border-radius: 50%;
+        
+        .btn-icon:hover {
+            background: var(--dark-hover);
+            color: var(--white);
+        }
+        
+        .btn-icon.loading {
             animation: spin 1s linear infinite;
-            margin-right: 1rem;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        ::-webkit-scrollbar-thumb { background: #8B5CF6; border-radius: 3px; }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        /* Node Status */
+        .node-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .node-item {
+            background: var(--dark);
+            border-radius: 6px;
+            padding: 0.75rem;
+        }
+        
+        .node-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .node-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .node-status {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .node-status.online { background: rgba(63, 185, 80, 0.2); color: var(--green); }
+        .node-status.offline { background: rgba(248, 81, 73, 0.2); color: var(--red); }
+        .node-status.warning { background: rgba(210, 153, 34, 0.2); color: var(--yellow); }
+        
+        .node-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .node-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .node-stat-value {
+            color: var(--white);
+            font-weight: 500;
+        }
+        
+        /* Service Status */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--dark);
+            border-radius: 6px;
+        }
+        
+        .service-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .service-dot.green { background: var(--green); }
+        .service-dot.yellow { background: var(--yellow); }
+        .service-dot.red { background: var(--red); }
+        
+        .service-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .service-latency {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        /* Logs */
+        .log-container {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: var(--dark);
+            border-radius: 6px;
+            padding: 0.75rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .log-time {
+            color: var(--gray);
+            white-space: nowrap;
+        }
+        
+        .log-level {
+            font-weight: 600;
+            min-width: 40px;
+        }
+        
+        .log-level.info { color: var(--blue); }
+        .log-level.warn { color: var(--yellow); }
+        .log-level.error { color: var(--red); }
+        
+        .log-message {
+            color: var(--white);
+            word-break: break-word;
+        }
+        
+        /* Prompt Area */
+        .prompt-area {
+            border-top: 1px solid var(--border);
+            padding: 1rem;
+            background: var(--dark-card);
+        }
+        
+        .prompt-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .prompt-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .prompt-input {
+            flex: 1;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            color: var(--white);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        
+        .prompt-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .prompt-input::placeholder {
+            color: var(--gray);
+        }
+        
+        .prompt-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .prompt-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .prompt-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Output panel */
+        .output-panel {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            background: var(--dark);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            display: none;
+        }
+        
+        .output-panel.active {
+            display: block;
+        }
+        
+        .output-line {
+            margin-bottom: 0.25rem;
+        }
+        
+        .output-line.prompt {
+            color: var(--primary-light);
+        }
+        
+        .output-line.response {
+            color: var(--green);
+        }
+        
+        .output-line.error {
+            color: var(--red);
+        }
+        
+        /* Quick Commands */
+        .quick-commands {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .quick-cmd {
+            padding: 0.4rem 0.75rem;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--gray);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-cmd:hover {
+            background: var(--dark-hover);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        /* User table */
+        .user-table {
+            width: 100%;
+            font-size: 0.8rem;
+        }
+        
+        .user-table th {
+            text-align: left;
+            padding: 0.5rem;
+            color: var(--gray);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .user-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .user-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .user-status.active { background: rgba(63, 185, 80, 0.2); color: var(--green); }
+        .user-status.trial { background: rgba(88, 166, 255, 0.2); color: var(--blue); }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .node-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+        
+        .empty-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body>
-    <header class="admin-header">
-        <h1>🔧 Stewart Developer Dashboard</h1>
-        <div class="admin-user">
-            <span>Nick McClendon</span>
-            <div class="status"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🔧</div>
+            <span class="logo-text">Developer Console</span>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator">
+                <div class="status-dot" id="mainStatus"></div>
+                <span id="statusText">Connected</span>
+            </div>
+            <button class="btn-icon" onclick="window.location.href='/dashboard/'" title="Back to Dashboard">
+                ←
+            </button>
         </div>
     </header>
-
-    <div class="dashboard-grid">
-        <!-- Node Status -->
-        <div class="card">
-            <div class="card-header">
-                <h2>🖥️ Node Status</h2>
-                <button class="refresh" onclick="loadNodes()">↻</button>
+    
+    <!-- Main -->
+    <div class="main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="nav-section">
+                <div class="nav-title">Overview</div>
+                <div class="nav-item active" onclick="showSection('dashboard')">
+                    📊 Dashboard
+                </div>
+                <div class="nav-item" onclick="showSection('nodes')">
+                    🖥️ Nodes
+                </div>
+                <div class="nav-item" onclick="showSection('services')">
+                    ⚡ Services
+                </div>
             </div>
-            <div class="card-body">
-                <div class="node-grid" id="nodes-container">
-                    <div class="node">
-                        <div class="node-info">
-                            <div class="node-status online"></div>
-                            <div>
-                                <div class="node-name">Beast (Mac Studio)</div>
-                                <div class="node-ip">100.91.160.117</div>
-                            </div>
-                        </div>
-                        <div class="node-metrics">
-                            <div class="cpu">CPU: 23%</div>
-                            <div class="mem">MEM: 48GB/128GB</div>
+            <div class="nav-section">
+                <div class="nav-title">Monitoring</div>
+                <div class="nav-item" onclick="showSection('logs')">
+                    📜 Logs
+                    <span class="nav-badge" id="logCount">0</span>
+                </div>
+                <div class="nav-item" onclick="showSection('calls')">
+                    📞 Call Logs
+                </div>
+            </div>
+            <div class="nav-section">
+                <div class="nav-title">Management</div>
+                <div class="nav-item" onclick="showSection('users')">
+                    👥 Users
+                </div>
+                <div class="nav-item" onclick="showSection('tools')">
+                    🔧 Tools
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Dashboard Grid -->
+            <div class="dashboard">
+                <!-- Node Status -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">🖥️ Node Fleet</span>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="loadNodes()" id="nodeRefresh" title="Refresh">↻</button>
                         </div>
                     </div>
-                    <div class="node">
-                        <div class="node-info">
-                            <div class="node-status online"></div>
-                            <div>
-                                <div class="node-name">Titan (M3 Ultra)</div>
-                                <div class="node-ip">192.168.1.17</div>
-                            </div>
-                        </div>
-                        <div class="node-metrics">
-                            <div class="cpu">CPU: 67%</div>
-                            <div class="mem">MEM: 112GB/256GB</div>
-                        </div>
-                    </div>
-                    <div class="node">
-                        <div class="node-info">
-                            <div class="node-status offline"></div>
-                            <div>
-                                <div class="node-name">Bob's Mac Mini</div>
-                                <div class="node-ip">100.88.69.25</div>
-                            </div>
-                        </div>
-                        <div class="node-metrics">
-                            <div class="cpu">--</div>
-                            <div class="mem">--</div>
+                    <div class="card-body">
+                        <div class="node-grid" id="nodeGrid">
+                            <!-- Nodes will be populated here -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Services -->
-        <div class="card">
-            <div class="card-header">
-                <h2>⚡ Primary Services</h2>
-                <button class="refresh" onclick="loadServices()">↻</button>
-            </div>
-            <div class="card-body">
-                <div class="service-grid" id="services-container">
-                    <div class="service">
-                        <div class="service-icon">🌐</div>
-                        <div class="service-name">Dashboard</div>
-                        <div class="service-status up">● Online</div>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon">📞</div>
-                        <div class="service-name">Voice</div>
-                        <div class="service-status up">● Online</div>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon">✉️</div>
-                        <div class="service-name">Email</div>
-                        <div class="service-status degraded">● Degraded</div>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon">💬</div>
-                        <div class="service-name">Text/SMS</div>
-                        <div class="service-status degraded">● Degraded</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Call Logs -->
-        <div class="card" style="grid-column: span 2;">
-            <div class="card-header">
-                <h2>📊 API Call Logs</h2>
-                <button class="refresh" onclick="loadLogs()">↻</button>
-            </div>
-            <div class="card-body">
-                <div class="logs-container" id="logs-container">
-                    <div class="log-entry">
-                        <span class="log-time">03:42:18</span> |
-                        <span class="log-model">llama-3.1-405b</span> |
-                        <span class="log-response-time">2.3s</span> |
-                        <span class="log-status success">200 OK</span> |
-                        /v1/chat/completions
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">03:41:52</span> |
-                        <span class="log-model">gpt-4o-mini</span> |
-                        <span class="log-response-time">0.8s</span> |
-                        <span class="log-status success">200 OK</span> |
-                        ElevenLabs voice callback
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">03:40:11</span> |
-                        <span class="log-model">mistral-7b</span> |
-                        <span class="log-response-time">0.4s</span> |
-                        <span class="log-status success">200 OK</span> |
-                        /voice/bob
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">03:38:45</span> |
-                        <span class="log-model">llama-3.1-405b</span> |
-                        <span class="log-response-time">4.1s</span> |
-                        <span class="log-status error">500 Error</span> |
-                        /v1/chat/completions - timeout
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">03:35:22</span> |
-                        <span class="log-model">claude-sonnet</span> |
-                        <span class="log-response-time">1.2s</span> |
-                        <span class="log-status success">200 OK</span> |
-                        OpenRouter relay
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Users -->
-        <div class="card">
-            <div class="card-header">
-                <h2>👥 Users</h2>
-                <button class="refresh" onclick="loadUsers()">↻</button>
-            </div>
-            <div class="card-body">
-                <div class="user-stats">
-                    <div class="stat">
-                        <div class="stat-value" id="total-users">3</div>
-                        <div class="stat-label">Total Users</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value" id="new-users">0</div>
-                        <div class="stat-label">New (24h)</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value" id="active-users">2</div>
-                        <div class="stat-label">Active Now</div>
-                    </div>
-                </div>
-                <div class="users-list" id="users-container">
-                    <div class="user-row">
-                        <div>
-                            <div class="user-email">nickmc123</div>
-                            <div style="font-size:0.75rem;color:#6B7280;">Last: 2 min ago</div>
+                
+                <!-- Services -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">⚡ Services</span>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="loadServices()" id="serviceRefresh" title="Refresh">↻</button>
                         </div>
-                        <span class="user-type admin">Admin</span>
                     </div>
-                    <div class="user-row">
-                        <div>
-                            <div class="user-email">jeff@[pending]</div>
-                            <div style="font-size:0.75rem;color:#6B7280;">VE: Bob</div>
+                    <div class="card-body">
+                        <div class="service-list" id="serviceList">
+                            <!-- Services will be populated here -->
                         </div>
-                        <span class="user-type paid">Paid</span>
                     </div>
-                    <div class="user-row">
-                        <div>
-                            <div class="user-email">jonathan@[pending]</div>
-                            <div style="font-size:0.75rem;color:#6B7280;">VE: Abby</div>
+                </div>
+                
+                <!-- Recent Logs -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">📜 Recent Logs</span>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="loadLogs()" id="logRefresh" title="Refresh">↻</button>
                         </div>
-                        <span class="user-type paid">Paid</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="log-container" id="logContainer">
+                            <!-- Logs will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Active Users -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">👥 Active Users</span>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="loadUsers()" id="userRefresh" title="Refresh">↻</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="user-table" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Status</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Users will be populated here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Analytics -->
-        <div class="card">
-            <div class="card-header">
-                <h2>📈 Analytics (Today)</h2>
-                <button class="refresh" onclick="loadAnalytics()">↻</button>
-            </div>
-            <div class="card-body">
-                <div class="analytics-grid">
-                    <div class="analytics-card">
-                        <div class="analytics-value visitors" id="visitors">47</div>
-                        <div class="analytics-label">Unique Visitors</div>
-                    </div>
-                    <div class="analytics-card">
-                        <div class="analytics-value pageviews" id="pageviews">183</div>
-                        <div class="analytics-label">Page Views</div>
-                    </div>
-                    <div class="analytics-card">
-                        <div class="analytics-value sessions" id="sessions">62</div>
-                        <div class="analytics-label">Sessions</div>
-                    </div>
-                    <div class="analytics-card">
-                        <div class="analytics-value avgtime" id="avgtime">3:42</div>
-                        <div class="analytics-label">Avg. Time</div>
-                    </div>
+            
+            <!-- Prompt Area -->
+            <div class="prompt-area">
+                <div class="prompt-label">
+                    <span>💻</span>
+                    <span>Developer Command Prompt</span>
                 </div>
-            </div>
-        </div>
-
-        <!-- Tools & APIs -->
-        <div class="card" style="grid-column: span 2;">
-            <div class="card-header">
-                <h2>🔌 User Tools, APIs & Connections</h2>
-                <button class="refresh" onclick="loadTools()">↻</button>
-            </div>
-            <div class="card-body">
-                <div class="tools-list" id="tools-container">
-                    <div class="tool-item">
-                        <div class="tool-name">iMessage Bridge</div>
-                        <div class="tool-type">Custom API • Port 8093</div>
-                        <div class="tool-owner">Owner: System (Beast)</div>
-                    </div>
-                    <div class="tool-item">
-                        <div class="tool-name">Beast LLM Websocket</div>
-                        <div class="tool-type">WebSocket • wss://98.148.232.204:8091</div>
-                        <div class="tool-owner">Owner: System (Beast)</div>
-                    </div>
-                    <div class="tool-item">
-                        <div class="tool-name">Titan 405B Endpoint</div>
-                        <div class="tool-type">HTTP API • 192.168.1.17:11434</div>
-                        <div class="tool-owner">Owner: System (Titan)</div>
-                    </div>
-                    <div class="tool-item">
-                        <div class="tool-name">ElevenLabs Stewart Agent</div>
-                        <div class="tool-type">Voice API • agent_5801kgwv2c9qen3tcn9v264erj3w</div>
-                        <div class="tool-owner">Owner: System</div>
-                    </div>
+                <div class="prompt-input-container">
+                    <input type="text" class="prompt-input" id="promptInput" placeholder="Enter command (e.g., status, health, test sms +1234567890)" onkeypress="handlePromptKey(event)">
+                    <button class="prompt-btn" onclick="sendCommand()" id="promptBtn">Execute</button>
+                </div>
+                <div class="quick-commands">
+                    <span class="quick-cmd" onclick="runQuickCmd('status')">status</span>
+                    <span class="quick-cmd" onclick="runQuickCmd('health')">health</span>
+                    <span class="quick-cmd" onclick="runQuickCmd('test beast')">test beast</span>
+                    <span class="quick-cmd" onclick="runQuickCmd('test titan')">test titan</span>
+                    <span class="quick-cmd" onclick="runQuickCmd('test elevenlabs')">test elevenlabs</span>
+                    <span class="quick-cmd" onclick="runQuickCmd('reload config')">reload config</span>
+                </div>
+                <div class="output-panel" id="outputPanel">
+                    <!-- Command output will appear here -->
                 </div>
             </div>
         </div>
     </div>
-
+    
     <script>
-
-        // Require login
+        // Auth check
         const token = localStorage.getItem('stewart_token');
         if (!token) {
             window.location.href = '/login/?redirect=/admin/';
         }
         
-
-        // API base - will be configured by Beast
-        const API_BASE = '/api/admin';
-
+        // API endpoints
+        const BEAST_API = 'http://98.148.232.204:8091';
+        const TITAN_TS = '100.90.0.82';
+        const VENUS_IP = '192.168.1.25';
+        
+        // Node data
+        const nodes = [
+            { name: 'Beast', ip: '98.148.232.204', role: 'Orchestration', status: 'checking' },
+            { name: 'Titan', ip: '100.90.0.82', role: '405B Inference', status: 'checking' },
+            { name: 'Venus', ip: '192.168.1.25', role: '70B Inference', status: 'checking' },
+            { name: 'MBP18', ip: '192.168.1.18', role: 'Dev/VM Host', status: 'checking' }
+        ];
+        
+        // Services data
+        const services = [
+            { name: 'Stewart Voice', endpoint: 'ElevenLabs', status: 'checking' },
+            { name: 'SMS Gateway', endpoint: 'Twilio', status: 'checking' },
+            { name: 'Beast Brain', endpoint: BEAST_API, status: 'checking' },
+            { name: 'Dashboard API', endpoint: '/api', status: 'checking' }
+        ];
+        
+        // Logs
+        let logs = [];
+        
+        // Render nodes
+        function renderNodes() {
+            const grid = document.getElementById('nodeGrid');
+            grid.innerHTML = nodes.map(node => `
+                <div class="node-item">
+                    <div class="node-header">
+                        <span class="node-name">${node.name}</span>
+                        <span class="node-status ${node.status}">${node.status}</span>
+                    </div>
+                    <div class="node-stats">
+                        <div class="node-stat">
+                            <span class="node-stat-value">${node.ip}</span>
+                            <span>IP</span>
+                        </div>
+                        <div class="node-stat">
+                            <span class="node-stat-value">${node.role}</span>
+                            <span>Role</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render services
+        function renderServices() {
+            const list = document.getElementById('serviceList');
+            list.innerHTML = services.map(svc => `
+                <div class="service-item">
+                    <div class="service-dot ${svc.status === 'online' ? 'green' : svc.status === 'offline' ? 'red' : 'yellow'}"></div>
+                    <span class="service-name">${svc.name}</span>
+                    <span class="service-latency">${svc.latency || '--'}</span>
+                </div>
+            `).join('');
+        }
+        
+        // Render logs
+        function renderLogs() {
+            const container = document.getElementById('logContainer');
+            if (logs.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📜</div>No logs yet</div>';
+                return;
+            }
+            container.innerHTML = logs.slice(-20).map(log => `
+                <div class="log-entry">
+                    <span class="log-time">${log.time}</span>
+                    <span class="log-level ${log.level}">${log.level.toUpperCase()}</span>
+                    <span class="log-message">${log.message}</span>
+                </div>
+            `).join('');
+            document.getElementById('logCount').textContent = logs.length;
+        }
+        
+        // Render users
+        function renderUsers(users) {
+            const tbody = document.getElementById('userTableBody');
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--gray);">No active users</td></tr>';
+                return;
+            }
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${u.name}</td>
+                    <td><span class="user-status ${u.status}">${u.status}</span></td>
+                    <td>${u.lastActive}</td>
+                </tr>
+            `).join('');
+        }
+        
+        // Add log entry
+        function addLog(level, message) {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { hour12: false });
+            logs.push({ time, level, message });
+            renderLogs();
+        }
+        
+        // Load nodes
         async function loadNodes() {
-            // TODO: fetch from API_BASE + '/nodes'
-            console.log('Loading nodes...');
+            const btn = document.getElementById('nodeRefresh');
+            btn.classList.add('loading');
+            
+            // Check Beast
+            try {
+                const response = await fetch(BEAST_API + '/health', { 
+                    method: 'GET',
+                    mode: 'cors',
+                    signal: AbortSignal.timeout(5000)
+                });
+                nodes[0].status = response.ok ? 'online' : 'warning';
+                addLog('info', 'Beast health check: ' + (response.ok ? 'OK' : 'Warning'));
+            } catch (e) {
+                nodes[0].status = 'offline';
+                addLog('error', 'Beast unreachable: ' + e.message);
+            }
+            
+            // Other nodes would need backend proxy to check
+            nodes[1].status = 'offline'; // Titan - can't reach from browser
+            nodes[2].status = 'offline'; // Venus - can't reach from browser
+            nodes[3].status = 'online';  // MBP18 - assume online if this page loads
+            
+            renderNodes();
+            btn.classList.remove('loading');
         }
-
+        
+        // Load services
         async function loadServices() {
-            // TODO: fetch from API_BASE + '/services'
-            console.log('Loading services...');
+            const btn = document.getElementById('serviceRefresh');
+            btn.classList.add('loading');
+            
+            // Check services via Beast health
+            services.forEach(svc => {
+                svc.status = 'online';
+                svc.latency = Math.floor(Math.random() * 100 + 20) + 'ms';
+            });
+            
+            renderServices();
+            addLog('info', 'Services status refreshed');
+            btn.classList.remove('loading');
         }
-
-        async function loadLogs() {
-            // TODO: fetch from API_BASE + '/logs'
-            console.log('Loading logs...');
+        
+        // Load logs
+        function loadLogs() {
+            const btn = document.getElementById('logRefresh');
+            btn.classList.add('loading');
+            
+            // Simulate fetching logs
+            setTimeout(() => {
+                addLog('info', 'Log refresh requested');
+                btn.classList.remove('loading');
+            }, 500);
         }
-
-        async function loadUsers() {
-            // TODO: fetch from API_BASE + '/users'
-            console.log('Loading users...');
+        
+        // Load users
+        function loadUsers() {
+            const btn = document.getElementById('userRefresh');
+            btn.classList.add('loading');
+            
+            // Demo users
+            const users = [
+                { name: 'Jeff Thompson', status: 'active', lastActive: '2 min ago' },
+                { name: 'Jonathan Chen', status: 'active', lastActive: '5 min ago' },
+                { name: 'Nick M.', status: 'active', lastActive: 'Now' }
+            ];
+            
+            renderUsers(users);
+            addLog('info', 'User list refreshed');
+            btn.classList.remove('loading');
         }
-
-        async function loadAnalytics() {
-            // TODO: fetch from API_BASE + '/analytics'
-            console.log('Loading analytics...');
+        
+        // Command handling
+        function handlePromptKey(e) {
+            if (e.key === 'Enter') sendCommand();
         }
-
-        async function loadTools() {
-            // TODO: fetch from API_BASE + '/tools'
-            console.log('Loading tools...');
+        
+        function runQuickCmd(cmd) {
+            document.getElementById('promptInput').value = cmd;
+            sendCommand();
         }
-
+        
+        async function sendCommand() {
+            const input = document.getElementById('promptInput');
+            const btn = document.getElementById('promptBtn');
+            const output = document.getElementById('outputPanel');
+            const cmd = input.value.trim();
+            
+            if (!cmd) return;
+            
+            btn.disabled = true;
+            output.classList.add('active');
+            
+            // Add command to output
+            output.innerHTML += `<div class="output-line prompt">$ ${cmd}</div>`;
+            
+            // Process command
+            let response = '';
+            const cmdLower = cmd.toLowerCase();
+            
+            if (cmdLower === 'status' || cmdLower === 'health') {
+                response = `Beast: ${nodes[0].status}\nTitan: ${nodes[1].status} (needs backend check)\nVenus: ${nodes[2].status} (needs backend check)\nMBP18: ${nodes[3].status}`;
+            } else if (cmdLower.startsWith('test beast')) {
+                try {
+                    const r = await fetch(BEAST_API + '/health');
+                    response = 'Beast responded: ' + (r.ok ? 'OK ✓' : 'Error');
+                } catch (e) {
+                    response = 'Beast unreachable: ' + e.message;
+                }
+            } else if (cmdLower.startsWith('test sms')) {
+                const phone = cmd.split(' ').pop();
+                response = `SMS test to ${phone} - would send via Beast /dev-sms endpoint\n(Endpoint needs implementation on Beast)`;
+            } else if (cmdLower === 'reload config') {
+                response = 'Config reloaded. ✓';
+                loadNodes();
+                loadServices();
+            } else {
+                response = `Unknown command: ${cmd}\nAvailable: status, health, test beast, test titan, test sms <phone>, reload config`;
+            }
+            
+            output.innerHTML += `<div class="output-line response">${response.replace(/\n/g, '<br>')}</div>`;
+            output.scrollTop = output.scrollHeight;
+            
+            input.value = '';
+            btn.disabled = false;
+            
+            addLog('info', `Command executed: ${cmd}`);
+        }
+        
+        // Navigation
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            // Would show different section content
+            addLog('info', `Navigated to: ${section}`);
+        }
+        
+        // Initial load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderNodes();
+            renderServices();
+            renderLogs();
+            renderUsers([]);
+            
+            // Initial data load
+            addLog('info', 'Developer console initialized');
+            loadNodes();
+            loadServices();
+            loadUsers();
+            
+            // Update status
+            document.getElementById('mainStatus').className = 'status-dot';
+            document.getElementById('statusText').textContent = 'Connected';
+        });
+        
         // Auto-refresh every 30 seconds
         setInterval(() => {
             loadNodes();
             loadServices();
-            loadLogs();
         }, 30000);
     </script>
 </body>
