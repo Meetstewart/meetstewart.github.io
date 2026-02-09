@@ -2,1019 +2,1561 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Stewart Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1e1b4b;
-            --gray: #64748b;
-            --light: #f8fafc;
-            --card-bg: rgba(255,255,255,0.95);
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --primary-light: #a78bfa;
+            --dark: #0f0f23;
+            --dark-card: #1a1a2e;
+            --dark-hover: #252540;
+            --gray: #9ca3af;
+            --light-gray: #e5e7eb;
+            --white: #ffffff;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            /* Safe area insets for iOS */
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
-            min-height: 100vh;
-            color: #1e293b;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px; /* Prevents iOS zoom */
+            background: var(--dark);
+            color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch;
         }
         
-        /* Top Navigation */
-        .top-nav {
-            background: rgba(30, 27, 75, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Header with safe area */
+        .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            height: calc(60px + var(--safe-top));
+            padding-top: var(--safe-top);
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: max(1rem, var(--safe-left));
+            padding-right: max(1rem, var(--safe-right));
+            z-index: 1000;
         }
         
         .logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            color: white;
-            font-weight: 700;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .logo-text {
             font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
         }
         
-        .logo img { width: 40px; height: 40px; border-radius: 50%; }
+        .bot-name {
+            color: var(--primary-light);
+        }
         
-        .nav-actions {
+        /* Hamburger menu - 44x44px touch target */
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 10002;
+            position: relative;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: transform 0.3s, opacity 0.3s;
+            border-radius: 2px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        .header-actions {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
         
-        .nav-btn {
-            background: rgba(255,255,255,0.1);
+        .customize-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 8px;
-            cursor: pointer;
             font-size: 0.875rem;
-            transition: all 0.2s;
-        }
-        
-        .nav-btn:hover { background: rgba(255,255,255,0.2); }
-        .nav-btn.primary { background: var(--primary); }
-        .nav-btn.primary:hover { background: var(--primary-dark); }
-        
-        /* Main Content */
-        .main-content {
-            padding: 5rem 2rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Welcome Section */
-        .welcome-section {
-            text-align: center;
-            padding: 3rem 0;
-            color: white;
-        }
-        
-        .welcome-section h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .welcome-section p {
-            color: rgba(255,255,255,0.7);
-            font-size: 1.125rem;
-        }
-        
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        /* Feature Cards */
-        .feature-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-        }
-        
-        .feature-card.empty {
-            border: 2px dashed rgba(99, 102, 241, 0.3);
-            background: rgba(255,255,255,0.5);
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-        
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        
-        .card-icon.purple { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-        .card-icon.green { background: linear-gradient(135deg, #10b981, #34d399); }
-        .card-icon.blue { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .card-icon.orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-        .card-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .card-icon.teal { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
-        
-        .card-status {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
             font-weight: 500;
-        }
-        
-        .status-active { background: #dcfce7; color: #166534; }
-        .status-setup { background: #fef3c7; color: #92400e; }
-        .status-empty { background: #f1f5f9; color: #64748b; }
-        
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-        
-        .card-description {
-            color: var(--gray);
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-        
-        .card-stats {
-            display: flex;
-            gap: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--gray);
-            text-transform: uppercase;
-        }
-        
-        .card-action {
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 44px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--primary);
-            font-weight: 500;
-            font-size: 0.875rem;
-            margin-top: 1rem;
         }
         
-        .empty-prompt {
-            text-align: center;
-            padding: 1rem 0;
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 44px;
         }
         
-        .empty-prompt p {
+        /* Stats Bar with safe area */
+        .stats-bar {
+            position: fixed;
+            top: calc(60px + var(--safe-top));
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--dark-card);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 max(1rem, var(--safe-left));
+            z-index: 999;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+        
+        .stat-label {
+            font-size: 0.65rem;
             color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Main content area */
+        .main-container {
+            display: flex;
+            height: 100%;
+            padding-top: calc(110px + var(--safe-top));
+            padding-bottom: calc(80px + var(--safe-bottom));
+            padding-left: var(--safe-left);
+            padding-right: var(--safe-right);
+        }
+        
+        /* VE Response Area - 2/3 width */
+        .ve-area {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.bot {
+            background: var(--dark-card);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message.user {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .bot-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bot-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+        
+        .bot-label {
+            font-size: 0.75rem;
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        
+        .message-text {
+            line-height: 1.5;
+        }
+        
+        /* Cards Panel - 1/3 width */
+        .cards-panel {
+            flex: 1;
+            max-width: 400px;
+            background: var(--dark-card);
+            border-left: 1px solid rgba(124, 58, 237, 0.2);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .panel-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .collapsible-card {
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+        
+        .card-header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            min-height: 56px;
+            transition: background 0.2s;
+        }
+        
+        .card-header:hover {
+            background: var(--dark-hover);
+        }
+        
+        .card-header:active {
+            background: rgba(124, 58, 237, 0.2);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-icon {
+            font-size: 1.25rem;
+        }
+        
+        .card-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+        }
+        
+        .card-arrow {
+            transition: transform 0.3s;
+            color: var(--gray);
+        }
+        
+        .collapsible-card.expanded .card-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .collapsible-card.expanded .card-content {
+            max-height: 500px;
+        }
+        
+        .card-inner {
+            padding: 1rem;
+        }
+        
+        /* Calendar Tabs */
+        .calendar-tabs {
+            display: flex;
+            gap: 0.5rem;
             margin-bottom: 1rem;
         }
         
-        .setup-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
+        .calendar-tab {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--dark);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            color: var(--gray);
             border-radius: 8px;
-            font-weight: 500;
             cursor: pointer;
+            font-size: 0.8rem;
+            min-height: 44px;
             transition: all 0.2s;
         }
         
-        .setup-btn:hover { background: var(--primary-dark); }
+        .calendar-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
         
-        /* Modal/Popup Card System */
+        .event-item {
+            padding: 0.75rem;
+            background: var(--dark);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .event-time {
+            font-size: 0.75rem;
+            color: var(--primary-light);
+            margin-bottom: 0.25rem;
+        }
+        
+        .event-title {
+            font-weight: 500;
+        }
+        
+        /* Task item */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--dark);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        
+        .task-checkbox.done {
+            background: var(--green);
+            border-color: var(--green);
+        }
+        
+        /* People cards */
+        .person-card {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--dark);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .person-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .person-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .person-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .person-personality {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        /* Activity feed */
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            margin-top: 6px;
+        }
+        
+        .activity-text {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+        
+        .activity-time {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+        
+        /* Cash Flow mini */
+        .cashflow-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        
+        .cf-stat {
+            background: var(--dark);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .cf-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+        
+        .cf-value.negative {
+            color: var(--red);
+        }
+        
+        .cf-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+        
+        /* Voice Input Bar with safe area */
+        .input-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            padding-bottom: calc(1rem + var(--safe-bottom));
+            padding-left: max(1rem, var(--safe-left));
+            padding-right: max(1rem, var(--safe-right));
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1000;
+        }
+        
+        .text-input {
+            flex: 1;
+            background: var(--dark-card);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 24px;
+            padding: 0.75rem 1.25rem;
+            color: var(--white);
+            font-size: 16px; /* Prevents iOS zoom */
+            outline: none;
+            min-height: 48px;
+        }
+        
+        .text-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .text-input::placeholder {
+            color: var(--gray);
+        }
+        
+        .voice-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--dark-card);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            min-width: 48px;
+        }
+        
+        .voice-btn.recording {
+            background: var(--red);
+            border-color: var(--red);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            min-width: 48px;
+        }
+        
+        /* Customize VE Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.8);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
+            z-index: 10001;
+            padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
         }
         
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
         
-        .modal-card {
-            background: white;
-            border-radius: 20px;
+        .modal {
+            background: var(--dark-card);
+            border-radius: 16px;
             max-width: 500px;
-            width: 100%;
+            width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            animation: slideUp 0.3s ease;
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            -webkit-overflow-scrolling: touch;
         }
         
         .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
         
-        .modal-header h2 {
+        .modal-title {
             font-size: 1.25rem;
-            color: var(--dark);
+            font-weight: 600;
         }
         
         .modal-close {
-            background: none;
+            width: 44px;
+            height: 44px;
+            background: transparent;
             border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
             color: var(--gray);
-            padding: 0.25rem;
-            line-height: 1;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .modal-body { padding: 1.5rem; }
-        
-        .form-group {
-            margin-bottom: 1.25rem;
+        .modal-body {
+            padding: 1.25rem;
         }
         
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
+        .modal-section {
+            margin-bottom: 1.5rem;
         }
         
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .modal-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Avatar Selection */
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .avatar-option {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.2s;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        
+        .avatar-option.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+        
+        .avatar-option img {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        /* Voice Selection */
+        .voice-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .voice-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--dark);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            min-height: 56px;
+            transition: all 0.2s;
+        }
+        
+        .voice-option.selected {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.1);
+        }
+        
+        .voice-sample {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        
+        .voice-info {
+            flex: 1;
+        }
+        
+        .voice-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .voice-desc {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        /* Sliders */
+        .slider-container {
+            margin-bottom: 1rem;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--dark);
+            appearance: none;
             outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Bot Name Input */
+        .name-input {
+            width: 100%;
+            background: var(--dark);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--white);
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .name-input:focus {
             border-color: var(--primary);
         }
         
-        .form-group textarea { resize: vertical; min-height: 100px; }
-        
-        .form-hint {
-            font-size: 0.75rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-        
         .modal-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #e2e8f0;
+            padding: 1.25rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
             display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
+            gap: 0.75rem;
         }
         
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
+        .modal-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
-            border: none;
+            min-height: 48px;
+            font-size: 1rem;
         }
         
-        .btn-secondary {
-            background: #f1f5f9;
+        .modal-btn.secondary {
+            background: transparent;
+            border: 1px solid var(--gray);
             color: var(--gray);
         }
         
-        .btn-primary {
-            background: var(--primary);
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
             color: white;
         }
         
-        .btn-primary:hover { background: var(--primary-dark); }
-        
-        /* Walkthrough Overlay */
-        .walkthrough-overlay {
+        /* Mobile Menu Overlay */
+        .mobile-menu {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(15, 15, 35, 0.98);
+            z-index: 10001;
             display: none;
-            z-index: 2000;
+            flex-direction: column;
+            padding: calc(80px + var(--safe-top)) 2rem calc(2rem + var(--safe-bottom));
         }
         
-        .walkthrough-overlay.active { display: block; }
-        
-        .walkthrough-spotlight {
-            position: absolute;
-            box-shadow: 0 0 0 9999px rgba(0,0,0,0.75);
-            border-radius: 12px;
-            transition: all 0.4s ease;
-        }
-        
-        .walkthrough-card {
-            position: absolute;
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            max-width: 360px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .walkthrough-card h3 {
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-        
-        .walkthrough-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-        
-        .walkthrough-progress {
+        .mobile-menu.active {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
         }
         
-        .progress-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #e2e8f0;
-        }
-        
-        .progress-dot.active { background: var(--primary); }
-        .progress-dot.completed { background: var(--success); }
-        
-        .walkthrough-actions {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: space-between;
-        }
-        
-        .skip-btn {
-            background: none;
-            border: none;
-            color: var(--gray);
+        .mobile-menu-item {
+            padding: 1rem 0;
+            font-size: 1.25rem;
+            color: var(--white);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
             cursor: pointer;
-            font-size: 0.875rem;
-        }
-        
-        /* Quick Actions Bar */
-        .quick-actions {
+            min-height: 56px;
             display: flex;
+            align-items: center;
             gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
         }
         
-        .quick-action {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
+        .mobile-menu-item:active {
+            background: rgba(124, 58, 237, 0.2);
         }
         
-        .quick-action:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-        
-        /* Stewart Chat Widget */
-        .stewart-chat {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 500;
-        }
-        
-        .chat-bubble {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
-            transition: all 0.3s;
-        }
-        
-        .chat-bubble:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.5);
-        }
-        
-        .chat-bubble img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
-        /* Responsive */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .main-content { padding: 5rem 1rem 1rem; }
-            .welcome-section h1 { font-size: 1.75rem; }
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .quick-actions { justify-content: center; }
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .header-actions {
+                display: none;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .ve-area {
+                flex: 1;
+            }
+            
+            .cards-panel {
+                display: none;
+                position: fixed;
+                top: calc(110px + var(--safe-top));
+                right: 0;
+                bottom: calc(80px + var(--safe-bottom));
+                width: 85%;
+                max-width: 350px;
+                z-index: 999;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .cards-panel.active {
+                display: block;
+                transform: translateX(0);
+            }
+            
+            .stats-bar {
+                overflow-x: auto;
+                justify-content: flex-start;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .stat-item {
+                min-width: fit-content;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .customize-btn span {
+                display: none;
+            }
+        }
+        
+        /* GPU acceleration for smooth scrolling */
+        .chat-container,
+        .cards-panel,
+        .modal {
+            transform: translateZ(0);
+            will-change: scroll-position;
         }
     </style>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
+    <!-- Header -->
+    <header class="header">
         <div class="logo">
-            <img src="/assets/stewart-avatar.png" alt="Stewart">
-            <span>Stewart</span>
+            <img src="https://meetstewart.com/assets/stewart-avatar.png" alt="Stewart" onerror="this.style.background='var(--primary)'; this.style.display='flex'; this.innerHTML='S';">
+            <span class="logo-text">Hey, <span class="bot-name" id="botNameDisplay">Stewart</span></span>
         </div>
-        <div class="nav-actions">
-            <button class="nav-btn" onclick="openModal('settings')">⚙️ Settings</button>
-            <button class="nav-btn" onclick="openModal('help')">❓ Help</button>
-            <button class="nav-btn primary" onclick="window.location.href='/team/'">+ Add Specialist</button>
+        <div class="header-actions">
+            <button class="customize-btn" onclick="openCustomizeModal()">
+                ⚙️ <span>Customize</span>
+            </button>
+            <div class="user-avatar" onclick="toggleUserMenu()" id="userInitials">N</div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Welcome Section -->
-        <section class="welcome-section">
-            <h1>Welcome back, <span id="userName">there</span>!</h1>
-            <p>Your Virtual Executive is ready to help. What would you like to work on today?</p>
-        </section>
-
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <button class="quick-action" onclick="openModal('quick-task')">
-                ⚡ Quick Task
-            </button>
-            <button class="quick-action" onclick="openModal('schedule-call')">
-                📞 Schedule Call
-            </button>
-            <button class="quick-action" onclick="openModal('send-email')">
-                ✉️ Draft Email
-            </button>
-            <button class="quick-action" onclick="window.location.href='/cashflow/'">
-                💰 Cash Flow
-            </button>
+        <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+    
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-value" id="trialDays">12</span>
+            <span class="stat-label">Trial Days</span>
         </div>
-
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Active Projects Card -->
-            <div class="feature-card" onclick="openModal('projects')">
-                <div class="card-header">
-                    <div class="card-icon purple">📋</div>
-                    <span class="card-status status-empty">Get Started</span>
-                </div>
-                <h3 class="card-title">Projects</h3>
-                <p class="card-description">Track your active projects and tasks. Stewart can help manage timelines and coordinate with your team.</p>
-                <div class="empty-prompt">
-                    <p>No projects yet</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('new-project')">+ Create First Project</button>
-                </div>
-            </div>
-
-            <!-- Contacts Card -->
-            <div class="feature-card" onclick="openModal('contacts')">
-                <div class="card-header">
-                    <div class="card-icon green">👥</div>
-                    <span class="card-status status-empty">Get Started</span>
-                </div>
-                <h3 class="card-title">Contacts & Team</h3>
-                <p class="card-description">Your business contacts and team members. Stewart learns communication preferences.</p>
-                <div class="empty-prompt">
-                    <p>No contacts added</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('add-contact')">+ Add Contact</button>
-                </div>
-            </div>
-
-            <!-- Calendar Card -->
-            <div class="feature-card" onclick="openModal('calendar')">
-                <div class="card-header">
-                    <div class="card-icon blue">📅</div>
-                    <span class="card-status status-setup">Connect</span>
-                </div>
-                <h3 class="card-title">Calendar</h3>
-                <p class="card-description">Connect your calendar so Stewart can schedule meetings and manage your time.</p>
-                <div class="empty-prompt">
-                    <p>Calendar not connected</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('connect-calendar')">🔗 Connect Calendar</button>
-                </div>
-            </div>
-
-            <!-- Email Card -->
-            <div class="feature-card" onclick="openModal('email')">
-                <div class="card-header">
-                    <div class="card-icon orange">✉️</div>
-                    <span class="card-status status-setup">Connect</span>
-                </div>
-                <h3 class="card-title">Email</h3>
-                <p class="card-description">Stewart can draft, organize, and help manage your inbox intelligently.</p>
-                <div class="empty-prompt">
-                    <p>Email not connected</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('connect-email')">🔗 Connect Email</button>
-                </div>
-            </div>
-
-            <!-- Documents Card -->
-            <div class="feature-card" onclick="openModal('documents')">
-                <div class="card-header">
-                    <div class="card-icon pink">📄</div>
-                    <span class="card-status status-empty">Get Started</span>
-                </div>
-                <h3 class="card-title">Documents</h3>
-                <p class="card-description">Upload contracts, reports, and files. Stewart can analyze and help you work with them.</p>
-                <div class="empty-prompt">
-                    <p>No documents yet</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('upload-doc')">📤 Upload Document</button>
-                </div>
-            </div>
-
-            <!-- Integrations Card -->
-            <div class="feature-card" onclick="openModal('integrations')">
-                <div class="card-header">
-                    <div class="card-icon teal">🔌</div>
-                    <span class="card-status status-empty">Get Started</span>
-                </div>
-                <h3 class="card-title">Integrations</h3>
-                <p class="card-description">Connect your business tools - CRM, accounting, project management, and more.</p>
-                <div class="empty-prompt">
-                    <p>No integrations connected</p>
-                    <button class="setup-btn" onclick="event.stopPropagation(); openModal('add-integration')">+ Add Integration</button>
-                </div>
-            </div>
+        <div class="stat-item">
+            <span class="stat-value" id="tasksDone">47</span>
+            <span class="stat-label">Tasks Done</span>
         </div>
-    </main>
-
-    <!-- Stewart Chat Widget -->
-    <div class="stewart-chat">
-        <div class="chat-bubble" onclick="openModal('chat')">
-            <img src="/assets/stewart-avatar.png" alt="Chat with Stewart">
+        <div class="stat-item">
+            <span class="stat-value" id="hoursSaved">18.5</span>
+            <span class="stat-label">Hours Saved</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-value" id="stewdaysUsed">3</span>
+            <span class="stat-label">Stewdays</span>
         </div>
     </div>
-
-    <!-- Modal System -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h2 id="modalTitle">Modal Title</h2>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Dynamic content -->
-            </div>
-            <div class="modal-footer" id="modalFooter">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" id="modalAction">Save</button>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- VE Response Area -->
+        <div class="ve-area">
+            <div class="chat-container" id="chatContainer">
+                <!-- Messages will be added here -->
             </div>
         </div>
-    </div>
-
-    <!-- Walkthrough Overlay -->
-    <div class="walkthrough-overlay" id="walkthroughOverlay">
-        <div class="walkthrough-spotlight" id="spotlight"></div>
-        <div class="walkthrough-card" id="walkthroughCard">
-            <div class="walkthrough-progress" id="walkthroughProgress"></div>
-            <h3 id="walkthroughTitle">Welcome to Stewart!</h3>
-            <p id="walkthroughText">Let's take a quick tour of your dashboard and get you set up for success.</p>
-            <div class="walkthrough-actions">
-                <button class="skip-btn" onclick="endWalkthrough()">Skip tour</button>
-                <button class="btn btn-primary" onclick="nextWalkthroughStep()">Get Started →</button>
+        
+        <!-- Cards Panel -->
+        <div class="cards-panel" id="cardsPanel">
+            <div class="panel-header">
+                <span>Quick Access</span>
+                <button onclick="toggleCardsPanel()" style="background:none;border:none;color:var(--gray);cursor:pointer;font-size:1.25rem;min-width:44px;min-height:44px;">×</button>
             </div>
-        </div>
-    </div>
-
-    <script>
-        // Modal content templates
-        const modalTemplates = {
-            'new-project': {
-                title: '✨ Create New Project',
-                body: `
-                    <div class="form-group">
-                        <label>Project Name</label>
-                        <input type="text" placeholder="e.g., Website Redesign" id="projectName">
+            
+            <!-- Schedule Card -->
+            <div class="collapsible-card" id="scheduleCard">
+                <div class="card-header" onclick="toggleCard('scheduleCard')">
+                    <div class="card-title">
+                        <span class="card-icon">📅</span>
+                        <span>Schedule</span>
+                        <span class="card-badge" id="eventCount">3</span>
                     </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea placeholder="What's this project about?" id="projectDesc"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Target Completion</label>
-                        <input type="date" id="projectDate">
-                    </div>
-                    <div class="form-group">
-                        <label>Priority</label>
-                        <select id="projectPriority">
-                            <option value="high">🔴 High</option>
-                            <option value="medium" selected>🟡 Medium</option>
-                            <option value="low">🟢 Low</option>
-                        </select>
-                    </div>
-                `,
-                action: 'Create Project',
-                handler: () => { alert('Project created! Stewart will help you track it.'); closeModal(); }
-            },
-            'add-contact': {
-                title: '👤 Add Contact',
-                body: `
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="John Smith" id="contactName">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" placeholder="john@company.com" id="contactEmail">
-                    </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" placeholder="(555) 123-4567" id="contactPhone">
-                    </div>
-                    <div class="form-group">
-                        <label>Company</label>
-                        <input type="text" placeholder="Company name" id="contactCompany">
-                    </div>
-                    <div class="form-group">
-                        <label>Relationship</label>
-                        <select id="contactType">
-                            <option value="client">Client</option>
-                            <option value="vendor">Vendor</option>
-                            <option value="team">Team Member</option>
-                            <option value="partner">Partner</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Notes</label>
-                        <textarea placeholder="Communication preferences, important details..." id="contactNotes"></textarea>
-                        <div class="form-hint">Stewart uses these notes to personalize communications</div>
-                    </div>
-                `,
-                action: 'Add Contact',
-                handler: () => { alert('Contact added!'); closeModal(); }
-            },
-            'quick-task': {
-                title: '⚡ Quick Task for Stewart',
-                body: `
-                    <div class="form-group">
-                        <label>What do you need?</label>
-                        <textarea placeholder="e.g., Research competitors in the LA market and summarize findings..." id="taskDesc" style="min-height: 150px;"></textarea>
-                        <div class="form-hint">Be specific - Stewart works better with clear instructions</div>
-                    </div>
-                    <div class="form-group">
-                        <label>Urgency</label>
-                        <select id="taskUrgency">
-                            <option value="asap">ASAP - Drop everything</option>
-                            <option value="today" selected>Today</option>
-                            <option value="week">This week</option>
-                            <option value="whenever">Whenever</option>
-                        </select>
-                    </div>
-                `,
-                action: 'Assign to Stewart',
-                handler: () => { alert('Task assigned! Stewart is on it.'); closeModal(); }
-            },
-            'schedule-call': {
-                title: '📞 Schedule a Call',
-                body: `
-                    <div class="form-group">
-                        <label>Who should Stewart call?</label>
-                        <input type="text" placeholder="Name or phone number" id="callWho">
-                    </div>
-                    <div class="form-group">
-                        <label>Purpose</label>
-                        <input type="text" placeholder="e.g., Follow up on proposal" id="callPurpose">
-                    </div>
-                    <div class="form-group">
-                        <label>When</label>
-                        <input type="datetime-local" id="callWhen">
-                    </div>
-                    <div class="form-group">
-                        <label>Talking Points</label>
-                        <textarea placeholder="Key points Stewart should cover..." id="callPoints"></textarea>
-                    </div>
-                `,
-                action: 'Schedule Call',
-                handler: () => { alert('Call scheduled!'); closeModal(); }
-            },
-            'send-email': {
-                title: '✉️ Draft Email',
-                body: `
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="email" placeholder="recipient@email.com" id="emailTo">
-                    </div>
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <input type="text" placeholder="Email subject" id="emailSubject">
-                    </div>
-                    <div class="form-group">
-                        <label>Instructions for Stewart</label>
-                        <textarea placeholder="Tell Stewart what this email should accomplish..." id="emailInstructions" style="min-height: 120px;"></textarea>
-                        <div class="form-hint">Stewart will draft the email and show you before sending</div>
-                    </div>
-                    <div class="form-group">
-                        <label>Tone</label>
-                        <select id="emailTone">
-                            <option value="professional">Professional</option>
-                            <option value="friendly">Friendly</option>
-                            <option value="formal">Formal</option>
-                            <option value="casual">Casual</option>
-                        </select>
-                    </div>
-                `,
-                action: 'Draft Email',
-                handler: () => { alert('Stewart is drafting your email...'); closeModal(); }
-            },
-            'connect-calendar': {
-                title: '📅 Connect Your Calendar',
-                body: `
-                    <p style="color: var(--gray); margin-bottom: 1.5rem;">Connect your calendar so Stewart can manage your schedule, book meetings, and protect your time.</p>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <button class="setup-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <span style="font-size: 1.25rem;">📧</span> Connect Google Calendar
-                        </button>
-                        <button class="setup-btn" style="width: 100%; background: #0078d4; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <span style="font-size: 1.25rem;">📅</span> Connect Outlook
-                        </button>
-                        <button class="setup-btn" style="width: 100%; background: var(--gray); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <span style="font-size: 1.25rem;">🍎</span> Connect Apple Calendar
-                        </button>
-                    </div>
-                `,
-                action: null
-            },
-            'connect-email': {
-                title: '✉️ Connect Your Email',
-                body: `
-                    <p style="color: var(--gray); margin-bottom: 1.5rem;">Stewart can help manage your inbox, draft responses, and keep you organized.</p>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <button class="setup-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <span style="font-size: 1.25rem;">📧</span> Connect Gmail
-                        </button>
-                        <button class="setup-btn" style="width: 100%; background: #0078d4; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <span style="font-size: 1.25rem;">📬</span> Connect Outlook
-                        </button>
-                    </div>
-                `,
-                action: null
-            },
-            'upload-doc': {
-                title: '📤 Upload Document',
-                body: `
-                    <div style="border: 2px dashed #e2e8f0; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer;" onclick="document.getElementById('fileInput').click()">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📁</div>
-                        <p style="color: var(--gray);">Drag & drop files here or click to browse</p>
-                        <p style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">PDF, DOC, XLS, images up to 25MB</p>
-                        <input type="file" id="fileInput" style="display: none;" multiple>
-                    </div>
-                    <div class="form-group" style="margin-top: 1rem;">
-                        <label>Document Type</label>
-                        <select id="docType">
-                            <option value="contract">Contract</option>
-                            <option value="report">Report</option>
-                            <option value="invoice">Invoice</option>
-                            <option value="proposal">Proposal</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                `,
-                action: 'Upload',
-                handler: () => { alert('Document uploaded!'); closeModal(); }
-            },
-            'chat': {
-                title: '💬 Chat with Stewart',
-                body: `
-                    <div style="background: #f8fafc; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; max-height: 300px; overflow-y: auto;">
-                        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
-                            <img src="/assets/stewart-avatar.png" style="width: 32px; height: 32px; border-radius: 50%;">
-                            <div style="background: white; padding: 0.75rem 1rem; border-radius: 12px; max-width: 80%;">
-                                <p style="margin: 0; color: var(--dark);">Hi! I'm Stewart, your Virtual Executive. How can I help you today?</p>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="calendar-tabs">
+                            <button class="calendar-tab active" onclick="setCalendarView('today', this)">Today</button>
+                            <button class="calendar-tab" onclick="setCalendarView('week', this)">Week</button>
+                            <button class="calendar-tab" onclick="setCalendarView('month', this)">Month</button>
+                        </div>
+                        <div id="calendarEvents">
+                            <div class="event-item">
+                                <div class="event-time">9:00 AM</div>
+                                <div class="event-title">Team Standup</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-time">2:00 PM</div>
+                                <div class="event-title">Client Call - Acme Corp</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-time">4:30 PM</div>
+                                <div class="event-title">Review Q1 Reports</div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <input type="text" placeholder="Type a message..." id="chatInput" style="padding-right: 3rem;">
+                </div>
+            </div>
+            
+            <!-- Projects Card -->
+            <div class="collapsible-card" id="projectsCard">
+                <div class="card-header" onclick="toggleCard('projectsCard')">
+                    <div class="card-title">
+                        <span class="card-icon">📁</span>
+                        <span>Projects</span>
+                        <span class="card-badge">2</span>
                     </div>
-                `,
-                action: 'Send',
-                handler: () => { alert('Message sent to Stewart!'); }
-            }
-        };
-
-        // Walkthrough steps
-        const walkthroughSteps = [
-            {
-                title: "Welcome to Stewart! 👋",
-                text: "I'm your Virtual Executive - think of me as a capable AI team member ready to help with projects, communications, and daily tasks.",
-                element: null,
-                position: 'center'
-            },
-            {
-                title: "Quick Actions",
-                text: "Need something done fast? Use these buttons to quickly assign tasks, schedule calls, or draft emails.",
-                element: '.quick-actions',
-                position: 'bottom'
-            },
-            {
-                title: "Your Dashboard",
-                text: "Each card represents a different area where I can help. Click any card to set it up or see more options.",
-                element: '.dashboard-grid',
-                position: 'top'
-            },
-            {
-                title: "Chat Anytime",
-                text: "Click my avatar in the corner whenever you want to chat or give me a task. I'm always here!",
-                element: '.stewart-chat',
-                position: 'left'
-            },
-            {
-                title: "You're All Set! 🎉",
-                text: "Start by creating a project or connecting your calendar. I'll learn your preferences as we work together.",
-                element: null,
-                position: 'center'
-            }
-        ];
-
-        let currentWalkthroughStep = 0;
-
-        function openModal(type) {
-            const template = modalTemplates[type];
-            if (!template) return;
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="task-item">
+                            <div style="width:8px;height:8px;background:var(--green);border-radius:50%;"></div>
+                            <div style="flex:1;">
+                                <div style="font-weight:500;">Website Redesign</div>
+                                <div style="font-size:0.75rem;color:var(--gray);">75% complete</div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div style="width:8px;height:8px;background:var(--yellow);border-radius:50%;"></div>
+                            <div style="flex:1;">
+                                <div style="font-weight:500;">Q1 Marketing Campaign</div>
+                                <div style="font-size:0.75rem;color:var(--gray);">40% complete</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            document.getElementById('modalTitle').textContent = template.title;
-            document.getElementById('modalBody').innerHTML = template.body;
+            <!-- Tasks Card -->
+            <div class="collapsible-card" id="tasksCard">
+                <div class="card-header" onclick="toggleCard('tasksCard')">
+                    <div class="card-title">
+                        <span class="card-icon">✅</span>
+                        <span>Tasks</span>
+                        <span class="card-badge">5</span>
+                    </div>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <span>Review proposal draft</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <span>Send invoice to client</span>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox done" onclick="toggleTask(this)">✓</div>
+                            <span style="text-decoration:line-through;color:var(--gray);">Book conference room</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            const footer = document.getElementById('modalFooter');
-            const actionBtn = document.getElementById('modalAction');
+            <!-- People Card -->
+            <div class="collapsible-card" id="peopleCard">
+                <div class="card-header" onclick="toggleCard('peopleCard')">
+                    <div class="card-title">
+                        <span class="card-icon">👥</span>
+                        <span>People</span>
+                    </div>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="person-card">
+                            <div class="person-avatar">J</div>
+                            <div class="person-info">
+                                <div class="person-name">Jeff Thompson</div>
+                                <div class="person-personality">Analytical, detail-oriented. Prefers data-driven decisions. Best contact: morning emails.</div>
+                            </div>
+                        </div>
+                        <div class="person-card">
+                            <div class="person-avatar">S</div>
+                            <div class="person-info">
+                                <div class="person-name">Sarah Chen</div>
+                                <div class="person-personality">Creative, big-picture thinker. Responds well to visual presentations. Prefers Slack.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            if (template.action) {
-                footer.style.display = 'flex';
-                actionBtn.textContent = template.action;
-                actionBtn.onclick = template.handler;
-            } else {
-                footer.style.display = 'none';
-            }
+            <!-- Activity Card -->
+            <div class="collapsible-card" id="activityCard">
+                <div class="card-header" onclick="toggleCard('activityCard')">
+                    <div class="card-title">
+                        <span class="card-icon">🔔</span>
+                        <span>Activity</span>
+                    </div>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="activity-item">
+                            <div class="activity-dot" style="background:var(--green);"></div>
+                            <div>
+                                <div class="activity-text">Email sent to Jeff Thompson</div>
+                                <div class="activity-time">2 min ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot" style="background:var(--blue);"></div>
+                            <div>
+                                <div class="activity-text">Meeting scheduled with Acme Corp</div>
+                                <div class="activity-time">15 min ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot" style="background:var(--yellow);"></div>
+                            <div>
+                                <div class="activity-text">Invoice #1234 generated</div>
+                                <div class="activity-time">1 hour ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-
-        function closeModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-
-        function startWalkthrough() {
-            currentWalkthroughStep = 0;
-            document.getElementById('walkthroughOverlay').classList.add('active');
-            showWalkthroughStep();
-        }
-
-        function showWalkthroughStep() {
-            const step = walkthroughSteps[currentWalkthroughStep];
-            const card = document.getElementById('walkthroughCard');
-            const spotlight = document.getElementById('spotlight');
-            
-            // Update progress dots
-            const progressHtml = walkthroughSteps.map((_, i) => {
-                let cls = 'progress-dot';
-                if (i < currentWalkthroughStep) cls += ' completed';
-                if (i === currentWalkthroughStep) cls += ' active';
-                return `<div class="${cls}"></div>`;
-            }).join('');
-            document.getElementById('walkthroughProgress').innerHTML = progressHtml;
-            
-            // Update content
-            document.getElementById('walkthroughTitle').textContent = step.title;
-            document.getElementById('walkthroughText').textContent = step.text;
-            
-            // Position spotlight and card
-            if (step.element) {
-                const el = document.querySelector(step.element);
-                const rect = el.getBoundingClientRect();
-                spotlight.style.display = 'block';
-                spotlight.style.top = (rect.top - 10) + 'px';
-                spotlight.style.left = (rect.left - 10) + 'px';
-                spotlight.style.width = (rect.width + 20) + 'px';
-                spotlight.style.height = (rect.height + 20) + 'px';
+            <!-- Cash Flow Card -->
+            <div class="collapsible-card" id="cashflowCard">
+                <div class="card-header" onclick="toggleCard('cashflowCard')">
+                    <div class="card-title">
+                        <span class="card-icon">💰</span>
+                        <span>Cash Flow</span>
+                    </div>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-inner">
+                        <div class="cashflow-summary">
+                            <div class="cf-stat">
+                                <div class="cf-value">$24,850</div>
+                                <div class="cf-label">Balance</div>
+                            </div>
+                            <div class="cf-stat">
+                                <div class="cf-value">$3,200</div>
+                                <div class="cf-label">30-Day Profit</div>
+                            </div>
+                            <div class="cf-stat">
+                                <div class="cf-value negative">Feb 15</div>
+                                <div class="cf-label">Low Point</div>
+                            </div>
+                            <div class="cf-stat">
+                                <div class="cf-value">$18,500</div>
+                                <div class="cf-label">At Low</div>
+                            </div>
+                        </div>
+                        <button onclick="window.location.href='/cashflow/'" style="width:100%;margin-top:1rem;padding:0.75rem;background:var(--dark);border:1px solid var(--primary);color:var(--primary);border-radius:8px;cursor:pointer;font-size:0.875rem;min-height:44px;">View Full Dashboard →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Voice Input Bar -->
+    <div class="input-bar">
+        <input type="text" class="text-input" id="messageInput" placeholder="Ask Stewart anything..." onkeypress="handleKeyPress(event)">
+        <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-item" onclick="openCustomizeModal(); toggleMobileMenu();">
+            ⚙️ Customize Stewart
+        </div>
+        <div class="mobile-menu-item" onclick="toggleCardsPanel(); toggleMobileMenu();">
+            📊 Dashboard Cards
+        </div>
+        <div class="mobile-menu-item" onclick="window.location.href='/cashflow/'">
+            💰 Cash Flow
+        </div>
+        <div class="mobile-menu-item" onclick="window.location.href='/team/'">
+            👥 Build Your Team
+        </div>
+        <div class="mobile-menu-item" onclick="logout()">
+            🚪 Sign Out
+        </div>
+    </div>
+    
+    <!-- Customize VE Modal -->
+    <div class="modal-overlay" id="customizeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Customize Your VE</span>
+                <button class="modal-close" onclick="closeCustomizeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Bot Name -->
+                <div class="modal-section">
+                    <div class="modal-section-title">Name Your Assistant</div>
+                    <input type="text" class="name-input" id="botNameInput" value="Stewart" placeholder="Enter a name...">
+                </div>
                 
-                // Position card near element
-                card.style.top = (rect.bottom + 20) + 'px';
-                card.style.left = Math.max(20, rect.left) + 'px';
-            } else {
-                spotlight.style.display = 'none';
-                card.style.top = '50%';
-                card.style.left = '50%';
-                card.style.transform = 'translate(-50%, -50%)';
+                <!-- Avatar Selection -->
+                <div class="modal-section">
+                    <div class="modal-section-title">Choose Avatar</div>
+                    <div class="avatar-grid">
+                        <div class="avatar-option selected" onclick="selectAvatar(this, 'stewart')" data-avatar="stewart">
+                            <img src="https://meetstewart.com/assets/stewart-avatar.png" alt="Stewart">
+                        </div>
+                        <div class="avatar-option" onclick="selectAvatar(this, 'professional')" data-avatar="professional">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">👔</div>
+                        </div>
+                        <div class="avatar-option" onclick="selectAvatar(this, 'friendly')" data-avatar="friendly">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">😊</div>
+                        </div>
+                        <div class="avatar-option" onclick="selectAvatar(this, 'tech')" data-avatar="tech">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🤖</div>
+                        </div>
+                        <div class="avatar-option" onclick="selectAvatar(this, 'creative')" data-avatar="creative">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎨</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Voice Selection -->
+                <div class="modal-section">
+                    <div class="modal-section-title">Select Voice</div>
+                    <div class="voice-grid">
+                        <div class="voice-option selected" onclick="selectVoice(this, 'eric')" data-voice="eric">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Eric</div>
+                                <div class="voice-desc">Professional, warm baritone. Confident and reassuring.</div>
+                            </div>
+                        </div>
+                        <div class="voice-option" onclick="selectVoice(this, 'aria')" data-voice="aria">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Aria</div>
+                                <div class="voice-desc">Friendly soprano. Upbeat and energetic.</div>
+                            </div>
+                        </div>
+                        <div class="voice-option" onclick="selectVoice(this, 'marcus')" data-voice="marcus">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Marcus</div>
+                                <div class="voice-desc">Deep bass. Authoritative and commanding.</div>
+                            </div>
+                        </div>
+                        <div class="voice-option" onclick="selectVoice(this, 'sofia')" data-voice="sofia">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Sofia</div>
+                                <div class="voice-desc">Smooth alto. Calm and sophisticated.</div>
+                            </div>
+                        </div>
+                        <div class="voice-option" onclick="selectVoice(this, 'alex')" data-voice="alex">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Alex</div>
+                                <div class="voice-desc">Neutral tenor. Clear and articulate.</div>
+                            </div>
+                        </div>
+                        <div class="voice-option" onclick="selectVoice(this, 'maya')" data-voice="maya">
+                            <div class="voice-sample">▶</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Maya</div>
+                                <div class="voice-desc">Warm mezzo. Nurturing and supportive.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Speed Slider -->
+                <div class="modal-section">
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Speaking Speed</span>
+                            <span id="speedValue">1.0x</span>
+                        </div>
+                        <input type="range" class="slider" id="speedSlider" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed(this.value)">
+                    </div>
+                </div>
+                
+                <!-- Intensity Slider -->
+                <div class="modal-section">
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Response Intensity</span>
+                            <span id="intensityValue">Balanced</span>
+                        </div>
+                        <input type="range" class="slider" id="intensitySlider" min="1" max="5" step="1" value="3" oninput="updateIntensity(this.value)">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeCustomizeModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="saveCustomization()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // User data
+        let userData = {
+            bot_name: 'Stewart',
+            avatar: 'stewart',
+            voice: 'eric',
+            speed: 1.0,
+            intensity: 3,
+            trial_days: 12,
+            tasks_done: 47,
+            hours_saved: 18.5,
+            stewdays_used: 3
+        };
+        
+        // Auth check
+        function checkAuth() {
+            const token = localStorage.getItem('stewart_token');
+            if (!token) {
+                window.location.href = '/login/';
+                return false;
             }
+            // Load user data
+            const savedData = localStorage.getItem('stewart_user_data');
+            if (savedData) {
+                userData = JSON.parse(savedData);
+                applyUserData();
+            }
+            return true;
+        }
+        
+        function applyUserData() {
+            document.getElementById('botNameDisplay').textContent = userData.bot_name;
+            document.getElementById('trialDays').textContent = userData.trial_days;
+            document.getElementById('tasksDone').textContent = userData.tasks_done;
+            document.getElementById('hoursSaved').textContent = userData.hours_saved;
+            document.getElementById('stewdaysUsed').textContent = userData.stewdays_used;
+        }
+        
+        // Card toggle
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            card.classList.toggle('expanded');
+        }
+        
+        // Calendar view
+        function setCalendarView(view, btn) {
+            document.querySelectorAll('.calendar-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            // Would load different calendar data based on view
+        }
+        
+        // Task toggle
+        function toggleTask(el) {
+            el.classList.toggle('done');
+            if (el.classList.contains('done')) {
+                el.innerHTML = '✓';
+            } else {
+                el.innerHTML = '';
+            }
+        }
+        
+        // Mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+        
+        // Cards panel toggle (mobile)
+        function toggleCardsPanel() {
+            const panel = document.getElementById('cardsPanel');
+            panel.classList.toggle('active');
+        }
+        
+        // Customize modal
+        function openCustomizeModal() {
+            document.getElementById('customizeModal').classList.add('active');
+            document.getElementById('botNameInput').value = userData.bot_name;
+        }
+        
+        function closeCustomizeModal() {
+            document.getElementById('customizeModal').classList.remove('active');
+        }
+        
+        function selectAvatar(el, avatar) {
+            document.querySelectorAll('.avatar-option').forEach(a => a.classList.remove('selected'));
+            el.classList.add('selected');
+            userData.avatar = avatar;
+        }
+        
+        function selectVoice(el, voice) {
+            document.querySelectorAll('.voice-option').forEach(v => v.classList.remove('selected'));
+            el.classList.add('selected');
+            userData.voice = voice;
+        }
+        
+        function updateSpeed(val) {
+            document.getElementById('speedValue').textContent = val + 'x';
+            userData.speed = parseFloat(val);
+        }
+        
+        function updateIntensity(val) {
+            const labels = ['Minimal', 'Light', 'Balanced', 'Detailed', 'Comprehensive'];
+            document.getElementById('intensityValue').textContent = labels[val - 1];
+            userData.intensity = parseInt(val);
+        }
+        
+        function saveCustomization() {
+            userData.bot_name = document.getElementById('botNameInput').value || 'Stewart';
+            localStorage.setItem('stewart_user_data', JSON.stringify(userData));
+            applyUserData();
+            closeCustomizeModal();
+            addBotMessage(`Got it! You can call me ${userData.bot_name} from now on.`);
+        }
+        
+        // Chat functions
+        function addBotMessage(text) {
+            const container = document.getElementById('chatContainer');
+            const msg = document.createElement('div');
+            msg.className = 'message bot';
+            msg.innerHTML = `
+                <div class="bot-header">
+                    <img class="bot-avatar" src="https://meetstewart.com/assets/stewart-avatar.png" alt="${userData.bot_name}" onerror="this.style.background='var(--primary)';this.innerHTML='S';">
+                    <span class="bot-label">${userData.bot_name}</span>
+                </div>
+                <div class="message-text">${text}</div>
+            `;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        function addUserMessage(text) {
+            const container = document.getElementById('chatContainer');
+            const msg = document.createElement('div');
+            msg.className = 'message user';
+            msg.innerHTML = `<div class="message-text">${text}</div>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
             
-            // Update button text
-            const btn = card.querySelector('.btn-primary');
-            btn.textContent = currentWalkthroughStep === walkthroughSteps.length - 1 ? 'Get Started!' : 'Next →';
+            addUserMessage(text);
+            input.value = '';
+            
+            // Contextual responses
+            setTimeout(() => {
+                const lower = text.toLowerCase();
+                if (lower.includes('calendar') || lower.includes('schedule') || lower.includes('meeting')) {
+                    addBotMessage("I see you have 3 events today. Your next meeting is 'Team Standup' at 9:00 AM. Would you like me to prepare an agenda or reschedule anything?");
+                    toggleCard('scheduleCard');
+                } else if (lower.includes('email') || lower.includes('inbox')) {
+                    addBotMessage("You have 12 unread emails. 3 are flagged as important: one from Jeff about the Q1 report, one from Acme Corp about the contract, and one from your accountant about tax documents. Want me to summarize any of them?");
+                } else if (lower.includes('task') || lower.includes('todo')) {
+                    addBotMessage("You have 5 open tasks. The highest priority is 'Review proposal draft' due today. I can help you knock these out - which one should we tackle first?");
+                    toggleCard('tasksCard');
+                } else if (lower.includes('report') || lower.includes('analytics')) {
+                    addBotMessage("I can generate several reports for you: Sales Summary, Project Status, Cash Flow Forecast, or Time Tracking. Which one would you like?");
+                } else if (lower.includes('cash') || lower.includes('money') || lower.includes('balance')) {
+                    addBotMessage("Your current balance is $24,850. You're projecting a 30-day profit of $3,200. Your low point will be Feb 15 at $18,500. Want me to open the full cash flow dashboard?");
+                    toggleCard('cashflowCard');
+                } else {
+                    addBotMessage("I'm on it. Let me look into that for you... Is there anything specific you'd like me to focus on?");
+                }
+            }, 800);
         }
-
-        function nextWalkthroughStep() {
-            currentWalkthroughStep++;
-            if (currentWalkthroughStep >= walkthroughSteps.length) {
-                endWalkthrough();
+        
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+        
+        // Voice input
+        let isRecording = false;
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            isRecording = !isRecording;
+            btn.classList.toggle('recording', isRecording);
+            
+            if (isRecording) {
+                // Start recording
+                btn.textContent = '⏹';
             } else {
-                showWalkthroughStep();
+                // Stop recording
+                btn.textContent = '🎤';
+                // Simulate voice input
+                addUserMessage("(Voice message)");
+                setTimeout(() => {
+                    addBotMessage("I heard you! Let me help with that...");
+                }, 800);
             }
         }
-
-        function endWalkthrough() {
-            document.getElementById('walkthroughOverlay').classList.remove('active');
-            localStorage.setItem('stewartWalkthroughComplete', 'true');
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('stewart_token');
+            localStorage.removeItem('stewart_user_data');
+            window.location.href = '/';
         }
-
-        // Check if walkthrough should start
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('stewartWalkthroughComplete')) {
-                setTimeout(startWalkthrough, 500);
-            }
+        
+        // Touch event handling for mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check auth
+            checkAuth();
+            
+            // Welcome message
+            setTimeout(() => {
+                addBotMessage(`Good ${getTimeOfDay()}, I'm ${userData.bot_name}, your Virtual Executive. I'm here to help you stay on top of everything. What would you like to tackle first?`);
+            }, 500);
+            
+            // Touch events for hamburger
+            const hamburger = document.getElementById('hamburger');
+            hamburger.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                toggleMobileMenu();
+            }, { passive: false });
+            
+            // Close mobile menu on outside tap
+            document.getElementById('mobileMenu').addEventListener('touchstart', function(e) {
+                if (e.target === this) {
+                    toggleMobileMenu();
+                }
+            });
         });
+        
+        function getTimeOfDay() {
+            const hour = new Date().getHours();
+            if (hour < 12) return 'morning';
+            if (hour < 17) return 'afternoon';
+            return 'evening';
+        }
     </script>
 </body>
 </html>
