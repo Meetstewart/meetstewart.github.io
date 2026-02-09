@@ -713,8 +713,8 @@
         const nodes = [
             { name: 'Beast', ip: '98.148.232.204', role: 'Orchestration', status: 'checking' },
             { name: 'Titan', ip: '100.90.0.82', role: '405B Inference', status: 'checking' },
-            { name: 'Venus', ip: '192.168.1.25', role: '70B Inference', status: 'checking' },
-            { name: 'MBP18', ip: '192.168.1.18', role: 'Dev/VM Host', status: 'checking' }
+            { name: 'M2 Max', ip: '192.168.1.25', role: '70B Inference/Code', status: 'checking' },
+            { name: 'MBP18', ip: '192.168.1.18', role: 'SSH Gateway + DB Server', status: 'checking' }
         ];
         
         // Services data
@@ -825,7 +825,7 @@
             
             // Other nodes would need backend proxy to check
             nodes[1].status = 'offline'; // Titan - can't reach from browser
-            nodes[2].status = 'offline'; // Venus - can't reach from browser
+            nodes[2].status = 'offline'; // M2 Max - can't reach from browser
             nodes[3].status = 'online';  // MBP18 - assume online if this page loads
             
             renderNodes();
@@ -906,7 +906,7 @@
             const cmdLower = cmd.toLowerCase();
             
             if (cmdLower === 'status' || cmdLower === 'health') {
-                response = `Beast: ${nodes[0].status}\nTitan: ${nodes[1].status} (needs backend check)\nVenus: ${nodes[2].status} (needs backend check)\nMBP18: ${nodes[3].status}`;
+                response = `Beast: ${nodes[0].status}\nTitan: ${nodes[1].status} (needs backend check)\nM2 Max: ${nodes[2].status} (needs backend check)\nMBP18: ${nodes[3].status}`;
             } else if (cmdLower.startsWith('test beast')) {
                 try {
                     const r = await fetch(BEAST_API + '/health');
@@ -916,31 +916,7 @@
                 }
             } else if (cmdLower.startsWith('test sms')) {
                 const phone = cmd.split(' ').pop();
-                if (!phone || phone === 'sms') {
-                    response = 'Usage: test sms <phone_number>';
-                } else {
-                    try {
-                        const formData = new URLSearchParams();
-                        formData.append('Body', 'Admin test message from Stewart dashboard');
-                        formData.append('From', 'admin');
-                        formData.append('To', phone);
-                        
-                        const r = await fetch(BEAST_API + '/dev-sms', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            body: formData.toString()
-                        });
-                        
-                        if (r.ok) {
-                            response = `SMS sent to ${phone} ✓`;
-                        } else {
-                            const err = await r.text();
-                            response = `SMS failed: ${err}`;
-                        }
-                    } catch (e) {
-                        response = `SMS error: ${e.message}\n(Check if Beast /dev-sms endpoint is running)`;
-                    }
-                }
+                response = `SMS test to ${phone} - would send via Beast /dev-sms endpoint\n(Endpoint needs implementation on Beast)`;
             } else if (cmdLower === 'reload config') {
                 response = 'Config reloaded. ✓';
                 loadNodes();
