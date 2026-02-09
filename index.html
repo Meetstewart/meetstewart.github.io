@@ -8,98 +8,188 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
         }
         
-        /* Navigation */
-        nav {
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(138, 92, 246, 0.1);
+            z-index: 1000;
+            background: rgba(10,10,10,0.9);
+            backdrop-filter: blur(10px);
         }
-        
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #8a5cf6, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
+            color: #c9a227;
         }
         
-        .logo-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid rgba(138, 92, 246, 0.5);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover { color: #8a5cf6; }
-        
-        .cta-button {
-            background: linear-gradient(135deg, #8a5cf6, #6d28d9);
-            color: #fff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            border: none;
+        /* Hamburger */
+        .hamburger {
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001;
         }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(138, 92, 246, 0.4);
-        }
-        
-        .secondary-button {
-            background: transparent;
-            border: 2px solid rgba(138, 92, 246, 0.5);
-            color: #fff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #c9a227;
             transition: all 0.3s;
         }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
         
-        .secondary-button:hover {
-            background: rgba(138, 92, 246, 0.1);
-            border-color: #8a5cf6;
+        /* Slide Menu */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 420px;
+            max-width: 90vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
+            z-index: 999;
+            transition: right 0.4s ease;
+            padding: 100px 30px 40px;
+            overflow-y: auto;
         }
+        .slide-menu.active { right: 0; }
+        
+        .menu-section {
+            margin-bottom: 20px;
+        }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(201,162,39,0.2);
+        }
+        .menu-header h3 {
+            color: #c9a227;
+            font-size: 1.1rem;
+        }
+        .menu-header .arrow {
+            color: #c9a227;
+            transition: transform 0.3s;
+        }
+        .menu-header.expanded .arrow { transform: rotate(180deg); }
+        
+        .menu-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .menu-content.expanded { max-height: 3000px; }
+        
+        .submenu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            background: rgba(201,162,39,0.05);
+            margin: 5px 0;
+            border-radius: 8px;
+        }
+        .submenu-header:hover { background: rgba(201,162,39,0.1); }
+        .submenu-header h4 { color: #e0e0e0; font-size: 0.95rem; }
+        .submenu-header .arrow { color: #888; font-size: 0.8rem; transition: transform 0.3s; }
+        .submenu-header.expanded .arrow { transform: rotate(180deg); }
+        
+        .submenu-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding-left: 15px;
+        }
+        .submenu-content.expanded { max-height: 3000px; }
+        
+        /* Agent Cards */
+        .agent-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,162,39,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+        .agent-card h5 {
+            color: #c9a227;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .agent-card .price {
+            color: #4ade80;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .agent-card p {
+            color: #aaa;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .agent-card .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .agent-card .skill {
+            background: rgba(201,162,39,0.15);
+            color: #c9a227;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        /* Connectivity & Hardware Items */
+        .menu-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,162,39,0.15);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px 0;
+        }
+        .menu-item h5 {
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        .menu-item .price {
+            color: #4ade80;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        .menu-item p {
+            color: #888;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        /* Menu Links */
+        .menu-link {
+            display: block;
+            padding: 15px 0;
+            color: #e0e0e0;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: color 0.2s;
+        }
+        .menu-link:hover { color: #c9a227; }
         
         /* Hero */
         .hero {
@@ -109,665 +199,281 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 5% 4rem;
+            padding: 120px 20px 60px;
         }
-        
+        .stewart-avatar {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fff, #c084fc);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #c9a227 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
         .hero p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            color: #aaa;
             max-width: 600px;
-            margin-bottom: 2rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        /* Voice Trial Section */
-        .voice-trial {
-            padding: 4rem 5%;
-            background: rgba(138, 92, 246, 0.05);
-            text-align: center;
-        }
-        
-        .voice-trial h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .voice-trial > p {
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2rem;
-        }
-        
-        .voice-container {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .voice-card {
-            background: rgba(138, 92, 246, 0.1);
-            border: 1px solid rgba(138, 92, 246, 0.3);
-            border-radius: 16px;
-            padding: 2rem;
-            width: 300px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .voice-card:hover {
-            transform: translateY(-5px);
-            border-color: #8a5cf6;
-        }
-        
-        .voice-card .icon { font-size: 3rem; margin-bottom: 1rem; }
-        .voice-card h3 { margin-bottom: 0.5rem; }
-        .voice-card p { color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem; font-size: 0.9rem; }
-        
-        .tier-badge {
-            background: rgba(138, 92, 246, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-        
-        #demoPlayBtn {
-            background: linear-gradient(135deg, #8a5cf6, #6d28d9);
-            color: #fff;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
+        .cta-button {
+            background: linear-gradient(135deg, #c9a227 0%, #a88620 100%);
+            color: #000;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        #demoPlayBtn:hover { transform: scale(1.05); }
-        
-        /* Video Section */
-        .video-section {
-            padding: 4rem 5%;
-            text-align: center;
-        }
-        
-        .video-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .video-section p {
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2rem;
-        }
-        
-        .video-container {
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(138, 92, 246, 0.3);
-        }
-        
-        .video-container video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Features */
-        .features {
-            padding: 6rem 5%;
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .features-subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 3rem;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .feature-card {
-            background: rgba(138, 92, 246, 0.1);
-            border: 1px solid rgba(138, 92, 246, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(138, 92, 246, 0.4);
-        }
-        
-        .feature-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #c084fc; }
-        .feature-card p { color: rgba(255, 255, 255, 0.7); line-height: 1.5; font-size: 0.95rem; }
-        
-        /* About Section */
-        .about {
-            padding: 6rem 5%;
-            text-align: center;
-        }
-        
-        .about h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
             font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 30px rgba(201,162,39,0.3);
         }
-        
-        .about-content p { margin-bottom: 1.5rem; }
-        
-        /* StewBox Section */
-        .stewbox {
-            padding: 6rem 5%;
-            background: linear-gradient(135deg, rgba(138, 92, 246, 0.1), rgba(109, 40, 217, 0.1));
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(201,162,39,0.5);
         }
-        
-        .stewbox h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .phone-link {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.95rem;
         }
-        
-        .stewbox-subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 3rem;
+        .phone-link a {
+            color: #c9a227;
+            text-decoration: none;
         }
+        .phone-link a:hover { text-decoration: underline; }
         
-        .stewbox-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 998;
         }
-        
-        .stewbox-card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(138, 92, 246, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-        }
-        
-        .stewbox-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #c084fc;
-        }
-        
-        .stewbox-card .price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .stewbox-card ul {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 1.5rem;
-        }
-        
-        .stewbox-card li {
-            padding: 0.5rem 0;
-            color: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .stewbox-card li::before {
-            content: "✓ ";
-            color: #22c55e;
-        }
-        
-        .coming-soon {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-        }
-        
-        /* Pricing */
-        .pricing {
-            padding: 6rem 5%;
-        }
-        
-        .pricing h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .pricing-subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 3rem;
-        }
-        
-        .pricing-base {
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            background: linear-gradient(135deg, rgba(138, 92, 246, 0.2), rgba(109, 40, 217, 0.2));
-            border: 2px solid rgba(138, 92, 246, 0.5);
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-        }
-        
-        .pricing-base h3 { font-size: 1.75rem; margin-bottom: 0.5rem; }
-        
-        .pricing-base .price {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #c084fc;
-            margin-bottom: 1rem;
-        }
-        
-        .pricing-base .price span {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .pricing-base p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1.5rem;
-        }
-        
-        .promo {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .promo strong { color: #22c55e; }
-        
-        .addons-title {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .addons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .addon-card {
-            background: rgba(138, 92, 246, 0.1);
-            border: 1px solid rgba(138, 92, 246, 0.2);
-            border-radius: 12px;
-            padding: 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .addon-card h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
-        .addon-card p { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); }
-        .addon-price { font-weight: 700; color: #c084fc; }
+        .overlay.active { opacity: 1; visibility: visible; }
         
         /* Footer */
         footer {
-            padding: 3rem 5%;
             text-align: center;
-            border-top: 1px solid rgba(138, 92, 246, 0.1);
+            padding: 40px 20px;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(201,162,39,0.1);
         }
-        
-        footer p { color: rgba(255, 255, 255, 0.5); margin-bottom: 0.5rem; }
-        footer a { color: #8a5cf6; text-decoration: none; }
-        
-        /* Mobile */
-        /* Mobile hamburger menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: #fff;
-            border-radius: 3px;
-            transition: 0.3s;
-        }
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            right: 0;
-            background: rgba(10, 10, 20, 0.98);
-            padding: 1rem;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 999;
-            border-bottom: 1px solid rgba(138, 92, 246, 0.3);
-        }
-        .mobile-nav.active { display: flex; }
-        .mobile-nav a {
-            color: #fff;
+        footer a {
+            color: #c9a227;
             text-decoration: none;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-        .mobile-nav a:hover { background: rgba(138, 92, 246, 0.2); }
-        .mobile-nav .cta-button {
-            background: linear-gradient(135deg, #8a5cf6, #6d28d9);
-            text-align: center;
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .hamburger { display: flex; }
-            nav { padding: 1rem 5%; }
-            .stewart-greeting { flex-direction: column; text-align: center; }
-            .stewart-greeting img { margin: 0 auto; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/" class="logo">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Stewart&backgroundColor=8a5cf6" alt="Stewart" class="logo-avatar">
-            Stewart
-        </a>
-        <div class="hamburger" onclick="toggleMobileNav()">
+    <header>
+        <div class="logo">Stewart</div>
+        <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-            <a href="#stewbox">StewBox</a>
-            <a href="#pricing">Pricing</a>
-            <a href="/voice/">Voice Demo</a>
-            <a href="/login/">Sign In</a>
-            <a href="/subscribe/" class="cta-button">Start Free Trial</a>
+    </header>
+    
+    <div class="overlay" onclick="toggleMenu()"></div>
+    
+    <nav class="slide-menu">
+        <a href="/login/" class="menu-link">Sign In</a>
+        
+        <!-- Customize and Expand -->
+        <div class="menu-section">
+            <div class="menu-header" onclick="toggleSection(this)">
+                <h3>Customize and Expand</h3>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-content">
+                
+                <!-- Add Agents -->
+                <div class="submenu-header" onclick="toggleSubmenu(this)">
+                    <h4>Add Agents</h4>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="submenu-content">
+                    
+                    <div class="agent-card">
+                        <h5>🧠 Virtual Executive</h5>
+                        <div class="price">$199/mo — Always Included</div>
+                        <p>Your AI chief of staff. Coordinates all other agents, manages projects, handles communications, and keeps everything running smoothly. Manages up to 10 staff members—virtual or human.</p>
+                        <div class="skills">
+                            <span class="skill">Project Management</span>
+                            <span class="skill">Team Coordination</span>
+                            <span class="skill">Email & Calendar</span>
+                            <span class="skill">Meeting Prep</span>
+                            <span class="skill">Status Reports</span>
+                            <span class="skill">Workflow Automation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <h5>🎙️ Brand Ambassador</h5>
+                        <div class="price">$120/mo</div>
+                        <p>Your customer-facing voice. Handles phone calls, responds to messages, manages social media interactions, and represents your brand with consistency. When you need AI handling customer service at scale, this is your specialist.</p>
+                        <div class="skills">
+                            <span class="skill">Phone Calls</span>
+                            <span class="skill">Customer Support</span>
+                            <span class="skill">Social Media</span>
+                            <span class="skill">Live Chat</span>
+                            <span class="skill">Review Responses</span>
+                            <span class="skill">Brand Voice</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <h5>🔧 Tech Guru</h5>
+                        <div class="price">$120/mo</div>
+                        <p>Your IT department in an agent. Handles integrations, troubleshoots technical issues, implements software solutions, and manages your tech stack. For big IT projects, this specialist adds the capacity you need.</p>
+                        <div class="skills">
+                            <span class="skill">System Integration</span>
+                            <span class="skill">Troubleshooting</span>
+                            <span class="skill">API Setup</span>
+                            <span class="skill">Automation</span>
+                            <span class="skill">Database Work</span>
+                            <span class="skill">Software Config</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <h5>✨ Content Wizard</h5>
+                        <div class="price">$120/mo</div>
+                        <p>Your creative powerhouse. Writes blog posts, creates marketing copy, designs email campaigns, builds presentations, and produces content that converts. Handles all your marketing content needs.</p>
+                        <div class="skills">
+                            <span class="skill">Blog Writing</span>
+                            <span class="skill">Email Campaigns</span>
+                            <span class="skill">Social Content</span>
+                            <span class="skill">Presentations</span>
+                            <span class="skill">Ad Copy</span>
+                            <span class="skill">Landing Pages</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <h5>📊 Analytics Expert</h5>
+                        <div class="price">$120/mo</div>
+                        <p>Your data scientist. Analyzes trends, builds dashboards, creates forecasts, and turns raw data into actionable business intelligence. Makes sense of your numbers so you can make better decisions.</p>
+                        <div class="skills">
+                            <span class="skill">Data Analysis</span>
+                            <span class="skill">Dashboards</span>
+                            <span class="skill">Forecasting</span>
+                            <span class="skill">Reports</span>
+                            <span class="skill">KPI Tracking</span>
+                            <span class="skill">Trend Analysis</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <h5>📋 Super Staffer</h5>
+                        <div class="price">$80/mo</div>
+                        <p>Your administrative backbone. Handles scheduling, research, data entry, document processing, and all the tasks that eat up your day. The most affordable way to add capacity to your team.</p>
+                        <div class="skills">
+                            <span class="skill">Scheduling</span>
+                            <span class="skill">Research</span>
+                            <span class="skill">Data Entry</span>
+                            <span class="skill">Document Processing</span>
+                            <span class="skill">Filing & Organization</span>
+                            <span class="skill">Follow-ups</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Connectivity -->
+                <div class="submenu-header" onclick="toggleSubmenu(this)">
+                    <h4>Connectivity</h4>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="submenu-content">
+                    <div class="menu-item">
+                        <h5>📞 Dedicated Phone Line</h5>
+                        <div class="price">$100/mo</div>
+                        <p>Your own private phone number answered by Stewart. Inbound and outbound calls, voicemail, SMS—all handled professionally 24/7.</p>
+                    </div>
+                    <div class="menu-item">
+                        <h5>🖥️ Dedicated Server</h5>
+                        <div class="price">$200/mo</div>
+                        <p>Private infrastructure for your Stewart instance. Enhanced performance, data isolation, and priority processing for demanding workloads.</p>
+                    </div>
+                </div>
+                
+                <!-- Hardware -->
+                <div class="submenu-header" onclick="toggleSubmenu(this)">
+                    <h4>Hardware</h4>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="submenu-content">
+                    <div class="menu-item">
+                        <h5>📦 StewBox Lite</h5>
+                        <div class="price">$1,500 one-time</div>
+                        <p>Your personal AI workstation. Mac Mini-based terminal pre-configured with Stewart. Runs locally for maximum privacy and speed. Perfect for individuals and small teams.</p>
+                    </div>
+                    <div class="menu-item">
+                        <h5>🚀 StewBox Ultra</h5>
+                        <div class="price">$7,500 one-time</div>
+                        <p>Enterprise-grade AI powerhouse. M3 Ultra chip with 256GB unified memory. Run the largest AI models locally. For organizations that need maximum capability and complete data sovereignty.</p>
+                    </div>
+                    <div class="menu-item">
+                        <h5>🛠️ StewBox Support</h5>
+                        <div class="price">$300/mo</div>
+                        <p>White-glove hardware support. Remote monitoring, automatic updates, priority repairs, and direct access to our technical team for your StewBox installation.</p>
+                    </div>
+                </div>
+                
+            </div>
         </div>
+        
+        <a href="/voice/" class="menu-link">Try Voice Demo</a>
+        <a href="/terms/" class="menu-link">Terms of Service</a>
+        <a href="/privacy/" class="menu-link">Privacy Policy</a>
     </nav>
     
-    <div class="mobile-nav" id="mobileNav">
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#stewbox">StewBox</a>
-        <a href="#pricing">Pricing</a>
-        <a href="/voice/">Voice Demo</a>
-        <a href="/login/">Sign In</a>
+    <main class="hero">
+        <img src="/stew-wave.png" alt="Stewart" class="stewart-avatar">
+        <h1>Meet Stewart</h1>
+        <p>Your AI Virtual Executive. Managing your business, handling your tasks, delivering results—24/7.</p>
         <a href="/subscribe/" class="cta-button">Start Free Trial</a>
-    </div>
-    
-    <section class="hero">
-        <div class="stewart-greeting" style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
-            <img src="assets/stewart-avatar.png" alt="Stewart" style="width: 150px; height: auto; filter: drop-shadow(0 0 20px rgba(138, 92, 246, 0.5));">
-            <div>
-                <p style="font-size: 1.5rem; color: #8a5cf6; margin: 0; font-weight: 600;">👋 Hi, I'm Stewart!</p>
-                <p style="color: rgba(255,255,255,0.7); margin: 0.5rem 0 0 0;">Your AI Virtual Executive</p>
-            </div>
-        </div>
-        <h1>Meet Stewart<br>Your AI Virtual Executive</h1>
-        <p>An AI business partner who actually delivers. Managing your operations, handling your tasks, running your business 24/7.</p>
-        <div class="hero-buttons">
-            <a href="/subscribe/" class="cta-button">Start 14-Day Free Trial</a>
-            <a href="#voice-trial" class="secondary-button">🎙️ Hear Stewart</a>
-            <a href="#demo" class="secondary-button">▶️ Watch Video</a>
-        </div>
-    </section>
-    
-    <!-- Voice Trial -->
-    <section class="voice-trial" id="voice-trial">
-        <h2>🎙️ Talk to Stewart Now</h2>
-        <p>Experience Stewart's voice before you sign up</p>
-        <div class="voice-container">
-            <div class="voice-card">
-                <div class="icon">📞</div>
-                <h3>Call Stewart</h3>
-                <p>Have a real conversation with Stewart right now</p>
-                <a href="tel:+16516773041" class="cta-button">Call (651) 677-3041</a>
-            </div>
-            <div class="voice-card">
-                <div class="icon">🔊</div>
-                <h3>Listen First</h3>
-                <p>Hear a sample of Stewart's voice</p>
-                <div class="tier-badge">🎁 60-second sample</div>
-                <button id="demoPlayBtn" onclick="playDemo()">▶️ Play Sample</button>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Video -->
-    <section class="video-section" id="demo">
-        <h2>See Stewart in Action</h2>
-        <p>Watch how Stewart handles real business tasks</p>
-        <div class="video-container">
-            <video controls poster="">
-                <source src="/assets/stewart-commercial.mp4" type="video/mp4">
-                Your browser doesn't support video.
-            </video>
-        </div>
-    </section>
-    
-    <!-- About -->
-    <section class="about" id="about">
-        <h2>Who is Stewart?</h2>
-        <div class="about-content">
-            <p>Stewart is an AI virtual executive—not a chatbot, not a simple assistant. Stewart is a business partner with genuine business acumen, technical skills, and the ability to actually execute.</p>
-            <p>Built on intensive training for productivity, Stewart understands context, priorities, and how businesses actually work. Whether you're by the pool, in a parking lot, dealing with a grill fire, or putting kids to bed—Stewart is handling the business.</p>
-            <p><strong>We do one thing: create value through virtual staff members.</strong></p>
-            <a href="/subscribe/" class="cta-button">Start Your 14-Day Free Trial</a>
-        </div>
-    </section>
-    
-    <!-- Features -->
-    <section class="features" id="features">
-        <h2>What Stewart Does</h2>
-        <p class="features-subtitle">One AI that handles your business operations</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>🎙️ Voice & Communication</h3>
-                <p>Handles calls, texts, and emails with your company's voice. Professional 24/7.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📅 Schedule & Coordinate</h3>
-                <p>Manages calendars, meetings, follow-ups. Never miss an appointment.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📋 Project Management</h3>
-                <p>Tracks tasks, deadlines, and deliverables. Keeps projects moving.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📊 Data & Reports</h3>
-                <p>Analyzes data, generates reports, surfaces insights you can act on.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🔧 Build & Connect</h3>
-                <p>Systems integration, automation, technical execution without the headaches.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🎨 Design & Content</h3>
-                <p>Creates visuals, documents, presentations. Professional quality on demand.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- StewBox -->
-    <section class="stewbox" id="stewbox">
-        <h2>StewBox</h2>
-        <p class="stewbox-subtitle">Your personal AI workstation—Stewart on dedicated hardware</p>
-        <div class="stewbox-grid">
-            <div class="stewbox-card">
-                <h3>StewBox Lite</h3>
-                <div class="price">$1,500</div>
-                <ul>
-                    <li>Mac Mini-based terminal</li>
-                    <li>Stewart pre-configured</li>
-                    <li>Dedicated processing</li>
-                    <li>Private, on-premise AI</li>
-                    <li>Plug-and-play setup</li>
-                </ul>
-                <span class="coming-soon">Coming Soon</span>
-            </div>
-            <div class="stewbox-card">
-                <h3>StewBox Ultra</h3>
-                <div class="price">$7,500</div>
-                <ul>
-                    <li>M3 Ultra chip</li>
-                    <li>256GB unified memory</li>
-                    <li>Run large AI models locally</li>
-                    <li>Maximum performance</li>
-                    <li>Enterprise-grade power</li>
-                </ul>
-                <span class="coming-soon">Coming Soon</span>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Pricing -->
-    <section class="pricing" id="pricing">
-        <h2>Simple Pricing</h2>
-        <p class="pricing-subtitle">Start with Stewart, add specialists as you need them</p>
-        
-        <div class="pricing-base">
-            <h3>Virtual Executive</h3>
-            <div class="price">$199<span>/mo</span></div>
-            <p>Your AI virtual executive. Manages operations, coordinates tasks, runs your business 24/7.</p>
-            <div class="promo">
-                <strong>Launch Special:</strong> Use code <strong>90for$99</strong> for first 90 days at $99/mo
-            </div>
-            <a href="/subscribe/" class="cta-button">Start 14-Day Free Trial</a>
-        </div>
-        
-        <h3 class="addons-title">Add Specialists As You Grow</h3>
-        
-        <div class="addons-grid">
-            <div class="addon-card">
-                <div><h4>Super Staffer</h4><p>Scheduling, coordination</p></div>
-                <span class="addon-price">$80/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Industry Add-On</h4><p>Real estate, healthcare, legal</p></div>
-                <span class="addon-price">$100/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Dedicated Phone</h4><p>Your own business number</p></div>
-                <span class="addon-price">$100/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Brand Ambassador</h4><p>Advanced call handling</p></div>
-                <span class="addon-price">$120/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Tech Guru</h4><p>Development & integrations</p></div>
-                <span class="addon-price">$120/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Content Wizard</h4><p>Visuals, branding, content</p></div>
-                <span class="addon-price">$120/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Analytics Expert</h4><p>Reports, data, insights</p></div>
-                <span class="addon-price">$120/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>Dedicated Server</h4><p>Priority processing power</p></div>
-                <span class="addon-price">$200/mo</span>
-            </div>
-            <div class="addon-card">
-                <div><h4>StewBox Support</h4><p>Hardware terminal support</p></div>
-                <span class="addon-price">$300/mo</span>
-            </div>
-        </div>
-    </section>
+        <div class="phone-link">Or call Stewart directly: <a href="tel:+18055564204">(805) 556-4204</a></div>
+    </main>
     
     <footer>
-        <p>&copy; 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
-        <p>We do one thing: create value through virtual staff members.</p>
+        <p>© 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
     </footer>
     
     <script>
-        let demoAudio = null;
-        
-        async function playDemo() {
-            const btn = document.getElementById('demoPlayBtn');
-            
-            if (demoAudio && !demoAudio.paused) {
-                demoAudio.pause();
-                demoAudio.currentTime = 0;
-                btn.textContent = '▶️ Play Sample';
-                return;
-            }
-            
-            btn.textContent = '⏳ Loading...';
-            
-            try {
-                // Use cached audio file
-                demoAudio = new Audio('/assets/stewart-intro.mp3');
-                demoAudio.play();
-                btn.textContent = '⏸️ Stop';
-                
-                demoAudio.onended = () => {
-                    btn.textContent = '▶️ Play Sample';
-                };
-            } catch (err) {
-                btn.textContent = '▶️ Play Sample';
-                alert('Unable to play sample. Call (651) 677-3041 to hear Stewart live!');
-            }
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.querySelector('.slide-menu').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
         }
-    </script>
-
-    <script>
-        function toggleMobileNav() {
-            document.getElementById('mobileNav').classList.toggle('active');
+        
+        function toggleSection(el) {
+            el.classList.toggle('expanded');
+            el.nextElementSibling.classList.toggle('expanded');
+        }
+        
+        function toggleSubmenu(el) {
+            el.classList.toggle('expanded');
+            el.nextElementSibling.classList.toggle('expanded');
         }
     </script>
 </body>
