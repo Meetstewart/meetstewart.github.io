@@ -47,6 +47,61 @@
         /* Back link */
         .back-link { display: inline-block; margin-bottom: 2rem; color: #667eea; text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
+    
+        /* Hamburger */
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #c9a227;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+        /* Slide Menu */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            max-width: 90vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
+            z-index: 999;
+            transition: right 0.4s ease;
+            padding: 100px 30px 40px;
+            overflow-y: auto;
+        }
+        .slide-menu.active { right: 0; }
+        .menu-link {
+            display: block;
+            padding: 18px 0;
+            color: #e0e0e0;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: color 0.2s;
+            font-size: 1.05rem;
+        }
+        .menu-link:hover { color: #c9a227; }
+        .menu-link.highlight { color: #c9a227; font-weight: 600; }
+        .menu-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .nav-links { display: none; }
+
     </style>
 </head>
 <body>
@@ -57,6 +112,17 @@
             <h1>Meet Your AI Team</h1>
             <p>Stewart isn't just one agent—it's a coordinated team of specialized AI assistants, each expert in their domain.</p>
         </header>
+    <!-- Slide Menu -->
+    <nav class="slide-menu">
+        <a href="/" class="menu-link highlight">Home</a>
+        <a href="/plans/" class="menu-link">Plans & Pricing</a>
+        <a href="/agents/" class="menu-link">Meet the Agents</a>
+        <a href="/hardware/" class="menu-link">StewBox Hardware</a>
+        <div class="menu-section-title">For Existing Users</div>
+        <a href="/dashboard/" class="menu-link">Dashboard</a>
+        <a href="tel:+18055564204" class="menu-link">📞 Call Stewart</a>
+    </nav>
+
         
         <nav>
             <a href="#executive">Executive</a>
@@ -248,5 +314,12 @@
             <a href="/subscribe/" class="cta-btn">Start Free Trial</a>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.querySelector('.slide-menu').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
