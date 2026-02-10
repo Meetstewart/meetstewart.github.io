@@ -13,14 +13,8 @@
             color: #fff;
             padding: 40px 20px;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .container { max-width: 700px; margin: 0 auto; }
+        .logo { text-align: center; margin-bottom: 30px; }
         .logo h1 {
             font-size: 2.5rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -35,14 +29,14 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .plan-selector {
-            display: flex;
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
         .plan-option {
-            flex: 1;
-            padding: 20px;
+            padding: 20px 15px;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 12px;
             cursor: pointer;
@@ -53,10 +47,23 @@
             border-color: #667eea;
             background: rgba(102, 126, 234, 0.1);
         }
-        .plan-option h3 { font-size: 1.1rem; margin-bottom: 8px; }
-        .plan-option .price { font-size: 1.8rem; font-weight: bold; color: #667eea; }
-        .plan-option .period { font-size: 0.9rem; opacity: 0.7; }
-        .plan-option .details { font-size: 0.8rem; opacity: 0.6; margin-top: 8px; }
+        .plan-option h3 { font-size: 1rem; margin-bottom: 8px; }
+        .plan-option .price { font-size: 1.6rem; font-weight: bold; color: #667eea; }
+        .plan-option .period { font-size: 0.85rem; opacity: 0.7; }
+        .plan-option .details { font-size: 0.75rem; opacity: 0.6; margin-top: 8px; line-height: 1.4; }
+        .plan-option.featured { border-color: #667eea; position: relative; }
+        .plan-option.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
         
         .disclosure-box {
             background: rgba(255,255,255,0.08);
@@ -67,35 +74,14 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        .disclosure-box h4 {
-            color: #667eea;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-        }
-        .disclosure-box ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        .disclosure-box li {
-            margin-bottom: 8px;
-        }
-        .disclosure-box .price-highlight {
-            font-weight: bold;
-            color: #fff;
-            font-size: 1.05rem;
-        }
+        .disclosure-box h4 { color: #667eea; margin-bottom: 12px; font-size: 1.1rem; }
+        .disclosure-box ul { margin-left: 20px; margin-bottom: 15px; }
+        .disclosure-box li { margin-bottom: 8px; }
+        .disclosure-box .price-highlight { font-weight: bold; color: #fff; font-size: 1.05rem; }
         
         .form-group { margin-bottom: 20px; }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        textarea {
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.9; }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
             width: 100%;
             padding: 14px;
             border: 1px solid rgba(255,255,255,0.2);
@@ -104,14 +90,8 @@
             color: #fff;
             font-size: 1rem;
         }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
+        textarea { resize: vertical; min-height: 80px; }
         
         .consent-section {
             background: rgba(255,255,255,0.05);
@@ -119,26 +99,10 @@
             padding: 20px;
             margin-bottom: 25px;
         }
-        .consent-checkbox {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            cursor: pointer;
-        }
-        .consent-checkbox input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            margin-top: 2px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .consent-checkbox span {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        .consent-checkbox a {
-            color: #667eea;
-        }
+        .consent-checkbox { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+        .consent-checkbox input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+        .consent-checkbox span { font-size: 0.9rem; line-height: 1.5; }
+        .consent-checkbox a { color: #667eea; }
         
         .submit-btn {
             width: 100%;
@@ -152,58 +116,17 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .trial-badge {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 12px;
-            background: rgba(102, 126, 234, 0.2);
-            border-radius: 8px;
-        }
+        .trial-badge { text-align: center; margin-bottom: 20px; padding: 12px; background: rgba(102, 126, 234, 0.2); border-radius: 8px; }
         .trial-badge strong { color: #667eea; }
+        .note { text-align: center; margin-top: 20px; font-size: 0.85rem; opacity: 0.7; }
+        .links { text-align: center; margin-top: 25px; font-size: 0.9rem; }
+        .links a { color: #667eea; margin: 0 10px; }
         
-        .note {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-        
-        .success-msg {
-            background: rgba(46, 213, 115, 0.2);
-            border: 1px solid #2ed573;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            display: none;
-        }
-        .success-msg h3 {
-            color: #2ed573;
-            margin-bottom: 10px;
-        }
-        
-        .links {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.9rem;
-        }
-        .links a {
-            color: #667eea;
-            margin: 0 10px;
-        }
-        
-        @media (max-width: 500px) {
-            .plan-selector {
-                flex-direction: column;
-            }
+        @media (max-width: 600px) {
+            .plan-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -219,18 +142,30 @@
                 <strong>14-Day Free Trial</strong> — We'll reach out to set up your account
             </div>
             
-            <div class="plan-selector">
-                <div class="plan-option selected" data-plan="solo" data-price="500">
-                    <h3>Solo</h3>
-                    <div class="price">$500</div>
+            <div class="plan-grid">
+                <div class="plan-option" data-plan="dedicated-phone" data-price="99">
+                    <h3>Dedicated Phone</h3>
+                    <div class="price">$99</div>
                     <div class="period">/month</div>
-                    <div class="details">Stewart + VM Access</div>
+                    <div class="details">500 minutes included</div>
                 </div>
-                <div class="plan-option" data-plan="dream-team" data-price="2000">
-                    <h3>Dream Team</h3>
-                    <div class="price">$2,000</div>
+                <div class="plan-option" data-plan="super-staffer" data-price="199">
+                    <h3>Super Staffer</h3>
+                    <div class="price">$199</div>
                     <div class="period">/month</div>
-                    <div class="details">Stewart + 4 Specialists</div>
+                    <div class="details">AI assistant basics</div>
+                </div>
+                <div class="plan-option" data-plan="specialist" data-price="249">
+                    <h3>Specialist</h3>
+                    <div class="price">$249</div>
+                    <div class="period">/month</div>
+                    <div class="details">Domain expertise</div>
+                </div>
+                <div class="plan-option featured selected" data-plan="virtual-executive" data-price="299">
+                    <h3>Virtual Executive</h3>
+                    <div class="price">$299</div>
+                    <div class="period">/month</div>
+                    <div class="details">Fully customizable dashboard</div>
                 </div>
             </div>
             
@@ -239,20 +174,14 @@
                 <ul>
                     <li>Our team will contact you within <strong>24 hours</strong> to set up your Stewart.</li>
                     <li>Your <strong>14-day free trial</strong> begins once your account is active.</li>
-                    <li>After the trial, you'll be charged <span class="price-highlight" id="disclosure-price">$500/month</span> until you cancel.</li>
+                    <li>After the trial, you'll be charged <span class="price-highlight" id="disclosure-price">$299/month</span> until you cancel.</li>
                     <li><strong>Cancel anytime</strong> — no commitment, no hassle.</li>
                 </ul>
             </div>
             
-            <div class="success-msg" id="success-msg">
-                <h3>🎉 You're In!</h3>
-                <p>We'll reach out within 24 hours to get your Stewart set up.</p>
-                <p style="margin-top: 15px; opacity: 0.7;">Check your email for confirmation.</p>
-            </div>
-            
             <form id="signup-form" action="https://formspree.io/f/xwpkgqvn" method="POST">
-                <input type="hidden" name="plan" id="plan-input" value="solo">
-                <input type="hidden" name="price" id="price-input" value="500">
+                <input type="hidden" name="plan" id="plan-input" value="virtual-executive">
+                <input type="hidden" name="price" id="price-input" value="299">
                 
                 <div class="form-group">
                     <label>Full Name *</label>
@@ -292,7 +221,7 @@
                             I agree to the <a href="/terms" target="_blank">Terms of Service</a> and 
                             <a href="/privacy" target="_blank">Privacy Policy</a>. I understand that after my 
                             <strong>14-day free trial</strong>, I will be charged 
-                            <strong id="consent-price">$500/month</strong> until I cancel.
+                            <strong id="consent-price">$299/month</strong> until I cancel.
                         </span>
                     </label>
                 </div>
@@ -315,9 +244,8 @@
     </div>
     
     <script>
-        // Plan selection
-        let selectedPlan = 'solo';
-        let selectedPrice = 500;
+        let selectedPlan = 'virtual-executive';
+        let selectedPrice = 299;
         
         document.querySelectorAll('.plan-option').forEach(option => {
             option.addEventListener('click', () => {
@@ -337,7 +265,6 @@
             document.getElementById('price-input').value = selectedPrice;
         }
         
-        // Enable submit when checkbox is checked
         const consentCheckbox = document.getElementById('consent-checkbox');
         const submitBtn = document.getElementById('submit-btn');
         
@@ -345,47 +272,22 @@
             submitBtn.disabled = !consentCheckbox.checked;
         });
         
-        // Handle form submission
         document.getElementById('signup-form').addEventListener('submit', function(e) {
-            e.preventDefault();
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Continuing to plan selection...';
-            
-            // Store form data in sessionStorage for plan selection
-            const formData = {
-                first_name: document.getElementById('first_name').value,
-                last_name: document.getElementById('last_name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                company: document.getElementById('company')?.value || '',
-                use_case: document.getElementById('use_case')?.value || '',
-                promo: promoApplied ? '90for$99' : ''
-            };
-            sessionStorage.setItem('stewartSignup', JSON.stringify(formData));
-            
-            // Redirect to plan selection
-            setTimeout(() => {
-                window.location.href = '/plans/';
-            }, 500);
+            submitBtn.textContent = 'Submitting...';
         });
-
         
-        // Promo code handling
         const promoInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
-        let promoApplied = false;
         
         promoInput.addEventListener('blur', function() {
             const code = this.value.trim().toLowerCase();
             if (code === '90for$99' || code === '90for99') {
                 promoMessage.innerHTML = '✅ <span style="color: #2ed573;">Promo applied! First 90 days at $99/month</span>';
-                promoApplied = true;
             } else if (code !== '') {
                 promoMessage.innerHTML = '<span style="color: #ff6b6b;">Invalid promo code</span>';
-                promoApplied = false;
             } else {
                 promoMessage.innerHTML = '';
-                promoApplied = false;
             }
         });
     </script>
