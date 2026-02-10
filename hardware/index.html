@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StewBox Hardware - Stewart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #c9a227;
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #c9a227; }
+
+        .page-header {
+            padding: 140px 20px 60px;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, #c9a227 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p {
+            color: #888;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hardware-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .product-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,162,39,0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .product-card { grid-template-columns: 1fr; }
+        }
+        .product-card.featured {
+            border-color: #c9a227;
+            background: linear-gradient(135deg, rgba(201,162,39,0.08) 0%, rgba(201,162,39,0.02) 100%);
+        }
+        .product-image {
+            text-align: center;
+        }
+        .product-image img {
+            max-width: 250px;
+            border-radius: 12px;
+        }
+        .product-image .icon {
+            font-size: 8rem;
+        }
+        .product-details h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .product-details .price {
+            color: #4ade80;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .product-details .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #888;
+        }
+        .product-details p {
+            color: #aaa;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .spec {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            border-radius: 10px;
+        }
+        .spec-label {
+            color: #888;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .spec-value {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .product-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #c9a227 0%, #a88620 100%);
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .product-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(201,162,39,0.4);
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        .features-list li {
+            color: #aaa;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .features-list li::before {
+            content: "✓";
+            color: #c9a227;
+            font-weight: bold;
+        }
+
+        .comparison-section {
+            margin-top: 80px;
+        }
+        .comparison-section h2 {
+            color: #c9a227;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .comparison-table th {
+            background: rgba(201,162,39,0.1);
+            color: #c9a227;
+            font-weight: 600;
+        }
+        .comparison-table td {
+            color: #aaa;
+        }
+        .comparison-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(201,162,39,0.1);
+        }
+        footer a { color: #c9a227; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">Stewart</a>
+        <nav class="nav-links">
+            <a href="/agents/">Team</a>
+            <a href="/plans/">Pricing</a>
+            <a href="/hardware/">Hardware</a>
+            <a href="/login/">Sign In</a>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>StewBox Hardware</h1>
+        <p>Run Stewart locally on dedicated hardware. Maximum privacy, speed, and complete data sovereignty.</p>
+    </div>
+
+    <main class="hardware-section">
+        <!-- StewBox Lite -->
+        <div class="product-card">
+            <div class="product-image">
+                <div class="icon">📦</div>
+            </div>
+            <div class="product-details">
+                <h2>StewBox Lite</h2>
+                <div class="price">$1,500 <span>one-time</span></div>
+                <p>Your personal AI workstation. Mac Mini-based terminal pre-configured with Stewart. Runs locally for maximum privacy and speed. Perfect for individuals and small teams who want a dedicated Stewart presence.</p>
+                <div class="specs-grid">
+                    <div class="spec">
+                        <div class="spec-label">Processor</div>
+                        <div class="spec-value">Apple M4</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Memory</div>
+                        <div class="spec-value">24GB Unified</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Storage</div>
+                        <div class="spec-value">512GB SSD</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Models</div>
+                        <div class="spec-value">7B-13B local</div>
+                    </div>
+                </div>
+                <ul class="features-list">
+                    <li>Pre-installed Stewart software</li>
+                    <li>Local AI inference (no cloud required)</li>
+                    <li>Voice-enabled with premium speaker</li>
+                    <li>1-year hardware warranty</li>
+                </ul>
+                <a href="/subscribe/?hardware=lite" class="product-cta">Order StewBox Lite</a>
+            </div>
+        </div>
+
+        <!-- StewBox Ultra -->
+        <div class="product-card featured">
+            <div class="product-image">
+                <div class="icon">🚀</div>
+            </div>
+            <div class="product-details">
+                <h2>StewBox Ultra</h2>
+                <div class="price">$7,500 <span>one-time</span></div>
+                <p>Enterprise-grade AI powerhouse. Mac Studio with M3 Ultra chip and 256GB unified memory. Run the largest AI models locally—70B+ parameters with full context windows. For organizations that need maximum capability and complete data sovereignty.</p>
+                <div class="specs-grid">
+                    <div class="spec">
+                        <div class="spec-label">Processor</div>
+                        <div class="spec-value">Apple M3 Ultra</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Memory</div>
+                        <div class="spec-value">256GB Unified</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Storage</div>
+                        <div class="spec-value">2TB SSD</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Models</div>
+                        <div class="spec-value">Up to 70B+ local</div>
+                    </div>
+                </div>
+                <ul class="features-list">
+                    <li>Run Llama 3 70B, Mixtral, and more locally</li>
+                    <li>Multi-agent orchestration on one box</li>
+                    <li>Enterprise data isolation</li>
+                    <li>On-site installation included</li>
+                    <li>2-year hardware warranty</li>
+                </ul>
+                <a href="/subscribe/?hardware=ultra" class="product-cta">Order StewBox Ultra</a>
+            </div>
+        </div>
+
+        <!-- Support Plan -->
+        <div class="product-card">
+            <div class="product-image">
+                <div class="icon">🛠️</div>
+            </div>
+            <div class="product-details">
+                <h2>StewBox Support</h2>
+                <div class="price">$300 <span>/month</span></div>
+                <p>White-glove hardware support for your StewBox installation. Remote monitoring, automatic updates, priority repairs, and direct access to our technical team.</p>
+                <ul class="features-list">
+                    <li>24/7 remote monitoring</li>
+                    <li>Automatic software updates</li>
+                    <li>Priority hardware repairs</li>
+                    <li>Direct technical support line</li>
+                    <li>Annual on-site checkup</li>
+                    <li>Loaner unit during repairs</li>
+                </ul>
+                <a href="/subscribe/?support=stewbox" class="product-cta">Add Support Plan</a>
+            </div>
+        </div>
+
+        <!-- Comparison -->
+        <div class="comparison-section">
+            <h2>Compare StewBox Models</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>StewBox Lite</th>
+                    <th>StewBox Ultra</th>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>$1,500</td>
+                    <td>$7,500</td>
+                </tr>
+                <tr>
+                    <td>Processor</td>
+                    <td>M4</td>
+                    <td>M3 Ultra</td>
+                </tr>
+                <tr>
+                    <td>Memory</td>
+                    <td>24GB</td>
+                    <td>256GB</td>
+                </tr>
+                <tr>
+                    <td>Local Model Size</td>
+                    <td>Up to 13B</td>
+                    <td>Up to 70B+</td>
+                </tr>
+                <tr>
+                    <td>Concurrent Agents</td>
+                    <td>1-2</td>
+                    <td>5+</td>
+                </tr>
+                <tr>
+                    <td>Best For</td>
+                    <td>Individuals & small teams</td>
+                    <td>Enterprises & power users</td>
+                </tr>
+                <tr>
+                    <td>Warranty</td>
+                    <td>1 year</td>
+                    <td>2 years</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
+    </footer>
+</body>
+</html>
