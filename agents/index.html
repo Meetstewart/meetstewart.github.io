@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stewart Agents - Your AI Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); color: #fff; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        /* Header */
+        header { text-align: center; padding: 4rem 0 3rem; }
+        header h1 { font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { font-size: 1.25rem; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+        
+        /* Navigation */
+        nav { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        nav a { padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.1); border-radius: 2rem; color: #fff; text-decoration: none; transition: all 0.3s; }
+        nav a:hover { background: rgba(102, 126, 234, 0.3); transform: translateY(-2px); }
+        
+        /* Agent Sections */
+        .agent-section { background: rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 3rem; margin-bottom: 3rem; border: 1px solid rgba(255,255,255,0.1); scroll-margin-top: 2rem; }
+        .agent-section h2 { font-size: 2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+        .agent-section h2 .icon { font-size: 2.5rem; }
+        .agent-section .subtitle { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; }
+        
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .feature { background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 1rem; }
+        .feature h3 { color: #667eea; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .feature p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        
+        .use-cases { margin-top: 2rem; }
+        .use-cases h3 { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .use-cases ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .use-cases li { background: rgba(102, 126, 234, 0.2); padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta { text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2)); border-radius: 1.5rem; margin-top: 2rem; }
+        .cta h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta p { color: #94a3b8; margin-bottom: 2rem; }
+        .cta-btn { display: inline-block; padding: 1rem 2.5rem; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; text-decoration: none; border-radius: 2rem; font-weight: 600; transition: all 0.3s; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+        
+        /* Back link */
+        .back-link { display: inline-block; margin-bottom: 2rem; color: #667eea; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <header>
+            <h1>Meet Your AI Team</h1>
+            <p>Stewart isn't just one agent—it's a coordinated team of specialized AI assistants, each expert in their domain.</p>
+        </header>
+        
+        <nav>
+            <a href="#executive">Executive</a>
+            <a href="#analytics">Analytics</a>
+            <a href="#content">Content</a>
+            <a href="#tech">Tech</a>
+            <a href="#voice">Voice</a>
+        </nav>
+        
+        <!-- Virtual Executive -->
+        <section id="executive" class="agent-section">
+            <h2><span class="icon">🧠</span> Virtual Executive</h2>
+            <p class="subtitle">Your AI chief of staff. Strategic thinking, project coordination, and executive-level decision support.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Project Management</h3>
+                    <p>Coordinates complex projects across teams. Tracks milestones, identifies blockers, and keeps everything on schedule.</p>
+                </div>
+                <div class="feature">
+                    <h3>Communication Hub</h3>
+                    <p>Manages your inbox, prioritizes messages, drafts responses, and ensures nothing falls through the cracks.</p>
+                </div>
+                <div class="feature">
+                    <h3>Strategic Planning</h3>
+                    <p>Helps analyze options, prepare presentations, and think through business decisions with data-driven insights.</p>
+                </div>
+                <div class="feature">
+                    <h3>Calendar & Scheduling</h3>
+                    <p>Optimizes your time. Schedules meetings, blocks focus time, and coordinates across time zones.</p>
+                </div>
+            </div>
+            
+            <div class="use-cases">
+                <h3>Perfect for</h3>
+                <ul>
+                    <li>CEOs & Founders</li>
+                    <li>Operations Leaders</li>
+                    <li>Busy Executives</li>
+                    <li>Project Managers</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Data & Analytics -->
+        <section id="analytics" class="agent-section">
+            <h2><span class="icon">📊</span> Data & Analytics</h2>
+            <p class="subtitle">Transform raw data into actionable intelligence. Dashboards, forecasts, and insights that drive decisions.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Real-Time Dashboards</h3>
+                    <p>Live visualizations of your key metrics. Sales, operations, finance—all in one place, always current.</p>
+                </div>
+                <div class="feature">
+                    <h3>Predictive Analytics</h3>
+                    <p>Forecast trends, identify patterns, and anticipate problems before they happen.</p>
+                </div>
+                <div class="feature">
+                    <h3>Cash Flow Intelligence</h3>
+                    <p>Track every dollar in and out. Predict low points, optimize timing, never get caught off guard.</p>
+                </div>
+                <div class="feature">
+                    <h3>Custom Reports</h3>
+                    <p>Generate reports on demand. Weekly summaries, investor updates, board presentations—formatted and ready.</p>
+                </div>
+            </div>
+            
+            <div class="use-cases">
+                <h3>Perfect for</h3>
+                <ul>
+                    <li>CFOs & Finance Teams</li>
+                    <li>Data-Driven Leaders</li>
+                    <li>Sales Operations</li>
+                    <li>Business Analysts</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Content & Marketing -->
+        <section id="content" class="agent-section">
+            <h2><span class="icon">✨</span> Content & Marketing</h2>
+            <p class="subtitle">Blog posts, emails, social media, presentations—compelling content created on demand.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Blog & Articles</h3>
+                    <p>SEO-optimized content in your brand voice. Research, write, edit—publish-ready pieces in minutes.</p>
+                </div>
+                <div class="feature">
+                    <h3>Email Campaigns</h3>
+                    <p>Newsletters, drip sequences, promotional emails. Compelling copy that converts.</p>
+                </div>
+                <div class="feature">
+                    <h3>Social Media</h3>
+                    <p>Platform-native content for LinkedIn, Twitter, Instagram. Consistent posting, engaged audience.</p>
+                </div>
+                <div class="feature">
+                    <h3>Presentations</h3>
+                    <p>Pitch decks, sales presentations, training materials. Professional, polished, persuasive.</p>
+                </div>
+            </div>
+            
+            <div class="use-cases">
+                <h3>Perfect for</h3>
+                <ul>
+                    <li>Marketing Teams</li>
+                    <li>Content Creators</li>
+                    <li>Founders & Sales</li>
+                    <li>Agencies</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Tech & Integrations -->
+        <section id="tech" class="agent-section">
+            <h2><span class="icon">🔧</span> Tech & Integrations</h2>
+            <p class="subtitle">Connect your tools, automate workflows, and extend Stewart's capabilities to any system.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>API Integrations</h3>
+                    <p>Connect to any service with an API. CRMs, ERPs, databases, custom tools—Stewart speaks their language.</p>
+                </div>
+                <div class="feature">
+                    <h3>Workflow Automation</h3>
+                    <p>Build complex automations without code. Triggers, conditions, actions—all working in harmony.</p>
+                </div>
+                <div class="feature">
+                    <h3>Database Management</h3>
+                    <p>Query, update, and maintain your data. SQL, NoSQL, spreadsheets—Stewart handles it all.</p>
+                </div>
+                <div class="feature">
+                    <h3>Custom Development</h3>
+                    <p>Scripts, tools, and utilities built to your specs. Python, JavaScript, shell—whatever the job needs.</p>
+                </div>
+            </div>
+            
+            <div class="use-cases">
+                <h3>Perfect for</h3>
+                <ul>
+                    <li>Tech-Forward Teams</li>
+                    <li>Operations Automation</li>
+                    <li>System Administrators</li>
+                    <li>Developers</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Voice & Phone -->
+        <section id="voice" class="agent-section">
+            <h2><span class="icon">🎙️</span> Voice & Phone</h2>
+            <p class="subtitle">Real conversations via phone, text, or chat. Natural interactions that feel human.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Inbound Calls</h3>
+                    <p>Answer calls 24/7. Screen, qualify, schedule, or handle requests—no missed opportunities.</p>
+                </div>
+                <div class="feature">
+                    <h3>Outbound Calls</h3>
+                    <p>Make calls on your behalf. Follow-ups, reminders, confirmations—at scale, with a personal touch.</p>
+                </div>
+                <div class="feature">
+                    <h3>SMS & Chat</h3>
+                    <p>Text-based support and communication. Quick responses, smart routing, complete conversation history.</p>
+                </div>
+                <div class="feature">
+                    <h3>Caller Recognition</h3>
+                    <p>Knows who's calling. Greets contacts by name, recalls history, provides personalized service.</p>
+                </div>
+            </div>
+            
+            <div class="use-cases">
+                <h3>Perfect for</h3>
+                <ul>
+                    <li>Customer Service</li>
+                    <li>Sales Teams</li>
+                    <li>Appointment Booking</li>
+                    <li>After-Hours Support</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- CTA -->
+        <div class="cta">
+            <h2>Ready to Build Your AI Team?</h2>
+            <p>Start with a 14-day free trial. No credit card required.</p>
+            <a href="/subscribe/" class="cta-btn">Start Free Trial</a>
+        </div>
+    </div>
+</body>
+</html>
