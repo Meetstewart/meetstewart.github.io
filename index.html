@@ -14,7 +14,7 @@
             color: #fff;
             min-height: 100vh;
         }
-        
+
         /* Header */
         header {
             position: fixed;
@@ -33,7 +33,7 @@
             font-weight: 700;
             color: #c9a227;
         }
-        
+
         /* Hamburger */
         .hamburger {
             cursor: pointer;
@@ -51,13 +51,13 @@
         .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
-        
-        /* Slide Menu */
+
+        /* Slide Menu - SIMPLIFIED */
         .slide-menu {
             position: fixed;
             top: 0;
-            right: -420px;
-            width: 420px;
+            right: -350px;
+            width: 350px;
             max-width: 90vw;
             height: 100vh;
             background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
@@ -67,130 +67,30 @@
             overflow-y: auto;
         }
         .slide-menu.active { right: 0; }
-        
-        .menu-section {
-            margin-bottom: 20px;
-        }
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(201,162,39,0.2);
-        }
-        .menu-header h3 {
-            color: #c9a227;
-            font-size: 1.1rem;
-        }
-        .menu-header .arrow {
-            color: #c9a227;
-            transition: transform 0.3s;
-        }
-        .menu-header.expanded .arrow { transform: rotate(180deg); }
-        
-        .menu-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-        .menu-content.expanded { max-height: 3000px; }
-        
-        .submenu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            cursor: pointer;
-            background: rgba(201,162,39,0.05);
-            margin: 5px 0;
-            border-radius: 8px;
-        }
-        .submenu-header:hover { background: rgba(201,162,39,0.1); }
-        .submenu-header h4 { color: #e0e0e0; font-size: 0.95rem; }
-        .submenu-header .arrow { color: #888; font-size: 0.8rem; transition: transform 0.3s; }
-        .submenu-header.expanded .arrow { transform: rotate(180deg); }
-        
-        .submenu-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            padding-left: 15px;
-        }
-        .submenu-content.expanded { max-height: 3000px; }
-        
-        /* Agent Cards */
-        .agent-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(201,162,39,0.15);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 10px 0;
-        }
-        .agent-card h5 {
-            color: #c9a227;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        .agent-card .price {
-            color: #4ade80;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        .agent-card p {
-            color: #aaa;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-        .agent-card .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .agent-card .skill {
-            background: rgba(201,162,39,0.15);
-            color: #c9a227;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-        }
-        
-        /* Connectivity & Hardware Items */
-        .menu-item {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(201,162,39,0.15);
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin: 10px 0;
-        }
-        .menu-item h5 {
-            color: #e0e0e0;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-        }
-        .menu-item .price {
-            color: #4ade80;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-        }
-        .menu-item p {
-            color: #888;
-            font-size: 0.8rem;
-            line-height: 1.4;
-        }
-        
-        /* Menu Links */
+
         .menu-link {
             display: block;
-            padding: 15px 0;
+            padding: 18px 0;
             color: #e0e0e0;
             text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             transition: color 0.2s;
+            font-size: 1.05rem;
         }
         .menu-link:hover { color: #c9a227; }
-        
+        .menu-link.highlight {
+            color: #c9a227;
+            font-weight: 600;
+        }
+        .menu-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
         /* Hero */
         .hero {
             min-height: 100vh;
@@ -252,7 +152,59 @@
             text-decoration: none;
         }
         .phone-link a:hover { text-decoration: underline; }
-        
+
+        /* Features Grid */
+        .features {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: #c9a227;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,162,39,0.15);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(201,162,39,0.4);
+            transform: translateY(-5px);
+        }
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .feature-card a {
+            color: #c9a227;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .feature-card a:hover { text-decoration: underline; }
+
         /* Overlay */
         .overlay {
             position: fixed;
@@ -267,7 +219,7 @@
             z-index: 998;
         }
         .overlay.active { opacity: 1; visibility: visible; }
-        
+
         /* Footer */
         footer {
             text-align: center;
@@ -291,162 +243,31 @@
             <span></span>
         </div>
     </header>
-    
+
     <div class="overlay" onclick="toggleMenu()"></div>
-    
+
     <nav class="slide-menu">
-        <a href="/login/" class="menu-link">Sign In</a>
+        <a href="/login/" class="menu-link highlight">Sign In</a>
         
-        <!-- Customize and Expand -->
-        <div class="menu-section">
-            <div class="menu-header" onclick="toggleSection(this)">
-                <h3>Customize and Expand</h3>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="menu-content">
-                
-                <!-- Add Agents -->
-                <div class="submenu-header" onclick="toggleSubmenu(this)">
-                    <h4>Add Agents</h4>
-                    <span class="arrow">▼</span>
-                </div>
-                <div class="submenu-content">
-                    
-                    <div class="agent-card">
-                        <h5>🧠 Virtual Executive</h5>
-                        <div class="price">$199/mo — Always Included</div>
-                        <p>Your AI chief of staff. Coordinates all other agents, manages projects, handles communications, and keeps everything running smoothly. Manages up to 10 staff members—virtual or human.</p>
-                        <div class="skills">
-                            <span class="skill">Project Management</span>
-                            <span class="skill">Team Coordination</span>
-                            <span class="skill">Email & Calendar</span>
-                            <span class="skill">Meeting Prep</span>
-                            <span class="skill">Status Reports</span>
-                            <span class="skill">Workflow Automation</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <h5>🎙️ Brand Ambassador</h5>
-                        <div class="price">$120/mo</div>
-                        <p>Your customer-facing voice. Handles phone calls, responds to messages, manages social media interactions, and represents your brand with consistency. When you need AI handling customer service at scale, this is your specialist.</p>
-                        <div class="skills">
-                            <span class="skill">Phone Calls</span>
-                            <span class="skill">Customer Support</span>
-                            <span class="skill">Social Media</span>
-                            <span class="skill">Live Chat</span>
-                            <span class="skill">Review Responses</span>
-                            <span class="skill">Brand Voice</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <h5>🔧 Tech Guru</h5>
-                        <div class="price">$120/mo</div>
-                        <p>Your IT department in an agent. Handles integrations, troubleshoots technical issues, implements software solutions, and manages your tech stack. For big IT projects, this specialist adds the capacity you need.</p>
-                        <div class="skills">
-                            <span class="skill">System Integration</span>
-                            <span class="skill">Troubleshooting</span>
-                            <span class="skill">API Setup</span>
-                            <span class="skill">Automation</span>
-                            <span class="skill">Database Work</span>
-                            <span class="skill">Software Config</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <h5>✨ Content Wizard</h5>
-                        <div class="price">$120/mo</div>
-                        <p>Your creative powerhouse. Writes blog posts, creates marketing copy, designs email campaigns, builds presentations, and produces content that converts. Handles all your marketing content needs.</p>
-                        <div class="skills">
-                            <span class="skill">Blog Writing</span>
-                            <span class="skill">Email Campaigns</span>
-                            <span class="skill">Social Content</span>
-                            <span class="skill">Presentations</span>
-                            <span class="skill">Ad Copy</span>
-                            <span class="skill">Landing Pages</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <h5>📊 Analytics Expert</h5>
-                        <div class="price">$120/mo</div>
-                        <p>Your data scientist. Analyzes trends, builds dashboards, creates forecasts, and turns raw data into actionable business intelligence. Makes sense of your numbers so you can make better decisions.</p>
-                        <div class="skills">
-                            <span class="skill">Data Analysis</span>
-                            <span class="skill">Dashboards</span>
-                            <span class="skill">Forecasting</span>
-                            <span class="skill">Reports</span>
-                            <span class="skill">KPI Tracking</span>
-                            <span class="skill">Trend Analysis</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <h5>📋 Super Staffer</h5>
-                        <div class="price">$80/mo</div>
-                        <p>Your administrative backbone. Handles scheduling, research, data entry, document processing, and all the tasks that eat up your day. The most affordable way to add capacity to your team.</p>
-                        <div class="skills">
-                            <span class="skill">Scheduling</span>
-                            <span class="skill">Research</span>
-                            <span class="skill">Data Entry</span>
-                            <span class="skill">Document Processing</span>
-                            <span class="skill">Filing & Organization</span>
-                            <span class="skill">Follow-ups</span>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                <!-- Connectivity -->
-                <div class="submenu-header" onclick="toggleSubmenu(this)">
-                    <h4>Connectivity</h4>
-                    <span class="arrow">▼</span>
-                </div>
-                <div class="submenu-content">
-                    <div class="menu-item">
-                        <h5>📞 Dedicated Phone Line</h5>
-                        <div class="price">$100/mo</div>
-                        <p>Your own private phone number answered by Stewart. Inbound and outbound calls, voicemail, SMS—all handled professionally 24/7.</p>
-                    </div>
-                    <div class="menu-item">
-                        <h5>🖥️ Dedicated Server</h5>
-                        <div class="price">$200/mo</div>
-                        <p>Private infrastructure for your Stewart instance. Enhanced performance, data isolation, and priority processing for demanding workloads.</p>
-                    </div>
-                </div>
-                
-                <!-- Hardware -->
-                <div class="submenu-header" onclick="toggleSubmenu(this)">
-                    <h4>Hardware</h4>
-                    <span class="arrow">▼</span>
-                </div>
-                <div class="submenu-content">
-                    <div class="menu-item">
-                        <h5>📦 StewBox Lite</h5>
-                        <div class="price">$1,500 one-time</div>
-                        <p>Your personal AI workstation. Mac Mini-based terminal pre-configured with Stewart. Runs locally for maximum privacy and speed. Perfect for individuals and small teams.</p>
-                    </div>
-                    <div class="menu-item">
-                        <h5>🚀 StewBox Ultra</h5>
-                        <div class="price">$7,500 one-time</div>
-                        <p>Enterprise-grade AI powerhouse. M3 Ultra chip with 256GB unified memory. Run the largest AI models locally. For organizations that need maximum capability and complete data sovereignty.</p>
-                    </div>
-                    <div class="menu-item">
-                        <h5>🛠️ StewBox Support</h5>
-                        <div class="price">$300/mo</div>
-                        <p>White-glove hardware support. Remote monitoring, automatic updates, priority repairs, and direct access to our technical team for your StewBox installation.</p>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
+        <div class="menu-section-title">Explore</div>
+        <a href="/agents/" class="menu-link">Meet the Team</a>
+        <a href="/about/" class="menu-link">How It Works</a>
+        <a href="/results/" class="menu-link">Results & ROI</a>
+        <a href="/training/" class="menu-link">Training & Setup</a>
         
-        <a href="/voice/" class="menu-link">Try Voice Demo</a>
+        <div class="menu-section-title">Products</div>
+        <a href="/plans/" class="menu-link">Plans & Pricing</a>
+        <a href="/hardware/" class="menu-link">StewBox Hardware</a>
+        
+        <div class="menu-section-title">Try It</div>
+        <a href="/voice/" class="menu-link">Voice Demo</a>
+        <a href="/subscribe/" class="menu-link highlight">Start Free Trial</a>
+        
+        <div class="menu-section-title">Legal</div>
         <a href="/terms/" class="menu-link">Terms of Service</a>
         <a href="/privacy/" class="menu-link">Privacy Policy</a>
     </nav>
-    
+
     <main class="hero">
         <img src="/stew-wave.png" alt="Stewart" class="stewart-avatar">
         <h1>Meet Stewart</h1>
@@ -454,26 +275,58 @@
         <a href="/subscribe/" class="cta-button">Start Free Trial</a>
         <div class="phone-link">Or call Stewart directly: <a href="tel:+18055564204">(805) 556-4204</a></div>
     </main>
-    
+
+    <section class="features">
+        <h2>What Stewart Can Do</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🧠</div>
+                <h3>Virtual Executive</h3>
+                <p>Your AI chief of staff. Coordinates projects, manages communications, keeps everything running smoothly.</p>
+                <a href="/agents/#executive">Learn more →</a>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎙️</div>
+                <h3>Voice & Phone</h3>
+                <p>Real conversations via phone or chat. Stewart handles calls, texts, and customer interactions naturally.</p>
+                <a href="/voice/">Try the demo →</a>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Data & Analytics</h3>
+                <p>Turn raw data into actionable insights. Dashboards, forecasts, and intelligence that drives decisions.</p>
+                <a href="/agents/#analytics">See capabilities →</a>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✨</div>
+                <h3>Content & Marketing</h3>
+                <p>Blog posts, emails, social media, presentations—content that converts, created on demand.</p>
+                <a href="/agents/#content">Explore →</a>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔧</div>
+                <h3>Tech & Integrations</h3>
+                <p>Connect your tools, automate workflows, and extend Stewart's capabilities to any system.</p>
+                <a href="/agents/#tech">View integrations →</a>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📦</div>
+                <h3>StewBox Hardware</h3>
+                <p>Run Stewart locally on dedicated hardware. Maximum privacy, speed, and data sovereignty.</p>
+                <a href="/hardware/">See options →</a>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <p>© 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
     </footer>
-    
+
     <script>
         function toggleMenu() {
             document.querySelector('.hamburger').classList.toggle('active');
             document.querySelector('.slide-menu').classList.toggle('active');
             document.querySelector('.overlay').classList.toggle('active');
-        }
-        
-        function toggleSection(el) {
-            el.classList.toggle('expanded');
-            el.nextElementSibling.classList.toggle('expanded');
-        }
-        
-        function toggleSubmenu(el) {
-            el.classList.toggle('expanded');
-            el.nextElementSibling.classList.toggle('expanded');
         }
     </script>
 </body>
