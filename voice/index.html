@@ -414,7 +414,7 @@
             transcript.innerHTML = `<strong>You:</strong> ${text}`;
 
             // Generate response
-            const response = generateResponse(text);
+            const response = await generateResponse(text);
             
             transcript.innerHTML += `<br><br><span class="response-text"><strong>Stewart:</strong> ${response}</span>`;
 
@@ -424,7 +424,7 @@
             resetState();
         }
 
-        function generateResponse(input) {
+        async function generateResponse(input) {
             const lower = input.toLowerCase();
 
             // Greetings
