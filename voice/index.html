@@ -284,6 +284,7 @@
     <script>
         // ElevenLabs API (direct browser call)
         const ELEVENLABS_KEY = 'sk_81c8f52c8f1aa4a93cf720a7b4a025a1a84596bad721c961';
+        const OLLAMA_URL = 'https://ollama.meetstewart.com/api/generate';
         
         // State
         let isListening = false;
@@ -425,47 +426,19 @@
         }
 
         async function generateResponse(input) {
-            const lower = input.toLowerCase();
-
-            // Greetings
-            if (lower.match(/\b(hi|hello|hey|good morning|good afternoon)\b/)) {
-                return "Hello! I'm Stewart, your AI business partner. I handle the work so you can focus on what matters. What can I help you with today?";
+            try {
+                const resp = await fetch(OLLAMA_URL, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({model:"mistral:7b",prompt:input,stream:false})
+                });
+                const data = await resp.json();
+                return data.response || "I could not process that.";
+            } catch(e) {
+                console.error(e);
+                return "Having trouble connecting. Try again.";
             }
-
-            // What can you do
-            if (lower.match(/\b(what can you do|what do you do|how do you work|capabilities|features)\b/)) {
-                return "I'm like having a full team working 24/7. I manage emails, coordinate projects, analyze data, and handle communications. Think of me as your executive assistant, analyst, and project manager rolled into one. What area of your business needs the most help?";
-            }
-
-            // Pricing
-            if (lower.match(/\b(price|cost|how much|pricing|subscription)\b/)) {
-                return "I start at $500 a month, which is like getting a $60,000 a year executive assistant. The Dream Team package gives you me plus five specialists for $2,000 a month. That's six virtual staff members for the price of one junior hire. Would you like to hear more about what each specialist does?";
-            }
-
-            // Team/specialists
-            if (lower.match(/\b(team|specialist|voice|builder|creator|analyst|support)\b/)) {
-                return "My team includes Voice for brand communications, Builder for technical work, Creator for design and content, Analyst for data and efficiency, and Support for coordination. Each one does the work of two humans. Together, we're like having twelve people on your team.";
-            }
-
-            // Trial
-            if (lower.match(/\b(trial|try|free|test)\b/)) {
-                return "You're already experiencing the trial! You've got this 10-minute voice demo, and when you're ready, we offer a 14-day full trial. No commitment, cancel anytime. Your data stays yours. Want me to tell you more about what you'd get in the full trial?";
-            }
-
-            // Business/company
-            if (lower.match(/\b(business|company|startup|entrepreneur)\b/)) {
-                return "I work with businesses of all sizes. From solo entrepreneurs who need their time back, to growing companies that can't hire fast enough. What kind of business are you running?";
-            }
-
-            // Data/privacy
-            if (lower.match(/\b(data|privacy|secure|security|safe)\b/)) {
-                return "Great question. We keep zero client data on our servers. Everything stays in your Dropbox or Google Drive. We never see your credentials. It's zero trust by design. Your data is always in your hands.";
-            }
-
-            // Default conversational
-            return "That's a great point. Tell me more about your situation and I can explain how I'd help. What's taking up most of your time right now?";
         }
-
         async function speakWithElevenLabs(text) {
             voiceCircle.className = 'voice-circle speaking';
             micIcon.textContent = '🔊';
