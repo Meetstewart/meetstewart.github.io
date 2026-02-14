@@ -2,446 +2,339 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stewart - Sign In</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Meet Stewart</title>
+    <link rel="stylesheet" href="css/styles.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
-            color: #fff;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .logo-section {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        
-        .logo {
-            font-size: 48px;
-            margin-bottom: 8px;
-        }
-        
-        .brand {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #d4af37, #f4d03f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .tagline {
-            color: #888;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .auth-container {
+            background: white;
             border-radius: 20px;
-            padding: 32px 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
         }
-        
-        .tabs {
+        .auth-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        .auth-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .auth-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        .auth-tabs {
             display: flex;
-            margin-bottom: 24px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 4px;
+            border-bottom: 1px solid #eee;
         }
-        
-        .tab {
+        .auth-tab {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             text-align: center;
-            border-radius: 10px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            color: #888;
-        }
-        
-        .tab.active {
-            background: linear-gradient(135deg, #d4af37, #b8960c);
-            color: #000;
-        }
-        
-        .form-section {
-            display: none;
-        }
-        
-        .form-section.active {
-            display: block;
-        }
-        
-        .input-group {
-            margin-bottom: 16px;
-        }
-        
-        .input-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #ccc;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .input-group input:focus {
-            outline: none;
-            border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-        }
-        
-        .input-group input::placeholder {
-            color: #666;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
             border: none;
-            border-radius: 12px;
+            background: none;
             font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
+            color: #666;
+            transition: all 0.3s;
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #d4af37, #b8960c);
-            color: #000;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-        }
-        
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .link-row {
-            text-align: center;
-            margin-top: 16px;
-        }
-        
-        .link-row a {
-            color: #d4af37;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .link-row a:hover {
-            text-decoration: underline;
-        }
-        
-        .message {
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .message.error {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #fca5a5;
-        }
-        
-        .message.success {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            color: #86efac;
-        }
-        
-        .consent-section {
-            margin: 20px 0;
-            padding: 16px;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        
-        .consent-section h4 {
-            font-size: 13px;
-            color: #d4af37;
-            margin-bottom: 12px;
+        .auth-tab.active {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
             font-weight: 600;
         }
-        
+        .auth-form {
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
         .checkbox-group {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
-        
         .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            min-width: 18px;
+            width: 20px;
+            height: 20px;
             margin-top: 2px;
-            accent-color: #d4af37;
-            cursor: pointer;
+            flex-shrink: 0;
         }
-        
         .checkbox-group label {
-            font-size: 12px;
-            color: #aaa;
-            cursor: pointer;
-            line-height: 1.4;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
         }
-        
         .checkbox-group label a {
-            color: #d4af37;
-            text-decoration: none;
+            color: #3498db;
         }
-        
-        .checkbox-group label a:hover {
-            text-decoration: underline;
-        }
-        
-        .checkbox-group label strong {
-            color: #ccc;
-        }
-        
-        .data-notice {
+        .sms-data-notice {
             font-size: 11px;
-            color: #4ade80;
-            padding: 8px 12px;
-            background: rgba(74, 222, 128, 0.1);
-            border-radius: 6px;
-            margin-top: 12px;
-        }
-        
-        footer {
-            margin-top: 32px;
-            text-align: center;
-        }
-        
-        footer a {
             color: #666;
-            text-decoration: none;
-            font-size: 12px;
-            margin: 0 12px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #dee2e6;
         }
-        
-        footer a:hover {
-            color: #d4af37;
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .auth-footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 14px;
+        }
+        .auth-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .error-message {
+            background: #ffe6e6;
+            color: #d63031;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .form-content {
+            display: none;
+        }
+        .form-content.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <div class="logo">🤵</div>
-            <div class="brand">Stewart</div>
-            <div class="tagline">Your AI Virtual Executive</div>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>🎩 Meet Stewart</h1>
+            <p>Your AI Executive Assistant</p>
         </div>
         
-        <div class="card">
-            <div class="tabs">
-                <div class="tab active" onclick="showTab('login')">Sign In</div>
-                <div class="tab" onclick="showTab('signup')">Sign Up</div>
-            </div>
-            
-            <div id="messageBox" class="message"></div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="showForm('login')">Login</button>
+            <button class="auth-tab" onclick="showForm('signup')">Sign Up</button>
+        </div>
+        
+        <div class="auth-form">
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
             
             <!-- Login Form -->
-            <div id="loginForm" class="form-section active">
+            <div class="form-content active" id="login-form">
                 <form onsubmit="handleLogin(event)">
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="your@email.com">
                     </div>
-                    <div class="input-group">
-                        <label>Password</label>
-                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required placeholder="••••••••">
                     </div>
-                    <button type="submit" class="btn btn-primary">Sign In</button>
+                    <button type="submit" class="btn-primary">Login</button>
                 </form>
-                <div class="link-row">
-                    <a href="#">Forgot password?</a>
-                </div>
             </div>
             
             <!-- Signup Form -->
-            <div id="signupForm" class="form-section">
+            <div class="form-content" id="signup-form">
                 <form onsubmit="handleSignup(event)">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" id="signupName" placeholder="John Smith" required>
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="John Smith">
                     </div>
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required placeholder="your@email.com">
                     </div>
-                    <div class="input-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="signupPhone" placeholder="(555) 555-5555" required>
+                    <div class="form-group">
+                        <label for="signup-phone">Phone Number</label>
+                        <input type="tel" id="signup-phone" required placeholder="(555) 123-4567">
                     </div>
-                    <div class="input-group">
-                        <label>Password</label>
-                        <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8">
-                    </div>
-                    
-                    <!-- SMS Consent Section -->
-                    <div class="consent-section">
-                        <h4>SMS Consent (Optional)</h4>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="smsConsent">
-                            <label for="smsConsent">
-                                <strong>I consent to receive SMS text messages</strong> from Stewart (operated by Casablanca Express LLC) at the phone number provided. Messages may include account notifications, customer support, and service updates. Message frequency varies. <strong>Message and data rates may apply.</strong> Reply <strong>STOP</strong> to cancel. Reply <strong>HELP</strong> for help. See our <a href="/sms/">SMS Terms</a> and <a href="/privacy.html">Privacy Policy</a>.
-                            </label>
-                        </div>
-                        <div class="data-notice">
-                            🔒 Your mobile number will NOT be shared with third parties for marketing purposes.
-                        </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required placeholder="••••••••" minlength="8">
                     </div>
                     
-                    <!-- Terms Agreement -->
-                    <div class="checkbox-group" style="margin: 16px 0;">
-                        <input type="checkbox" id="termsAgree" required>
-                        <label for="termsAgree">
-                            I agree to the <a href="/terms.html">Terms of Service</a> and <a href="/privacy.html">Privacy Policy</a>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="sms-consent" name="sms-consent">
+                        <label for="sms-consent">
+                            <strong>I consent to receive SMS text messages from Casablanca Express Inc. ("Meet Stewart")</strong> at the phone number provided. Message frequency varies. Message and data rates may apply. Reply STOP to cancel, HELP for help. 
+                            <a href="/sms/" target="_blank">View SMS Terms</a>
+                            <div class="sms-data-notice">
+                                🔒 Your mobile number will NOT be shared with third parties for marketing purposes.
+                            </div>
                         </label>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Create Account</button>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms-consent" required>
+                        <label for="terms-consent">
+                            I agree to the <a href="/terms.html" target="_blank">Terms of Service</a> and <a href="/privacy.html" target="_blank">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Create Account</button>
                 </form>
             </div>
         </div>
         
-        <footer>
-            <a href="/">Home</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms.html">Terms</a>
-            <a href="/sms/">SMS Terms</a>
-        </footer>
+        <div class="auth-footer">
+            <a href="/">← Back to Home</a>
+        </div>
     </div>
-    
+
     <script>
         const API_BASE = 'https://casablancaexpress.com/api';
         
-        function showTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+        function showForm(type) {
+            document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.form-content').forEach(form => form.classList.remove('active'));
             
-            if (tab === 'login') {
-                document.querySelectorAll('.tab')[0].classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
+            if (type === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
             } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('signupForm').classList.add('active');
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('signup-form').classList.add('active');
             }
-            hideMessage();
+            
+            hideMessages();
         }
         
-        function showMessage(text, type) {
-            const box = document.getElementById('messageBox');
-            box.textContent = text;
-            box.className = 'message ' + type;
-            box.style.display = 'block';
+        function showError(message) {
+            const el = document.getElementById('error-message');
+            el.textContent = message;
+            el.style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
         }
         
-        function hideMessage() {
-            document.getElementById('messageBox').style.display = 'none';
+        function showSuccess(message) {
+            const el = document.getElementById('success-message');
+            el.textContent = message;
+            el.style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
         }
         
-        // Phone number formatting
-        document.getElementById('signupPhone').addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        });
+        function hideMessages() {
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('success-message').style.display = 'none';
+        }
         
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             
             try {
-                const res = await fetch(API_BASE + '/login.php', {
+                const response = await fetch(`${API_BASE}/login.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
                 });
-                const data = await res.json();
+                
+                const data = await response.json();
                 
                 if (data.success) {
-                    localStorage.setItem('stewartToken', data.token);
-                    localStorage.setItem('stewartUser', JSON.stringify(data.user));
+                    localStorage.setItem('stewart_token', data.token);
+                    localStorage.setItem('stewart_user', JSON.stringify(data.user));
                     window.location.href = '/dashboard.html';
                 } else {
-                    showMessage(data.error || 'Login failed', 'error');
+                    showError(data.message || 'Login failed. Please try again.');
                 }
-            } catch (err) {
-                showMessage('Connection error. Please try again.', 'error');
+            } catch (error) {
+                showError('Connection error. Please try again.');
             }
         }
         
         async function handleSignup(e) {
             e.preventDefault();
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const phone = document.getElementById('signupPhone').value;
-            const password = document.getElementById('signupPassword').value;
-            const smsConsent = document.getElementById('smsConsent').checked;
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-password').value;
+            const smsConsent = document.getElementById('sms-consent').checked;
             
             try {
-                const res = await fetch(API_BASE + '/signup.php', {
+                const response = await fetch(`${API_BASE}/signup.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, phone, password, sms_consent: smsConsent })
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}&sms_consent=${smsConsent ? 1 : 0}`
                 });
-                const data = await res.json();
+                
+                const data = await response.json();
                 
                 if (data.success) {
-                    localStorage.setItem('stewartToken', data.token);
-                    localStorage.setItem('stewartUser', JSON.stringify(data.user));
-                    window.location.href = '/onboarding.html';
+                    showSuccess('Account created! Please log in.');
+                    setTimeout(() => showForm('login'), 1500);
                 } else {
-                    showMessage(data.error || 'Signup failed', 'error');
+                    showError(data.message || 'Signup failed. Please try again.');
                 }
-            } catch (err) {
-                showMessage('Connection error. Please try again.', 'error');
+            } catch (error) {
+                showError('Connection error. Please try again.');
             }
         }
         
         // Check if already logged in
-        if (localStorage.getItem('stewartToken')) {
+        if (localStorage.getItem('stewart_token')) {
             window.location.href = '/dashboard.html';
         }
     </script>

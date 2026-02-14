@@ -3,243 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart SMS Alerts - Opt-In</title>
+    <title>SMS Terms & Opt-In | Meet Stewart</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-        .logo { text-align: center; margin-bottom: 40px; }
-        .logo h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: 0.3em; background: linear-gradient(135deg, #d4af37, #f4d03f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 40px; backdrop-filter: blur(10px); border: 1px solid rgba(212,175,55,0.3); }
-        h2 { font-size: 1.5rem; margin-bottom: 20px; font-weight: 500; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.8); font-size: 0.9rem; }
-        input[type="text"], input[type="tel"], input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; }
-        input:focus { outline: none; border-color: #d4af37; }
-        .consent-box { margin: 24px 0; padding: 20px; background: rgba(212,175,55,0.1); border-radius: 12px; border: 2px solid rgba(212,175,55,0.4); }
-        .consent-box h3 { font-size: 1rem; margin-bottom: 16px; color: #d4af37; }
-        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; }
-        .checkbox-group input[type="checkbox"] { width: 24px; height: 24px; min-width: 24px; margin-top: 2px; cursor: pointer; accent-color: #d4af37; }
-        .checkbox-group label { margin: 0; font-size: 0.9rem; color: rgba(255,255,255,0.95); cursor: pointer; line-height: 1.5; }
-        .disclosure { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 20px 0; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 8px; }
-        .disclosure p { margin-bottom: 8px; }
-        .disclosure strong { color: #d4af37; }
-        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #d4af37 0%, #b8960c 100%); border: none; border-radius: 8px; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .links { text-align: center; margin-top: 24px; }
-        .links a { color: #d4af37; text-decoration: none; margin: 0 12px; font-size: 0.85rem; }
-        .success-message { display: none; text-align: center; padding: 40px; }
-        .success-message h3 { font-size: 1.5rem; margin-bottom: 16px; color: #4ade80; }
-        .policy-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(212,175,55,0.2); }
-        .policy-content { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
-        .policy-content h3 { font-size: 1.1rem; margin: 24px 0 12px; color: #fff; }
-        .policy-content p, .policy-content ul { margin-bottom: 12px; }
-        .policy-content ul { padding-left: 24px; }
-        .highlight { background: rgba(212,175,55,0.15); padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 4px solid #d4af37; }
-        .data-notice { background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); padding: 16px; border-radius: 8px; margin: 16px 0; }
-        .data-notice p { color: #4ade80; font-weight: 500; margin: 0; }
+        .sms-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .sms-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .sms-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .sms-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .sms-section h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .sms-section p, .sms-section li {
+            line-height: 1.8;
+            color: #555;
+        }
+        .sms-section ul {
+            margin-left: 20px;
+        }
+        .opt-in-form {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .opt-in-form h2 {
+            color: white;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+        .consent-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        .consent-checkbox input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .consent-checkbox label {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .data-notice {
+            background: rgba(255,255,255,0.15);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .data-notice p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .important-notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .important-notice p {
+            margin: 0;
+            color: #856404;
+        }
+        .contact-info {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo"><h1>STEWART</h1></div>
-        <div class="card" id="optinForm">
-            <h2>Sign Up for Stewart SMS Alerts</h2>
-            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">Receive important account notifications, support responses, and service updates directly to your phone.</p>
+    <div class="sms-container">
+        <div class="sms-header">
+            <h1>📱 SMS Communication Terms</h1>
+            <p>Meet Stewart by Casablanca Express Inc.</p>
+        </div>
+
+        <!-- Opt-In Form Section -->
+        <div class="opt-in-form">
+            <h2>SMS Opt-In Consent</h2>
+            <p>To receive SMS notifications from your Stewart AI assistant, please provide your consent below:</p>
             
-            <form id="smsOptinForm">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Your name">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Mobile Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="(555) 555-5555">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="you@example.com">
-                </div>
-                
-                <!-- TCPA/A2P Compliant Consent Box -->
-                <div class="consent-box">
-                    <h3>SMS Consent</h3>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="consent" name="consent" required>
-                        <label for="consent">
-                            <strong>I consent to receive SMS text messages</strong> from Stewart (operated by Casablanca Express LLC) at the phone number provided. These messages may include account notifications, customer support responses, and service updates. Message frequency varies. <strong>Message and data rates may apply.</strong> Reply <strong>STOP</strong> to cancel at any time. Reply <strong>HELP</strong> for assistance. I agree to the <a href="#terms" style="color: #d4af37;">Terms & Conditions</a> and <a href="#privacy" style="color: #d4af37;">Privacy Policy</a>.
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="data-notice">
-                    <p>🔒 Your mobile phone number and opt-in data will NOT be shared with third parties for marketing or promotional purposes.</p>
-                </div>
-                
-                <div class="disclosure">
-                    <p><strong>Program Name:</strong> Stewart Customer Care SMS Alerts</p>
-                    <p><strong>Company:</strong> Casablanca Express LLC</p>
-                    <p><strong>Message Frequency:</strong> Message frequency varies based on your account activity and support requests.</p>
-                    <p><strong>Message and Data Rates:</strong> Message and data rates may apply. Contact your carrier for details.</p>
-                    <p><strong>Opt-Out:</strong> Text <strong>STOP</strong> to any message to unsubscribe.</p>
-                    <p><strong>Help:</strong> Text <strong>HELP</strong> for assistance or email support@meetstewart.com</p>
-                    <p><strong>Carrier Disclaimer:</strong> Carriers are not liable for delayed or undelivered messages.</p>
-                </div>
-                
-                <button type="submit" class="btn" id="submitBtn">Subscribe to SMS Alerts</button>
-            </form>
+            <div class="consent-checkbox">
+                <input type="checkbox" id="sms-consent" name="sms-consent" required>
+                <label for="sms-consent">
+                    <strong>I consent to receive SMS text messages from Casablanca Express Inc. ("Meet Stewart")</strong> at the phone number I provide. I understand that:
+                    <ul style="margin-top: 10px;">
+                        <li>Message frequency varies based on my interactions</li>
+                        <li>Message and data rates may apply</li>
+                        <li>I can reply STOP at any time to cancel</li>
+                        <li>I can reply HELP for assistance</li>
+                        <li>Consent is not required to purchase goods or services</li>
+                    </ul>
+                </label>
+            </div>
+
+            <div class="data-notice">
+                <p>🔒 <strong>Data Protection:</strong> Your mobile phone number and associated data will NOT be shared with third parties for marketing or promotional purposes. Your information is used solely to provide Stewart AI assistant services.</p>
+            </div>
+        </div>
+
+        <!-- Program Details -->
+        <div class="sms-section">
+            <h2>Program Information</h2>
+            <p><strong>Program Name:</strong> Meet Stewart AI Assistant</p>
+            <p><strong>Company:</strong> Casablanca Express Inc.</p>
+            <p><strong>Service Description:</strong> Stewart is your AI-powered executive assistant that helps manage your schedule, tasks, and communications via voice calls and SMS.</p>
             
-            <div class="links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms & Conditions</a>
-                <a href="https://meetstewart.com">Back to Stewart</a>
-            </div>
+            <h3>Message Types You May Receive:</h3>
+            <ul>
+                <li>Task reminders and updates</li>
+                <li>Calendar notifications</li>
+                <li>Meeting summaries</li>
+                <li>Action item confirmations</li>
+                <li>Service notifications</li>
+            </ul>
+            
+            <p><strong>Message Frequency:</strong> Message frequency varies based on your usage and preferences. Typically 1-10 messages per week depending on your activity level.</p>
         </div>
-        
-        <div class="success-message" id="successMessage">
-            <h3>✓ You're Subscribed!</h3>
-            <p>Welcome to Stewart SMS Alerts. You'll receive a confirmation message shortly.</p>
-            <p style="margin-top: 16px; font-size: 0.85rem; color: rgba(255,255,255,0.6);">Reply STOP at any time to unsubscribe.</p>
+
+        <!-- How to Opt-Out -->
+        <div class="sms-section">
+            <h2>How to Opt-Out</h2>
+            <p>You can opt out of SMS messages at any time using any of these methods:</p>
+            <ul>
+                <li><strong>Reply STOP</strong> to any message from Stewart</li>
+                <li><strong>Reply CANCEL, UNSUBSCRIBE, END, or QUIT</strong></li>
+                <li>Contact us at <a href="mailto:support@meetstewart.com">support@meetstewart.com</a></li>
+                <li>Update your preferences in your Stewart dashboard</li>
+            </ul>
+            <p>After opting out, you will receive one final confirmation message. You will no longer receive SMS messages unless you opt back in.</p>
         </div>
-        
-        <!-- Privacy Policy Section -->
-        <div class="policy-section" id="privacy">
-            <h2>Privacy Policy</h2>
-            <div class="policy-content">
-                <p><strong>Last Updated:</strong> February 14, 2026</p>
-                <p><strong>Casablanca Express LLC</strong> ("we," "us," or "our") operates the Stewart virtual assistant service. This Privacy Policy explains how we collect, use, and protect your information when you use our SMS messaging service.</p>
-                
-                <h3>Information We Collect</h3>
-                <p>When you opt-in to our SMS service, we collect:</p>
-                <ul>
-                    <li>Your name</li>
-                    <li>Mobile phone number</li>
-                    <li>Email address</li>
-                    <li>Consent preferences and timestamp</li>
-                </ul>
-                
-                <h3>How We Use Your Information</h3>
-                <p>We use your information solely to:</p>
-                <ul>
-                    <li>Send you account notifications and service updates</li>
-                    <li>Respond to your customer support inquiries via SMS</li>
-                    <li>Deliver important alerts about your Stewart account</li>
-                </ul>
-                
-                <div class="highlight">
-                    <h3>⚠️ SMS Opt-In Data Protection - Important Notice</h3>
-                    <p><strong>Your mobile phone number and SMS opt-in consent data will NOT be shared, sold, rented, or disclosed to any third parties or affiliates for marketing or promotional purposes.</strong></p>
-                    <p style="margin-top: 12px;">Your phone number and messaging consent are used exclusively for delivering the Stewart customer care messages you have requested. No mobile information will be shared with third parties/affiliates for marketing/promotional purposes.</p>
-                </div>
-                
-                <h3>Data Security</h3>
-                <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
-                
-                <h3>Your Rights</h3>
-                <p>You have the right to:</p>
-                <ul>
-                    <li><strong>Opt-out:</strong> Reply STOP to any message to unsubscribe immediately</li>
-                    <li><strong>Get help:</strong> Reply HELP to any message for assistance</li>
-                    <li><strong>Access:</strong> Request a copy of your data by emailing privacy@meetstewart.com</li>
-                    <li><strong>Delete:</strong> Request deletion of your data by emailing privacy@meetstewart.com</li>
-                </ul>
-                
-                <h3>Contact Us</h3>
-                <p>For privacy questions or concerns:</p>
-                <ul>
-                    <li>Company: Casablanca Express LLC</li>
-                    <li>Email: privacy@meetstewart.com</li>
-                    <li>Website: https://meetstewart.com</li>
-                </ul>
-            </div>
+
+        <!-- Help -->
+        <div class="sms-section">
+            <h2>Need Help?</h2>
+            <p>If you need assistance with SMS messaging:</p>
+            <ul>
+                <li><strong>Reply HELP</strong> to any message for immediate assistance</li>
+                <li>Email: <a href="mailto:support@meetstewart.com">support@meetstewart.com</a></li>
+                <li>Phone: (818) 212-1359</li>
+            </ul>
         </div>
-        
-        <!-- Terms & Conditions Section -->
-        <div class="policy-section" id="terms">
-            <h2>SMS Terms & Conditions</h2>
-            <div class="policy-content">
-                <p><strong>Last Updated:</strong> February 14, 2026</p>
-                
-                <h3>Program Name</h3>
-                <p>Stewart Customer Care SMS Alerts</p>
-                
-                <h3>Program Operator</h3>
-                <p>Casablanca Express LLC<br>Website: https://meetstewart.com</p>
-                
-                <h3>Program Description</h3>
-                <p>By providing your consent, you agree to receive SMS text messages from Stewart (operated by Casablanca Express LLC) regarding:</p>
-                <ul>
-                    <li>Account notifications and status updates</li>
-                    <li>Customer support responses and follow-ups</li>
-                    <li>Service alerts and important announcements</li>
-                    <li>Appointment reminders and confirmations</li>
-                </ul>
-                
-                <h3>Message Frequency</h3>
-                <p>Message frequency varies based on your account activity and support interactions. You may receive multiple messages per week depending on your usage.</p>
-                
-                <h3>Message and Data Rates</h3>
-                <p><strong>Message and data rates may apply.</strong> Please contact your mobile carrier for details about your text messaging plan.</p>
-                
-                <h3>Opt-Out Instructions</h3>
-                <p>You can cancel SMS messages at any time:</p>
-                <ul>
-                    <li>Text <strong>STOP</strong> to any message to unsubscribe</li>
-                    <li>After opting out, you will receive one final confirmation message</li>
-                    <li>No further messages will be sent unless you opt back in</li>
-                </ul>
-                
-                <h3>Help & Support</h3>
-                <ul>
-                    <li>Text <strong>HELP</strong> to any message for assistance</li>
-                    <li>Email: support@meetstewart.com</li>
-                    <li>Website: https://meetstewart.com</li>
-                </ul>
-                
-                <h3>Carrier Disclaimer</h3>
-                <p><strong>Carriers are not liable for any delayed or undelivered messages.</strong></p>
-                
-                <h3>Supported Carriers</h3>
-                <p>Our SMS service is supported on all major US carriers including AT&T, Verizon, T-Mobile, and others.</p>
-                
-                <h3>Privacy</h3>
-                <p>Your mobile phone number and opt-in data will not be shared with third parties for marketing purposes. See our <a href="#privacy" style="color: #d4af37;">Privacy Policy</a> for complete information.</p>
-                
-                <h3>Changes to Terms</h3>
-                <p>We may update these terms from time to time. Continued use of the SMS service after changes constitutes acceptance of the new terms.</p>
-                
-                <h3>Contact</h3>
-                <p>Casablanca Express LLC<br>Email: support@meetstewart.com<br>Website: https://meetstewart.com</p>
-            </div>
+
+        <!-- Carrier Disclaimer -->
+        <div class="sms-section">
+            <h2>Carrier Disclaimer</h2>
+            <p>Carriers are not liable for delayed or undelivered messages. Message and data rates may apply. Check with your mobile carrier for details on your text messaging plan.</p>
+            <p><strong>Supported Carriers:</strong> SMS services are available on all major US carriers including AT&T, Verizon, T-Mobile, Sprint, and most regional carriers.</p>
         </div>
-        
-        <footer style="text-align: center; margin-top: 60px; padding: 20px; color: rgba(255,255,255,0.5); font-size: 0.8rem;">
-            <p>© 2026 Casablanca Express LLC. All rights reserved.</p>
-            <p style="margin-top: 8px;"><a href="https://meetstewart.com" style="color: rgba(255,255,255,0.5);">meetstewart.com</a></p>
-        </footer>
+
+        <!-- Privacy -->
+        <div class="sms-section">
+            <h2>Privacy & Data Protection</h2>
+            <p>Your privacy is important to us. Here's how we handle your information:</p>
+            <ul>
+                <li>Your phone number is used only to send Stewart-related messages</li>
+                <li><strong>We do NOT share, sell, rent, or trade your mobile phone number or any personal information with third parties for marketing or promotional purposes</strong></li>
+                <li>Your data is encrypted and stored securely</li>
+                <li>You can request deletion of your data at any time</li>
+            </ul>
+            <p>For complete details, see our <a href="/privacy.html">Privacy Policy</a>.</p>
+        </div>
+
+        <!-- Terms -->
+        <div class="sms-section">
+            <h2>Terms & Conditions</h2>
+            <p>By opting in to SMS messages, you agree to:</p>
+            <ul>
+                <li>Our <a href="/terms.html">Terms of Service</a></li>
+                <li>Our <a href="/privacy.html">Privacy Policy</a></li>
+                <li>Receiving automated SMS messages from Stewart</li>
+            </ul>
+            <p>These terms may be updated from time to time. Continued use of the service constitutes acceptance of any changes.</p>
+        </div>
+
+        <div class="important-notice">
+            <p><strong>Important:</strong> Standard message and data rates may apply. Contact your carrier for details about your messaging plan.</p>
+        </div>
+
+        <div class="contact-info">
+            <h3>Contact Information</h3>
+            <p><strong>Casablanca Express Inc.</strong></p>
+            <p>Email: <a href="mailto:support@meetstewart.com">support@meetstewart.com</a></p>
+            <p>Phone: (818) 212-1359</p>
+            <p>Website: <a href="https://meetstewart.com">meetstewart.com</a></p>
+        </div>
+
+        <a href="/" class="back-link">← Back to Meet Stewart</a>
     </div>
-    
-    <script>
-        // Phone number formatting
-        document.getElementById('phone').addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        });
-        
-        // Form submission
-        document.getElementById('smsOptinForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Subscribing...';
-            
-            // Simulate API call
-            setTimeout(() => {
-                document.getElementById('optinForm').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-            }, 1000);
-        });
-    </script>
 </body>
 </html>
