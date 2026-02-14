@@ -1057,8 +1057,8 @@
                 const greeting = getTimeOfDay();
                 const firstName = userData.name ? userData.name.split(' ')[0] : '';
                 const botName = userData.bot_name || 'Stewart';
-                const userGreeting = firstName ? `, ${firstName}` : '';
-                addBotMessage(`Good ${greeting}${userGreeting}! I'm ${botName}, your Virtual Executive. What would you like to accomplish today?`);
+                const userGreeting = firstName ? ` ${firstName}` : '';
+                addBotMessage(`Good ${greeting.charAt(0).toUpperCase() + greeting.slice(1)}${userGreeting}! I'm ${botName}, your Virtual Executive. What would you like to accomplish today?`);
             }, 500);
         });
 
