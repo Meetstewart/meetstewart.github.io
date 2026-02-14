@@ -177,84 +177,90 @@
         
         .message.error {
             background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             color: #fca5a5;
-            display: block;
         }
         
         .message.success {
             background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.4);
             color: #86efac;
-            display: block;
         }
         
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top-color: currentColor;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
+        .consent-section {
             margin: 20px 0;
-            color: #666;
-            font-size: 12px;
+            padding: 16px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
         
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
+        .consent-section h4 {
+            font-size: 13px;
+            color: #d4af37;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
         
-        .divider span {
-            padding: 0 12px;
-        }
-        
-        .phone-input {
+        .checkbox-group {
             display: flex;
-            gap: 8px;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         
-        .phone-input .country-code {
-            width: 80px;
-            flex-shrink: 0;
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            margin-top: 2px;
+            accent-color: #d4af37;
+            cursor: pointer;
         }
         
-        .phone-input .phone-number {
-            flex: 1;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            color: #666;
+        .checkbox-group label {
             font-size: 12px;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1.4;
         }
         
-        .footer a {
-            color: #888;
+        .checkbox-group label a {
+            color: #d4af37;
+            text-decoration: none;
         }
         
-        @media (max-width: 480px) {
-            body { padding: 16px; }
-            .card { padding: 24px 20px; }
-            .logo { font-size: 40px; }
-            .brand { font-size: 24px; }
+        .checkbox-group label a:hover {
+            text-decoration: underline;
+        }
+        
+        .checkbox-group label strong {
+            color: #ccc;
+        }
+        
+        .data-notice {
+            font-size: 11px;
+            color: #4ade80;
+            padding: 8px 12px;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+        
+        footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+        
+        footer a {
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 12px;
+        }
+        
+        footer a:hover {
+            color: #d4af37;
         }
     </style>
 </head>
@@ -263,334 +269,181 @@
         <div class="logo-section">
             <div class="logo">🤵</div>
             <div class="brand">Stewart</div>
-            <div class="tagline">Your AI Business Partner</div>
+            <div class="tagline">Your AI Virtual Executive</div>
         </div>
         
         <div class="card">
             <div class="tabs">
-                <div class="tab active" onclick="showTab('signin')">Sign In</div>
+                <div class="tab active" onclick="showTab('login')">Sign In</div>
                 <div class="tab" onclick="showTab('signup')">Sign Up</div>
             </div>
             
-            <div id="message" class="message"></div>
+            <div id="messageBox" class="message"></div>
             
-            <!-- Sign In Form -->
-            <div id="signin-form" class="form-section active">
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="signin-email" placeholder="you@company.com" autocomplete="email">
-                </div>
-                
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="signin-password" placeholder="Enter your password" autocomplete="current-password">
-                </div>
-                
-                <button class="btn btn-primary" id="signin-btn" onclick="handleSignIn()">
-                    Sign In
-                </button>
-                
-                <div class="link-row">
-                    <a href="#" onclick="showTab('forgot'); return false;">Forgot password?</a>
-                </div>
-            </div>
-            
-            <!-- Sign Up Form -->
-            <div id="signup-form" class="form-section">
-                <div class="input-group">
-                    <label>Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Your name" autocomplete="name">
-                </div>
-                
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="signup-email" placeholder="you@company.com" autocomplete="email">
-                </div>
-                
-                <div class="input-group">
-                    <label>Phone (optional)</label>
-                    <div class="phone-input">
-                        <input type="text" class="country-code" value="+1" id="signup-country">
-                        <input type="tel" class="phone-number" id="signup-phone" placeholder="555-123-4567" autocomplete="tel">
+            <!-- Login Form -->
+            <div id="loginForm" class="form-section active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
                     </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="signup-password" placeholder="Create a password" autocomplete="new-password">
-                </div>
-                
-                <div class="input-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="signup-confirm" placeholder="Confirm password" autocomplete="new-password">
-                </div>
-                
-                <div class="checkbox-group" style="margin: 16px 0;">
-                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #aaa; cursor: pointer;">
-                        <input type="checkbox" id="sms-optin" style="margin-top: 3px; accent-color: #D4AF37;">
-                        <span>I agree to receive SMS notifications from Stewart AI. Message & data rates may apply. Reply STOP to unsubscribe. See our <a href="/sms/" style="color: #D4AF37;">SMS Terms</a>.</span>
-                    </label>
-                </div>
-                
-                <button class="btn btn-primary" id="signup-btn" onclick="handleSignUp()">
-                    Create Account
-                </button>
-                
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
                 <div class="link-row">
-                    <span style="color: #888;">Already have an account? </span>
-                    <a href="#" onclick="showTab('signin'); return false;">Sign in</a>
+                    <a href="#">Forgot password?</a>
                 </div>
             </div>
             
-            <!-- Forgot Password Form -->
-            <div id="forgot-form" class="form-section">
-                <p style="color: #888; font-size: 14px; margin-bottom: 20px; text-align: center;">
-                    Enter your email and we'll send you a link to reset your password.
-                </p>
-                
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="forgot-email" placeholder="you@company.com" autocomplete="email">
-                </div>
-                
-                <button class="btn btn-primary" id="forgot-btn" onclick="handleForgotPassword()">
-                    Send Reset Link
-                </button>
-                
-                <div class="link-row">
-                    <a href="#" onclick="showTab('signin'); return false;">← Back to sign in</a>
-                </div>
+            <!-- Signup Form -->
+            <div id="signupForm" class="form-section">
+                <form onsubmit="handleSignup(event)">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" placeholder="John Smith" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="(555) 555-5555" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8">
+                    </div>
+                    
+                    <!-- SMS Consent Section -->
+                    <div class="consent-section">
+                        <h4>SMS Consent (Optional)</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="smsConsent">
+                            <label for="smsConsent">
+                                <strong>I consent to receive SMS text messages</strong> from Stewart (operated by Casablanca Express LLC) at the phone number provided. Messages may include account notifications, customer support, and service updates. Message frequency varies. <strong>Message and data rates may apply.</strong> Reply <strong>STOP</strong> to cancel. Reply <strong>HELP</strong> for help. See our <a href="/sms/">SMS Terms</a> and <a href="/privacy.html">Privacy Policy</a>.
+                            </label>
+                        </div>
+                        <div class="data-notice">
+                            🔒 Your mobile number will NOT be shared with third parties for marketing purposes.
+                        </div>
+                    </div>
+                    
+                    <!-- Terms Agreement -->
+                    <div class="checkbox-group" style="margin: 16px 0;">
+                        <input type="checkbox" id="termsAgree" required>
+                        <label for="termsAgree">
+                            I agree to the <a href="/terms.html">Terms of Service</a> and <a href="/privacy.html">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
             </div>
         </div>
         
-        <div class="footer">
-            <p>© 2026 Stewart AI • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a></p>
-        </div>
+        <footer>
+            <a href="/">Home</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+            <a href="/sms/">SMS Terms</a>
+        </footer>
     </div>
-
+    
     <script>
-        // API Configuration - Using Cloudflare quick tunnel (until permanent DNS propagates)
         const API_BASE = 'https://casablancaexpress.com/api';
         
-        // Tab switching
         function showTab(tab) {
-            // Hide all forms
-            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
             
-            // Show selected form
-            document.getElementById(tab + '-form').classList.add('active');
-            
-            // Update tab buttons (only for signin/signup)
-            if (tab === 'signin' || tab === 'signup') {
-                const tabs = document.querySelectorAll('.tab');
-                tabs[tab === 'signin' ? 0 : 1].classList.add('active');
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('signupForm').classList.add('active');
             }
-            
-            // Clear messages
             hideMessage();
         }
         
-        // Message display
         function showMessage(text, type) {
-            const msg = document.getElementById('message');
-            msg.textContent = text;
-            msg.className = 'message ' + type;
+            const box = document.getElementById('messageBox');
+            box.textContent = text;
+            box.className = 'message ' + type;
+            box.style.display = 'block';
         }
         
         function hideMessage() {
-            document.getElementById('message').className = 'message';
+            document.getElementById('messageBox').style.display = 'none';
         }
         
-        // Loading state
-        function setLoading(btnId, loading) {
-            const btn = document.getElementById(btnId);
-            if (loading) {
-                btn.disabled = true;
-                btn.innerHTML = '<span class="spinner"></span>Please wait...';
-            } else {
-                btn.disabled = false;
-                btn.textContent = btn.dataset.originalText || 'Submit';
-            }
-        }
-        
-        // Store original button text
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.dataset.originalText = btn.textContent;
+        // Phone number formatting
+        document.getElementById('signupPhone').addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         });
         
-        // Sign In Handler
-        async function handleSignIn() {
-            const email = document.getElementById('signin-email').value.trim();
-            const password = document.getElementById('signin-password').value;
-            
-            if (!email || !password) {
-                showMessage('Please enter email and password', 'error');
-                return;
-            }
-            
-            setLoading('signin-btn', true);
-            hideMessage();
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             
             try {
-                const response = await fetch(API_BASE + '/login.php', {
+                const res = await fetch(API_BASE + '/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
+                const data = await res.json();
                 
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    // Store token and redirect
-                    localStorage.setItem('stewart_token', data.token);
-                    localStorage.setItem('stewart_user', JSON.stringify(data.user));
-                    showMessage('Welcome back! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = '/dashboard.html';
-                    }, 1000);
+                if (data.success) {
+                    localStorage.setItem('stewartToken', data.token);
+                    localStorage.setItem('stewartUser', JSON.stringify(data.user));
+                    window.location.href = '/dashboard.html';
                 } else {
-                    showMessage(data.error || data.message || 'Invalid credentials', 'error');
+                    showMessage(data.error || 'Login failed', 'error');
                 }
             } catch (err) {
-                console.error('Login error:', err);
                 showMessage('Connection error. Please try again.', 'error');
-            } finally {
-                setLoading('signin-btn', false);
             }
         }
         
-        // Sign Up Handler
-        async function handleSignUp() {
-            const name = document.getElementById('signup-name').value.trim();
-            const email = document.getElementById('signup-email').value.trim();
-            const country = document.getElementById('signup-country').value.trim();
-            const phone = document.getElementById('signup-phone').value.trim();
-            const password = document.getElementById('signup-password').value;
-            const confirm = document.getElementById('signup-confirm').value;
-            
-            if (!name || !email || !password) {
-                showMessage('Please fill in all required fields', 'error');
-                return;
-            }
-            
-            if (password !== confirm) {
-                showMessage('Passwords do not match', 'error');
-                return;
-            }
-            
-            if (password.length < 8) {
-                showMessage('Password must be at least 8 characters', 'error');
-                return;
-            }
-            
-            setLoading('signup-btn', true);
-            hideMessage();
+        async function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('signupPhone').value;
+            const password = document.getElementById('signupPassword').value;
+            const smsConsent = document.getElementById('smsConsent').checked;
             
             try {
-                const smsOptin = document.getElementById('sms-optin').checked;
-                
-                const payload = { 
-                    display_name: name, 
-                    email, 
-                    password,
-                    sms_optin: smsOptin
-                };
-                
-                // Add phone if provided (required if SMS opt-in)
-                if (phone) {
-                    payload.phone = country + phone.replace(/\D/g, '');
-                } else if (smsOptin) {
-                    showMessage('Phone number is required for SMS notifications', 'error');
-                    setLoading('signup-btn', false);
-                    return;
-                }
-                
-                const response = await fetch(API_BASE + '/signup.php', {
+                const res = await fetch(API_BASE + '/signup.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ name, email, phone, password, sms_consent: smsConsent })
                 });
+                const data = await res.json();
                 
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    showMessage('Account created! Check your email to verify.', 'success');
-                    setTimeout(() => showTab('signin'), 2000);
+                if (data.success) {
+                    localStorage.setItem('stewartToken', data.token);
+                    localStorage.setItem('stewartUser', JSON.stringify(data.user));
+                    window.location.href = '/onboarding.html';
                 } else {
-                    showMessage(data.error || data.message || 'Registration failed', 'error');
+                    showMessage(data.error || 'Signup failed', 'error');
                 }
             } catch (err) {
-                console.error('Signup error:', err);
                 showMessage('Connection error. Please try again.', 'error');
-            } finally {
-                setLoading('signup-btn', false);
             }
         }
         
-        // Forgot Password Handler
-        async function handleForgotPassword() {
-            const email = document.getElementById('forgot-email').value.trim();
-            
-            if (!email) {
-                showMessage('Please enter your email address', 'error');
-                return;
-            }
-            
-            setLoading('forgot-btn', true);
-            hideMessage();
-            
-            try {
-                const response = await fetch(API_BASE + '/forgot.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-                
-                const data = await response.json();
-                
-                // Always show success (security best practice - don't reveal if email exists)
-                showMessage('If an account exists with that email, you will receive a reset link shortly.', 'success');
-                
-            } catch (err) {
-                console.error('Forgot password error:', err);
-                // Still show generic success for security
-                showMessage('If an account exists with that email, you will receive a reset link shortly.', 'success');
-            } finally {
-                setLoading('forgot-btn', false);
-            }
+        // Check if already logged in
+        if (localStorage.getItem('stewartToken')) {
+            window.location.href = '/dashboard.html';
         }
-        
-        // Handle invite tokens from URL
-        function checkInviteToken() {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
-            
-            if (token) {
-                // Show signup tab for invite links
-                showTab('signup');
-                showMessage('Welcome! Create your password to activate your account.', 'success');
-                
-                // Store token for signup
-                sessionStorage.setItem('invite_token', token);
-            }
-        }
-        
-        // Enter key handlers
-        document.getElementById('signin-password').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSignIn();
-        });
-        
-        document.getElementById('signup-confirm').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSignUp();
-        });
-        
-        document.getElementById('forgot-email').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleForgotPassword();
-        });
-        
-        // Initialize
-        checkInviteToken();
     </script>
 </body>
 </html>
