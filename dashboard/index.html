@@ -161,9 +161,32 @@
         .stat-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .stat-value { font-size: 1rem; font-weight: 700; color: var(--primary-light); }
         .stat-label { font-size: 0.65rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            position: fixed;
+            top: calc(110px + var(--safe-top));
+            left: 0; right: 0;
+            text-align: center;
+            padding: 1rem;
+            background: var(--dark);
+            z-index: 998;
+        }
+        .welcome-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+        .welcome-title span {
+            color: var(--primary-light);
+        }
+        
         .main-container {
             display: flex; height: 100%;
-            padding-top: calc(110px + var(--safe-top));
+            padding-top: calc(170px + var(--safe-top));
             padding-bottom: calc(80px + var(--safe-bottom));
             padding-left: var(--safe-left);
             padding-right: var(--safe-right);
@@ -343,7 +366,7 @@
             .ve-area { flex: 1; }
             .cards-panel {
                 display: none; position: fixed;
-                top: calc(110px + var(--safe-top));
+                top: calc(170px + var(--safe-top));
                 right: 0; bottom: calc(80px + var(--safe-bottom));
                 width: 85%; max-width: 350px; z-index: 999;
                 transform: translateX(100%); transition: transform 0.3s ease;
@@ -421,6 +444,11 @@
             <span class="stat-value" id="stewdaysUsed">0</span>
             <span class="stat-label">Stewdays</span>
         </div>
+    </div>
+    
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <h1 class="welcome-title">WELCOME <span id="welcomeUserName">USER</span></h1>
     </div>
 
     <!-- Main Container -->
@@ -653,6 +681,10 @@
             document.getElementById('dropdownUserName').textContent = userData.name || 'User';
             document.getElementById('dropdownUserEmail').textContent = userData.email || '';
             
+            // Set welcome banner name
+            const firstName = userData.name ? userData.name.split(' ')[0].toUpperCase() : 'USER';
+            document.getElementById('welcomeUserName').textContent = firstName;
+            
             // Cache locally
             localStorage.setItem('stewart_user', JSON.stringify(userData));
         }
@@ -821,17 +853,17 @@
 
         async function markTourComplete() {
             userData.first_login = false;
-            userData.onboarding_complete = '1';
+            userData.onboarding_complete = '7';
             localStorage.setItem('stewart_user', JSON.stringify(userData));
             
             // Update server via API
             try {
-                await fetch(`${API_BASE}/update-user.php`, {
+                await fetch(`${API_BASE}/update-onboarding.php`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         user_id: userData.user_id,
-                        onboarding_complete: 1 
+                        step: 'complete'
                     })
                 });
             } catch (e) { console.log('Could not update onboarding status'); }
