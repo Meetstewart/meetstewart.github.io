@@ -92,6 +92,62 @@
             background: var(--primary);
             display: flex; align-items: center; justify-content: center;
             font-weight: 600; cursor: pointer; min-height: 44px; min-width: 44px;
+            position: relative;
+        }
+        .user-menu-container {
+            position: relative;
+            display: inline-block;
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--dark-card);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 12px;
+            min-width: 200px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            overflow: hidden;
+        }
+        .user-dropdown.show {
+            display: block;
+        }
+        .user-dropdown-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            text-align: center;
+        }
+        .user-dropdown-header .user-name {
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+        .user-dropdown-header .user-email {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        .user-dropdown-item:hover {
+            background: var(--dark-hover);
+        }
+        .user-dropdown-item.logout {
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+            color: var(--red);
+        }
+        .user-dropdown-item.logout:hover {
+            background: rgba(239, 68, 68, 0.1);
         }
         .stats-bar {
             position: fixed;
@@ -320,7 +376,27 @@
             <button class="customize-btn" onclick="openCustomizeModal()" data-intro="Personalize your assistant's voice, avatar, and behavior here." data-step="6">
                 ⚙️ <span>Customize</span>
             </button>
-            <div class="user-avatar" onclick="toggleUserMenu()" id="userInitials">?</div>
+            <div class="user-menu-container">
+                <div class="user-avatar" onclick="toggleUserMenu()" id="userInitials">?</div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-header">
+                        <div class="user-name" id="dropdownUserName">User</div>
+                        <div class="user-email" id="dropdownUserEmail">user@email.com</div>
+                    </div>
+                    <a href="/account" class="user-dropdown-item">
+                        <span>👤</span>
+                        <span>Account</span>
+                    </a>
+                    <a href="/plans" class="user-dropdown-item">
+                        <span>⭐</span>
+                        <span>Subscription</span>
+                    </a>
+                    <div class="user-dropdown-item logout" onclick="logout()">
+                        <span>🚪</span>
+                        <span>Sign Out</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
             <span></span><span></span><span></span>
@@ -491,6 +567,7 @@
         <div class="mobile-menu-item" onclick="toggleCardsPanel(); toggleMobileMenu();">📊 Dashboard Cards</div>
         <div class="mobile-menu-item" onclick="window.location.href='/cashflow/'">💰 Cash Flow</div>
         <div class="mobile-menu-item" onclick="window.location.href='/team/'">👥 Build Your Team</div>
+        <div class="mobile-menu-item" onclick="window.location.href='/account'">👤 Account</div>
         <div class="mobile-menu-item" onclick="logout()">🚪 Sign Out</div>
     </div>
 
@@ -567,6 +644,9 @@
             document.getElementById('hoursSaved').textContent = userData.hours_saved || 0;
             document.getElementById('stewdaysUsed').textContent = userData.stewdays_used || 0;
             document.getElementById('userInitials').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '?';
+            // Populate user dropdown
+            document.getElementById('dropdownUserName').textContent = userData.name || 'User';
+            document.getElementById('dropdownUserEmail').textContent = userData.email || '';
             
             // Cache locally
             localStorage.setItem('stewart_user', JSON.stringify(userData));
@@ -912,6 +992,20 @@
             window.location.href = '/';
         }
 
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const container = document.querySelector('.user-menu-container');
+            const dropdown = document.getElementById('userDropdown');
+            if (container && dropdown && !container.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
         // Customize modal (simplified - would need full implementation)
         function openCustomizeModal() {
             addBotMessage("Customization options: Say 'change my name to [name]' or 'change voice to [voice]' to personalize me!");
@@ -923,7 +1017,10 @@
             
             setTimeout(() => {
                 const greeting = getTimeOfDay();
-                addBotMessage(`Good ${greeting}! I'm ${userData.bot_name}, your Virtual Executive. What would you like to accomplish today?`);
+                const firstName = userData.name ? userData.name.split(' ')[0] : '';
+                const botName = userData.bot_name || 'Stewart';
+                const userGreeting = firstName ? `, ${firstName}` : '';
+                addBotMessage(`Good ${greeting}${userGreeting}! I'm ${botName}, your Virtual Executive. What would you like to accomplish today?`);
             }, 500);
         });
 
