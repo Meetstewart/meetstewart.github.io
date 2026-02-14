@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Account - Stewart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --primary-light: #a78bfa;
+            --dark: #0f0f23;
+            --dark-card: #1a1a2e;
+            --dark-hover: #252540;
+            --gray: #9ca3af;
+            --light-gray: #e5e7eb;
+            --white: #ffffff;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --gold: #d4af37;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: calc(60px + var(--safe-top));
+            padding-top: var(--safe-top);
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            z-index: 1000;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: calc(80px + var(--safe-top)) 1rem 2rem;
+        }
+        .section {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .profile-info h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        .profile-info p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: var(--gray);
+        }
+        .info-value {
+            font-weight: 500;
+        }
+        .subscription-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(124, 58, 237, 0.2));
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .subscription-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .subscription-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .subscription-detail {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .subscription-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .subscription-price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        .complimentary-note {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--green);
+        }
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.75rem;
+        }
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: white;
+        }
+        .action-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+        .action-btn.danger {
+            background: transparent;
+            border: 2px solid var(--red);
+            color: var(--red);
+        }
+        .action-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        .cancel-section {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .cancel-section h3 {
+            color: var(--red);
+            margin-bottom: 0.5rem;
+        }
+        .cancel-section p {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .legal-note {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.75rem;
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
+        .legal-note a {
+            color: var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard" class="back-btn">← Back</a>
+        <span class="page-title">Account</span>
+        <span style="width: 60px;"></span>
+    </header>
+
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="section">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">?</div>
+                <div class="profile-info">
+                    <h2 id="profileName">Loading...</h2>
+                    <p id="profileEmail">loading@email.com</p>
+                </div>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Phone</span>
+                <span class="info-value" id="profilePhone">--</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Member Since</span>
+                <span class="info-value" id="profileMemberSince">--</span>
+            </div>
+        </div>
+
+        <!-- Subscription Section -->
+        <div class="subscription-card">
+            <span class="subscription-badge" id="subBadge">Active</span>
+            <div class="subscription-name" id="subName">Virtual Executive Classic</div>
+            <div class="subscription-detail" id="subDetail">Your AI-powered executive assistant</div>
+            <div class="subscription-price" id="subPrice">$299<span>/month</span></div>
+            <div class="complimentary-note" id="complimentaryNote" style="display: none;">
+                ✨ Complimentary Owner Access - Thank you for helping build Stewart!
+            </div>
+        </div>
+
+        <!-- Plan Details -->
+        <div class="section">
+            <div class="section-title">Plan Details</div>
+            <div class="info-row">
+                <span class="info-label">Status</span>
+                <span class="info-value" id="subStatus" style="color: var(--green);">Active</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Trial Days Remaining</span>
+                <span class="info-value" id="trialDaysLeft">--</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Next Billing Date</span>
+                <span class="info-value" id="nextBilling">--</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Stewdays This Month</span>
+                <span class="info-value" id="stewdaysUsed">0 / 30</span>
+            </div>
+            <button class="action-btn primary" onclick="window.location.href='/plans'">
+                View All Plans
+            </button>
+        </div>
+
+        <!-- Cancel Section - Required by California Law -->
+        <div class="cancel-section" id="cancelSection">
+            <h3>Cancel Subscription</h3>
+            <p>You can cancel your subscription at any time. Your access will continue until the end of your current billing period.</p>
+            <button class="action-btn danger" onclick="confirmCancel()">
+                Cancel Subscription
+            </button>
+        </div>
+
+        <p class="legal-note">
+            By using Stewart, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.<br>
+            California residents: You have the right to cancel at any time.
+        </p>
+    </div>
+
+    <script>
+        const API_BASE = 'https://casablancaexpress.com/api';
+        let userData = {};
+
+        // Check authentication
+        (function checkAuth() {
+            const token = localStorage.getItem('stewart_token');
+            const user = localStorage.getItem('stewart_user');
+            
+            if (!token || !user) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            try {
+                userData = JSON.parse(user);
+                loadAccountData();
+            } catch(e) {
+                window.location.href = '/login.html';
+            }
+        })();
+
+        function loadAccountData() {
+            // Profile
+            document.getElementById('profileAvatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '?';
+            document.getElementById('profileName').textContent = userData.name || 'User';
+            document.getElementById('profileEmail').textContent = userData.email || '';
+            document.getElementById('profilePhone').textContent = userData.phone || '--';
+            document.getElementById('profileMemberSince').textContent = userData.member_since || '--';
+            
+            // Check if owner account (complimentary access)
+            const ownerEmails = ['nickmc123@gmail.com', 'nick@casablancaexpress.com', 'jeff@taitllc.com', 'jonathan@casablancaexpress.com'];
+            const isOwner = ownerEmails.includes(userData.email?.toLowerCase());
+            
+            if (isOwner) {
+                document.getElementById('subBadge').textContent = 'Owner';
+                document.getElementById('subBadge').style.background = 'var(--green)';
+                document.getElementById('subName').textContent = 'Virtual Executive Classic';
+                document.getElementById('subDetail').textContent = 'Complimentary owner access';
+                document.getElementById('subPrice').innerHTML = '<span style="color: var(--green); font-size: 1.5rem;">Complimentary</span>';
+                document.getElementById('complimentaryNote').style.display = 'block';
+                document.getElementById('subStatus').textContent = 'Complimentary';
+                document.getElementById('nextBilling').textContent = 'N/A';
+                document.getElementById('cancelSection').style.display = 'none';
+            } else {
+                // Regular user
+                document.getElementById('trialDaysLeft').textContent = userData.trial_days || '--';
+                document.getElementById('stewdaysUsed').textContent = `${userData.stewdays_used || 0} / 30`;
+                
+                // Calculate next billing
+                if (userData.trial_days && userData.trial_days > 0) {
+                    document.getElementById('subBadge').textContent = 'Trial';
+                    document.getElementById('subBadge').style.background = 'var(--yellow)';
+                    document.getElementById('subStatus').textContent = 'Trial';
+                    document.getElementById('subStatus').style.color = 'var(--yellow)';
+                    const nextDate = new Date();
+                    nextDate.setDate(nextDate.getDate() + userData.trial_days);
+                    document.getElementById('nextBilling').textContent = nextDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                }
+            }
+        }
+
+        function confirmCancel() {
+            if (confirm('Are you sure you want to cancel your subscription? Your access will continue until the end of your billing period.')) {
+                // Would call API to cancel
+                alert('Cancellation request submitted. You will receive a confirmation email shortly.');
+            }
+        }
+    </script>
+</body>
+</html>
