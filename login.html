@@ -161,6 +161,30 @@
         .form-content.active {
             display: block;
         }
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .forgot-password-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+        .back-to-login {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .back-to-login a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-to-login a:hover {
+            color: #3498db;
+        }
     </style>
 </head>
 <body>
@@ -170,7 +194,7 @@
             <p>Your AI Executive Assistant</p>
         </div>
         
-        <div class="auth-tabs">
+        <div class="auth-tabs" id="auth-tabs">
             <button class="auth-tab active" onclick="showForm('login')">Login</button>
             <button class="auth-tab" onclick="showForm('signup')">Sign Up</button>
         </div>
@@ -191,6 +215,24 @@
                         <input type="password" id="login-password" required placeholder="••••••••">
                     </div>
                     <button type="submit" class="btn-primary">Login</button>
+                    <div class="forgot-password-link">
+                        <a href="#" onclick="showForm('forgot'); return false;">Forgot your password?</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Forgot Password Form -->
+            <div class="form-content" id="forgot-form">
+                <form onsubmit="handleForgotPassword(event)">
+                    <p style="color: #666; margin-bottom: 20px;">Enter your email address and we'll send you a link to reset your password.</p>
+                    <div class="form-group">
+                        <label for="forgot-email">Email</label>
+                        <input type="email" id="forgot-email" required placeholder="your@email.com">
+                    </div>
+                    <button type="submit" class="btn-primary">Send Reset Link</button>
+                    <div class="back-to-login">
+                        <a href="#" onclick="showForm('login'); return false;">← Back to Login</a>
+                    </div>
                 </form>
             </div>
             
@@ -249,12 +291,19 @@
             document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.form-content').forEach(form => form.classList.remove('active'));
             
+            const tabs = document.getElementById('auth-tabs');
+            
             if (type === 'login') {
                 document.querySelector('.auth-tab:first-child').classList.add('active');
                 document.getElementById('login-form').classList.add('active');
-            } else {
+                tabs.style.display = 'flex';
+            } else if (type === 'signup') {
                 document.querySelector('.auth-tab:last-child').classList.add('active');
                 document.getElementById('signup-form').classList.add('active');
+                tabs.style.display = 'flex';
+            } else if (type === 'forgot') {
+                document.getElementById('forgot-form').classList.add('active');
+                tabs.style.display = 'none';
             }
             
             hideMessages();
@@ -302,6 +351,31 @@
                 }
             } catch (error) {
                 showError('Connection error. Please try again.');
+            }
+        }
+        
+        async function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/forgot-password.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('If an account exists with that email, you will receive a password reset link shortly.');
+                } else {
+                    // Still show success to prevent email enumeration
+                    showSuccess('If an account exists with that email, you will receive a password reset link shortly.');
+                }
+            } catch (error) {
+                // Still show success to prevent revealing if the API exists
+                showSuccess('If an account exists with that email, you will receive a password reset link shortly.');
             }
         }
         
