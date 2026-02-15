@@ -1807,6 +1807,28 @@
                 font-size: 0.65rem;
             }
         }
+
+        .dashboard-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #d4af37;
+            white-space: nowrap;
+        }
+        
+        .drawer-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(212,175,55,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 10px 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1818,8 +1840,7 @@
     <!-- Stats Bar -->
     <div class="stats-bar">
         <div class="logo">
-            <div class="bot-avatar" id="navBotAvatar"></div>
-            <span id="navBotName">Stewart</span>
+            <span class="dashboard-title">Virtual Executive Dashboard</span>
         </div>
         
         <!-- View Selector -->
@@ -1890,6 +1911,32 @@
             <div class="drawer-nav-item" data-view="people" onclick="switchViewMobile('people')">
                 <span class="icon">👥</span>
                 <span>People</span>
+            </div>
+        </nav>
+        
+        <div class="drawer-divider"></div>
+        
+        <div class="drawer-section-title">Apps</div>
+        <nav class="drawer-nav drawer-apps">
+            <div class="drawer-nav-item" onclick="openAppPage('schedule'); closeMobileDrawer();">
+                <span class="icon">📅</span>
+                <span>Schedule</span>
+            </div>
+            <div class="drawer-nav-item" onclick="openAppPage('projects'); closeMobileDrawer();">
+                <span class="icon">📊</span>
+                <span>Projects</span>
+            </div>
+            <div class="drawer-nav-item" onclick="openProjectR(); closeMobileDrawer();">
+                <span class="icon">💰</span>
+                <span>Cash Flow</span>
+            </div>
+            <div class="drawer-nav-item" onclick="openAppPage('tasks'); closeMobileDrawer();">
+                <span class="icon">✓</span>
+                <span>Tasks</span>
+            </div>
+            <div class="drawer-nav-item" onclick="openAppPage('activity'); closeMobileDrawer();">
+                <span class="icon">🔔</span>
+                <span>Activity</span>
             </div>
         </nav>
         
@@ -2837,7 +2884,30 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             renderPeopleGrid();
         });
 
-        function openProjectR() {
+        function openAppPage(appName) {
+        // For now, scroll to the card on mobile or open dedicated page
+        const cardTitles = {
+            'schedule': "Today's Schedule",
+            'projects': 'Projects',
+            'tasks': 'Tasks',
+            'activity': 'Activity'
+        };
+        
+        // Switch to chat view to see cards
+        switchView('chat');
+        
+        // Find and expand the card
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const header = card.querySelector('.card-header h3');
+            if (header && header.textContent.includes(cardTitles[appName])) {
+                card.classList.add('expanded');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+    
+    function openProjectR() {
         const userEmail = localStorage.getItem('userEmail') || '';
         const casaTeam = ['nick@casablancaexpress.com', 'jonathan@casablancaexpress.com', 'jeff.grey@casablancaexpress.com'];
         
