@@ -3092,4 +3092,88 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
     </div>
 
 <script src="js/dashboard-init.js"></script></body>
+
+<script>
+// ========== LIVE DATA LOADING ==========
+async function loadUserData(userId) {
+    console.log('Loading data for user:', userId);
+    try {
+        const ctxRes = await fetch('https://casablancaexpress.com/api/context.php?user_id=' + userId);
+        const ctx = await ctxRes.json();
+        console.log('Context loaded:', ctx);
+        
+        if (ctx.success) {
+            if (ctx.tasks && ctx.tasks.length > 0) {
+                renderLiveTasks(ctx.tasks);
+            }
+            if (ctx.calendar && ctx.calendar.length > 0) {
+                renderLiveSchedule(ctx.calendar);
+            }
+        }
+    } catch (err) {
+        console.error('Error loading user data:', err);
+    }
+}
+
+function renderLiveTasks(tasks) {
+    const taskCards = document.querySelectorAll('.card');
+    let taskContainer = null;
+    taskCards.forEach(card => {
+        const h3 = card.querySelector('h3');
+        if (h3 && h3.textContent.toLowerCase().includes('task')) {
+            taskContainer = card.querySelector('.card-inner') || card.querySelector('ul');
+        }
+    });
+    
+    if (!taskContainer) return;
+    
+    taskContainer.innerHTML = tasks.map(task => {
+        const priorityColor = task.priority === 'high' ? '#ef4444' : task.priority === 'medium' ? '#f59e0b' : '#22c55e';
+        const dueStr = task.due_date ? new Date(task.due_date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) : '';
+        return '<div style="display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:12px">' +
+            '<input type="checkbox" ' + (task.status === 'completed' ? 'checked' : '') + ' onchange="toggleTaskStatus(' + task.id + ', this.checked)">' +
+            '<div style="flex:1"><div style="font-weight:500">' + task.title + '</div>' +
+            (dueStr ? '<div style="font-size:12px;color:#666">' + dueStr + '</div>' : '') + '</div>' +
+            '<span style="background:' + priorityColor + ';color:white;padding:2px 8px;border-radius:4px;font-size:11px">' + task.priority + '</span></div>';
+    }).join('');
+}
+
+function renderLiveSchedule(events) {
+    const scheduleCards = document.querySelectorAll('.card');
+    let container = null;
+    scheduleCards.forEach(card => {
+        const h3 = card.querySelector('h3');
+        if (h3 && h3.textContent.toLowerCase().includes('schedule')) {
+            container = card.querySelector('.card-inner') || card.querySelector('ul');
+        }
+    });
+    
+    if (!container) return;
+    
+    events.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+    
+    container.innerHTML = events.map(event => {
+        const start = new Date(event.start_time);
+        const timeStr = start.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
+        const dateStr = start.toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
+        return '<div style="display:flex;padding:12px;border-bottom:1px solid #eee;gap:12px">' +
+            '<div style="min-width:70px;font-weight:600;color:#2563eb">' + timeStr + '</div>' +
+            '<div><div style="font-weight:500">' + event.title + '</div>' +
+            '<div style="font-size:12px;color:#666">' + dateStr + '</div></div></div>';
+    }).join('');
+}
+
+async function toggleTaskStatus(taskId, completed) {
+    const userId = localStorage.getItem('userId');
+    try {
+        await fetch('https://casablancaexpress.com/api/tasks.php', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: taskId, user_id: userId, status: completed ? 'completed' : 'pending'})
+        });
+    } catch (err) {
+        console.error('Error updating task:', err);
+    }
+}
+</script>
 </html>
