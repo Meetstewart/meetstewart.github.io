@@ -2838,9 +2838,22 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         });
 
         function openProjectR() {
-            // Will connect to Project-R dashboard
-            showResponse("Opening Cash Flow Dashboard...<br><br>Project-R integration coming soon! This will show your full cash flow forecasting, transaction categorization, and financial insights.");
+        const userEmail = localStorage.getItem('userEmail') || '';
+        const casaTeam = ['nick@casablancaexpress.com', 'jonathan@casablancaexpress.com', 'jeff.grey@casablancaexpress.com'];
+        
+        if (casaTeam.includes(userEmail.toLowerCase())) {
+            // Casa team gets the internal cash flow app
+            window.open('/cashflow/', '_blank');
+        } else {
+            // Everyone else gets Project-R with SSO
+            const stewartToken = localStorage.getItem('token') || '';
+            if (stewartToken) {
+                window.open('https://web-production-8d237.up.railway.app/auth/stewart-sso?token=' + encodeURIComponent(stewartToken), '_blank');
+            } else {
+                window.open('https://web-production-8d237.up.railway.app', '_blank');
+            }
         }
+    }
     </script>
 
     <!-- Customize VE Modal -->
