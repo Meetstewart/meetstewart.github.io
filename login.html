@@ -285,7 +285,7 @@
     </div>
 
     <script>
-        const API_BASE = 'https://casablancaexpress.com/api';
+        const API_BASE = 'https://stewart-infrastructure-production.up.railway.app/api';
         
         function showForm(type) {
             document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
@@ -334,7 +334,7 @@
             const password = document.getElementById('login-password').value;
             
             try {
-                const response = await fetch(`${API_BASE}/login.php`, {
+                const response = await fetch(`${API_BASE}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
@@ -359,7 +359,7 @@
             const email = document.getElementById('forgot-email').value;
             
             try {
-                const response = await fetch(`${API_BASE}/forgot-password.php`, {
+                const response = await fetch(`${API_BASE}/forgot-password`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `email=${encodeURIComponent(email)}`
@@ -388,7 +388,7 @@
             const smsConsent = document.getElementById('sms-consent').checked;
             
             try {
-                const response = await fetch(`${API_BASE}/signup.php`, {
+                const response = await fetch(`${API_BASE}/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}&sms_consent=${smsConsent ? 1 : 0}`

@@ -2286,7 +2286,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
 
     <script>
         // ===== AUTHENTICATION CHECK =====
-        const API_BASE = 'https://casablancaexpress.com/api';
+        const API_BASE = 'https://stewart-infrastructure-production.up.railway.app/api';
         
         // Check for valid session on page load
         (function checkAuth() {
@@ -2299,7 +2299,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             }
             
             // Verify token is still valid
-            fetch(API_BASE + '/verify.php', {
+            fetch(API_BASE + '/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: token })
@@ -3098,7 +3098,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
 async function loadUserData(userId) {
     console.log('Loading data for user:', userId);
     try {
-        const ctxRes = await fetch('https://casablancaexpress.com/api/context.php?user_id=' + userId);
+        const ctxRes = await fetch('https://stewart-infrastructure-production.up.railway.app/api/context?user_id=' + userId);
         const ctx = await ctxRes.json();
         console.log('Context loaded:', ctx);
         
@@ -3166,7 +3166,7 @@ function renderLiveSchedule(events) {
 async function toggleTaskStatus(taskId, completed) {
     const userId = localStorage.getItem('userId');
     try {
-        await fetch('https://casablancaexpress.com/api/tasks.php', {
+        await fetch('https://stewart-infrastructure-production.up.railway.app/api/tasks', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({id: taskId, user_id: userId, status: completed ? 'completed' : 'pending'})
