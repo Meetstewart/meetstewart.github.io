@@ -15,6 +15,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
             min-height: 100vh;
             color: #fff;
+            overflow-x: hidden;
         }
         
         /* Beta Banner */
@@ -183,7 +184,8 @@
         /* Main Layout */
         .main-container {
             display: flex;
-            height: calc(100vh - 100px); /* Account for beta banner + stats bar */
+            height: calc(100vh - 100px);
+            padding-bottom: 80px; /* Space for input bar */
         }
         
         /* View Containers */
@@ -204,6 +206,7 @@
             flex-direction: column;
             padding: 24px;
             border-right: 1px solid rgba(212,175,55,0.1);
+            min-height: 0; /* Critical for flex children to shrink */
         }
         
         .stewart-header {
@@ -211,6 +214,7 @@
             align-items: center;
             gap: 16px;
             margin-bottom: 20px;
+            flex-shrink: 0;
         }
         
         .stewart-avatar {
@@ -277,16 +281,16 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            overflow: visible;
-            min-height: 0;
+            min-height: 0; /* Critical for flex children to shrink */
+            overflow: hidden;
         }
         
         .messages {
             flex: 1;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
             padding-right: 10px;
-            min-height: 100px;
-            max-height: calc(100vh - 400px);
+            min-height: 0; /* Allow shrinking */
         }
         
         .message {
@@ -350,6 +354,7 @@
             flex: 1;
             padding: 24px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -1051,6 +1056,8 @@
             padding: 24px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .calendar-view-header {
@@ -1058,6 +1065,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            flex-shrink: 0;
         }
         
         .calendar-view-header h2 {
@@ -1155,6 +1163,8 @@
             padding: 24px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .people-view-header {
@@ -1162,6 +1172,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            flex-shrink: 0;
         }
         
         .people-view-header h2 {
@@ -1193,7 +1204,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
-            overflow-y: auto;
             flex: 1;
         }
         
@@ -1380,6 +1390,7 @@
             max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             transform: scale(0.9);
             transition: transform 0.3s;
         }
@@ -1543,12 +1554,14 @@
             right: -100%;
             width: 280px;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             border-left: 1px solid rgba(212,175,55,0.3);
             z-index: 1000;
             transition: right 0.3s ease;
             padding: 80px 20px 20px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .mobile-drawer.open {
@@ -1632,7 +1645,7 @@
             font-weight: 600;
         }
 
-        /* Responsive */
+        /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
@@ -1650,6 +1663,7 @@
             .cards-sidebar {
                 display: none;
             }
+            
             .beta-banner {
                 font-size: 0.85rem;
                 padding: 10px 16px;
@@ -1683,22 +1697,34 @@
                 font-size: 0.75rem;
             }
             
+            /* CRITICAL: Mobile layout fixes for scrolling */
             .main-container { 
                 flex-direction: column;
-                height: auto;
-                min-height: calc(100vh - 110px);
+                height: calc(100vh - 100px);
+                height: calc(100dvh - 100px); /* Use dynamic viewport height */
+                padding-bottom: 80px; /* Space for input bar */
+                overflow: hidden; /* Prevent double scrollbars */
+            }
+            
+            .view-container {
+                overflow: hidden;
             }
             
             .stewart-area { 
                 border-right: none; 
                 border-bottom: 1px solid rgba(212,175,55,0.1);
                 padding: 16px;
-                min-height: auto;
+                flex: 1;
+                min-height: 0; /* Allow shrinking */
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
             }
             
             .stewart-header {
                 gap: 12px;
                 margin-bottom: 16px;
+                flex-shrink: 0;
             }
             
             .stewart-avatar {
@@ -1719,25 +1745,34 @@
                 font-size: 0.75rem;
             }
             
+            /* CRITICAL: Chat area mobile scrolling */
             .chat-area {
                 padding: 14px;
+                flex: 1;
+                min-height: 0; /* Allow shrinking */
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .messages {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                min-height: 0;
+                overscroll-behavior: contain; /* Prevent pull-to-refresh interference */
             }
             
             .quick-actions {
                 gap: 6px;
                 padding-top: 12px;
                 margin-top: 12px;
+                flex-shrink: 0;
             }
             
             .quick-action {
                 padding: 6px 10px;
                 font-size: 0.7rem;
-            }
-            
-            .cards-sidebar { 
-                max-height: 40vh;
-                padding: 12px;
-                gap: 12px;
             }
             
             .card-header {
@@ -1746,6 +1781,12 @@
             
             .card-header h3 {
                 font-size: 0.9rem;
+            }
+            
+            /* People view mobile */
+            .people-view {
+                padding: 16px;
+                padding-bottom: 20px;
             }
             
             .people-grid { 
@@ -1757,10 +1798,17 @@
                 padding: 16px;
             }
             
-            .person-contact-grid { grid-template-columns: 1fr; }
+            .person-contact-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            /* Calendar view mobile */
+            .calendar-view {
+                padding: 16px;
+            }
             
             .calendar-full-grid {
-                max-height: calc(100vh - 250px);
+                max-height: none;
             }
             
             .calendar-cell {
@@ -1997,7 +2045,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             
@@ -2182,9 +2229,7 @@
                         <span class="today-day" id="todayDayName">Thursday</span>
                         <span class="today-full" id="todayFullDate">February 5, 2026</span>
                     </div>
-                    <div class="today-events-list" id="todayEventsList">
-                        <!-- Events rendered by JS -->
-                    </div>
+                    <div class="today-events-list" id="todayEventsList"></div>
                     <div class="no-events-message" id="noTodayEvents" style="display:none;">
                         <span>🎉</span>
                         <p>No events scheduled for today</p>
@@ -2198,9 +2243,7 @@
                         <span id="weekRangeLabel">Feb 3 - Feb 9, 2026</span>
                         <button class="week-nav-btn" onclick="changeWeek(1)">Next →</button>
                     </div>
-                    <div class="week-grid" id="weekGrid">
-                        <!-- Week days rendered by JS -->
-                    </div>
+                    <div class="week-grid" id="weekGrid"></div>
                 </div>
                 
                 <!-- MONTH TAB -->
@@ -2210,9 +2253,7 @@
                         <span id="calendarMonthYear">February 2026</span>
                         <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)">Next →</button>
                     </div>
-                    <div class="calendar-full-grid" id="calendarFullGrid">
-                        <!-- Calendar will be rendered by JS -->
-                    </div>
+                    <div class="calendar-full-grid" id="calendarFullGrid"></div>
                 </div>
             </div>
         </div>
@@ -2226,9 +2267,7 @@
                         <span>+</span> Add Person
                     </button>
                 </div>
-                <div class="people-grid" id="peopleGrid">
-                    <!-- People cards will be rendered by JS -->
-                </div>
+                <div class="people-grid" id="peopleGrid"></div>
             </div>
         </div>
     </div>
@@ -2281,14 +2320,11 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             </div>
         </div>
     </div>
-    
-    <!-- Avatar customization removed -->
 
     <script>
         // ===== AUTHENTICATION CHECK =====
         const API_BASE = 'https://stewart-infrastructure-production.up.railway.app/api';
         
-        // Check for valid session on page load
         (function checkAuth() {
             const token = localStorage.getItem('stewart_token');
             const user = localStorage.getItem('stewart_user');
@@ -2298,7 +2334,6 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                 return;
             }
             
-            // Verify token is still valid
             fetch(API_BASE + '/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2326,28 +2361,22 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         
         function switchView(view) {
             currentView = view;
-            
-            // Update dropdown
             document.getElementById('viewSelector').classList.remove('open');
             document.querySelectorAll('.view-option').forEach(opt => opt.classList.remove('active'));
             document.querySelector(`.view-option[data-view="${view}"]`).classList.add('active');
             
-            // Update button label
             const labels = { chat: 'Chat', calendar: 'Calendar', people: 'People' };
             const icons = { chat: '💬', calendar: '📆', people: '👥' };
             document.getElementById('currentViewLabel').textContent = labels[view];
             document.getElementById('currentViewIcon').textContent = icons[view];
             
-            // Show/hide views
             document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
             document.getElementById(view + 'View').classList.add('active');
             
-            // Render content if needed
             if (view === 'calendar') renderTodayView();
             if (view === 'people') renderPeopleGrid();
         }
         
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.view-selector')) {
                 document.getElementById('viewSelector').classList.remove('open');
@@ -2382,17 +2411,15 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
             
             let html = '';
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             days.forEach(d => html += `<div class="calendar-day-label">${d}</div>`);
             
-            // Previous month
             const prevMonth = new Date(year, month, 0);
             const prevMonthDays = prevMonth.getDate();
             for (let i = startDay - 1; i >= 0; i--) {
                 html += `<div class="calendar-cell other-month"><div class="calendar-cell-date">${prevMonthDays - i}</div></div>`;
             }
             
-            // Current month
             for (let day = 1; day <= totalDays; day++) {
                 const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
                 const isToday = dateStr === todayStr;
@@ -2411,7 +2438,6 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                 </div>`;
             }
             
-            // Next month
             const remainingCells = 42 - (startDay + totalDays);
             for (let i = 1; i <= remainingCells; i++) {
                 html += `<div class="calendar-cell other-month"><div class="calendar-cell-date">${i}</div></div>`;
@@ -2437,23 +2463,18 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             }
         }
         
-        // Calendar Tab Switching
         function switchCalendarTab(tabName) {
-            // Update tab buttons
             document.querySelectorAll('.cal-tab').forEach(t => t.classList.remove('active'));
             document.querySelector(`.cal-tab[data-calview="${tabName}"]`).classList.add('active');
             
-            // Update tab content
             document.querySelectorAll('.cal-tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(`cal${tabName.charAt(0).toUpperCase() + tabName.slice(1)}Tab`).classList.add('active');
             
-            // Render appropriate view
             if (tabName === 'today') renderTodayView();
             else if (tabName === 'week') renderWeekView();
             else if (tabName === 'month') renderFullCalendar();
         }
         
-        // Today View
         function renderTodayView() {
             const today = new Date();
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -2495,9 +2516,8 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             }
         }
         
-        // Week View
         let weekStartDate = new Date();
-        weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay()); // Start of current week (Sunday)
+        weekStartDate.setDate(weekStartDate.getDate() - weekStartDate.getDay());
         
         function renderWeekView() {
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -2506,13 +2526,11 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             const today = new Date();
             const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
             
-            // Week range label
             const weekEnd = new Date(weekStartDate);
             weekEnd.setDate(weekEnd.getDate() + 6);
             document.getElementById('weekRangeLabel').textContent = 
                 `${months[weekStartDate.getMonth()]} ${weekStartDate.getDate()} - ${months[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekStartDate.getFullYear()}`;
             
-            // Build week grid
             let html = '';
             for (let i = 0; i < 7; i++) {
                 const day = new Date(weekStartDate);
@@ -2664,19 +2682,15 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             };
             
             if (id) {
-                // Update existing
                 const index = people.findIndex(p => p.id === parseInt(id));
                 if (index >= 0) people[index] = personData;
             } else {
-                // Add new
                 people.push(personData);
             }
             
             savePeopleToStorage();
             renderPeopleGrid();
             closeAddPersonModal();
-            
-            // Show confirmation in chat
             addMessage(`Got it! I've ${id ? 'updated' : 'added'} ${name} to your contacts. I'll remember how to communicate with them.`, 'bot');
         }
         
@@ -2710,60 +2724,38 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             messages.scrollTop = messages.scrollHeight;
         }
         
-        // Demo responses for beta
-        const demoResponses = [
-            "I've checked your calendar and you have 3 meetings today. Your next one is with the development team at 2 PM.",
-            "I've drafted that email for you. Would you like me to send it now or schedule it for later?",
-            "Based on your recent activity, I suggest prioritizing the client proposal today. I can help you outline the key points.",
-            "I found 5 emails that need your attention. 2 are marked urgent from the sales team.",
-            "Your task list has been updated. You have 8 items remaining this week, with 3 due tomorrow.",
-            "I've analyzed the report and here are the key insights: revenue is up 12% this quarter, with the strongest growth in the enterprise segment.",
-            "Great question! Let me pull together that information for you. This should just take a moment.",
-            "I've scheduled that meeting for Thursday at 10 AM. I'll send calendar invites to all participants.",
-        ];
-        
-
-        // ===== CONTEXTUAL RESPONSES =====
         function getContextualResponse(input) {
             const lower = input.toLowerCase();
             
-            // Calendar/schedule related
             if (lower.includes('calendar') || lower.includes('meeting') || lower.includes('schedule') || lower.includes('appointment')) {
                 return "I've checked your calendar and you have 3 meetings today. Your next one is with the development team at 2 PM. Would you like me to reschedule anything?";
             }
             
-            // Email related
             if (lower.includes('email') || lower.includes('mail') || lower.includes('inbox')) {
                 return "I found 5 emails that need your attention. 2 are marked urgent from the sales team. Want me to summarize them for you?";
             }
             
-            // Task related
             if (lower.includes('task') || lower.includes('todo') || lower.includes('to-do') || lower.includes('to do')) {
                 return "Your task list has been updated. You have 8 items remaining this week, with 3 due tomorrow. Should I prioritize them for you?";
             }
             
-            // Report/analysis related
             if (lower.includes('report') || lower.includes('analysis') || lower.includes('data') || lower.includes('numbers')) {
                 return "I've analyzed the latest data. Revenue is up 12% this quarter, with strongest growth in enterprise. Want me to create a detailed breakdown?";
             }
             
-            // Help
             if (lower.includes('help') || lower.includes('what can you')) {
                 return "I can help with: calendar management, email drafting, task tracking, data analysis, and more. What would you like to do?";
             }
             
-            // Greeting
             if (lower.includes('hello') || lower.includes('hi ') || lower === 'hi' || lower.includes('hey') || lower === 'yo') {
                 const user = JSON.parse(localStorage.getItem('stewart_user') || '{}');
                 return `Hey ${user.name || 'there'}! Great to see you. What can I help you with today?`;
             }
             
-            // Thanks
             if (lower.includes('thank')) {
                 return "You're welcome! Let me know if there's anything else I can help with.";
             }
             
-            // Default
             const defaults = [
                 "I'm on it! Let me look into that for you.",
                 "Great question! Give me just a moment to gather that information.",
@@ -2778,7 +2770,6 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             if (text) {
                 addMessage(text, 'user');
                 input.value = '';
-                // Show typing indicator then response
                 setTimeout(() => {
                     const response = getContextualResponse(text);
                     addMessage(response, 'bot');
@@ -2808,7 +2799,6 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             hamburger.classList.toggle('active');
         }
         
-        // Add touch event for iOS Safari
         document.addEventListener('DOMContentLoaded', function() {
             const hamburger = document.querySelector('.hamburger');
             if (hamburger) {
@@ -2830,16 +2820,12 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         }
         
         function switchViewMobile(view) {
-            // Update drawer nav items
             document.querySelectorAll('.drawer-nav-item[data-view]').forEach(item => {
                 item.classList.remove('active');
             });
             document.querySelector(`.drawer-nav-item[data-view="${view}"]`).classList.add('active');
             
-            // Switch the view
             switchView(view);
-            
-            // Close drawer
             closeMobileDrawer();
         }
         
@@ -2849,8 +2835,18 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             card.classList.toggle('expanded');
         }
         
-        // ===== CUSTOMIZE MODAL =====
+        // ===== HELPER FUNCTIONS =====
+        function openAppPage(page) {
+            alert(`${page.charAt(0).toUpperCase() + page.slice(1)} page coming soon!`);
+        }
         
+        function openProjectR() {
+            window.open('https://projectr.com', '_blank');
+        }
+        
+        function openCustomizeModal() {
+            alert('Customization options coming soon!');
+        }
         
         // ===== INIT =====
         function initAvatar() {
@@ -2870,11 +2866,11 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             if (typeof generateAvatar === 'function') {
                 const svg = generateAvatar(config);
                 document.getElementById('mainBotAvatar').innerHTML = svg;
-                document.getElementById('navBotAvatar').innerHTML = svg;
+                const navAvatar = document.getElementById('navBotAvatar');
+                if (navAvatar) navAvatar.innerHTML = svg;
             }
         }
         
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadPeopleFromStorage();
             initAvatar();
@@ -2883,297 +2879,6 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             renderFullCalendar();
             renderPeopleGrid();
         });
-
-        function openAppPage(appName) {
-        // For now, scroll to the card on mobile or open dedicated page
-        const cardTitles = {
-            'schedule': "Today's Schedule",
-            'projects': 'Projects',
-            'tasks': 'Tasks',
-            'activity': 'Activity'
-        };
-        
-        // Switch to chat view to see cards
-        switchView('chat');
-        
-        // Find and expand the card
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const header = card.querySelector('.card-header h3');
-            if (header && header.textContent.includes(cardTitles[appName])) {
-                card.classList.add('expanded');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    }
-    
-    function openProjectR() {
-        const userEmail = localStorage.getItem('userEmail') || '';
-        const casaTeam = ['nick@casablancaexpress.com', 'jonathan@casablancaexpress.com', 'jeff.grey@casablancaexpress.com'];
-        
-        if (casaTeam.includes(userEmail.toLowerCase())) {
-            // Casa team gets the internal cash flow app
-            window.open('/cashflow/', '_blank');
-        } else {
-            // Everyone else gets Project-R with SSO
-            const stewartToken = localStorage.getItem('token') || '';
-            if (stewartToken) {
-                window.open('https://web-production-8d237.up.railway.app/auth/stewart-sso?token=' + encodeURIComponent(stewartToken), '_blank');
-            } else {
-                window.open('https://web-production-8d237.up.railway.app', '_blank');
-            }
-        }
-    }
     </script>
-
-    <!-- Customize VE Modal -->
-    <div class="modal-overlay" id="customizeModal">
-        <div class="modal" style="max-width: 500px; max-height: 90vh; overflow-y: auto;">
-            <div class="modal-header">
-                <h2>Customize Your VE</h2>
-                <button class="modal-close" onclick="closeCustomizeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Avatar Section -->
-                <div class="customize-section">
-                    <h3 class="customize-label">Choose Avatar</h3>
-                    <div class="avatar-presets">
-                        <div class="avatar-preset selected" onclick="selectAvatar(this, 'stewart')" data-avatar="stewart">
-                            <div class="avatar-preview stewart-style">
-                                <svg viewBox="0 0 100 100">
-                                    <circle cx="50" cy="40" r="25" fill="#f5d0c5"/>
-                                    <rect x="30" y="60" width="40" height="30" rx="5" fill="#1a1a2e"/>
-                                    <circle cx="42" cy="38" r="3" fill="#333"/>
-                                    <circle cx="58" cy="38" r="3" fill="#333"/>
-                                    <path d="M45 48 Q50 52 55 48" stroke="#333" fill="none" stroke-width="2"/>
-                                    <rect x="35" y="20" width="30" height="8" rx="2" fill="#d4af37"/>
-                                </svg>
-                            </div>
-                            <span>Stewart</span>
-                        </div>
-                        <div class="avatar-preset" onclick="selectAvatar(this, 'professional')" data-avatar="professional">
-                            <div class="avatar-preview pro-style">
-                                <svg viewBox="0 0 100 100">
-                                    <circle cx="50" cy="40" r="25" fill="#8d6e63"/>
-                                    <rect x="30" y="60" width="40" height="30" rx="5" fill="#2d3748"/>
-                                    <circle cx="42" cy="38" r="3" fill="#333"/>
-                                    <circle cx="58" cy="38" r="3" fill="#333"/>
-                                    <path d="M45 48 Q50 52 55 48" stroke="#333" fill="none" stroke-width="2"/>
-                                    <ellipse cx="50" cy="22" rx="18" ry="8" fill="#1a1a1a"/>
-                                </svg>
-                            </div>
-                            <span>Pro</span>
-                        </div>
-                        <div class="avatar-preset" onclick="selectAvatar(this, 'friendly')" data-avatar="friendly">
-                            <div class="avatar-preview friendly-style">
-                                <svg viewBox="0 0 100 100">
-                                    <circle cx="50" cy="40" r="25" fill="#ffe0bd"/>
-                                    <rect x="30" y="60" width="40" height="30" rx="5" fill="#48bb78"/>
-                                    <circle cx="42" cy="38" r="3" fill="#333"/>
-                                    <circle cx="58" cy="38" r="3" fill="#333"/>
-                                    <path d="M42 48 Q50 55 58 48" stroke="#333" fill="none" stroke-width="2.5"/>
-                                    <path d="M35 25 Q50 15 65 25" stroke="#c9a86c" fill="none" stroke-width="6"/>
-                                </svg>
-                            </div>
-                            <span>Friendly</span>
-                        </div>
-                        <div class="avatar-preset" onclick="selectAvatar(this, 'executive')" data-avatar="executive">
-                            <div class="avatar-preview exec-style">
-                                <svg viewBox="0 0 100 100">
-                                    <circle cx="50" cy="40" r="25" fill="#d4a574"/>
-                                    <rect x="30" y="60" width="40" height="30" rx="5" fill="#1a1a2e"/>
-                                    <rect x="45" y="60" width="10" height="30" fill="#d4af37"/>
-                                    <circle cx="42" cy="38" r="3" fill="#333"/>
-                                    <circle cx="58" cy="38" r="3" fill="#333"/>
-                                    <path d="M45 48 Q50 50 55 48" stroke="#333" fill="none" stroke-width="2"/>
-                                    <rect x="32" y="18" width="36" height="12" rx="3" fill="#4a5568"/>
-                                </svg>
-                            </div>
-                            <span>Executive</span>
-                        </div>
-                        <div class="avatar-preset" onclick="selectAvatar(this, 'creative')" data-avatar="creative">
-                            <div class="avatar-preview creative-style">
-                                <svg viewBox="0 0 100 100">
-                                    <circle cx="50" cy="40" r="25" fill="#ffd5dc"/>
-                                    <rect x="30" y="60" width="40" height="30" rx="5" fill="#9f7aea"/>
-                                    <circle cx="42" cy="38" r="3" fill="#333"/>
-                                    <circle cx="58" cy="38" r="3" fill="#333"/>
-                                    <path d="M42 48 Q50 54 58 48" stroke="#333" fill="none" stroke-width="2"/>
-                                    <ellipse cx="50" cy="20" rx="20" ry="10" fill="#ed64a6"/>
-                                </svg>
-                            </div>
-                            <span>Creative</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Voice Section -->
-                <div class="customize-section">
-                    <h3 class="customize-label">Voice</h3>
-                    <div class="voice-options">
-                        <div class="voice-option selected" onclick="selectVoice(this, 'eric')" data-voice="eric">
-                            <div class="voice-icon">🎙️</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Eric</span>
-                                <span class="voice-desc">Confident, warm (Male)</span>
-                            </div>
-                        </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'adam')" data-voice="adam">
-                            <div class="voice-icon">🎙️</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Adam</span>
-                                <span class="voice-desc">Deep, authoritative (Male)</span>
-                            </div>
-                        </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'josh')" data-voice="josh">
-                            <div class="voice-icon">🎙️</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Josh</span>
-                                <span class="voice-desc">Friendly, casual (Male)</span>
-                            </div>
-                        </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'rachel')" data-voice="rachel">
-                            <div class="voice-icon">🎤</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Rachel</span>
-                                <span class="voice-desc">Professional, clear (Female)</span>
-                            </div>
-                        </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'bella')" data-voice="bella">
-                            <div class="voice-icon">🎤</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Bella</span>
-                                <span class="voice-desc">Warm, friendly (Female)</span>
-                            </div>
-                        </div>
-                        <div class="voice-option" onclick="selectVoice(this, 'elli')" data-voice="elli">
-                            <div class="voice-icon">🎤</div>
-                            <div class="voice-info">
-                                <span class="voice-name">Elli</span>
-                                <span class="voice-desc">Young, energetic (Female)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Voice Settings -->
-                <div class="customize-section">
-                    <h3 class="customize-label">Voice Settings</h3>
-                    <div class="slider-group">
-                        <label>Speed</label>
-                        <input type="range" id="voiceSpeed" min="0.5" max="1.5" step="0.1" value="1.0" oninput="updateSpeedLabel(this.value)">
-                        <span id="speedLabel">1.0x</span>
-                    </div>
-                    <div class="slider-group">
-                        <label>Intensity</label>
-                        <input type="range" id="voiceIntensity" min="0" max="100" step="10" value="50" oninput="updateIntensityLabel(this.value)">
-                        <span id="intensityLabel">50%</span>
-                    </div>
-                </div>
-                
-                <!-- Bot Name -->
-                <div class="customize-section">
-                    <h3 class="customize-label">VE Name</h3>
-                    <input type="text" id="botNameInput" class="customize-input" placeholder="Stewart" value="Stewart">
-                    <div class="name-suggestions">
-                        <span onclick="setBotName('Stewart')">Stewart</span>
-                        <span onclick="setBotName('Abby')">Abby</span>
-                        <span onclick="setBotName('Max')">Max</span>
-                        <span onclick="setBotName('Luna')">Luna</span>
-                        <span onclick="setBotName('Alex')">Alex</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn" onclick="closeCustomizeModal()">Cancel</button>
-                <button class="modal-btn modal-btn-primary" onclick="saveCustomization()">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-<script src="js/dashboard-init.js"></script></body>
-
-<script>
-// ========== LIVE DATA LOADING ==========
-async function loadUserData(userId) {
-    console.log('Loading data for user:', userId);
-    try {
-        const ctxRes = await fetch('https://stewart-infrastructure-production.up.railway.app/api/context?user_id=' + userId);
-        const ctx = await ctxRes.json();
-        console.log('Context loaded:', ctx);
-        
-        if (ctx.success) {
-            if (ctx.tasks && ctx.tasks.length > 0) {
-                renderLiveTasks(ctx.tasks);
-            }
-            if (ctx.calendar && ctx.calendar.length > 0) {
-                renderLiveSchedule(ctx.calendar);
-            }
-        }
-    } catch (err) {
-        console.error('Error loading user data:', err);
-    }
-}
-
-function renderLiveTasks(tasks) {
-    const taskCards = document.querySelectorAll('.card');
-    let taskContainer = null;
-    taskCards.forEach(card => {
-        const h3 = card.querySelector('h3');
-        if (h3 && h3.textContent.toLowerCase().includes('task')) {
-            taskContainer = card.querySelector('.card-inner') || card.querySelector('ul');
-        }
-    });
-    
-    if (!taskContainer) return;
-    
-    taskContainer.innerHTML = tasks.map(task => {
-        const priorityColor = task.priority === 'high' ? '#ef4444' : task.priority === 'medium' ? '#f59e0b' : '#22c55e';
-        const dueStr = task.due_date ? new Date(task.due_date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) : '';
-        return '<div style="display:flex;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:12px">' +
-            '<input type="checkbox" ' + (task.status === 'completed' ? 'checked' : '') + ' onchange="toggleTaskStatus(' + task.id + ', this.checked)">' +
-            '<div style="flex:1"><div style="font-weight:500">' + task.title + '</div>' +
-            (dueStr ? '<div style="font-size:12px;color:#666">' + dueStr + '</div>' : '') + '</div>' +
-            '<span style="background:' + priorityColor + ';color:white;padding:2px 8px;border-radius:4px;font-size:11px">' + task.priority + '</span></div>';
-    }).join('');
-}
-
-function renderLiveSchedule(events) {
-    const scheduleCards = document.querySelectorAll('.card');
-    let container = null;
-    scheduleCards.forEach(card => {
-        const h3 = card.querySelector('h3');
-        if (h3 && h3.textContent.toLowerCase().includes('schedule')) {
-            container = card.querySelector('.card-inner') || card.querySelector('ul');
-        }
-    });
-    
-    if (!container) return;
-    
-    events.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
-    
-    container.innerHTML = events.map(event => {
-        const start = new Date(event.start_time);
-        const timeStr = start.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
-        const dateStr = start.toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
-        return '<div style="display:flex;padding:12px;border-bottom:1px solid #eee;gap:12px">' +
-            '<div style="min-width:70px;font-weight:600;color:#2563eb">' + timeStr + '</div>' +
-            '<div><div style="font-weight:500">' + event.title + '</div>' +
-            '<div style="font-size:12px;color:#666">' + dateStr + '</div></div></div>';
-    }).join('');
-}
-
-async function toggleTaskStatus(taskId, completed) {
-    const userId = localStorage.getItem('userId');
-    try {
-        await fetch('https://stewart-infrastructure-production.up.railway.app/api/tasks', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: taskId, user_id: userId, status: completed ? 'completed' : 'pending'})
-        });
-    } catch (err) {
-        console.error('Error updating task:', err);
-    }
-}
-</script>
+</body>
 </html>
