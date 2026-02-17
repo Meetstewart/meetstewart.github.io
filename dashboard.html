@@ -323,6 +323,42 @@
             border-bottom-right-radius: 4px;
         }
         
+        /* File attachment in message */
+        .message-attachment {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .message.user .message-attachment {
+            background: rgba(0,0,0,0.15);
+        }
+        
+        .message-attachment-icon {
+            font-size: 1.2rem;
+        }
+        
+        .message-attachment-name {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .message-attachment-size {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+        }
+        
+        .message.user .message-attachment-size {
+            color: rgba(0,0,0,0.5);
+        }
+        
         .quick-actions {
             display: flex;
             flex-wrap: wrap;
@@ -573,12 +609,107 @@
             z-index: 1000;
         }
         
+        /* Attached Files Preview */
+        .attached-files {
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 800px;
+            margin: 0 auto 12px;
+            padding: 0 4px;
+        }
+        
+        .attached-files.has-files {
+            display: flex;
+        }
+        
+        .attached-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212,175,55,0.15);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            max-width: 200px;
+        }
+        
+        .attached-file-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .attached-file-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .attached-file-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+        }
+        
+        .attached-file-size {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .attached-file-remove {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            padding: 2px;
+            font-size: 1rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        
+        .attached-file-remove:hover {
+            color: #ff6b6b;
+        }
+        
         .input-container {
             display: flex;
             align-items: center;
             gap: 12px;
             max-width: 800px;
             margin: 0 auto;
+        }
+        
+        .attach-btn {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: #d4af37;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .attach-btn:hover {
+            background: rgba(212,175,55,0.2);
+            transform: scale(1.05);
+        }
+        
+        .attach-btn.has-files {
+            background: rgba(212,175,55,0.3);
+            border-color: #d4af37;
+        }
+        
+        #fileInput {
+            display: none;
         }
         
         .input-field {
@@ -1820,6 +1951,41 @@
                 padding: 8px;
                 font-size: 0.75rem;
             }
+            
+            /* Input bar mobile */
+            .input-bar {
+                padding: 12px 16px;
+            }
+            
+            .input-container {
+                gap: 8px;
+            }
+            
+            .attach-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .send-btn {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .voice-btn {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .attached-files {
+                padding: 0;
+            }
+            
+            .attached-file {
+                max-width: 160px;
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
         }
         
         /* Extra small devices */
@@ -1853,6 +2019,12 @@
             
             .quick-action {
                 font-size: 0.65rem;
+            }
+            
+            .attach-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
             }
         }
 
@@ -2274,7 +2446,14 @@
     
     <!-- Input Bar -->
     <div class="input-bar">
+        <!-- Attached Files Preview -->
+        <div class="attached-files" id="attachedFiles"></div>
+        
         <div class="input-container">
+            <button class="attach-btn" id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Attach files">
+                📎
+            </button>
+            <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.rtf,.csv,.jpg,.jpeg,.png,.gif,.webp,.svg,.heic,.mp3,.wav,.m4a,.ogg,.aac,.mp4,.mov,.avi,.webm,.mkv,.zip,.tar,.gz,.rar,.7z,.js,.py,.html,.css,.json,.xml,.md,.yaml,.yml">
             <input type="text" class="input-field" placeholder="Ask Stewart anything..." id="messageInput" onkeypress="handleKeyPress(event)">
             <button class="send-btn" onclick="sendMessage()" aria-label="Send">➤</button>
             <button class="voice-btn" onclick="toggleVoice()">🎤</button>
@@ -2351,6 +2530,101 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
                 console.log('Could not verify token - allowing cached session');
             });
         })();
+
+        // ===== FILE ATTACHMENT HANDLING =====
+        let attachedFiles = [];
+        
+        const fileTypeIcons = {
+            // Documents
+            'pdf': '📕',
+            'doc': '📘', 'docx': '📘',
+            'xls': '📗', 'xlsx': '📗',
+            'ppt': '📙', 'pptx': '📙',
+            'txt': '📄', 'rtf': '📄', 'md': '📄',
+            'csv': '📊',
+            // Images
+            'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'gif': '🖼️', 
+            'webp': '🖼️', 'svg': '🖼️', 'heic': '🖼️',
+            // Audio
+            'mp3': '🎵', 'wav': '🎵', 'm4a': '🎵', 'ogg': '🎵', 'aac': '🎵',
+            // Video
+            'mp4': '🎬', 'mov': '🎬', 'avi': '🎬', 'webm': '🎬', 'mkv': '🎬',
+            // Archives
+            'zip': '📦', 'tar': '📦', 'gz': '📦', 'rar': '📦', '7z': '📦',
+            // Code
+            'js': '💻', 'py': '💻', 'html': '💻', 'css': '💻', 
+            'json': '💻', 'xml': '💻', 'yaml': '💻', 'yml': '💻',
+            // Default
+            'default': '📎'
+        };
+        
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            return fileTypeIcons[ext] || fileTypeIcons['default'];
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+        
+        function updateAttachedFilesUI() {
+            const container = document.getElementById('attachedFiles');
+            const attachBtn = document.getElementById('attachBtn');
+            
+            if (attachedFiles.length === 0) {
+                container.classList.remove('has-files');
+                attachBtn.classList.remove('has-files');
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.classList.add('has-files');
+            attachBtn.classList.add('has-files');
+            
+            container.innerHTML = attachedFiles.map((file, index) => `
+                <div class="attached-file">
+                    <span class="attached-file-icon">${getFileIcon(file.name)}</span>
+                    <div class="attached-file-info">
+                        <span class="attached-file-name" title="${file.name}">${file.name}</span>
+                        <span class="attached-file-size">${formatFileSize(file.size)}</span>
+                    </div>
+                    <button class="attached-file-remove" onclick="removeAttachedFile(${index})" title="Remove">×</button>
+                </div>
+            `).join('');
+        }
+        
+        function removeAttachedFile(index) {
+            attachedFiles.splice(index, 1);
+            updateAttachedFilesUI();
+        }
+        
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            // Check file size (max 25MB per file)
+            const maxSize = 25 * 1024 * 1024;
+            const validFiles = files.filter(file => {
+                if (file.size > maxSize) {
+                    alert(`"${file.name}" is too large. Maximum file size is 25MB.`);
+                    return false;
+                }
+                return true;
+            });
+            
+            // Add to attached files (max 10 files)
+            const remainingSlots = 10 - attachedFiles.length;
+            if (validFiles.length > remainingSlots) {
+                alert(`You can only attach up to 10 files. Only adding ${remainingSlots} more.`);
+            }
+            
+            attachedFiles = [...attachedFiles, ...validFiles.slice(0, remainingSlots)];
+            updateAttachedFilesUI();
+            
+            // Reset input so same file can be selected again
+            e.target.value = '';
+        });
 
         // ===== VIEW SWITCHING =====
         let currentView = 'chat';
@@ -2715,17 +2989,34 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         }
         
         // ===== CHAT =====
-        function addMessage(text, type) {
+        function addMessage(text, type, files = []) {
             const messages = document.getElementById('messages');
             const msg = document.createElement('div');
             msg.className = `message ${type}`;
-            msg.innerHTML = `<div class="message-bubble">${text}</div>`;
+            
+            let attachmentsHtml = '';
+            if (files.length > 0) {
+                attachmentsHtml = files.map(file => `
+                    <div class="message-attachment">
+                        <span class="message-attachment-icon">${getFileIcon(file.name)}</span>
+                        <span class="message-attachment-name">${file.name}</span>
+                        <span class="message-attachment-size">${formatFileSize(file.size)}</span>
+                    </div>
+                `).join('');
+            }
+            
+            msg.innerHTML = `<div class="message-bubble">${text}${attachmentsHtml}</div>`;
             messages.appendChild(msg);
             messages.scrollTop = messages.scrollHeight;
         }
         
-        function getContextualResponse(input) {
+        function getContextualResponse(input, hasFiles) {
             const lower = input.toLowerCase();
+            
+            // Handle file attachments
+            if (hasFiles) {
+                return "Thanks for sharing those files! I'll analyze them and get back to you with a summary. Is there anything specific you'd like me to look for?";
+            }
             
             if (lower.includes('calendar') || lower.includes('meeting') || lower.includes('schedule') || lower.includes('appointment')) {
                 return "I've checked your calendar and you have 3 meetings today. Your next one is with the development team at 2 PM. Would you like me to reschedule anything?";
@@ -2744,7 +3035,7 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             }
             
             if (lower.includes('help') || lower.includes('what can you')) {
-                return "I can help with: calendar management, email drafting, task tracking, data analysis, and more. What would you like to do?";
+                return "I can help with: calendar management, email drafting, task tracking, data analysis, file processing, and more. What would you like to do?";
             }
             
             if (lower.includes('hello') || lower.includes('hi ') || lower === 'hi' || lower.includes('hey') || lower === 'yo') {
@@ -2767,11 +3058,21 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
-            if (text) {
-                addMessage(text, 'user');
+            const hasFiles = attachedFiles.length > 0;
+            
+            if (text || hasFiles) {
+                // Add user message with attached files
+                const filesToSend = [...attachedFiles];
+                addMessage(text || 'Shared files:', 'user', filesToSend);
+                
+                // Clear input and attachments
                 input.value = '';
+                attachedFiles = [];
+                updateAttachedFilesUI();
+                
+                // Bot response
                 setTimeout(() => {
-                    const response = getContextualResponse(text);
+                    const response = getContextualResponse(text, hasFiles);
                     addMessage(response, 'bot');
                 }, 800 + Math.random() * 700);
             }
