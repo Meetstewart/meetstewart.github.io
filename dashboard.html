@@ -2049,6 +2049,58 @@
                 font-size: 0.85rem;
             }
         }
+    
+        /* Report Issue Widget */
+        .report-issue-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 998;
+            box-shadow: 0 4px 15px rgba(255, 100, 100, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .report-issue-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 100, 100, 0.6);
+        }
+        .report-issue-btn .tooltip {
+            position: absolute;
+            right: 60px;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .report-issue-btn:hover .tooltip {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .report-issue-btn {
+                bottom: 90px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+            .report-issue-btn .tooltip { display: none; }
+        }
+
     </style>
 </head>
 <body>
@@ -3181,5 +3233,36 @@ Example: Suzy is in charge of shipping. She's really nice and always likes to ma
             renderPeopleGrid();
         });
     </script>
+
+    <!-- Report Issue Button -->
+    <button class="report-issue-btn" onclick="openReportIssueModal()" title="Report an Issue">
+        🐛
+        <span class="tooltip">Report an Issue</span>
+    </button>
+    
+    <!-- Report Issue Modal -->
+    <div class="modal-overlay" id="reportIssueModal">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>🐛 Report an Issue</h2>
+                <button class="modal-close" onclick="closeReportIssueModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 16px;">
+                    Found a bug or something not working right? Let us know and we'll fix it ASAP!
+                </p>
+                <div class="form-group">
+                    <label>What's the issue? *</label>
+                    <textarea id="issueDescription" placeholder="Describe what happened or what's not working..." style="min-height: 150px;"></textarea>
+                </div>
+                <div id="issueStatus" style="display: none; padding: 12px; border-radius: 8px; margin-top: 12px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" onclick="closeReportIssueModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="submitIssue()" id="submitIssueBtn">Send Report</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
