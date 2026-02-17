@@ -1872,16 +1872,18 @@
             }
             
             /* CRITICAL: Mobile layout fixes for scrolling */
+            /* ===== MOBILE LAYOUT FIX v2 ===== */
             .main-container { 
                 flex-direction: column;
                 height: calc(100vh - 100px);
-                height: calc(100dvh - 100px); /* Use dynamic viewport height */
-                padding-bottom: 80px; /* Space for input bar */
-                overflow: hidden; /* Prevent double scrollbars */
+                height: calc(100dvh - 100px);
+                padding-bottom: 90px;
+                overflow: hidden;
             }
             
             .view-container {
-                overflow: hidden;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             .stewart-area { 
@@ -1889,10 +1891,10 @@
                 border-bottom: 1px solid rgba(212,175,55,0.1);
                 padding: 16px;
                 flex: 1;
-                min-height: 0; /* Allow shrinking */
+                min-height: 0;
                 display: flex;
                 flex-direction: column;
-                overflow: hidden;
+                overflow: visible;
             }
             
             .stewart-header {
@@ -1923,8 +1925,9 @@
             .chat-area {
                 padding: 14px;
                 flex: 1;
-                min-height: 0; /* Allow shrinking */
-                overflow: hidden;
+                min-height: 200px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
                 display: flex;
                 flex-direction: column;
             }
@@ -1933,8 +1936,11 @@
                 flex: 1;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
-                min-height: 0;
-                overscroll-behavior: contain; /* Prevent pull-to-refresh interference */
+                min-height: 100px;
+                overscroll-behavior: contain;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
             }
             
             .quick-actions {
