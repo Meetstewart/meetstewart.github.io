@@ -1,333 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stewart - Your AI Virtual Executive</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10,10,10,0.9);
-            backdrop-filter: blur(10px);
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #c9a227;
-        }
+  <title>Stewart • AI Chief of Staff</title>
+  <meta name="description" content="Stewart is an AI Chief of Staff — a hybrid local-cloud system that reduces non-core work for executives and SMB operators. Approval-based execution, privacy by design, cost discipline." />
 
-        /* Hamburger */
-        .hamburger {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 1001;
-        }
-        .hamburger span {
-            width: 28px;
-            height: 3px;
-            background: #c9a227;
-            transition: all 0.3s;
-        }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+  <!-- Canonical -->
+  <link rel="canonical" href="https://meetstewart.com/" />
 
-        /* Slide Menu - SIMPLIFIED */
-        .slide-menu {
-            position: fixed;
-            top: 0;
-            right: -350px;
-            width: 350px;
-            max-width: 90vw;
-            height: 100vh;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
-            z-index: 999;
-            transition: right 0.4s ease;
-            padding: 100px 30px 40px;
-            overflow-y: auto;
-        }
-        .slide-menu.active { right: 0; }
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
-        .menu-link {
-            display: block;
-            padding: 18px 0;
-            color: #e0e0e0;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: color 0.2s;
-            font-size: 1.05rem;
-        }
-        .menu-link:hover { color: #c9a227; }
-        .menu-link.highlight {
-            color: #c9a227;
-            font-weight: 600;
-        }
-        .menu-section-title {
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Stewart" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stewart • AI Chief of Staff" />
+  <meta property="og:description" content="Stewart is an AI Chief of Staff — a hybrid local-cloud system that reduces non-core work for executives and SMB operators. Approval-based execution, privacy by design, cost discipline." />
+  <meta property="og:url" content="https://meetstewart.com/" />
+  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 20px 60px;
-        }
-        .stewart-avatar {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 40px;
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #c9a227 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            color: #aaa;
-            max-width: 600px;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-        .cta-button {
-            background: linear-gradient(135deg, #c9a227 0%, #a88620 100%);
-            color: #000;
-            padding: 18px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 30px rgba(201,162,39,0.3);
-        }
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 40px rgba(201,162,39,0.5);
-        }
-        .phone-link {
-            margin-top: 30px;
-            color: #888;
-            font-size: 0.95rem;
-        }
-        .phone-link a {
-            color: #c9a227;
-            text-decoration: none;
-        }
-        .phone-link a:hover { text-decoration: underline; }
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Stewart • AI Chief of Staff" />
+  <meta name="twitter:description" content="Stewart is an AI Chief of Staff — a hybrid local-cloud system that reduces non-core work for executives and SMB operators. Approval-based execution, privacy by design, cost discipline." />
+  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-        /* Features Grid */
-        .features {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .features h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 50px;
-            color: #c9a227;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(201,162,39,0.15);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .feature-card:hover {
-            border-color: rgba(201,162,39,0.4);
-            transform: translateY(-5px);
-        }
-        .feature-card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        .feature-card h3 {
-            color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        .feature-card p {
-            color: #888;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .feature-card a {
-            color: #c9a227;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .feature-card a:hover { text-decoration: underline; }
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 998;
-        }
-        .overlay.active { opacity: 1; visibility: visible; }
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Stewart",
+    "url": "https://meetstewart.com",
+    "description": "Stewart is a hybrid local-cloud AI Chief of Staff designed to reduce non-core work for executives and SMB operators.",
+    "logo": "https://meetstewart.com/assets/logo.png"
+  }
+  </script>
+</head><body>
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Stewart</span>
+      <span class="pill"><strong>AI Chief of Staff</strong></span>
+    </a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="nav-links">
+      <a class="pill" href="/how-stewart-works/">How I work</a>
+      <a class="pill" href="/use-cases/">Use cases</a>
+      <a class="pill" href="/capabilities/">Capabilities</a>
+      <a class="pill" href="/architecture/overview/">Architecture</a>
+      <a class="pill" href="/pricing/">Pricing</a>
+      <a class="btn secondary" href="/login/">Sign In</a>
+      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" onclick="toggleMenu()"></div>
+<div class="container hero">
+  <div class="kicker">Hybrid local-cloud system • <code>cost discipline</code> • <code>privacy</code> • <code>resilience</code></div>
+  <h1>I’m Stewart — your AI Chief of Staff.</h1>
+  <p class="lede">I reduce non-core work so you can focus on what actually makes money.</p>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px">
+    <a class="btn" href="/dashboard/">Talk to Stewart →</a>
+    <a class="btn secondary" href="/onboarding/">Get started</a>
+  </div>
+  <h2 style="margin-top:34px">What I Do</h2>
+  <p class="lede">Work that used to take a team.</p>
+  <div class="grid" style="margin-top:14px">
+    <div class="card"><h3>💬 Customer Service</h3><p>Handle conversations, capture intent, and keep follow-through clean.</p></div>
+    <div class="card"><h3>📊 Finance & Analysis</h3><p>Turn messy inputs into clear decisions, summaries, and next steps.</p></div>
+    <div class="card"><h3>🎨 Design Direction</h3><p>Clarify taste, direction, and execution requirements without endless loops.</p></div>
+    <div class="card"><h3>⚡ Coding & Automation</h3><p>Build tools, debug workflows, and automate repetitive work safely.</p></div>
+    <div class="card"><h3>📱 Social Operations</h3><p>Support planning, cadence, and execution — without fake “growth hacks.”</p></div>
+    <div class="card"><h3>🚀 Project Execution</h3><p>Turn conversations into tasks, owners, timelines, and deliverables.</p></div>
+  </div>
+  <div class="rule"></div>
+  <h2>Recommended starter setup</h2>
+  <p class="lede"><strong>$299 / month total</strong> — Stewart ($199) + Dedicated phone for voice & SMS ($100).</p>
+  <div class="rule"></div>
+  <blockquote>I’m not a roadmap or a promise. I’m the system running today.<br><span style="opacity:.85">— Stewart</span></blockquote>
+  <p class="small" style="margin-top:22px; color:var(--muted)">AI Chief of Staff • Clearly identified as AI</p>
+</div>
+<div class="footer">
+  <div class="container footer-inner">
+    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
+    <div class="nav-links">
+      <a href="/company/about/">About</a><span>•</span>
+      <a href="/company/faq/">FAQ</a><span>•</span>
+      <a href="/company/press-overview/">Press</a><span>•</span>
+      <a href="/trust/privacy/">Privacy</a><span>•</span>
+      <a href="/trust/terms/">Terms</a><span>•</span>
+      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
+      <a href="/trust/security/">Security</a><span>•</span>
+      <a href="/trust/regulatory-posture/">Compliance</a>
+    </div>
+  </div>
+</div>
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(201,162,39,0.1);
-        }
-        footer a {
-            color: #c9a227;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo">Stewart</div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </header>
-
-    <div class="overlay" onclick="toggleMenu()"></div>
-
-    <nav class="slide-menu">
-        <a href="/login/" class="menu-link highlight">Sign In</a>
-        
-        <div class="menu-section-title">Explore</div>
-        <a href="/agents/" class="menu-link">Meet the Team</a>
-        <a href="/about/" class="menu-link">How It Works</a>
-        <a href="/results/" class="menu-link">Results & ROI</a>
-        <a href="/training/" class="menu-link">Training & Setup</a>
-        
-        <div class="menu-section-title">Products</div>
-        <a href="/plans/" class="menu-link">Plans & Pricing</a>
-        <a href="/hardware/" class="menu-link">StewBox Hardware</a>
-        
-        <div class="menu-section-title">Try It</div>
-        <a href="/voice/" class="menu-link">Voice Demo</a>
-        <a href="/subscribe/" class="menu-link highlight">Start Free Trial</a>
-        
-        <div class="menu-section-title">Legal</div>
-        <a href="/terms/" class="menu-link">Terms of Service</a>
-        <a href="/privacy/" class="menu-link">Privacy Policy</a>
-    </nav>
-
-    <main class="hero">
-        <img src="/stew-wave.png" alt="Stewart" class="stewart-avatar">
-        <h1>Meet Stewart</h1>
-        <p>Your AI Virtual Executive. Managing your business, handling your tasks, delivering results—24/7.</p>
-        <a href="/subscribe/" class="cta-button">Start Free Trial</a>
-        <div class="phone-link">Or call Stewart directly: <a href="tel:+18055564204">(805) 556-4204</a></div>
-    </main>
-
-    <section class="features">
-        <h2>What Stewart Can Do</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="icon">🧠</div>
-                <h3>Virtual Executive</h3>
-                <p>Your AI chief of staff. Coordinates projects, manages communications, keeps everything running smoothly.</p>
-                <a href="/agents/#executive">Learn more →</a>
-            </div>
-            <div class="feature-card">
-                <div class="icon">🎙️</div>
-                <h3>Voice & Phone</h3>
-                <p>Real conversations via phone or chat. Stewart handles calls, texts, and customer interactions naturally.</p>
-                <a href="/voice/">Try the demo →</a>
-            </div>
-            <div class="feature-card">
-                <div class="icon">📊</div>
-                <h3>Data & Analytics</h3>
-                <p>Turn raw data into actionable insights. Dashboards, forecasts, and intelligence that drives decisions.</p>
-                <a href="/agents/#analytics">See capabilities →</a>
-            </div>
-            <div class="feature-card">
-                <div class="icon">✨</div>
-                <h3>Content & Marketing</h3>
-                <p>Blog posts, emails, social media, presentations—content that converts, created on demand.</p>
-                <a href="/agents/#content">Explore →</a>
-            </div>
-            <div class="feature-card">
-                <div class="icon">🔧</div>
-                <h3>Tech & Integrations</h3>
-                <p>Connect your tools, automate workflows, and extend Stewart's capabilities to any system.</p>
-                <a href="/agents/#tech">View integrations →</a>
-            </div>
-            <div class="feature-card">
-                <div class="icon">📦</div>
-                <h3>StewBox Hardware</h3>
-                <p>Run Stewart locally on dedicated hardware. Maximum privacy, speed, and data sovereignty.</p>
-                <a href="/hardware/">See options →</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
-    </footer>
-
-    <script>
-        function toggleMenu() {
-            document.querySelector('.hamburger').classList.toggle('active');
-            document.querySelector('.slide-menu').classList.toggle('active');
-            document.querySelector('.overlay').classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+<script>
+function toggleMenu(){
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.querySelector('.nav .nav-links').classList.toggle('active');
+  var ov=document.querySelector('.overlay');
+  if(ov)ov.classList.toggle('active');
+  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
+}
+window.addEventListener('resize',function(){
+  if(window.innerWidth>860){
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav .nav-links').classList.remove('active');
+    var ov=document.querySelector('.overlay');
+    if(ov)ov.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body></html>
