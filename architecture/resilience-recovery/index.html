@@ -4,11 +4,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Stewart Account Settings</title>
-  <meta name="description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <title>AI Resilience & Recovery</title>
+  <meta name="description" content="Stewart uses fallback models and structured recovery to maintain operational continuity." />
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/account/" />
+  <link rel="canonical" href="https://meetstewart.com/architecture/resilience-recovery/" />
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -16,15 +16,15 @@
   <!-- Open Graph -->
   <meta property="og:site_name" content="Stewart" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Account Settings" />
-  <meta property="og:description" content="Manage your Stewart profile, preferences, and connected systems." />
-  <meta property="og:url" content="https://meetstewart.com/account/" />
+  <meta property="og:title" content="AI Resilience & Recovery" />
+  <meta property="og:description" content="Stewart uses fallback models and structured recovery to maintain operational continuity." />
+  <meta property="og:url" content="https://meetstewart.com/architecture/resilience-recovery/" />
   <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Account Settings" />
-  <meta name="twitter:description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <meta name="twitter:title" content="AI Resilience & Recovery" />
+  <meta name="twitter:description" content="Stewart uses fallback models and structured recovery to maintain operational continuity." />
   <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Favicons -->
@@ -58,27 +58,22 @@
 <div class="container-narrow page">
   <div class="page-header">
     <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Account
+      <a href="/">Stewart</a> <span>›</span> <a href="/architecture/overview/">Architecture</a> <span>›</span> Resilience & Recovery
     </div>
-    <h1>Account Settings</h1>
+    <h1>Resilience & Recovery</h1>
   </div>
   <div class="prose">
     
-<p class="lede">Manage your Stewart profile, preferences, and integrations.</p>
+<p class="lede">When components fail, the system adapts. When they recover, work resumes.</p>
 
-<div class="callout">
-<p><strong>Sign in to access your account settings.</strong></p>
-<p style="margin-top:8px"><a class="btn" href="/login/">Sign in →</a></p>
-</div>
+<h2>Fallback chains</h2>
+<p>Every critical path has a fallback. If the primary cloud model is unavailable, a secondary model takes over. If cloud access is entirely down, local models handle what they can and queue complex tasks for later. The system degrades gracefully rather than failing completely.</p>
 
-<h2>What you can manage</h2>
-<ul>
-<li><strong>Profile</strong> — Update your name, contact information, and communication preferences</li>
-<li><strong>Connected systems</strong> — Manage integrations with your existing tools and platforms</li>
-<li><strong>Notification settings</strong> — Control how and when I reach out to you</li>
-<li><strong>Billing</strong> — View invoices, update payment methods, manage your subscription</li>
-<li><strong>Data & privacy</strong> — Request data exports or deletion</li>
-</ul>
+<h2>State preservation</h2>
+<p>Your context, task state, and pending workflows are preserved across failures. If the system goes down mid-task, it picks up where it left off when it comes back — you don't need to re-explain or restart.</p>
+
+<h2>Automatic recovery</h2>
+<p>The system continuously monitors component health. When a failed component recovers, queued work is processed automatically. You're notified of any delays, but you don't need to take action to resume operations.</p>
 
   </div>
 </div>

@@ -4,11 +4,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Stewart Account Settings</title>
-  <meta name="description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <title>AI Failure Modes & Safeguards</title>
+  <meta name="description" content="Stewart is designed to detect ambiguity, hallucination, and tool failures while failing safely." />
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/account/" />
+  <link rel="canonical" href="https://meetstewart.com/architecture/failure-modes/" />
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -16,15 +16,15 @@
   <!-- Open Graph -->
   <meta property="og:site_name" content="Stewart" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Account Settings" />
-  <meta property="og:description" content="Manage your Stewart profile, preferences, and connected systems." />
-  <meta property="og:url" content="https://meetstewart.com/account/" />
+  <meta property="og:title" content="AI Failure Modes & Safeguards" />
+  <meta property="og:description" content="Stewart is designed to detect ambiguity, hallucination, and tool failures while failing safely." />
+  <meta property="og:url" content="https://meetstewart.com/architecture/failure-modes/" />
   <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Account Settings" />
-  <meta name="twitter:description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <meta name="twitter:title" content="AI Failure Modes & Safeguards" />
+  <meta name="twitter:description" content="Stewart is designed to detect ambiguity, hallucination, and tool failures while failing safely." />
   <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Favicons -->
@@ -58,27 +58,25 @@
 <div class="container-narrow page">
   <div class="page-header">
     <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Account
+      <a href="/">Stewart</a> <span>›</span> <a href="/architecture/overview/">Architecture</a> <span>›</span> Failure Modes
     </div>
-    <h1>Account Settings</h1>
+    <h1>Failure Modes & Safeguards</h1>
   </div>
   <div class="prose">
     
-<p class="lede">Manage your Stewart profile, preferences, and integrations.</p>
+<p class="lede">Every system fails eventually. What matters is how.</p>
 
-<div class="callout">
-<p><strong>Sign in to access your account settings.</strong></p>
-<p style="margin-top:8px"><a class="btn" href="/login/">Sign in →</a></p>
-</div>
-
-<h2>What you can manage</h2>
+<h2>Types of failure I'm designed to handle</h2>
 <ul>
-<li><strong>Profile</strong> — Update your name, contact information, and communication preferences</li>
-<li><strong>Connected systems</strong> — Manage integrations with your existing tools and platforms</li>
-<li><strong>Notification settings</strong> — Control how and when I reach out to you</li>
-<li><strong>Billing</strong> — View invoices, update payment methods, manage your subscription</li>
-<li><strong>Data & privacy</strong> — Request data exports or deletion</li>
+<li><strong>Ambiguity</strong> — When a request is unclear, I ask for clarification rather than guessing.</li>
+<li><strong>Hallucination</strong> — When I'm not confident in a fact, I say so explicitly rather than presenting uncertainty as truth.</li>
+<li><strong>Tool failure</strong> — When an external service is unavailable, I report the failure and suggest alternatives.</li>
+<li><strong>Model failure</strong> — When a model request fails, I fall back to an alternative model or retry with modified parameters.</li>
+<li><strong>Context overflow</strong> — When a task exceeds my context window, I decompose it into manageable chunks.</li>
 </ul>
+
+<h2>The safe failure principle</h2>
+<p>When something goes wrong, the system fails safe — meaning no external actions are taken, no data is lost, and you're informed about what happened and what options are available. A failure should never result in an unintended action.</p>
 
   </div>
 </div>

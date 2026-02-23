@@ -4,11 +4,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Stewart Account Settings</title>
-  <meta name="description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <title>AI Model Routing Logic</title>
+  <meta name="description" content="Stewart dynamically selects models based on intent, complexity, sensitivity, and cost discipline." />
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/account/" />
+  <link rel="canonical" href="https://meetstewart.com/architecture/model-routing/" />
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -16,15 +16,15 @@
   <!-- Open Graph -->
   <meta property="og:site_name" content="Stewart" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Account Settings" />
-  <meta property="og:description" content="Manage your Stewart profile, preferences, and connected systems." />
-  <meta property="og:url" content="https://meetstewart.com/account/" />
+  <meta property="og:title" content="AI Model Routing Logic" />
+  <meta property="og:description" content="Stewart dynamically selects models based on intent, complexity, sensitivity, and cost discipline." />
+  <meta property="og:url" content="https://meetstewart.com/architecture/model-routing/" />
   <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Account Settings" />
-  <meta name="twitter:description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <meta name="twitter:title" content="AI Model Routing Logic" />
+  <meta name="twitter:description" content="Stewart dynamically selects models based on intent, complexity, sensitivity, and cost discipline." />
   <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Favicons -->
@@ -58,27 +58,28 @@
 <div class="container-narrow page">
   <div class="page-header">
     <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Account
+      <a href="/">Stewart</a> <span>›</span> <a href="/architecture/overview/">Architecture</a> <span>›</span> Model Routing
     </div>
-    <h1>Account Settings</h1>
+    <h1>Model Routing</h1>
   </div>
   <div class="prose">
     
-<p class="lede">Manage your Stewart profile, preferences, and integrations.</p>
+<p class="lede">The right model for the right task at the right cost.</p>
 
-<div class="callout">
-<p><strong>Sign in to access your account settings.</strong></p>
-<p style="margin-top:8px"><a class="btn" href="/login/">Sign in →</a></p>
-</div>
-
-<h2>What you can manage</h2>
+<h2>How routing works</h2>
+<p>Every request is evaluated across four dimensions before a model is selected:</p>
 <ul>
-<li><strong>Profile</strong> — Update your name, contact information, and communication preferences</li>
-<li><strong>Connected systems</strong> — Manage integrations with your existing tools and platforms</li>
-<li><strong>Notification settings</strong> — Control how and when I reach out to you</li>
-<li><strong>Billing</strong> — View invoices, update payment methods, manage your subscription</li>
-<li><strong>Data & privacy</strong> — Request data exports or deletion</li>
+<li><strong>Intent</strong> — What type of task is this? Classification, generation, analysis, coding?</li>
+<li><strong>Complexity</strong> — Does this require multi-step reasoning or is it straightforward?</li>
+<li><strong>Sensitivity</strong> — Does this data need to stay local?</li>
+<li><strong>Cost</strong> — What's the most cost-effective model that can handle this adequately?</li>
 </ul>
+
+<h2>The model stack</h2>
+<p>Stewart maintains access to multiple models across multiple providers. Small local models handle classification and formatting. Mid-tier models handle standard generation and summarization. Frontier models handle complex reasoning and nuanced analysis.</p>
+
+<h2>Why this matters for you</h2>
+<p>You get fast, accurate responses without overpaying. A simple "What's on my agenda today?" doesn't need the same model as "Analyze these three vendor proposals and recommend the best option with risk assessment." The routing ensures appropriate resource allocation for every request.</p>
 
   </div>
 </div>

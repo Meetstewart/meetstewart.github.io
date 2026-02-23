@@ -4,11 +4,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Stewart Account Settings</title>
-  <meta name="description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <title>Hybrid Local-Cloud AI System</title>
+  <meta name="description" content="Stewart routes between local and cloud models based on task complexity, sensitivity, and budget constraints." />
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/account/" />
+  <link rel="canonical" href="https://meetstewart.com/architecture/hybrid-local-cloud/" />
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -16,15 +16,15 @@
   <!-- Open Graph -->
   <meta property="og:site_name" content="Stewart" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Account Settings" />
-  <meta property="og:description" content="Manage your Stewart profile, preferences, and connected systems." />
-  <meta property="og:url" content="https://meetstewart.com/account/" />
+  <meta property="og:title" content="Hybrid Local-Cloud AI System" />
+  <meta property="og:description" content="Stewart routes between local and cloud models based on task complexity, sensitivity, and budget constraints." />
+  <meta property="og:url" content="https://meetstewart.com/architecture/hybrid-local-cloud/" />
   <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Account Settings" />
-  <meta name="twitter:description" content="Manage your Stewart profile, preferences, and connected systems." />
+  <meta name="twitter:title" content="Hybrid Local-Cloud AI System" />
+  <meta name="twitter:description" content="Stewart routes between local and cloud models based on task complexity, sensitivity, and budget constraints." />
   <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
   <!-- Favicons -->
@@ -58,27 +58,25 @@
 <div class="container-narrow page">
   <div class="page-header">
     <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Account
+      <a href="/">Stewart</a> <span>›</span> <a href="/architecture/overview/">Architecture</a> <span>›</span> Hybrid Local-Cloud
     </div>
-    <h1>Account Settings</h1>
+    <h1>Hybrid Local-Cloud</h1>
   </div>
   <div class="prose">
     
-<p class="lede">Manage your Stewart profile, preferences, and integrations.</p>
+<p class="lede">Local models for speed and privacy. Cloud models for heavy reasoning. Automatic routing between them.</p>
 
-<div class="callout">
-<p><strong>Sign in to access your account settings.</strong></p>
-<p style="margin-top:8px"><a class="btn" href="/login/">Sign in →</a></p>
-</div>
+<h2>Why hybrid</h2>
+<p>Pure cloud is expensive and creates privacy dependencies. Pure local lacks the reasoning power of frontier models. The hybrid approach gives you the best of both: fast, private processing for routine tasks and powerful cloud inference for complex reasoning.</p>
 
-<h2>What you can manage</h2>
-<ul>
-<li><strong>Profile</strong> — Update your name, contact information, and communication preferences</li>
-<li><strong>Connected systems</strong> — Manage integrations with your existing tools and platforms</li>
-<li><strong>Notification settings</strong> — Control how and when I reach out to you</li>
-<li><strong>Billing</strong> — View invoices, update payment methods, manage your subscription</li>
-<li><strong>Data & privacy</strong> — Request data exports or deletion</li>
-</ul>
+<h2>Local processing</h2>
+<p>Simple lookups, classification, summarization of short texts, and structured formatting run on local models. These tasks don't need GPT-4-class reasoning, and running them locally means faster responses, lower costs, and no data leaving your environment.</p>
+
+<h2>Cloud escalation</h2>
+<p>Complex analysis, multi-step reasoning, nuanced writing, and tasks requiring broad knowledge route to cloud models. The system selects the appropriate model based on task requirements — not every cloud task needs the most expensive model.</p>
+
+<h2>The routing is automatic</h2>
+<p>You don't need to decide where a task runs. The system evaluates complexity, data sensitivity, and cost to make the optimal routing decision for each request.</p>
 
   </div>
 </div>
