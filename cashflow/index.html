@@ -1,943 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Flow Manager | Stewart</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1e1b4b;
-            --gray: #64748b;
-            --light: #f8fafc;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f1f5f9;
-            min-height: 100vh;
-            color: #1e293b;
-        }
-        
-        /* Navigation */
-        .top-nav {
-            background: var(--dark);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: white;
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-decoration: none;
-        }
-        
-        .logo img { width: 36px; height: 36px; border-radius: 50%; }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover, .nav-links a.active { color: white; }
-        
-        /* Main Layout */
-        .main-content {
-            padding: 5rem 2rem 2rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-        
-        /* Header Section */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .page-header h1 {
-            font-size: 1.75rem;
-            color: var(--dark);
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            padding: 0.75rem 1.25rem;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover { background: var(--primary-dark); }
-        
-        .btn-secondary {
-            background: white;
-            color: var(--dark);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .btn-secondary:hover { background: #f8fafc; }
-        
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .stat-card.highlight {
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            color: white;
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-card.highlight .stat-label { color: rgba(255,255,255,0.8); }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .stat-change {
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .stat-change.positive { color: var(--success); }
-        .stat-change.negative { color: var(--danger); }
-        .stat-card.highlight .stat-change { color: rgba(255,255,255,0.9); }
-        
-        /* Chart Section */
-        .chart-section {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .chart-header h2 {
-            font-size: 1.125rem;
-            color: var(--dark);
-        }
-        
-        .chart-filters {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e2e8f0;
-            background: white;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .chart-container {
-            height: 300px;
-            position: relative;
-        }
-        
-        /* Canvas placeholder for chart */
-        #forecastChart {
-            width: 100%;
-            height: 100%;
-        }
-        
-        /* Two Column Layout */
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .two-col { grid-template-columns: 1fr; }
-        }
-        
-        /* Important Dates */
-        .dates-section {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .dates-section h2 {
-            font-size: 1.125rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .date-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            background: #f8fafc;
-        }
-        
-        .date-item.high { border-left: 4px solid var(--success); }
-        .date-item.low { border-left: 4px solid var(--danger); }
-        
-        .date-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.25rem;
-        }
-        
-        .date-item.high .date-icon { background: #dcfce7; }
-        .date-item.low .date-icon { background: #fee2e2; }
-        
-        .date-info { flex: 1; }
-        
-        .date-label {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        
-        .date-note {
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-        
-        .date-amount {
-            text-align: right;
-            font-weight: 600;
-            font-size: 1.125rem;
-        }
-        
-        .date-item.high .date-amount { color: var(--success); }
-        .date-item.low .date-amount { color: var(--danger); }
-        
-        /* Transactions Table */
-        .transactions-section {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .section-header h2 {
-            font-size: 1.125rem;
-            color: var(--dark);
-        }
-        
-        .transactions-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .transactions-table th {
-            text-align: left;
-            padding: 0.75rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--gray);
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .transactions-table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .transactions-table tr:hover { background: #f8fafc; }
-        
-        .amount-credit { color: var(--success); font-weight: 500; }
-        .amount-debit { color: var(--danger); font-weight: 500; }
-        
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-        
-        .modal-overlay.active { display: flex; }
-        
-        .modal-card {
-            background: white;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-        }
-        
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h2 { font-size: 1.25rem; }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
-        
-        .modal-body { padding: 1.5rem; }
-        
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-        
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .page-btn {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #e2e8f0;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        
-        .page-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        /* Import Section */
-        .import-section {
-            background: #f8fafc;
-            border: 2px dashed #e2e8f0;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .import-section:hover {
-            border-color: var(--primary);
-            background: #f1f5f9;
-        }
-        
-        .import-section p {
-            color: var(--gray);
-            margin-top: 0.5rem;
-        }
-        
-        /* Loading State */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-        
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #e2e8f0;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 0.75rem;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-content { padding: 5rem 1rem 1rem; }
-            .page-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
-            .stats-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="top-nav">
-        <a href="/dashboard/" class="logo">
-            <img src="/assets/stewart-avatar.png" alt="Stewart">
-            <span>Stewart</span>
-        </a>
-        <div class="nav-links">
-            <a href="/dashboard/">Dashboard</a>
-            <a href="/cashflow/" class="active">Cash Flow</a>
-            <a href="/team/">Team</a>
-        </div>
-    </nav>
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1>💰 Cash Flow Manager</h1>
-            <div class="header-actions">
-                <button class="btn btn-secondary" onclick="openModal('import')">📤 Import Data</button>
-                <button class="btn btn-secondary" onclick="openModal('set-balance')">💵 Set Balance</button>
-                <button class="btn btn-primary" onclick="openModal('add-transaction')">+ Add Transaction</button>
-            </div>
-        </div>
+  <title>Cashflow Module | Stewart</title>
+  <meta name="description" content="Structured financial snapshots and reporting tools." />
 
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card highlight">
-                <div class="stat-label">Current Balance</div>
-                <div class="stat-value" id="currentBalance">$0</div>
-                <div class="stat-change" id="balanceDate">As of today</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">30-Day Profit</div>
-                <div class="stat-value" id="profit30">$0</div>
-                <div class="stat-change positive">↑ Projected</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Next High Point</div>
-                <div class="stat-value" id="nextHigh">-</div>
-                <div class="stat-change" id="nextHighDate">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Next Low Point</div>
-                <div class="stat-value" id="nextLow">-</div>
-                <div class="stat-change negative" id="nextLowDate">-</div>
-            </div>
-        </div>
+  <!-- Canonical -->
+  <link rel="canonical" href="https://meetstewart.com/cashflow/" />
 
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="chart-header">
-                <h2>📈 Cash Flow Forecast</h2>
-                <div class="chart-filters">
-                    <button class="filter-btn active" data-range="30">30 Days</button>
-                    <button class="filter-btn" data-range="60">60 Days</button>
-                    <button class="filter-btn" data-range="90">90 Days</button>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="forecastChart"></canvas>
-            </div>
-        </div>
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
-        <!-- Two Column Section -->
-        <div class="two-col">
-            <!-- Important Dates -->
-            <div class="dates-section">
-                <h2>📅 Important Dates</h2>
-                <div id="importantDates">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Loading dates...
-                    </div>
-                </div>
-            </div>
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Stewart" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cashflow Module | Stewart" />
+  <meta property="og:description" content="Structured financial snapshots and reporting tools." />
+  <meta property="og:url" content="https://meetstewart.com/cashflow/" />
+  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-            <!-- Recent Transactions -->
-            <div class="transactions-section">
-                <div class="section-header">
-                    <h2>📊 Recent Transactions</h2>
-                    <button class="btn btn-secondary" onclick="openModal('all-transactions')">View All</button>
-                </div>
-                <table class="transactions-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactionsBody">
-                        <tr>
-                            <td colspan="4" class="loading">
-                                <div class="spinner"></div>
-                                Loading transactions...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cashflow Module | Stewart" />
+  <meta name="twitter:description" content="Structured financial snapshots and reporting tools." />
+  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-    <!-- Modals -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h2 id="modalTitle">Modal</h2>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-            <div class="modal-footer" id="modalFooter">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" id="modalAction">Save</button>
-            </div>
-        </div>
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/style.css" />
+</head><body>
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Stewart</span>
+      <span class="pill"><strong>AI Chief of Staff</strong></span>
+    </a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="nav-links">
+      <a class="pill" href="/how-stewart-works/">How I work</a>
+      <a class="pill" href="/use-cases/">Use cases</a>
+      <a class="pill" href="/capabilities/">Capabilities</a>
+      <a class="pill" href="/architecture/overview/">Architecture</a>
+      <a class="pill" href="/pricing/">Pricing</a>
+      <a class="btn secondary" href="/login/">Sign In</a>
+      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
     </div>
+  </div>
+</div>
+<div class="overlay" onclick="toggleMenu()"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // API Base - auto-add auth code
-        const API_BASE = 'https://web-production-a76db.up.railway.app';
-        
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(amount);
-        }
-        
-        // Format date
-        function formatDate(dateStr) {
-            return new Date(dateStr).toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-        
-        // Load Summary
-        async function loadSummary() {
-            try {
-                const res = await fetch(`${API_BASE}/summary`);
-                const data = await res.json();
-                
-                document.getElementById('currentBalance').textContent = formatCurrency(data.current_balance);
-                document.getElementById('balanceDate').textContent = `As of ${formatDate(data.as_of)}`;
-                document.getElementById('profit30').textContent = formatCurrency(data.profit_30day);
-                
-                // Find next high and low
-                const highs = data.important_dates.filter(d => d.type === 'HIGH');
-                const lows = data.important_dates.filter(d => d.type === 'LOW');
-                
-                if (highs.length > 0) {
-                    document.getElementById('nextHigh').textContent = formatCurrency(highs[0].balance);
-                    document.getElementById('nextHighDate').textContent = highs[0].date;
-                }
-                
-                if (lows.length > 0) {
-                    document.getElementById('nextLow').textContent = formatCurrency(lows[0].balance);
-                    document.getElementById('nextLowDate').textContent = lows[0].date;
-                }
-                
-                // Render important dates
-                renderImportantDates(data.important_dates);
-            } catch (err) {
-                console.error('Error loading summary:', err);
-            }
-        }
-        
-        // Render Important Dates
-        function renderImportantDates(dates) {
-            const container = document.getElementById('importantDates');
-            container.innerHTML = dates.map(d => `
-                <div class="date-item ${d.type.toLowerCase()}">
-                    <div class="date-icon">${d.type === 'HIGH' ? '📈' : '📉'}</div>
-                    <div class="date-info">
-                        <div class="date-label">${d.date}</div>
-                        <div class="date-note">${d.note}</div>
-                    </div>
-                    <div class="date-amount">${formatCurrency(d.balance)}</div>
-                </div>
-            `).join('');
-        }
-        
-        // Load Transactions
-        async function loadTransactions(limit = 10) {
-            try {
-                const res = await fetch(`${API_BASE}/transactions?limit=${limit}`);
-                const data = await res.json();
-                
-                const tbody = document.getElementById('transactionsBody');
-                tbody.innerHTML = data.transactions.map(t => `
-                    <tr>
-                        <td>${formatDate(t.date)}</td>
-                        <td>${t.description}</td>
-                        <td class="${t.credit > 0 ? 'amount-credit' : 'amount-debit'}">
-                            ${t.credit > 0 ? '+' : '-'}${formatCurrency(t.credit || t.debit)}
-                        </td>
-                        <td>${formatCurrency(t.balance)}</td>
-                    </tr>
-                `).join('');
-            } catch (err) {
-                console.error('Error loading transactions:', err);
-            }
-        }
-        
-        // Load Forecast and render chart
-        let forecastChart = null;
-        
-        async function loadForecast() {
-            try {
-                const res = await fetch(`${API_BASE}/forecast`);
-                const data = await res.json();
-                
-                renderChart(data);
-            } catch (err) {
-                console.error('Error loading forecast:', err);
-            }
-        }
-        
-        function renderChart(data) {
-            const ctx = document.getElementById('forecastChart').getContext('2d');
-            
-            if (forecastChart) {
-                forecastChart.destroy();
-            }
-            
-            // Prepare data - take every 3rd day for cleaner chart
-            const labels = [];
-            const balances = [];
-            
-            if (data.daily_forecast) {
-                data.daily_forecast.forEach((item, i) => {
-                    if (i % 3 === 0) {
-                        labels.push(formatDate(item.date));
-                        balances.push(item.projected_balance);
-                    }
-                });
-            }
-            
-            forecastChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Projected Balance',
-                        data: balances,
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 0,
-                        pointHoverRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => formatCurrency(ctx.raw)
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: { display: false }
-                        },
-                        y: {
-                            ticks: {
-                                callback: (val) => formatCurrency(val)
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Modal System
-        const modalTemplates = {
-            'add-transaction': {
-                title: '➕ Add Transaction',
-                body: `
-                    <div class="form-group">
-                        <label>Type</label>
-                        <select id="txnType">
-                            <option value="credit">Credit (Money In)</option>
-                            <option value="debit">Debit (Money Out)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Amount</label>
-                        <input type="number" id="txnAmount" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="txnDate" value="${new Date().toISOString().split('T')[0]}">
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" id="txnDesc" placeholder="e.g., Client payment, Office rent">
-                    </div>
-                    <div class="form-group">
-                        <label>Recurring?</label>
-                        <select id="txnRecurring">
-                            <option value="none">One-time</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="biweekly">Bi-weekly</option>
-                            <option value="monthly">Monthly</option>
-                        </select>
-                    </div>
-                `,
-                action: 'Add Transaction',
-                handler: addTransaction
-            },
-            'set-balance': {
-                title: '💵 Set Current Balance',
-                body: `
-                    <div class="form-group">
-                        <label>Current Balance</label>
-                        <input type="number" id="newBalance" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>As of Date</label>
-                        <input type="date" id="balanceAsOf" value="${new Date().toISOString().split('T')[0]}">
-                    </div>
-                    <p style="color: var(--gray); font-size: 0.875rem; margin-top: 1rem;">
-                        This will sync your balance with your bank statement.
-                    </p>
-                `,
-                action: 'Update Balance',
-                handler: setBalance
-            },
-            'import': {
-                title: '📤 Import Bank Data',
-                body: `
-                    <div class="import-section" onclick="document.getElementById('importFile').click()">
-                        <div style="font-size: 2.5rem;">📁</div>
-                        <p>Click to upload bank statement or CSV</p>
-                        <input type="file" id="importFile" style="display:none" accept=".csv,.txt,.pdf">
-                    </div>
-                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
-                        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">Or paste data directly:</label>
-                        <textarea id="importData" placeholder="Paste bank data here..." style="width: 100%; height: 150px; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-family: monospace; font-size: 0.875rem;"></textarea>
-                    </div>
-                `,
-                action: 'Import',
-                handler: importData
-            }
-        };
-        
-        function openModal(type) {
-            const template = modalTemplates[type];
-            if (!template) return;
-            
-            document.getElementById('modalTitle').textContent = template.title;
-            document.getElementById('modalBody').innerHTML = template.body;
-            document.getElementById('modalAction').textContent = template.action;
-            document.getElementById('modalAction').onclick = template.handler;
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-        
-        function closeModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-        
-        // API Actions
-        async function addTransaction() {
-            const type = document.getElementById('txnType').value;
-            const amount = parseFloat(document.getElementById('txnAmount').value);
-            const date = document.getElementById('txnDate').value;
-            const desc = document.getElementById('txnDesc').value;
-            
-            // In production, this would call your API
-            alert(`Transaction added: ${type} $${amount} on ${date}`);
-            closeModal();
-            loadSummary();
-            loadTransactions();
-        }
-        
-        async function setBalance() {
-            const balance = parseFloat(document.getElementById('newBalance').value);
-            const asOf = document.getElementById('balanceAsOf').value;
-            
-            try {
-                const res = await fetch(`${API_BASE}/set-balance?balance=${balance}&as_of_date=${asOf}`, {
-                    method: 'POST'
-                });
-                
-                if (res.ok) {
-                    alert('Balance updated!');
-                    closeModal();
-                    loadSummary();
-                }
-            } catch (err) {
-                alert('Error updating balance');
-            }
-        }
-        
-        async function importData() {
-            const data = document.getElementById('importData').value;
-            
-            if (!data.trim()) {
-                alert('Please paste bank data to import');
-                return;
-            }
-            
-            try {
-                const res = await fetch(`${API_BASE}/submit-data`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ data: data })
-                });
-                
-                if (res.ok) {
-                    alert('Data imported successfully!');
-                    closeModal();
-                    loadSummary();
-                    loadTransactions();
-                }
-            } catch (err) {
-                alert('Error importing data');
-            }
-        }
-        
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                // In production, reload chart with new range
-            });
-        });
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSummary();
-            loadTransactions();
-            loadForecast();
-        });
-    </script>
-</body>
-</html>
+<div class="container-narrow page">
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="/">Stewart</a> <span>›</span> Cashflow
+    </div>
+    <h1>Cashflow Module</h1>
+  </div>
+  <div class="prose">
+    
+<p class="lede">Structured financial snapshots and projections for operational decision-making.</p>
+
+<div class="callout">
+<p><strong>Sign in to access the Cashflow Module.</strong></p>
+<p style="margin-top:8px"><a class="btn" href="/login/">Sign in →</a></p>
+</div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="container footer-inner">
+    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
+    <div class="nav-links">
+      <a href="/company/about/">About</a><span>•</span>
+      <a href="/company/faq/">FAQ</a><span>•</span>
+      <a href="/company/press-overview/">Press</a><span>•</span>
+      <a href="/trust/privacy/">Privacy</a><span>•</span>
+      <a href="/trust/terms/">Terms</a><span>•</span>
+      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
+      <a href="/trust/security/">Security</a><span>•</span>
+      <a href="/trust/regulatory-posture/">Compliance</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.querySelector('.nav .nav-links').classList.toggle('active');
+  var ov=document.querySelector('.overlay');
+  if(ov)ov.classList.toggle('active');
+  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
+}
+window.addEventListener('resize',function(){
+  if(window.innerWidth>860){
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav .nav-links').classList.remove('active');
+    var ov=document.querySelector('.overlay');
+    if(ov)ov.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body></html>

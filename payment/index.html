@@ -1,280 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Your Stewart Subscription</title>
-    <script type="text/javascript" src="https://js.authorize.net/v1/Accept.js" charset="utf-8"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #fff;
-            padding: 40px 20px;
-        }
-        .container { max-width: 500px; margin: 0 auto; }
-        .logo { text-align: center; margin-bottom: 30px; }
-        .logo img { width: 80px; height: 80px; border-radius: 50%; }
-        h1 { text-align: center; margin-bottom: 10px; font-size: 28px; }
-        .subtitle { text-align: center; color: #a0a0a0; margin-bottom: 30px; }
-        .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .plan-option {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .plan-option:hover { border-color: rgba(99,102,241,0.5); }
-        .plan-option.selected { border-color: #6366f1; background: rgba(99,102,241,0.1); }
-        .plan-option input { display: none; }
-        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .plan-name { font-weight: 600; font-size: 18px; }
-        .plan-price { font-weight: 700; color: #6366f1; }
-        .plan-desc { color: #a0a0a0; font-size: 14px; }
-        .recommended { background: #6366f1; color: white; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin-left: 10px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 500; color: #e0e0e0; }
-        input { width: 100%; padding: 14px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; font-size: 16px; }
-        input:focus { outline: none; border-color: #6366f1; }
-        input::placeholder { color: #666; }
-        .row { display: flex; gap: 15px; }
-        .row .form-group { flex: 1; }
-        .promo-section { background: rgba(99,102,241,0.1); border: 1px dashed rgba(99,102,241,0.3); border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-        .promo-row { display: flex; gap: 10px; }
-        .promo-row input { flex: 1; }
-        .promo-btn { padding: 14px 20px; background: #6366f1; border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; }
-        .promo-success { color: #10b981; font-size: 14px; margin-top: 10px; display: none; }
-        .promo-success.show { display: block; }
-        .disclosure { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 13px; color: #a0a0a0; line-height: 1.6; }
-        .disclosure strong { color: #fff; }
-        .consent-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
-        .consent-row input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
-        .consent-row label { margin: 0; font-size: 14px; color: #a0a0a0; }
-        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; border-radius: 8px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99,102,241,0.3); }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .secure-note { text-align: center; margin-top: 15px; font-size: 13px; color: #666; }
-        .cancel-info { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .cancel-info a { color: #6366f1; text-decoration: none; }
-        #error-message { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 20px; display: none; }
-        #success-message { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; padding: 20px; border-radius: 8px; text-align: center; display: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo"><img src="/images/stewart-avatar.png" alt="Stewart"></div>
-        <h1>Complete Your Subscription</h1>
-        <p class="subtitle">Welcome to the future of AI assistance</p>
-        
-        <div class="card">
-            <div id="error-message"></div>
-            <div id="success-message"><h3>🎉 Welcome to Stewart!</h3><p style="margin-top:10px;">Check your email for next steps.</p></div>
-            
-            <form id="payment-form">
-                <div class="plan-selection" style="margin-bottom:25px;">
-                    <label>Select Your Plan</label>
-                    <div class="plan-option selected" onclick="selectPlan('trial')">
-                        <input type="radio" name="plan" value="trial" checked>
-                        <div class="plan-header">
-                            <span class="plan-name">14-Day Free Trial <span class="recommended">RECOMMENDED</span></span>
-                            <span class="plan-price">$0 today</span>
-                        </div>
-                        <div class="plan-desc">Try Stewart free. Then $199/mo after trial.</div>
-                    </div>
-                    <div class="plan-option" onclick="selectPlan('full')">
-                        <input type="radio" name="plan" value="full">
-                        <div class="plan-header">
-                            <span class="plan-name">Full Membership</span>
-                            <span class="plan-price">$199/mo</span>
-                        </div>
-                        <div class="plan-desc">Skip the trial. Start with full access today.</div>
-                    </div>
-                </div>
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                <!-- Order Summary -->
-                <div id="order-summary" style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
-                    <h3 style="margin-bottom: 15px; font-size: 16px;">Your Order</h3>
-                    <div id="order-lines"></div>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 15px; padding-top: 15px; display: flex; justify-content: space-between; font-weight: 700; font-size: 18px;">
-                        <span>Monthly Total</span>
-                        <span id="order-total">$199/mo</span>
-                    </div>
-                </div>
+  <title>Stewart Payment Portal</title>
+  <meta name="description" content="Manage your Stewart subscription and billing securely." />
 
-                
-                <div class="promo-section">
-                    <label>Have a promo code?</label>
-                    <div class="promo-row">
-                        <input type="text" id="promo-code" placeholder="Enter code">
-                        <button type="button" class="promo-btn" onclick="applyPromo()">Apply</button>
-                    </div>
-                    <div class="promo-success" id="promo-success">✓ Code applied! First 90 days at $99/mo</div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Card Number</label>
-                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                </div>
-                <div class="row">
-                    <div class="form-group"><label>Expiry</label><input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5" required></div>
-                    <div class="form-group"><label>CVV</label><input type="text" id="card-cvv" placeholder="123" maxlength="4" required></div>
-                </div>
-                <div class="form-group"><label>Name on Card</label><input type="text" id="card-name" placeholder="John Smith" required></div>
-                <div class="form-group"><label>ZIP Code</label><input type="text" id="zip" placeholder="90210" maxlength="10" required></div>
-                
-                <div class="disclosure">
-                    <strong>Automatic Renewal Terms:</strong><br>
-                    <span id="disclosure-text">Your subscription will automatically renew each month at $199/month until you cancel. If starting with a free trial, your first charge of $199 will occur on day 15.</span>
-                    <br><br>
-                    <strong>How to Cancel:</strong> Log into your account dashboard and click "Manage Subscription" → "Cancel". Cancellation takes effect at the end of your current billing period.
-                </div>
-                
-                <div class="consent-row">
-                    <input type="checkbox" id="consent" required>
-                    <label for="consent">I agree to the <a href="/terms/" style="color:#6366f1">Terms of Service</a> and <a href="/privacy/" style="color:#6366f1">Privacy Policy</a>, and I consent to automatic recurring billing as described above.</label>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submit-btn">Start Free Trial</button>
-                <div class="secure-note">🔒 Secured by Authorize.net</div>
-            </form>
-            
-            <div class="cancel-info">
-                <p style="color:#666;font-size:14px;">Cancel anytime from your <a href="/account/">account dashboard</a>.<br>Questions? Email <a href="mailto:support@meetstewart.com">support@meetstewart.com</a></p>
-            </div>
-        </div>
+  <!-- Canonical -->
+  <link rel="canonical" href="https://meetstewart.com/payment/" />
+
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Stewart" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stewart Payment Portal" />
+  <meta property="og:description" content="Manage your Stewart subscription and billing securely." />
+  <meta property="og:url" content="https://meetstewart.com/payment/" />
+  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Stewart Payment Portal" />
+  <meta name="twitter:description" content="Manage your Stewart subscription and billing securely." />
+  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/style.css" />
+</head><body>
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Stewart</span>
+      <span class="pill"><strong>AI Chief of Staff</strong></span>
+    </a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="nav-links">
+      <a class="pill" href="/how-stewart-works/">How I work</a>
+      <a class="pill" href="/use-cases/">Use cases</a>
+      <a class="pill" href="/capabilities/">Capabilities</a>
+      <a class="pill" href="/architecture/overview/">Architecture</a>
+      <a class="pill" href="/pricing/">Pricing</a>
+      <a class="btn secondary" href="/login/">Sign In</a>
+      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
     </div>
+  </div>
+</div>
+<div class="overlay" onclick="toggleMenu()"></div>
+
+<div class="container-narrow page">
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="/">Stewart</a> <span>›</span> Payment
+    </div>
+    <h1>Payment</h1>
+  </div>
+  <div class="prose">
     
-    <script>
-        let selectedPlan = 'trial';
-        let promoApplied = false;
-        let signupData = {};
-        
-        // Read signup data from sessionStorage
-        try {
-            const stored = sessionStorage.getItem('stewartSignup');
-            if (stored) {
-                signupData = JSON.parse(stored);
-                // Pre-fill name from signup
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (signupData.first_name && signupData.last_name) {
-                        document.getElementById('card-name').value = signupData.first_name + ' ' + signupData.last_name;
-                    }
-                    // Auto-apply promo if set
-                    if (signupData.promo && (signupData.promo === '90for$99' || signupData.promo === '90for99')) {
-                        document.getElementById('promo-code').value = signupData.promo;
-                        applyPromo();
-                    }
-                });
-            }
-        } catch(e) { console.log('No signup data'); }
-        
-        function selectPlan(plan) {
-            selectedPlan = plan;
-            document.querySelectorAll('.plan-option').forEach(el => el.classList.remove('selected'));
-            document.querySelector('input[value="'+plan+'"]').closest('.plan-option').classList.add('selected');
-            document.querySelector('input[value="'+plan+'"]').checked = true;
-            updateUI();
-        }
-        
-        function applyPromo() {
-            const code = document.getElementById('promo-code').value.trim().toLowerCase().replace('$','');
-            if (code === '90for99') {
-                promoApplied = true;
-                document.getElementById('promo-success').classList.add('show');
-                document.getElementById('promo-code').disabled = true;
-                updateUI();
-            } else alert('Invalid promo code');
-        }
-        
-        function updateUI() {
-            const btn = document.getElementById('submit-btn');
-            const text = document.getElementById('disclosure-text');
-            const rate = promoApplied ? '$99' : '$199';
-            const promoNote = promoApplied ? ' For the first 90 days, you pay $99/month, then $199/month.' : '';
-            
-            if (selectedPlan === 'trial') {
-                btn.textContent = 'Start Free Trial';
-                text.innerHTML = 'Your subscription will automatically renew at '+rate+'/month. First charge occurs on day 15.'+promoNote;
-            } else {
-                btn.textContent = promoApplied ? 'Subscribe - $99/mo' : 'Subscribe - $199/mo';
-                text.innerHTML = 'Your subscription will automatically renew at '+rate+'/month. First charge occurs today.'+promoNote;
-            }
-        }
-        
-        document.getElementById('card-number').addEventListener('input', function(e) {
-            let v = e.target.value.replace(/\D/g, '').match(/.{1,4}/g);
-            e.target.value = v ? v.join(' ') : '';
-        });
-        
-        document.getElementById('card-expiry').addEventListener('input', function(e) {
-            let v = e.target.value.replace(/\D/g, '');
-            e.target.value = v.length >= 2 ? v.substring(0,2)+'/'+v.substring(2,4) : v;
-        });
-        
-        document.getElementById('payment-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.textContent = 'Processing...';
-            
-            const secureData = {
-                authData: { clientKey: '4VfZ3vZ9d9S6BpCp8N3qG4cG7y2FnVb36R8T2kF5uJ9dN5pC4r', apiLoginID: '7dyG6xBT9xN' },
-                cardData: {
-                    cardNumber: document.getElementById('card-number').value.replace(/\s/g, ''),
-                    month: document.getElementById('card-expiry').value.split('/')[0],
-                    year: '20' + document.getElementById('card-expiry').value.split('/')[1],
-                    cardCode: document.getElementById('card-cvv').value
-                }
-            };
-            
-            Accept.dispatchData(secureData, function(response) {
-                if (response.messages.resultCode === 'Error') {
-                    document.getElementById('error-message').style.display = 'block';
-                    document.getElementById('error-message').textContent = response.messages.message[0].text;
-                    btn.disabled = false;
-                    updateUI();
-                } else {
-                    processPayment(response.opaqueData);
-                }
-            });
-        });
-        
-        async function processPayment(opaqueData) {
-            try {
-                const response = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        paymentNonce: opaqueData,
-                        plan: selectedPlan,
-                        promoCode: promoApplied ? '90for$99' : null,
-                        name: document.getElementById('card-name').value,
-                        zip: document.getElementById('zip').value,
-                        ...signupData
-                    })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    document.getElementById('payment-form').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                } else throw new Error(result.message || 'Payment failed');
-            } catch (err) {
-                document.getElementById('error-message').style.display = 'block';
-                document.getElementById('error-message').textContent = err.message;
-                document.getElementById('submit-btn').disabled = false;
-                updateUI();
-            }
-        }
-    </script>
-</body>
-</html>
+<p class="lede">Secure subscription management and billing.</p>
+
+<p>Complete your Stewart subscription payment below. All transactions are processed securely.</p>
+
+<div class="callout">
+<p><strong>Payment processing is currently being configured.</strong> If you'd like to subscribe now, please <a href="/company/contact/">contact us directly</a> and we'll get you set up immediately.</p>
+</div>
+
+<h2>Billing details</h2>
+<ul>
+<li>Subscriptions are billed monthly</li>
+<li>No setup fees or hidden charges</li>
+<li>Cancel anytime — no penalties</li>
+<li>Receipts sent automatically via email</li>
+</ul>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="container footer-inner">
+    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
+    <div class="nav-links">
+      <a href="/company/about/">About</a><span>•</span>
+      <a href="/company/faq/">FAQ</a><span>•</span>
+      <a href="/company/press-overview/">Press</a><span>•</span>
+      <a href="/trust/privacy/">Privacy</a><span>•</span>
+      <a href="/trust/terms/">Terms</a><span>•</span>
+      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
+      <a href="/trust/security/">Security</a><span>•</span>
+      <a href="/trust/regulatory-posture/">Compliance</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.querySelector('.nav .nav-links').classList.toggle('active');
+  var ov=document.querySelector('.overlay');
+  if(ov)ov.classList.toggle('active');
+  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
+}
+window.addEventListener('resize',function(){
+  if(window.innerWidth>860){
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav .nav-links').classList.remove('active');
+    var ov=document.querySelector('.overlay');
+    if(ov)ov.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body></html>

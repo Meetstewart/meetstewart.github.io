@@ -1,402 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plans & Pricing - Stewart</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10,10,10,0.95);
-            backdrop-filter: blur(10px);
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #c9a227;
-            text-decoration: none;
-        }
-        .nav-links a {
-            color: #aaa;
-            text-decoration: none;
-            margin-left: 30px;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: #c9a227; }
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        .page-header {
-            padding: 140px 20px 60px;
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #fff 0%, #c9a227 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .page-header p {
-            color: #888;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+  <title>Stewart Plans | AI Chief of Staff Subscription</title>
+  <meta name="description" content="Stewart is available for $199/month with optional dedicated voice and SMS access for $100/month. Simple, predictable pricing." />
 
-        .pricing-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px 80px;
-        }
-        .section-title {
-            color: #c9a227;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(201,162,39,0.2);
-        }
+  <!-- Canonical -->
+  <link rel="canonical" href="https://meetstewart.com/plans/" />
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-bottom: 60px;
-        }
-        .price-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(201,162,39,0.15);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s;
-        }
-        .price-card:hover {
-            border-color: rgba(201,162,39,0.4);
-            transform: translateY(-3px);
-        }
-        .price-card.featured {
-            border-color: #c9a227;
-            background: rgba(201,162,39,0.05);
-        }
-        .price-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-        .price-card .price {
-            color: #4ade80;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        .price-card .price span {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: #888;
-        }
-        .price-card p {
-            color: #aaa;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .price-card ul {
-            list-style: none;
-            margin-bottom: 25px;
-        }
-        .price-card li {
-            color: #888;
-            font-size: 0.9rem;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .price-card li::before {
-            content: "✓ ";
-            color: #c9a227;
-        }
-        .price-card .cta {
-            display: block;
-            text-align: center;
-            background: linear-gradient(135deg, #c9a227 0%, #a88620 100%);
-            color: #000;
-            padding: 14px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .price-card .cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(201,162,39,0.4);
-        }
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .skill {
-            background: rgba(201,162,39,0.15);
-            color: #c9a227;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Stewart" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stewart Plans | AI Chief of Staff Subscription" />
+  <meta property="og:description" content="Stewart is available for $199/month with optional dedicated voice and SMS access for $100/month. Simple, predictable pricing." />
+  <meta property="og:url" content="https://meetstewart.com/plans/" />
+  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(201,162,39,0.1);
-        }
-        footer a { color: #c9a227; text-decoration: none; }
-    
-        /* Hamburger */
-        .hamburger {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 1001;
-        }
-        .hamburger span {
-            width: 28px;
-            height: 3px;
-            background: #c9a227;
-            transition: all 0.3s;
-        }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Stewart Plans | AI Chief of Staff Subscription" />
+  <meta name="twitter:description" content="Stewart is available for $199/month with optional dedicated voice and SMS access for $100/month. Simple, predictable pricing." />
+  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
 
-        /* Slide Menu */
-        .slide-menu {
-            position: fixed;
-            top: 0;
-            right: -350px;
-            width: 350px;
-            max-width: 90vw;
-            height: 100vh;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
-            z-index: 999;
-            transition: right 0.4s ease;
-            padding: 100px 30px 40px;
-            overflow-y: auto;
-        }
-        .slide-menu.active { right: 0; }
-        .menu-link {
-            display: block;
-            padding: 18px 0;
-            color: #e0e0e0;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: color 0.2s;
-            font-size: 1.05rem;
-        }
-        .menu-link:hover { color: #c9a227; }
-        .menu-link.highlight { color: #c9a227; font-weight: 600; }
-        .menu-section-title {
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
-        .nav-links { display: none; }
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    </style>
-</head>
-<body>
-    <header>
-        <a href="/" class="logo">Stewart</a>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </header>
-    <!-- Slide Menu -->
-    <nav class="slide-menu">
-        <a href="/" class="menu-link highlight">Home</a>
-        <a href="/plans/" class="menu-link">Plans & Pricing</a>
-        <a href="/agents/" class="menu-link">Meet the Agents</a>
-        <a href="/hardware/" class="menu-link">StewBox Hardware</a>
-        <div class="menu-section-title">For Existing Users</div>
-        <a href="/dashboard/" class="menu-link">Dashboard</a>
-        <a href="tel:+18055564204" class="menu-link">📞 Call Stewart</a>
-    </nav>
-
-
-    <div class="page-header">
-        <h1>Plans & Pricing</h1>
-        <p>Start with the Virtual Executive, add specialists as you grow. All plans include a 14-day free trial.</p>
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/style.css" />
+</head><body>
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Stewart</span>
+      <span class="pill"><strong>AI Chief of Staff</strong></span>
+    </a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="nav-links">
+      <a class="pill" href="/how-stewart-works/">How I work</a>
+      <a class="pill" href="/use-cases/">Use cases</a>
+      <a class="pill" href="/capabilities/">Capabilities</a>
+      <a class="pill" href="/architecture/overview/">Architecture</a>
+      <a class="pill" href="/pricing/">Pricing</a>
+      <a class="btn secondary" href="/login/">Sign In</a>
+      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
     </div>
+  </div>
+</div>
+<div class="overlay" onclick="toggleMenu()"></div>
 
-    <main class="pricing-section">
-        <!-- Core Plan -->
-        <h2 class="section-title">🧠 Core Plan — Always Included</h2>
-        <div class="pricing-grid">
-            <div class="price-card featured">
-                <h3>Virtual Executive</h3>
-                <div class="price">$199<span>/month</span></div>
-                <p>Your AI chief of staff. Coordinates all other agents, manages projects, handles communications, and keeps everything running smoothly. Manages up to 10 staff members—virtual or human.</p>
-                <div class="skills-list">
-                    <span class="skill">Project Management</span>
-                    <span class="skill">Team Coordination</span>
-                    <span class="skill">Email & Calendar</span>
-                    <span class="skill">Meeting Prep</span>
-                    <span class="skill">Status Reports</span>
-                    <span class="skill">Workflow Automation</span>
-                </div>
-                <ul>
-                    <li>Unlimited conversations</li>
-                    <li>Voice & text communication</li>
-                    <li>10 team member capacity</li>
-                    <li>All standard integrations</li>
-                    <li>Priority support</li>
-                </ul>
-                <a href="/subscribe/" class="cta">Start 14-Day Trial</a>
-            </div>
-        </div>
+<div class="container-narrow page">
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="/">Stewart</a> <span>›</span> Plans
+    </div>
+    <h1>Plans</h1>
+  </div>
+  <div class="prose">
+    
+<p class="lede">One plan. Full access. Optional voice and SMS.</p>
 
-        <!-- Specialist Agents -->
-        <h2 class="section-title">✨ Add Specialist Agents</h2>
-        <div class="pricing-grid">
-            <div class="price-card">
-                <h3>🎙️ Brand Ambassador</h3>
-                <div class="price">$120<span>/month</span></div>
-                <p>Your customer-facing voice. Handles phone calls, responds to messages, manages social media interactions, and represents your brand with consistency.</p>
-                <div class="skills-list">
-                    <span class="skill">Phone Calls</span>
-                    <span class="skill">Customer Support</span>
-                    <span class="skill">Social Media</span>
-                    <span class="skill">Live Chat</span>
-                    <span class="skill">Review Responses</span>
-                    <span class="skill">Brand Voice</span>
-                </div>
-                <a href="/subscribe/?add=ambassador" class="cta">Add to Plan</a>
-            </div>
+<h2>What's included</h2>
+<p>Every Stewart subscription includes the complete platform: structured reasoning, context memory, workflow automation, executive reporting, multi-agent coordination, browser automation, and proactive intelligence.</p>
+<p>There are no tiered plans with artificial limitations. You get everything from day one.</p>
 
-            <div class="price-card">
-                <h3>🔧 Tech Guru</h3>
-                <div class="price">$120<span>/month</span></div>
-                <p>Your IT department in an agent. Handles integrations, troubleshoots technical issues, implements software solutions, and manages your tech stack.</p>
-                <div class="skills-list">
-                    <span class="skill">System Integration</span>
-                    <span class="skill">Troubleshooting</span>
-                    <span class="skill">API Setup</span>
-                    <span class="skill">Automation</span>
-                    <span class="skill">Database Work</span>
-                    <span class="skill">Software Config</span>
-                </div>
-                <a href="/subscribe/?add=tech" class="cta">Add to Plan</a>
-            </div>
+<h2>Add a dedicated phone line</h2>
+<p>For $100/month, you get a dedicated phone number that connects directly to me. Call for summaries, send texts for quick tasks, and receive voice transcriptions automatically. All messaging is user-initiated, one-to-one, with STOP and HELP controls.</p>
 
-            <div class="price-card">
-                <h3>✨ Content Wizard</h3>
-                <div class="price">$120<span>/month</span></div>
-                <p>Your creative powerhouse. Writes blog posts, creates marketing copy, designs email campaigns, builds presentations, and produces content that converts.</p>
-                <div class="skills-list">
-                    <span class="skill">Blog Writing</span>
-                    <span class="skill">Email Campaigns</span>
-                    <span class="skill">Social Content</span>
-                    <span class="skill">Presentations</span>
-                    <span class="skill">Ad Copy</span>
-                    <span class="skill">Landing Pages</span>
-                </div>
-                <a href="/subscribe/?add=content" class="cta">Add to Plan</a>
-            </div>
+<h2>Getting started</h2>
+<p>Subscribe, complete the onboarding questionnaire, and start working. Setup typically takes less than 15 minutes. I'll learn your priorities, systems, and preferences through structured interaction — no complex configuration required.</p>
 
-            <div class="price-card">
-                <h3>📊 Analytics Expert</h3>
-                <div class="price">$120<span>/month</span></div>
-                <p>Your data scientist. Analyzes trends, builds dashboards, creates forecasts, and turns raw data into actionable business intelligence.</p>
-                <div class="skills-list">
-                    <span class="skill">Data Analysis</span>
-                    <span class="skill">Dashboards</span>
-                    <span class="skill">Forecasting</span>
-                    <span class="skill">Reports</span>
-                    <span class="skill">KPI Tracking</span>
-                    <span class="skill">Trend Analysis</span>
-                </div>
-                <a href="/subscribe/?add=analytics" class="cta">Add to Plan</a>
-            </div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+<a class="btn" href="/subscribe/">Subscribe now</a>
+<a class="btn secondary" href="/pricing/">See pricing details</a>
+</div>
 
-            <div class="price-card">
-                <h3>📋 Super Staffer</h3>
-                <div class="price">$80<span>/month</span></div>
-                <p>Your administrative backbone. Handles scheduling, research, data entry, document processing, and all the tasks that eat up your day.</p>
-                <div class="skills-list">
-                    <span class="skill">Scheduling</span>
-                    <span class="skill">Research</span>
-                    <span class="skill">Data Entry</span>
-                    <span class="skill">Document Processing</span>
-                    <span class="skill">Filing & Organization</span>
-                    <span class="skill">Follow-ups</span>
-                </div>
-                <a href="/subscribe/?add=staffer" class="cta">Add to Plan</a>
-            </div>
-        </div>
+  </div>
+</div>
 
-        <!-- Add-ons -->
-        <h2 class="section-title">📞 Connectivity Add-ons</h2>
-        <div class="pricing-grid">
-            <div class="price-card">
-                <h3>📞 Dedicated Phone Line</h3>
-                <div class="price">$100<span>/month</span></div>
-                <p>Your own private phone number answered by Stewart. Inbound and outbound calls, voicemail, SMS—all handled professionally 24/7.</p>
-                <ul>
-                    <li>Local or toll-free number</li>
-                    <li>Unlimited inbound calls</li>
-                    <li>500 outbound minutes/month</li>
-                    <li>SMS included</li>
-                    <li>Voicemail transcription</li>
-                </ul>
-                <a href="/subscribe/?add=phone" class="cta">Add Phone Line</a>
-            </div>
+<div class="footer">
+  <div class="container footer-inner">
+    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
+    <div class="nav-links">
+      <a href="/company/about/">About</a><span>•</span>
+      <a href="/company/faq/">FAQ</a><span>•</span>
+      <a href="/company/press-overview/">Press</a><span>•</span>
+      <a href="/trust/privacy/">Privacy</a><span>•</span>
+      <a href="/trust/terms/">Terms</a><span>•</span>
+      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
+      <a href="/trust/security/">Security</a><span>•</span>
+      <a href="/trust/regulatory-posture/">Compliance</a>
+    </div>
+  </div>
+</div>
 
-            <div class="price-card">
-                <h3>🖥️ Dedicated Server</h3>
-                <div class="price">$200<span>/month</span></div>
-                <p>Private infrastructure for your Stewart instance. Enhanced performance, data isolation, and priority processing for demanding workloads.</p>
-                <ul>
-                    <li>Isolated compute resources</li>
-                    <li>Enhanced data privacy</li>
-                    <li>Priority processing queue</li>
-                    <li>99.9% uptime SLA</li>
-                    <li>Custom model fine-tuning</li>
-                </ul>
-                <a href="/subscribe/?add=server" class="cta">Add Server</a>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2026 Stewart, a service of Casablanca Express, Inc. | <a href="/terms/">Terms</a> | <a href="/privacy/">Privacy</a></p>
-    </footer>
-
-    <script>
-        function toggleMenu() {
-            document.querySelector('.hamburger').classList.toggle('active');
-            document.querySelector('.slide-menu').classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+<script>
+function toggleMenu(){
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.querySelector('.nav .nav-links').classList.toggle('active');
+  var ov=document.querySelector('.overlay');
+  if(ov)ov.classList.toggle('active');
+  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
+}
+window.addEventListener('resize',function(){
+  if(window.innerWidth>860){
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav .nav-links').classList.remove('active');
+    var ov=document.querySelector('.overlay');
+    if(ov)ov.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body></html>

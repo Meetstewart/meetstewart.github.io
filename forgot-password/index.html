@@ -1,196 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Stewart</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-        .reset-container {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(10px);
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-        }
-        .logo h1 {
-            font-size: 24px;
-            font-weight: 600;
-        }
-        .logo p {
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.8);
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-        .btn-reset {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-reset:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-        .btn-reset:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .back-link {
-            text-align: center;
-            margin-top: 25px;
-        }
-        .back-link a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .back-link a:hover {
-            color: #fff;
-        }
-        .error-msg {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 14px;
-        }
-        .success-msg {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid rgba(34, 197, 94, 0.5);
-            color: #86efac;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 14px;
-        }
-        #resetForm.hidden {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="reset-container">
-        <div class="logo">
-            <img src="https://meetstewart.github.io/images/stewart-avatar.png" alt="Stewart">
-            <h1>Reset Password</h1>
-            <p>Enter your email and we'll send you a link to reset your password</p>
-        </div>
-        
-        <div class="error-msg" id="errorMsg"></div>
-        <div class="success-msg" id="successMsg"></div>
-        
-        <form id="resetForm">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="you@example.com" required>
-            </div>
-            <button type="submit" class="btn-reset" id="submitBtn">Send Reset Link</button>
-        </form>
-        
-        <div class="back-link">
-            <a href="/login/">← Back to Sign In</a>
-        </div>
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Reset Stewart Password</title>
+  <meta name="description" content="Recover access to your Stewart account securely." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://meetstewart.com/forgot-password/" />
+
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Stewart" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Reset Stewart Password" />
+  <meta property="og:description" content="Recover access to your Stewart account securely." />
+  <meta property="og:url" content="https://meetstewart.com/forgot-password/" />
+  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reset Stewart Password" />
+  <meta name="twitter:description" content="Recover access to your Stewart account securely." />
+  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/style.css" />
+</head><body>
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Stewart</span>
+      <span class="pill"><strong>AI Chief of Staff</strong></span>
+    </a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="nav-links">
+      <a class="pill" href="/how-stewart-works/">How I work</a>
+      <a class="pill" href="/use-cases/">Use cases</a>
+      <a class="pill" href="/capabilities/">Capabilities</a>
+      <a class="pill" href="/architecture/overview/">Architecture</a>
+      <a class="pill" href="/pricing/">Pricing</a>
+      <a class="btn secondary" href="/login/">Sign In</a>
+      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
     </div>
+  </div>
+</div>
+<div class="overlay" onclick="toggleMenu()"></div>
+
+<div class="container-narrow page">
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="/">Stewart</a> <span>›</span> Reset Password
+    </div>
+    <h1>Reset Your Password</h1>
+  </div>
+  <div class="prose">
     
-    <script>
-        const form = document.getElementById('resetForm');
-        const errorMsg = document.getElementById('errorMsg');
-        const successMsg = document.getElementById('successMsg');
-        const submitBtn = document.getElementById('submitBtn');
-        
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            errorMsg.style.display = 'none';
-            successMsg.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            
-            const email = document.getElementById('email').value;
-            
-            try {
-                const response = await fetch('https://casablancaexpress.com/api/forgot-password.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    successMsg.textContent = 'Password reset link sent! Check your email.';
-                    successMsg.style.display = 'block';
-                    form.classList.add('hidden');
-                } else {
-                    errorMsg.textContent = data.error || 'Unable to send reset email. Please try again.';
-                    errorMsg.style.display = 'block';
-                }
-            } catch (err) {
-                errorMsg.textContent = 'Connection error. Please try again.';
-                errorMsg.style.display = 'block';
-            }
-            
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Reset Link';
-        });
-    </script>
-</body>
-</html>
+<p class="lede">Enter your email address and we'll send you a secure reset link.</p>
+
+<div class="callout">
+<p><strong>Password reset is handled through your Stewart dashboard.</strong> If you're having trouble accessing your account, please <a href="/company/contact/">contact support</a>.</p>
+</div>
+
+<p style="margin-top:20px"><a href="/login/">← Back to sign in</a></p>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="container footer-inner">
+    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
+    <div class="nav-links">
+      <a href="/company/about/">About</a><span>•</span>
+      <a href="/company/faq/">FAQ</a><span>•</span>
+      <a href="/company/press-overview/">Press</a><span>•</span>
+      <a href="/trust/privacy/">Privacy</a><span>•</span>
+      <a href="/trust/terms/">Terms</a><span>•</span>
+      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
+      <a href="/trust/security/">Security</a><span>•</span>
+      <a href="/trust/regulatory-posture/">Compliance</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.querySelector('.nav .nav-links').classList.toggle('active');
+  var ov=document.querySelector('.overlay');
+  if(ov)ov.classList.toggle('active');
+  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
+}
+window.addEventListener('resize',function(){
+  if(window.innerWidth>860){
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav .nav-links').classList.remove('active');
+    var ov=document.querySelector('.overlay');
+    if(ov)ov.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body></html>
