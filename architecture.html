@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stewart Architecture — Built to Run</title>
+  <meta name="description" content="Stewart's architecture: analysis, execution, boundaries, deployment models, auditability, and repeatable workflows." />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NYK4B988K7');
+  </script>
+  <style>
+    :root{
+      --bg:#0b0d12; --card:#121521; --text:#f3f5ff; --muted:#b8bfdb; --soft:#232844;
+      --accent:#6ee7ff; --accent2:#a78bfa; --danger:#ff4d6d; --ok:#7CFFB2;
+      --max:1120px; --radius:18px; --shadow: 0 18px 55px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(110,231,255,.12), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.12), transparent 60%),
+        radial-gradient(800px 500px at 70% 90%, rgba(255,77,109,.09), transparent 60%),
+        var(--bg);
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: rgba(11,13,18,.65);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 24px; max-width:var(--max); margin:0 auto;}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800;}
+    .logo{width:38px; height:38px; border-radius:12px; background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.95));
+      display:grid; place-items:center; font-weight:900; color:#071018; box-shadow: 0 10px 30px rgba(110,231,255,.12);}
+    .navlinks{display:flex; gap:14px; flex-wrap:wrap}
+    .navlinks a{color:var(--muted); padding:8px 10px; border-radius:12px; border:1px solid transparent;}
+    .navlinks a:hover{color:var(--text); border-color: rgba(255,255,255,.10); background: rgba(255,255,255,.04);}
+    .cta{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 14px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color:var(--text); font-weight:650; cursor:pointer;}
+    .btn.primary{border-color: rgba(110,231,255,.40); background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));
+      box-shadow: 0 10px 40px rgba(110,231,255,.08);}
+    .btn:hover{background: rgba(255,255,255,.06)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    .hero{padding:28px 0 10px}
+    h1{margin:12px 0 10px; font-size: clamp(28px, 3.6vw, 46px); line-height:1.1; letter-spacing:-.6px;}
+    .sub{color:var(--muted); margin:0; font-size:18px; max-width: 85ch;}
+    section{padding:14px 0}
+    h2{margin:0 0 8px; font-size:24px; letter-spacing:-.2px}
+    .lead{margin:0; color:var(--muted); max-width: 92ch;}
+    .cards{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-top:14px;}
+    @media (max-width: 980px){ .cards{grid-template-columns:1fr} .navlinks{display:none} }
+    .card{background: rgba(18,21,33,.58); border:1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding:18px; box-shadow: none;}
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:var(--muted)}
+    .twoCol{display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px;}
+    @media (max-width: 980px){ .twoCol{grid-template-columns:1fr} }
+    .callout{border-radius: var(--radius); border:1px solid rgba(110,231,255,.18);
+      background: linear-gradient(135deg, rgba(110,231,255,.08), rgba(167,139,250,.06)); padding:18px;}
+    .list{margin:10px 0 0; padding-left: 18px; color:var(--muted);}
+    footer{border-top:1px solid rgba(255,255,255,.08); margin-top:24px; padding:26px 0 40px; color:var(--muted);}
+    .fine{font-size:13px; color:rgba(184,191,219,.8)}
+    code.inline{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); padding:2px 6px; border-radius:8px; color:var(--text)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-size:15px; line-height:1.1">Meet Stewart</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:650">Private intelligence. Real execution.</div>
+        </div>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary navigation">
+        <a href="index.html#what">What it is</a>
+        <a href="architecture.html" style="color:var(--text)">Architecture</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn" href="use-cases.html">See examples</a>
+        <a class="btn primary" href="index.html#contact">Request access</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>Architecture that's built to run — not just demo.</h1>
+      <p class="sub">
+        Stewart is designed like infrastructure: stable layers, explicit boundaries, repeatable workflows, and auditable execution.
+        This page explains how the system is organized so operators can trust it with real work — not just prompts.
+      </p>
+    </section>
+
+    <section>
+      <h2>The three-layer model</h2>
+      <p class="lead">
+        Stewart is deliberately separated into <b>Analysis</b>, <b>Execution</b>, and <b>Control</b> layers. Most AI products collapse these
+        into one blob, which is why they feel powerful in a demo and unreliable in production. Stewart treats them as distinct concerns:
+        analysis converts messy inputs into structured outputs; execution turns structured outputs into actions; control defines what's allowed,
+        what's reviewed, and what's logged.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>1) Analysis layer</h3>
+          <p>
+            Ingestion + extraction. Stewart processes audio, documents, exports, and notes to produce decision-ready artifacts:
+            summaries, trend reports, tables, action queues, and "what changed since last run" diffs. The goal is operational usefulness,
+            not academic perfection.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2) Execution layer</h3>
+          <p>
+            Workflow + action. Stewart can draft emails, create reports, move data between systems, and operate inside web dashboards
+            when no API exists — but only within explicit scopes and approval gates defined by the operator.
+          </p>
+        </div>
+        <div class="card">
+          <h3>3) Control layer</h3>
+          <p>
+            Permissions, boundaries, and audit. This layer defines access (read vs write), required approvals, data retention,
+            and the log of "what Stewart attempted / created / changed." Control is what makes scaling trust possible.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Deployment patterns</h2>
+      <p class="lead">
+        Stewart supports multiple deployment patterns depending on your workloads. The key principle: don't let a long-running analysis job
+        compete with your interactive experience or your execution safety. Separation keeps the system stable even under heavy use.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Single-node (starter)</h3>
+          <p>
+            One machine runs analysis + interactive tasks, with execution actions gated behind confirmations. This works well for early-stage
+            usage, smaller datasets, and operators who want value fast. As you scale, you split workloads without changing how users interact
+            with Stewart.
+          </p>
+          <ul class="list">
+            <li>Best for: personal ops, small teams, early pilots.</li>
+            <li>Strength: simple setup and maintenance.</li>
+            <li>Constraint: heavy batch jobs can impact responsiveness.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Multi-node (operator-grade)</h3>
+          <p>
+            Dedicated nodes for batch analysis (e.g., call archives) while a separate node handles interactive orchestration. Execution can run
+            in a sandboxed environment or VM to isolate risk. This is the "built to run all week" configuration.
+          </p>
+          <ul class="list">
+            <li>Best for: high-volume audio/doc processing, enterprise workflows.</li>
+            <li>Strength: stable performance under load.</li>
+            <li>Constraint: requires basic ops discipline (monitoring, storage rules).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <p>
+          <b>Design rule:</b> keep interactive orchestration "light" and move heavy lifting into batch jobs. That's how Stewart stays fast
+          while still processing large datasets like hard drives full of call recordings.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Agents, scopes, and safety boundaries</h2>
+      <p class="lead">
+        Stewart works best when capabilities are separated by intent. "Read-only analysis" is fundamentally different from "take an action in a
+        live system." The architecture reflects that difference so you can increase capability over time without losing control.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Read-only agents</h3>
+          <p>
+            Ingest and summarize. These agents can access defined sources and generate outputs, but cannot modify systems. Ideal for early value:
+            digest call archives, summarize documents, generate weekly briefs, and surface anomalies safely.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Draft agents</h3>
+          <p>
+            Produce work products: emails, reports, structured plans, checklists, and scripts. Draft agents write, but their output is reviewed
+            by humans before it becomes action. This is where speed increases without risking unintended changes.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Action agents (gated)</h3>
+          <p>
+            Execute within explicit scopes. Examples: download a statement, pull a report, reconcile a CSV, update a record, file a ticket.
+            Actions can require step-by-step approval, and should always generate an audit trail.
+          </p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Scopes are explicit</h3>
+          <p>
+            Stewart should never be "all access." Scopes define what data sources are allowed (<code class="inline">/calls/2026_Q1</code>),
+            what systems are allowed (e.g., CRM, billing portal), and what actions are allowed (read-only, export-only, or write-enabled).
+          </p>
+          <ul class="list">
+            <li>Source scope: folders, drives, exports, databases.</li>
+            <li>System scope: which websites/apps can be accessed.</li>
+            <li>Action scope: read, draft, execute, with approvals.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Approvals scale trust</h3>
+          <p>
+            Approval gates are not a limitation — they're a growth path. Operators can start conservative (Stewart proposes actions) and move
+            toward automation as confidence builds. The architecture supports both without changing the user experience.
+          </p>
+          <ul class="list">
+            <li>Propose → approve → execute.</li>
+            <li>Preview before writing/changing data.</li>
+            <li>"Dry run" mode for new workflows.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Repeatability, not one-off brilliance</h2>
+      <p class="lead">
+        Real operations require repeatability. Stewart is built to run the same workflow next week and produce comparable outputs:
+        the same metrics, the same sections, the same formatting, and the same definitions. That consistency is what lets teams compare results
+        over time and trust the system in decision-making.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Structured outputs</h3>
+          <p>
+            Workflows define outputs as artifacts: scorecards, summary memos, CSV tables, dashboards, and task queues. Structured outputs are easier
+            to review, version, and reuse than chat transcripts.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Versioned workflows</h3>
+          <p>
+            When you improve a workflow, you version it. That prevents silent behavior changes. Operators should always know which workflow
+            produced a report and what assumptions it used.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Auditability</h3>
+          <p>
+            When Stewart acts, it logs: what it accessed, what it generated, what it changed, and what required approval. That log is how you
+            detect mistakes early and continuously improve reliability.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="twoCol">
+        <div>
+          <div style="font-weight:800; color:var(--text)">Meet Stewart</div>
+          <div class="fine">Architecture designed for control, repeatability, and real execution.</div>
+        </div>
+        <div>
+          <div class="fine" style="text-align:right">© <span id="year"></span> Meet Stewart.</div>
+        </div>
+      </div>
+      <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+    </footer>
+  </main>
+</body>
+</html>

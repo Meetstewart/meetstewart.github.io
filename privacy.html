@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stewart Privacy — Control by Design</title>
+  <meta name="description" content="Stewart privacy model: local-first options, permission boundaries, approvals, retention, audit trails, and safe execution." />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NYK4B988K7');
+  </script>
+  <style>
+    :root{--bg:#0b0d12;--text:#f3f5ff;--muted:#b8bfdb;--accent:#6ee7ff;--accent2:#a78bfa;--danger:#ff4d6d;--ok:#7CFFB2;--max:1120px;--radius:18px;--shadow:0 18px 55px rgba(0,0,0,.45);}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(110,231,255,.12), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.12), transparent 60%),
+        radial-gradient(800px 500px at 70% 90%, rgba(255,77,109,.09), transparent 60%),
+        var(--bg);
+      line-height:1.65;}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:10;backdrop-filter: blur(12px);background: rgba(11,13,18,.65);border-bottom:1px solid rgba(255,255,255,.06);}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;max-width:var(--max);margin:0 auto;}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;}
+    .logo{width:38px;height:38px;border-radius:12px;background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.95));
+      display:grid;place-items:center;font-weight:900;color:#071018;box-shadow: 0 10px 30px rgba(110,231,255,.12);}
+    .navlinks{display:flex;gap:14px;flex-wrap:wrap}
+    .navlinks a{color:var(--muted);padding:8px 10px;border-radius:12px;border:1px solid transparent;}
+    .navlinks a:hover{color:var(--text);border-color: rgba(255,255,255,.10);background: rgba(255,255,255,.04);}
+    @media (max-width: 980px){ .navlinks{display:none} }
+    .cta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.10);background: rgba(255,255,255,.04);color:var(--text);font-weight:650;}
+    .btn.primary{border-color: rgba(110,231,255,.40);background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));box-shadow: 0 10px 40px rgba(110,231,255,.08);}
+    .wrap{max-width:var(--max);margin:0 auto;padding:24px}
+    h1{margin:12px 0 10px;font-size:clamp(28px,3.6vw,46px);line-height:1.1;letter-spacing:-.6px}
+    .sub{color:var(--muted);margin:0;font-size:18px;max-width: 90ch;}
+    section{padding:14px 0}
+    h2{margin:0 0 8px;font-size:24px;letter-spacing:-.2px}
+    .lead{margin:0;color:var(--muted);max-width: 95ch;}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+    @media (max-width:980px){.cards{grid-template-columns:1fr}}
+    .card{background: rgba(18,21,33,.58);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:18px}
+    .card h3{margin:0 0 8px;font-size:16px}
+    .card p{margin:0;color:var(--muted)}
+    .twoCol{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    @media (max-width:980px){.twoCol{grid-template-columns:1fr}}
+    .callout{border-radius:var(--radius);border:1px solid rgba(110,231,255,.18);background: linear-gradient(135deg, rgba(110,231,255,.08), rgba(167,139,250,.06));padding:18px}
+    .list{margin:10px 0 0;padding-left:18px;color:var(--muted)}
+    .faq details{border:1px solid rgba(255,255,255,.08);background: rgba(18,21,33,.52);border-radius:16px;padding:14px 16px;margin-top:10px}
+    .faq summary{cursor:pointer;font-weight:750;color:var(--text)}
+    footer{border-top:1px solid rgba(255,255,255,.08);margin-top:24px;padding:26px 0 40px;color:var(--muted)}
+    .fine{font-size:13px;color:rgba(184,191,219,.8)}
+    code.inline{background: rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:2px 6px;border-radius:8px;color:var(--text)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-size:15px; line-height:1.1">Meet Stewart</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:650">Private intelligence. Real execution.</div>
+        </div>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary navigation">
+        <a href="index.html#what">What it is</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="privacy.html" style="color:var(--text)">Privacy</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn" href="use-cases.html">See examples</a>
+        <a class="btn primary" href="index.html#contact">Request access</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section style="padding:28px 0 10px">
+      <h1>Privacy and control are features — not footnotes.</h1>
+      <p class="sub">
+        Stewart is built on a simple principle: intelligence shouldn't require surrendering your data or your authority.
+        This page explains how permissions, local-first processing, approval gates, and auditability work together to create trust.
+      </p>
+    </section>
+
+    <section>
+      <h2>The Stewart privacy model</h2>
+      <p class="lead">
+        Many "AI assistants" are only powerful because they centralize everything in someone else's cloud. That model is fine for casual usage,
+        but it becomes unacceptable when your workloads include customer data, financial records, internal contracts, or regulated communications.
+        Stewart is designed to run inside your environment with configurable boundaries. In practice, that means three things:
+        (1) <b>explicit permissions</b> instead of implied access, (2) <b>local-first options</b> where raw data can stay local, and (3) <b>auditable execution</b>
+        so actions are traceable.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Explicit permissions</h3>
+          <p>
+            Stewart is not a ghost account with full access. Permissions define what it can read, what it can draft, and what it can execute.
+            You can start with read-only analysis and expand over time.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Local-first options</h3>
+          <p>
+            Sensitive workloads can be processed locally so raw inputs don't have to leave your machine or cluster. You decide the tradeoffs:
+            speed, cost, and privacy — intentionally.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Auditability</h3>
+          <p>
+            When Stewart acts, it logs what it accessed, what it generated, what it changed, and what required approval. Trust scales through logs,
+            not vibes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Permission boundaries that make sense</h2>
+      <p class="lead">
+        "Can you access my email?" is the wrong question. The right question is: <b>what scope, for what purpose, with what approval?</b>
+        Stewart supports boundaries that map to how real operators think about risk.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Access scope</h3>
+          <p>
+            Scope defines which sources are allowed: folders, drives, exports, systems, and accounts. It can be as narrow as a single directory
+            (<code class="inline">/calls/Q1_2026</code>) or as broad as an operational data lake — but it's always explicit.
+          </p>
+          <ul class="list">
+            <li><b>Data scope:</b> files, folders, databases, exports.</li>
+            <li><b>System scope:</b> which web dashboards/apps Stewart can touch.</li>
+            <li><b>Time scope:</b> limit to a date range or "new since last run."</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Action scope</h3>
+          <p>
+            Scope also defines what Stewart is allowed to do. Read-only analysis is one category. Drafting documents is another. Execution is the most
+            sensitive category and should be gated by approvals and safe defaults.
+          </p>
+          <ul class="list">
+            <li><b>Read:</b> summarize, extract, measure, compare.</li>
+            <li><b>Draft:</b> reports, emails, memos, checklists.</li>
+            <li><b>Execute:</b> download/export, upload, update records, submit forms.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <p>
+          <b>Recommended onboarding path:</b> Start with read-only analysis → add drafts with review → enable execution with approvals → then automate
+          proven workflows. That progression delivers value immediately without forcing a leap of faith.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Approval gates and "dry runs"</h2>
+      <p class="lead">
+        If you want Stewart to be powerful and safe, approvals are your friend. Stewart can operate in a propose/preview/execute loop:
+        it proposes actions, shows you exactly what it plans to do, and only executes after confirmation. For new workflows, you can run in "dry run"
+        mode where outputs are generated but no external changes occur.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Propose</h3>
+          <p>
+            Stewart generates a plan: which sources, which steps, which outputs. This makes execution explainable and gives operators a moment to
+            correct assumptions before anything happens.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Preview</h3>
+          <p>
+            Before an action, Stewart shows the exact change: the email draft, the updated record, the generated CSV, the form fields to be submitted.
+            This prevents "silent errors" and builds confidence quickly.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Execute</h3>
+          <p>
+            Execution happens within the defined scope and produces an audit trail. If anything fails, the log explains what step failed and why,
+            so the workflow can be improved instead of abandoned.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Retention and data handling (practical rules)</h2>
+      <p class="lead">
+        Privacy isn't just "where the model runs." It's also what data is stored, for how long, and in what form. Stewart should default toward
+        storing the minimum needed to make workflows repeatable: structured outputs and logs, not raw sensitive inputs.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Store structured outputs</h3>
+          <p>
+            Summaries, scorecards, metrics tables, and action queues are useful and reviewable. They're also smaller and safer than raw audio or full
+            document dumps. Storing structured outputs enables trend tracking without expanding risk.
+          </p>
+          <ul class="list">
+            <li>Weekly executive briefs</li>
+            <li>Rep coaching scorecards</li>
+            <li>Objection frequency tables</li>
+            <li>Anomaly flags + links to source references</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Minimize raw retention</h3>
+          <p>
+            Keep raw inputs where they already live (your storage) and avoid duplicating them inside the AI system. When the workflow needs source
+            grounding, store references (file path + timestamp) rather than copying the whole asset.
+          </p>
+          <ul class="list">
+            <li>Reference: filename + time markers</li>
+            <li>Hashing/versioning for repeatability</li>
+            <li>Configurable retention windows</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>FAQ</h2>
+
+      <details>
+        <summary>Can Stewart work without sending data to third parties?</summary>
+        <p class="lead">
+          Yes — Stewart supports local-first processing options so sensitive workflows can remain inside your environment. If you choose to use external
+          services for certain tasks, that's a deliberate configuration choice, not the default.
+        </p>
+      </details>
+
+      <details>
+        <summary>How do you prevent "unexpected actions"?</summary>
+        <p class="lead">
+          By design: explicit scopes, approval gates, and audit trails. New workflows can run in dry-run mode. Action agents should never be enabled
+          globally; they're enabled per workflow with clear permissions.
+        </p>
+      </details>
+
+      <details>
+        <summary>What does an audit trail actually include?</summary>
+        <p class="lead">
+          At minimum: which sources were accessed, which workflow version ran, what outputs were created, what actions were attempted, what approvals were
+          recorded, and what errors occurred. This is what makes reliability improvable.
+        </p>
+      </details>
+    </section>
+
+    <footer>
+      <div class="twoCol">
+        <div>
+          <div style="font-weight:800; color:var(--text)">Meet Stewart</div>
+          <div class="fine">Privacy is a control system: scopes, approvals, logs, and local-first options.</div>
+        </div>
+        <div>
+          <div class="fine" style="text-align:right">© <span id="year"></span> Meet Stewart.</div>
+        </div>
+      </div>
+      <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+    </footer>
+  </main>
+</body>
+</html>
