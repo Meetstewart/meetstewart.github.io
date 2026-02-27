@@ -1,103 +1,680 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Stewart | Twice the Output. Half the Drag.</title>
-  <meta name="description" content="Stewart is your personalized AI executive. Do more in less time—double your work product and cut the drag. No AI expertise needed. Just chat, text, or call."/>
-  <link rel="canonical" href="https://meetstewart.com/"/>
-  <meta name="robots" content="index,follow"/>
-  <link rel="stylesheet" href="/assets/style.css"/>
-  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NYK4B988K7');
-</script>
-  <script type="application/ld+json">\n{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Stewart",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "description": "Personalized AI executive for business owners. Twice the output. Half the drag.",
-  "url": "https://meetstewart.com/",
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "Stewart Core",
-      "price": "199",
-      "priceCurrency": "USD",
-      "url": "https://meetstewart.com/pricing/"
-    },
-    {
-      "@type": "Offer",
-      "name": "Dedicated Voice + Text Line",
-      "price": "100",
-      "priceCurrency": "USD",
-      "url": "https://meetstewart.com/pricing/"
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Meet Stewart — Private Intelligence. Real Execution.</title>
+  <meta name="description" content="Stewart is a private intelligence engine that analyzes, executes, and reduces operational drag across your digital life — with local-first control, explicit permissions, and dependable workflows." />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NYK4B988K7');
+  </script>
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --card:#121521;
+      --text:#f3f5ff;
+      --muted:#b8bfdb;
+      --soft:#232844;
+      --accent:#6ee7ff;
+      --accent2:#a78bfa;
+      --danger:#ff4d6d;
+      --ok:#7CFFB2;
+      --max:1120px;
+      --radius:18px;
+      --shadow: 0 18px 55px rgba(0,0,0,.45);
     }
-  ]
-}\n</script>
-</head>
-<body>
-<header class="topnav">
-  <div class="container navrow">
-    <a class="brand" href="/" aria-label="Stewart home">
-      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
-      <span class="brand-pill">AI Executive</span>
-    </a>
-    
-    <nav class="navlinks" aria-label="Primary navigation">
-      <a href="/ai-guided-start/">How You Start</a>
-      <a href="/dashboard/">Dashboard</a>
-      <a href="/experience/">Experience</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/blog/">Blog</a>
-      <a class="btnNav" href="/get-started/">Get Started</a>
-    </nav>
-  </div>
-</header>
-<main class="container page">
-<section class="pageHead"><div class="eyebrow">calm • motivating • built for operators</div>
-<h1>Twice the output.<br/>Half the drag.</h1>
-<p class="lede">Stewart is your personalized AI executive. He turns conversations into real work: plans, drafts, frameworks, and clean next steps.</p>
-<p class="muted">You don’t need to be an AI expert. Stewart handles the complexity behind the scenes — you just chat, text, or call like you would with a real person.</p>
-<div class="btnRow"><a class="btnPrimary" href="/get-started/">Start Here →</a><a class="btnSecondary" href="/ai-guided-start/">See how the guided start works</a></div>
-</section>
-<section class="panel" style="margin-top:14px;"><h2>Do more in less time</h2><p class="muted">Less starting over. Less re-explaining. More clean output you can use.</p>
-<div class="grid2" style="margin-top:12px;">
-<div class="item"><strong>More work product</strong><p class="muted">Reports, plans, landing pages, memos, follow-ups—built while you think.</p></div>
-<div class="item"><strong>Less wasted time</strong><p class="muted">Cleaner delegation. Faster decisions. Fewer dropped balls. More forward motion.</p></div>
-</div></section>
-<section class="panel" style="margin-top:14px;"><h2>Simple pricing</h2>
-<div class="grid2" style="margin-top:12px;">
-<div class="item"><div class="itemTop"><strong>Stewart</strong><span class="tag">Core</span></div><div class="price">$199<span>/month</span></div><p class="muted">Dashboard access + your personalized AI executive.</p></div>
-<div class="item"><div class="itemTop"><strong>Dedicated text + voice line</strong><span class="tag">Recommended</span></div><div class="price">$100<span>/month</span></div><p class="muted">Call or text Stewart any time—especially useful on the road.</p></div>
-</div>
-<div class="btnRow"><a class="btnSecondary" href="/pricing/">See full pricing →</a><a class="btnPrimary" href="/get-started/">Get started →</a></div>
-</section>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(110,231,255,.12), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.12), transparent 60%),
+        radial-gradient(800px 500px at 70% 90%, rgba(255,77,109,.09), transparent 60%),
+        var(--bg);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: rgba(11,13,18,.65);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:14px 24px;
+      max-width:var(--max); margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background:
+        linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.95));
+      box-shadow: 0 10px 30px rgba(110,231,255,.12);
+      display:grid; place-items:center;
+      font-weight:900; color:#071018;
+    }
+    .navlinks{display:flex; gap:14px; flex-wrap:wrap}
+    .navlinks a{
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+    }
+    .navlinks a:hover{
+      color:var(--text);
+      border-color: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .cta{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-weight:650;
+      cursor:pointer;
+    }
+    .btn:hover{background: rgba(255,255,255,.06)}
+    .btn.primary{
+      border-color: rgba(110,231,255,.40);
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));
+      box-shadow: 0 10px 40px rgba(110,231,255,.08);
+    }
+    .btn.primary:hover{
+      border-color: rgba(110,231,255,.62);
+      box-shadow: 0 16px 55px rgba(110,231,255,.12);
+    }
 
-</main>
-<footer class="footer">
-  <div class="container footerRow">
-    <div>
-      <div class="tiny">Stewart • AI Executive</div>
-      <div class="tiny">© 2026 meetstewart.com</div>
-      <div class="tiny" style="margin-top:6px;max-width:92ch;">
-        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
-        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+    .hero{
+      padding:56px 0 22px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap:20px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      .navlinks{display:none}
+    }
+    .hcard{
+      background: rgba(18,21,33,.62);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:26px;
+    }
+    .kicker{
+      display:inline-flex;
+      gap:10px; align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      font-weight:650;
+      font-size:14px;
+    }
+    h1{
+      margin:14px 0 12px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height:1.08;
+      letter-spacing:-.7px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:18px;
+      margin:0 0 18px;
+      max-width: 62ch;
+    }
+    .pillrow{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      font-weight:650;
+      font-size:14px;
+    }
+    .statbox{
+      display:grid; gap:12px;
+    }
+    .stat{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .stat b{display:block; font-size:15px}
+    .stat span{color:var(--muted); font-size:14px}
+
+    section{padding:22px 0}
+    .sectionTitle{
+      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+      margin-bottom:12px;
+    }
+    h2{
+      margin:0;
+      font-size: 26px;
+      letter-spacing:-.3px;
+    }
+    .lead{
+      margin:6px 0 0;
+      color:var(--muted);
+      max-width: 80ch;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 980px){ .cards{grid-template-columns:1fr} }
+    .card{
+      background: rgba(18,21,33,.58);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      padding:18px;
+    }
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:var(--muted)}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      color:var(--muted);
+      font-weight:650; font-size:13px;
+      margin-bottom:8px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(110,231,255,.12);
+    }
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 980px){ .twoCol{grid-template-columns:1fr} }
+    .callout{
+      border-radius: var(--radius);
+      border:1px solid rgba(110,231,255,.18);
+      background: linear-gradient(135deg, rgba(110,231,255,.08), rgba(167,139,250,.06));
+      padding:18px;
+    }
+    .callout p{margin:0; color:var(--muted)}
+    .list{
+      margin:10px 0 0;
+      padding-left: 18px;
+      color:var(--muted);
+    }
+    .faq details{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(18,21,33,.52);
+      border-radius:16px;
+      padding:14px 16px;
+      margin-top:10px;
+    }
+    .faq summary{
+      cursor:pointer;
+      font-weight:750;
+      color:var(--text);
+    }
+    footer{
+      border-top:1px solid rgba(255,255,255,.08);
+      margin-top:24px;
+      padding:26px 0 40px;
+      color:var(--muted);
+    }
+    .fine{font-size:13px; color:rgba(184,191,219,.8)}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">S</div>
+        <div>
+          <div style="font-size:15px; line-height:1.1">Meet Stewart</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:650">Private intelligence. Real execution.</div>
+        </div>
+      </div>
+
+      <nav class="navlinks" aria-label="Primary navigation">
+        <a href="#what">What it is</a>
+        <a href="#how">How it works</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#usecases">Use cases</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn" href="#usecases">See examples</a>
+        <a class="btn primary" href="#contact">Request access</a>
       </div>
     </div>
-    <div class="footerLinks">
-      <a href="/company/about/">About</a>
-      <a href="/company/contact/">Contact</a>
-      <a href="/trust/privacy/">Privacy</a>
-      <a href="/trust/terms/">Terms</a>
-    </div>
-  </div>
-</footer>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="grid">
+        <div class="hcard">
+          <span class="kicker">Local-first • Permissioned • Operator-grade</span>
+          <h1>Stewart is a private intelligence engine that <span style="color:var(--accent)">analyzes</span>, <span style="color:var(--accent2)">executes</span>, and reduces operational drag.</h1>
+          <p class="sub">
+            Most "AI assistants" stop at answers. Stewart is built to go further: it can turn information into action,
+            automate repeatable workflows, and produce decision-ready insight — while keeping you in control of what it can access,
+            what it can do, and where your data lives.
+          </p>
+
+          <div class="cta" style="margin-top:10px">
+            <a class="btn primary" href="#contact">Get early access</a>
+            <a class="btn" href="#architecture">Read the architecture</a>
+          </div>
+
+          <div class="pillrow" aria-label="Key claims">
+            <span class="pill">Runs on your hardware</span>
+            <span class="pill">Explicit permissions</span>
+            <span class="pill">Local processing options</span>
+            <span class="pill">Browser-based execution when APIs don't exist</span>
+            <span class="pill">Built for real operations</span>
+          </div>
+        </div>
+
+        <aside class="hcard">
+          <div class="statbox">
+            <div class="stat">
+              <b>What Stewart replaces</b>
+              <span>"Check five systems, copy/paste, make a spreadsheet, write an email, repeat tomorrow."</span>
+            </div>
+            <div class="stat">
+              <b>What Stewart adds</b>
+              <span>Structured insight, repeatable execution, and fewer decisions per day.</span>
+            </div>
+            <div class="stat">
+              <b>What stays human</b>
+              <span>Authority. Judgment. Final approval. Stewart is leverage — not autonomy without oversight.</span>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:14px">
+            <p><b style="color:var(--text)">The Stewart principle:</b> intelligence shouldn't require surrendering control.
+              You decide what's allowed. Stewart does the work — within those boundaries.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- WHAT IT IS -->
+    <section id="what">
+      <div class="sectionTitle">
+        <h2>What Stewart is (and what it isn't)</h2>
+      </div>
+      <p class="lead">
+        Stewart is not positioned as "another chatbot." It's an operational intelligence layer designed for people who
+        live inside high-context workflows: founders, operators, managers, analysts, and anyone whose day is dominated by
+        context switching, system hopping, and repeatable decision loops.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <div class="badge"><span class="dot"></span> What it is</div>
+          <p>
+            Stewart is a private intelligence engine that can <b>ingest information</b>, <b>produce structured outputs</b>,
+            and <b>execute workflows</b> across the tools you already use. When APIs exist, Stewart can integrate cleanly.
+            When they don't, Stewart can still operate through controlled browser-based execution with explicit permissions.
+            It's designed to handle unglamorous reality: inconsistent dashboards, messy exports, unlabeled folders, call recordings,
+            and "tribal knowledge" trapped inside inboxes.
+          </p>
+        </div>
+        <div class="card">
+          <div class="badge"><span class="dot" style="background:var(--danger); box-shadow: 0 0 0 4px rgba(255,77,109,.12)"></span> What it isn't</div>
+          <p>
+            Stewart is not "magic." It's not a one-click replacement for human decision-making. It does not ask you to blindly hand over
+            your life. It's not built on vague promises like "10x productivity." Stewart is engineered around a practical model:
+            <b>reduce friction</b>, <b>compress context switching</b>, and <b>convert information into action</b> — while keeping a human
+            in the loop where it matters.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>It's opinionated about work</h3>
+          <p>
+            Stewart assumes your real bottleneck isn't "time." It's mental bandwidth. Switching apps, chasing details,
+            and reloading context burns momentum. Stewart is built to reduce that hidden tax.
+          </p>
+        </div>
+        <div class="card">
+          <h3>It's designed for messy reality</h3>
+          <p>
+            Most automation tools fail when systems are inconsistent. Stewart is designed to handle imperfect inputs:
+            partial transcripts, inconsistent naming, duplicate records, and exports that don't match.
+          </p>
+        </div>
+        <div class="card">
+          <h3>It keeps you in control</h3>
+          <p>
+            Permissions are explicit. Actions can require approval. Data boundaries are configurable. The goal is leverage with
+            accountability — not runaway automation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="sectionTitle">
+        <h2>How it works</h2>
+      </div>
+      <p class="lead">
+        Stewart operates in three layers: <b>analysis</b>, <b>execution</b>, and <b>architecture</b>. That's what makes it different from
+        "answer-only" assistants. The analysis layer turns raw inputs into structured insight. The execution layer turns insight into
+        repeatable actions. The architecture layer makes it dependable and controllable on your infrastructure.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="badge"><span class="dot"></span> 1) Analysis layer</div>
+          <p>
+            Stewart can ingest call recordings, documents, exports, and operational notes to produce decision-ready outputs:
+            summaries, trends, anomaly detection, structured tables, follow-up queues, and "what changed since last time" reporting.
+            The point is not perfect transcription or academic accuracy. The point is operational usefulness: what matters, what repeats,
+            and what needs action.
+          </p>
+        </div>
+        <div class="card">
+          <div class="badge"><span class="dot" style="background:var(--accent2); box-shadow: 0 0 0 4px rgba(167,139,250,.12)"></span> 2) Execution layer</div>
+          <p>
+            Stewart can execute workflows through approved channels: generating reports, preparing drafts, moving data between systems,
+            running checklists, and performing browser-based tasks when no API exists. Execution is structured: defined inputs, defined
+            outputs, defined permissions, and optional approval gates.
+          </p>
+        </div>
+        <div class="card">
+          <div class="badge"><span class="dot" style="background:var(--ok); box-shadow: 0 0 0 4px rgba(124,255,178,.10)"></span> 3) Architecture layer</div>
+          <p>
+            Stewart is designed to run on your hardware and within your rules. That means local-first processing options, dedicated
+            compute nodes, sandboxed execution environments, and predictable performance. You're building a capability — not renting
+            a fragile toy.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <p>
+          <b style="color:var(--text)">A practical example:</b> You drop a hard drive of call recordings into a folder. Stewart ingests
+          them, identifies recurring objections, tags compliance risk, extracts coaching opportunities, generates an executive summary,
+          and produces a prioritized action list — all with outputs you can review, edit, and re-run consistently.
+        </p>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section id="architecture">
+      <div class="sectionTitle">
+        <h2>Architecture that feels engineered</h2>
+      </div>
+      <p class="lead">
+        If Stewart is going to be trusted with real operations, it must be controllable, explainable, and dependable. That starts with
+        architecture. The site should not hide this. The architecture is what turns "AI" from a novelty into a system you can run day after day.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Compute and deployment</h3>
+          <p>
+            Stewart can be deployed on dedicated local hardware (single machine or multi-node) with workloads separated by function:
+            analysis jobs (batch processing), interactive assistance (low latency), and execution tasks (browser or system automations).
+            This separation makes it stable: a long-running analysis doesn't have to interrupt your daily work.
+          </p>
+          <ul class="list">
+            <li><b>Batch analysis:</b> long-running, parallelizable jobs (audio/doc ingestion, trend extraction).</li>
+            <li><b>Interactive layer:</b> low-latency responses, planning, and task orchestration.</li>
+            <li><b>Execution layer:</b> sandboxed workflows, browser sessions, and tool actions with audit trails.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Agents and boundaries</h3>
+          <p>
+            Stewart is best understood as a system of capabilities, not a single monolithic "assistant." Different tasks require different
+            constraints. Some work is read-only (analysis). Some work is write-enabled (drafting outputs). Some work is execution (doing things).
+            Stewart uses boundaries so you can safely expand capability over time.
+          </p>
+          <ul class="list">
+            <li><b>Read-only agents</b> for ingestion and summarization.</li>
+            <li><b>Draft agents</b> for producing emails, reports, and structured documents.</li>
+            <li><b>Action agents</b> gated by approvals and explicit scopes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Repeatability matters</h3>
+          <p>
+            The value is not "one good answer." The value is running the same analysis next week and getting a comparable output.
+            Stewart is designed around repeatable workflows: consistent inputs, consistent formats, consistent outputs.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Auditable execution</h3>
+          <p>
+            When Stewart performs actions, it should produce an audit trail: what it attempted, what it changed, what it created, and what
+            requires human review. This is how you scale trust.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Performance you can control</h3>
+          <p>
+            Local infrastructure is not a vibe — it's a lever. You can allocate resources, isolate workloads, and scale hardware
+            intentionally as your usage grows.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="privacy">
+      <div class="sectionTitle">
+        <h2>Privacy and control by design</h2>
+      </div>
+      <p class="lead">
+        Stewart is built around a simple premise: intelligence should not require surrendering your data. Many AI products are only "smart"
+        because they centralize everything in somebody else's cloud. Stewart is designed to work in environments where privacy, compliance,
+        and operational control are not optional.
+      </p>
+
+      <div class="twoCol">
+        <div class="card">
+          <h3>Explicit permissions</h3>
+          <p>
+            Stewart should never operate as an all-access ghost. Access is defined by scope: which folders, which systems, which data types,
+            which actions. You can run Stewart in read-only mode, review-only mode, or action-enabled mode depending on your risk tolerance.
+            This allows even conservative operators to gain value immediately without taking leaps of faith.
+          </p>
+          <ul class="list">
+            <li>Scoped access: specific folders, exports, or data sources.</li>
+            <li>Approval gates: require confirmation before actions execute.</li>
+            <li>Separation of duties: analysis vs execution as distinct permissions.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Local-first processing options</h3>
+          <p>
+            For sensitive workloads, Stewart can process locally so that raw inputs don't need to be shipped off-device.
+            This is especially relevant for call recordings, financial documents, internal contracts, and customer data. "Local-first"
+            doesn't mean "never use external services," it means you control where processing happens and choose the tradeoffs deliberately.
+          </p>
+          <ul class="list">
+            <li>Keep raw data local when needed.</li>
+            <li>Export only structured outputs (summaries, metrics, actions).</li>
+            <li>Use external tools selectively, not by default.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section id="usecases">
+      <div class="sectionTitle">
+        <h2>Use cases that prove it's real</h2>
+      </div>
+      <p class="lead">
+        Stewart is most valuable where work is repetitive, fragmented, and high-context — especially when your systems don't play nicely together.
+        These examples are intentionally practical: the unsexy work that consumes hours and attention every week.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Call intelligence (local or controlled)</h3>
+          <p>
+            Ingest large batches of calls, extract themes and objections, flag compliance or risk language, identify coaching opportunities,
+            and generate executive summaries. Output structured artifacts: weekly trends, rep scorecards, training priorities, and "top 10"
+            issues by frequency and impact.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Finance ops and reconciliation</h3>
+          <p>
+            Pull statements, categorize spend, reconcile transactions, and generate a clean monthly summary that an accountant can use.
+            Where APIs exist, integrate. Where they don't, execute through approved browser workflows with confirmation steps.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Document digestion and decision memos</h3>
+          <p>
+            Turn messy folders of PDFs, contracts, and notes into clear, structured outputs: key terms, risk flags, summarized obligations,
+            and decision-ready memos. This is where Stewart becomes a multiplier for operators who deal in nuance.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Operational checklists that run themselves</h3>
+          <p>
+            Take recurring SOPs (weekly reports, nightly checks, compliance steps) and turn them into repeatable workflows:
+            inputs → actions → outputs → review. The goal is fewer "Did we do that?" moments and fewer dropped balls.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Web systems with no API</h3>
+          <p>
+            Many core business systems are trapped behind dashboards. Stewart can navigate these systems in controlled sessions to pull
+            data, generate reports, and move information between tools — with explicit permissions and optional approval gates.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Executive-level summaries</h3>
+          <p>
+            Convert chaos into clarity. Stewart can generate weekly executive briefs: what changed, what matters, what needs attention, and
+            what to do next — based on your actual operational data, not vibes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="sectionTitle">
+        <h2>FAQ</h2>
+      </div>
+      <p class="lead">
+        These are the questions serious operators ask before trusting an AI system with real work.
+      </p>
+
+      <details>
+        <summary>Is Stewart cloud-based or local?</summary>
+        <p class="lead">
+          Stewart is designed with local-first options. Depending on workload, you can keep processing local, use a hybrid approach, or
+          selectively involve external services when the tradeoff makes sense. The core principle is control: you decide where data lives
+          and how it's processed.
+        </p>
+      </details>
+
+      <details>
+        <summary>Can Stewart take actions automatically?</summary>
+        <p class="lead">
+          Stewart can be configured from read-only all the way to action-enabled workflows. In action mode, it can execute tasks through
+          approved channels (including browser-based execution when no API exists). For safety, many operators start with approval gates
+          so Stewart proposes actions and a human approves before execution.
+        </p>
+      </details>
+
+      <details>
+        <summary>What makes Stewart different from a normal AI assistant?</summary>
+        <p class="lead">
+          Most assistants answer questions. Stewart is built to run operations: analysis + repeatable workflows + execution within explicit
+          permissions. It's designed for messy, real environments — where the work isn't "ask a question," it's "move the business forward."
+        </p>
+      </details>
+
+      <details>
+        <summary>Is this meant for consumers or businesses?</summary>
+        <p class="lead">
+          Stewart is for operators — people who manage complexity. That includes founders and power users, and also teams who need
+          dependable workflows, auditability, and privacy-conscious processing.
+        </p>
+      </details>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sectionTitle">
+        <h2>Request access</h2>
+      </div>
+      <p class="lead">
+        If you want Stewart to run inside your environment, the first step is a short scoping call: what systems you use, what workflows you
+        want to automate, and what your privacy boundaries look like. Then we define an initial deployment that delivers value fast —
+        without requiring a leap of faith.
+      </p>
+
+      <div class="callout" style="margin-top:14px">
+        <p>
+          <b style="color:var(--text)">Next step:</b> Reach out to start a scoping conversation.
+          <a href="mailto:nick@casablancaexpress.com" class="pill" style="border-color: rgba(110,231,255,.30); color: var(--text); cursor:pointer">nick@casablancaexpress.com</a>
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="twoCol">
+        <div>
+          <div style="font-weight:800; color:var(--text)">Meet Stewart</div>
+          <div class="fine">Private intelligence. Real execution. Built for operators who want leverage without surrendering control.</div>
+        </div>
+        <div>
+          <div class="fine" style="text-align:right">
+            © <span id="year"></span> Meet Stewart. All rights reserved.
+          </div>
+        </div>
+      </div>
+      <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </main>
 </body>
 </html>
