@@ -1,125 +1,75 @@
 <!doctype html>
-<html lang="en"><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Stewart Onboarding | AI Setup for Executives</title>
-  <meta name="description" content="Complete Stewart's onboarding questionnaire to align your priorities, workflows, and systems for effective AI integration." />
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/onboarding/" />
-
-  <!-- Robots -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Stewart" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Onboarding | AI Setup for Executives" />
-  <meta property="og:description" content="Complete Stewart's onboarding questionnaire to align your priorities, workflows, and systems for effective AI integration." />
-  <meta property="og:url" content="https://meetstewart.com/onboarding/" />
-  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Onboarding | AI Setup for Executives" />
-  <meta name="twitter:description" content="Complete Stewart's onboarding questionnaire to align your priorities, workflows, and systems for effective AI integration." />
-  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/style.css" />
-</head><body>
-<div class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="/">
-      <span class="dot"></span>
-      <span>Stewart</span>
-      <span class="pill"><strong>AI Chief of Staff</strong></span>
-    </a>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-    <div class="nav-links">
-      <a class="pill" href="/how-stewart-works/">How I work</a>
-      <a class="pill" href="/use-cases/">Use cases</a>
-      <a class="pill" href="/capabilities/">Capabilities</a>
-      <a class="pill" href="/architecture/overview/">Architecture</a>
-      <a class="pill" href="/pricing/">Pricing</a>
-      <a class="btn secondary" href="/login/">Sign In</a>
-      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
-    </div>
-  </div>
-</div>
-<div class="overlay" onclick="toggleMenu()"></div>
-
-<div class="container-narrow page">
-  <div class="page-header">
-    <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Onboarding
-    </div>
-    <h1>Onboarding</h1>
-  </div>
-  <div class="prose">
-    
-<p class="lede">Help me understand your world so I can start reducing friction from day one.</p>
-
-<h2>What I need to know</h2>
-<p>The onboarding questionnaire takes about 15 minutes and covers:</p>
-<ul>
-<li><strong>Your role and priorities</strong> — What do you spend most of your time on? What would you rather not?</li>
-<li><strong>Your systems</strong> — What tools, platforms, and workflows do you already use?</li>
-<li><strong>Your communication preferences</strong> — How do you like to receive updates and summaries?</li>
-<li><strong>Your boundaries</strong> — What should I never do? What topics are off-limits?</li>
-</ul>
-
-<h2>Why this matters</h2>
-<p>I'm not a generic chatbot. The more context I have about your specific situation, the more useful I become. This isn't about data collection — it's about alignment. Every answer helps me prioritize better, surface the right information, and avoid wasting your time.</p>
-
-<h2>What happens after</h2>
-<p>Once you complete onboarding, I'll have enough context to start working immediately. I'll begin by organizing your priorities and identifying the first high-leverage tasks I can help with. No waiting period, no "training phase" — we start right away.</p>
-
-<div style="margin-top:24px">
-<a class="btn" href="/dashboard/">Start onboarding →</a>
-</div>
-
-  </div>
-</div>
-
-<div class="footer">
-  <div class="container footer-inner">
-    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
-    <div class="nav-links">
-      <a href="/company/about/">About</a><span>•</span>
-      <a href="/company/faq/">FAQ</a><span>•</span>
-      <a href="/company/press-overview/">Press</a><span>•</span>
-      <a href="/trust/privacy/">Privacy</a><span>•</span>
-      <a href="/trust/terms/">Terms</a><span>•</span>
-      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
-      <a href="/trust/security/">Security</a><span>•</span>
-      <a href="/trust/regulatory-posture/">Compliance</a>
-    </div>
-  </div>
-</div>
-
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Onboarding | Stewart</title>
+  <meta name="description" content="Simple onboarding questionnaire to start Stewart in the right place."/>
+  <link rel="canonical" href="https://meetstewart.com/onboarding/"/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" href="/assets/style.css"/>
+  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
 <script>
-function toggleMenu(){
-  document.querySelector('.hamburger').classList.toggle('active');
-  document.querySelector('.nav .nav-links').classList.toggle('active');
-  var ov=document.querySelector('.overlay');
-  if(ov)ov.classList.toggle('active');
-  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
-}
-window.addEventListener('resize',function(){
-  if(window.innerWidth>860){
-    document.querySelector('.hamburger').classList.remove('active');
-    document.querySelector('.nav .nav-links').classList.remove('active');
-    var ov=document.querySelector('.overlay');
-    if(ov)ov.classList.remove('active');
-    document.body.style.overflow='';
-  }
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NYK4B988K7');
 </script>
-</body></html>
+  
+</head>
+<body>
+<header class="topnav">
+  <div class="container navrow">
+    <a class="brand" href="/" aria-label="Stewart home">
+      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
+      <span class="brand-pill">Onboarding</span>
+    </a>
+    
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="/ai-guided-start/">How You Start</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/experience/">Experience</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a class="btnNav" href="/get-started/">Get Started</a>
+    </nav>
+  </div>
+</header>
+<main class="container page">
+<section class="pageHead"><div class="eyebrow">guided setup</div><h1>Onboarding Questionnaire</h1><p class="lede">No tech questions. Just what’s real.</p></section>
+<section class="panel" style="margin-top:14px;">
+<form>
+<div class="grid2">
+<div><label for="biz">What type of business do you run?</label><input id="biz" name="biz" placeholder="e.g., travel, home services, retail, agency..." required/></div>
+<div><label for="size">Team size</label><select id="size" name="size"><option>Solo</option><option>2–5</option><option>6–20</option><option>21–100</option><option>100+</option></select></div>
+</div>
+<div class="grid2" style="margin-top:12px;">
+<div><label for="drag">What’s creating the most drag right now?</label><select id="drag" name="drag"><option>Email overload</option><option>Calendar chaos</option><option>Delegation / follow-through</option><option>Reporting / visibility</option><option>New offer / launch</option><option>Customer issues</option><option>Other</option></select></div>
+<div><label for="win">What would feel like a real win in 30 days?</label><input id="win" name="win" placeholder="e.g., launch offer, reduce meetings, clean reporting..."/></div>
+</div>
+<div style="margin-top:12px;"><label for="notes">Anything Stewart should know?</label><textarea id="notes" name="notes" placeholder="The messy context is welcome. Stewart will simplify it."></textarea></div>
+<div class="formRow"><button class="btnPrimary" type="submit">Submit →</button><div class="help">Next: Stewart recommends your best starting point.</div></div>
+</form></section>
+
+</main>
+<footer class="footer">
+  <div class="container footerRow">
+    <div>
+      <div class="tiny">Stewart • Onboarding</div>
+      <div class="tiny">© 2026 meetstewart.com</div>
+      <div class="tiny" style="margin-top:6px;max-width:92ch;">
+        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
+        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+      </div>
+    </div>
+    <div class="footerLinks">
+      <a href="/company/about/">About</a>
+      <a href="/company/contact/">Contact</a>
+      <a href="/trust/privacy/">Privacy</a>
+      <a href="/trust/terms/">Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

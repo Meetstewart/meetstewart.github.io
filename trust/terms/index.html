@@ -1,123 +1,68 @@
 <!doctype html>
-<html lang="en"><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Stewart Terms of Use</title>
-  <meta name="description" content="Terms governing the use of Stewart's AI Chief of Staff platform." />
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/trust/terms/" />
-
-  <!-- Robots -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Stewart" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Terms of Use" />
-  <meta property="og:description" content="Terms governing the use of Stewart's AI Chief of Staff platform." />
-  <meta property="og:url" content="https://meetstewart.com/trust/terms/" />
-  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Terms of Use" />
-  <meta name="twitter:description" content="Terms governing the use of Stewart's AI Chief of Staff platform." />
-  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/style.css" />
-</head><body>
-<div class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="/">
-      <span class="dot"></span>
-      <span>Stewart</span>
-      <span class="pill"><strong>AI Chief of Staff</strong></span>
-    </a>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-    <div class="nav-links">
-      <a class="pill" href="/how-stewart-works/">How I work</a>
-      <a class="pill" href="/use-cases/">Use cases</a>
-      <a class="pill" href="/capabilities/">Capabilities</a>
-      <a class="pill" href="/architecture/overview/">Architecture</a>
-      <a class="pill" href="/pricing/">Pricing</a>
-      <a class="btn secondary" href="/login/">Sign In</a>
-      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
-    </div>
-  </div>
-</div>
-<div class="overlay" onclick="toggleMenu()"></div>
-
-<div class="container-narrow page">
-  <div class="page-header">
-    <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> <a href="/trust/privacy/">Trust</a> <span>›</span> Terms
-    </div>
-    <h1>Terms of Use</h1>
-  </div>
-  <div class="prose">
-    
-<p class="lede">Clear terms. No surprises.</p>
-
-<h2>Service description</h2>
-<p>Stewart provides AI-powered executive assistance through text, voice, and web interfaces. The service includes structured reasoning, workflow automation, reporting, and related capabilities as described on this website.</p>
-
-<h2>Subscription</h2>
-<p>Stewart is available as a monthly subscription. You can cancel at any time with no penalties. Refunds are provided on a case-by-case basis for the current billing period.</p>
-
-<h2>Acceptable use</h2>
-<p>Stewart is designed for legitimate business operations. You agree not to use the service for illegal activities, harassment, spam, or any purpose that violates applicable laws or the rights of others.</p>
-
-<h2>Limitations</h2>
-<p>Stewart is an AI system and may occasionally produce inaccurate information. All external actions require your approval. You are responsible for reviewing and approving actions before they are executed. Stewart is not a substitute for professional legal, financial, or medical advice.</p>
-
-<h2>Changes to terms</h2>
-<p>We may update these terms from time to time. Material changes will be communicated via email and posted here. Continued use of the service after changes constitutes acceptance.</p>
-
-<p style="margin-top:20px;color:var(--muted);font-size:13px">Last updated: February 2026</p>
-
-  </div>
-</div>
-
-<div class="footer">
-  <div class="container footer-inner">
-    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
-    <div class="nav-links">
-      <a href="/company/about/">About</a><span>•</span>
-      <a href="/company/faq/">FAQ</a><span>•</span>
-      <a href="/company/press-overview/">Press</a><span>•</span>
-      <a href="/trust/privacy/">Privacy</a><span>•</span>
-      <a href="/trust/terms/">Terms</a><span>•</span>
-      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
-      <a href="/trust/security/">Security</a><span>•</span>
-      <a href="/trust/regulatory-posture/">Compliance</a>
-    </div>
-  </div>
-</div>
-
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Terms of Use | Stewart</title>
+  <meta name="description" content="Stewart Terms of Use. Plain English rules for using the service."/>
+  <link rel="canonical" href="https://meetstewart.com/trust/terms/"/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" href="/assets/style.css"/>
+  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
 <script>
-function toggleMenu(){
-  document.querySelector('.hamburger').classList.toggle('active');
-  document.querySelector('.nav .nav-links').classList.toggle('active');
-  var ov=document.querySelector('.overlay');
-  if(ov)ov.classList.toggle('active');
-  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
-}
-window.addEventListener('resize',function(){
-  if(window.innerWidth>860){
-    document.querySelector('.hamburger').classList.remove('active');
-    document.querySelector('.nav .nav-links').classList.remove('active');
-    var ov=document.querySelector('.overlay');
-    if(ov)ov.classList.remove('active');
-    document.body.style.overflow='';
-  }
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NYK4B988K7');
 </script>
-</body></html>
+  
+</head>
+<body>
+<header class="topnav">
+  <div class="container navrow">
+    <a class="brand" href="/" aria-label="Stewart home">
+      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
+      <span class="brand-pill">Terms</span>
+    </a>
+    
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="/ai-guided-start/">How You Start</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/experience/">Experience</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a class="btnNav" href="/get-started/">Get Started</a>
+    </nav>
+  </div>
+</header>
+<main class="container page">
+<section class="pageHead"><div class="eyebrow">trust</div><h1>Terms of Use</h1><p class="lede">Plain English rules for using Stewart.</p><p class="tiny">Last updated: Feb 27, 2026</p></section>
+<section class="panel" style="margin-top:14px;">
+<h2>Stewart is a learning system</h2><p class="muted">Stewart may make mistakes—especially early on. Review important outputs before you send, publish, or act.</p>
+<h2>No professional advice</h2><p class="muted">Stewart is not a substitute for legal, tax, medical, or financial advice.</p>
+<h2>Acceptable use</h2><p class="muted">Don’t use Stewart to break laws, harm others, or attempt unauthorized access to systems.</p>
+<h2>Billing</h2><p class="muted">Subscription fees are billed according to your plan. Dedicated voice/text is an add-on when selected.</p>
+</section>
+
+</main>
+<footer class="footer">
+  <div class="container footerRow">
+    <div>
+      <div class="tiny">Stewart • Terms</div>
+      <div class="tiny">© 2026 meetstewart.com</div>
+      <div class="tiny" style="margin-top:6px;max-width:92ch;">
+        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
+        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+      </div>
+    </div>
+    <div class="footerLinks">
+      <a href="/company/about/">About</a>
+      <a href="/company/contact/">Contact</a>
+      <a href="/trust/privacy/">Privacy</a>
+      <a href="/trust/terms/">Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

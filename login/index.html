@@ -1,231 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Stewart</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-        .login-container {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(10px);
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-        }
-        .logo h1 {
-            font-size: 24px;
-            font-weight: 600;
-        }
-        .logo p {
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.8);
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-        .btn-signin {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-signin:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-        .btn-signin:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .divider {
-            text-align: center;
-            margin: 25px 0;
-            color: rgba(255,255,255,0.4);
-            font-size: 14px;
-        }
-        .signup-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .signup-link a {
-            color: #6366f1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
-        .error-msg {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 14px;
-        }
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .back-link a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .back-link a:hover {
-            color: #fff;
-        }
-        .forgot-password {
-            text-align: right;
-            margin-top: -10px;
-            margin-bottom: 20px;
-        }
-        .forgot-password a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 13px;
-        }
-        .forgot-password a:hover {
-            color: #6366f1;
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sign In | Stewart</title>
+  <meta name="description" content="Sign in to your Stewart dashboard."/>
+  <link rel="canonical" href="https://meetstewart.com/login/"/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" href="/assets/style.css"/>
+  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NYK4B988K7');
+</script>
+  
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <img src="https://meetstewart.github.io/images/stewart-avatar.png" alt="Stewart">
-            <h1>Welcome Back</h1>
-            <p>Sign in to your Stewart account</p>
-        </div>
-        
-        <div class="error-msg" id="errorMsg"></div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label>Email or Username</label>
-                <input type="text" id="email" placeholder="you@example.com" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-            <div class="forgot-password">
-                <a href="/forgot-password/">Forgot Password?</a>
-            </div>
-            <button type="submit" class="btn-signin" id="submitBtn">Sign In</button>
-        </form>
-        
-        <div class="divider">or</div>
-        
-        <div class="signup-link">
-            Don't have an account? <a href="/subscribe/">Start Free Trial</a>
-        </div>
-        
-        <div class="back-link">
-            <a href="/">← Back to Home</a>
-        </div>
-    </div>
+<header class="topnav">
+  <div class="container navrow">
+    <a class="brand" href="/" aria-label="Stewart home">
+      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
+      <span class="brand-pill">Sign In</span>
+    </a>
     
-    <script>
-        const form = document.getElementById('loginForm');
-        const errorMsg = document.getElementById('errorMsg');
-        const submitBtn = document.getElementById('submitBtn');
-        
-        // Check if already logged in
-        const token = localStorage.getItem('stewart_token');
-        const redirect = new URLSearchParams(window.location.search).get('redirect') || '/dashboard/';
-        if (token) {
-            window.location.href = redirect;
-        }
-        
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            errorMsg.style.display = 'none';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Signing in...';
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            try {
-                const response = await fetch('https://casablancaexpress.com/api/login.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success && data.token) {
-                    localStorage.setItem('stewart_token', data.token);
-                    localStorage.setItem('stewart_user', JSON.stringify(data.user));
-                    window.location.href = redirect;
-                } else {
-                    errorMsg.textContent = data.error || 'Invalid email or password';
-                    errorMsg.style.display = 'block';
-                }
-            } catch (err) {
-                errorMsg.textContent = 'Connection error. Please try again.';
-                errorMsg.style.display = 'block';
-            }
-            
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Sign In';
-        });
-    </script>
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="/ai-guided-start/">How You Start</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/experience/">Experience</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a class="btnNav" href="/get-started/">Get Started</a>
+    </nav>
+  </div>
+</header>
+<main class="container page">
+<section class="pageHead"><div class="eyebrow">account</div><h1>Sign In</h1><p class="lede">Welcome back. Keep it simple.</p></section>
+<section class="panel" style="margin-top:14px;max-width:560px;">
+<form><div class="formRow">
+<div><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@company.com" required/></div>
+<div><label for="pw">Password</label><input id="pw" name="password" type="password" placeholder="••••••••" required/></div>
+<button class="btnPrimary" type="submit">Sign In →</button>
+<div class="help">Forgot password? Hook this to your auth flow.</div>
+</div></form></section>
+
+</main>
+<footer class="footer">
+  <div class="container footerRow">
+    <div>
+      <div class="tiny">Stewart • Sign In</div>
+      <div class="tiny">© 2026 meetstewart.com</div>
+      <div class="tiny" style="margin-top:6px;max-width:92ch;">
+        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
+        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+      </div>
+    </div>
+    <div class="footerLinks">
+      <a href="/company/about/">About</a>
+      <a href="/company/contact/">Contact</a>
+      <a href="/trust/privacy/">Privacy</a>
+      <a href="/trust/terms/">Terms</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

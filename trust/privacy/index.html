@@ -1,126 +1,69 @@
 <!doctype html>
-<html lang="en"><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Stewart Privacy Policy</title>
-  <meta name="description" content="Learn how Stewart stores operational data, does not sell user information, and allows deletion requests." />
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/trust/privacy/" />
-
-  <!-- Robots -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Stewart" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Stewart Privacy Policy" />
-  <meta property="og:description" content="Learn how Stewart stores operational data, does not sell user information, and allows deletion requests." />
-  <meta property="og:url" content="https://meetstewart.com/trust/privacy/" />
-  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stewart Privacy Policy" />
-  <meta name="twitter:description" content="Learn how Stewart stores operational data, does not sell user information, and allows deletion requests." />
-  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/style.css" />
-</head><body>
-<div class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="/">
-      <span class="dot"></span>
-      <span>Stewart</span>
-      <span class="pill"><strong>AI Chief of Staff</strong></span>
-    </a>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-    <div class="nav-links">
-      <a class="pill" href="/how-stewart-works/">How I work</a>
-      <a class="pill" href="/use-cases/">Use cases</a>
-      <a class="pill" href="/capabilities/">Capabilities</a>
-      <a class="pill" href="/architecture/overview/">Architecture</a>
-      <a class="pill" href="/pricing/">Pricing</a>
-      <a class="btn secondary" href="/login/">Sign In</a>
-      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
-    </div>
-  </div>
-</div>
-<div class="overlay" onclick="toggleMenu()"></div>
-
-<div class="container-narrow page">
-  <div class="page-header">
-    <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> <a href="/trust/privacy/">Trust</a> <span>›</span> Privacy
-    </div>
-    <h1>Privacy Policy</h1>
-  </div>
-  <div class="prose">
-    
-<p class="lede">Your data exists to serve you — not to be monetized, shared, or exploited.</p>
-
-<h2>What we collect</h2>
-<p>We collect the information you provide during onboarding and through your interactions with Stewart: your name, contact information, business context, priorities, and task-related data. This information is used exclusively to provide and improve your Stewart experience.</p>
-
-<h2>What we don't do</h2>
-<ul>
-<li>We do not sell your data to third parties</li>
-<li>We do not use your data for advertising</li>
-<li>We do not share your context with other users</li>
-<li>We do not use your data to train public models</li>
-</ul>
-
-<h2>Data retention</h2>
-<p>Operational context is retained as long as your subscription is active and you haven't requested deletion. Temporary processing data is discarded after use. When you cancel, your data is purged according to our retention schedule unless you request immediate deletion.</p>
-
-<h2>Your rights</h2>
-<p>You can request a copy of your data, corrections to inaccurate information, or complete deletion at any time. Contact <a href="/company/contact/">support</a> or request through your account settings.</p>
-
-<h2>Cloud processing</h2>
-<p>When tasks route to cloud models, your data is processed according to our agreements with those providers. We select providers that do not retain or train on customer data. Sensitive tasks can be configured to process locally only.</p>
-
-  </div>
-</div>
-
-<div class="footer">
-  <div class="container footer-inner">
-    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
-    <div class="nav-links">
-      <a href="/company/about/">About</a><span>•</span>
-      <a href="/company/faq/">FAQ</a><span>•</span>
-      <a href="/company/press-overview/">Press</a><span>•</span>
-      <a href="/trust/privacy/">Privacy</a><span>•</span>
-      <a href="/trust/terms/">Terms</a><span>•</span>
-      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
-      <a href="/trust/security/">Security</a><span>•</span>
-      <a href="/trust/regulatory-posture/">Compliance</a>
-    </div>
-  </div>
-</div>
-
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Privacy Policy | Stewart</title>
+  <meta name="description" content="Stewart Privacy Policy. Plain English description of what we collect and how we use it."/>
+  <link rel="canonical" href="https://meetstewart.com/trust/privacy/"/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" href="/assets/style.css"/>
+  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
 <script>
-function toggleMenu(){
-  document.querySelector('.hamburger').classList.toggle('active');
-  document.querySelector('.nav .nav-links').classList.toggle('active');
-  var ov=document.querySelector('.overlay');
-  if(ov)ov.classList.toggle('active');
-  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
-}
-window.addEventListener('resize',function(){
-  if(window.innerWidth>860){
-    document.querySelector('.hamburger').classList.remove('active');
-    document.querySelector('.nav .nav-links').classList.remove('active');
-    var ov=document.querySelector('.overlay');
-    if(ov)ov.classList.remove('active');
-    document.body.style.overflow='';
-  }
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NYK4B988K7');
 </script>
-</body></html>
+  
+</head>
+<body>
+<header class="topnav">
+  <div class="container navrow">
+    <a class="brand" href="/" aria-label="Stewart home">
+      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
+      <span class="brand-pill">Privacy</span>
+    </a>
+    
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="/ai-guided-start/">How You Start</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/experience/">Experience</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a class="btnNav" href="/get-started/">Get Started</a>
+    </nav>
+  </div>
+</header>
+<main class="container page">
+<section class="pageHead"><div class="eyebrow">trust</div><h1>Privacy Policy</h1><p class="lede">Plain English: what we collect, why we collect it, and how we use it.</p><p class="tiny">Last updated: Feb 27, 2026</p></section>
+<section class="panel" style="margin-top:14px;">
+<h2>What Stewart is</h2><p class="muted">Stewart is a learning AI executive that adapts to your instructions over time. Every experience is different and largely based on the user.</p>
+<h2>What we collect</h2><p class="muted">Account info, onboarding answers, conversation content (chat/text/voice transcripts if enabled), and usage logs.</p>
+<h2>What we use it for</h2><p class="muted">To operate Stewart, improve quality, provide support, and maintain security.</p>
+<h2>Third parties</h2><p class="muted">We may use infrastructure and AI providers to deliver the service. We do not sell your personal data.</p>
+<h2>Contact</h2><p class="muted">Questions? Use the <a href="/company/contact/">Contact</a> page.</p>
+</section>
+
+</main>
+<footer class="footer">
+  <div class="container footerRow">
+    <div>
+      <div class="tiny">Stewart • Privacy</div>
+      <div class="tiny">© 2026 meetstewart.com</div>
+      <div class="tiny" style="margin-top:6px;max-width:92ch;">
+        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
+        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+      </div>
+    </div>
+    <div class="footerLinks">
+      <a href="/company/about/">About</a>
+      <a href="/company/contact/">Contact</a>
+      <a href="/trust/privacy/">Privacy</a>
+      <a href="/trust/terms/">Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

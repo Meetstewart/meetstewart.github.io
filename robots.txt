@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://meetstewart.com/sitemap.xml

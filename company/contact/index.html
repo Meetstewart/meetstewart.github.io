@@ -1,122 +1,71 @@
 <!doctype html>
-<html lang="en"><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Contact Stewart</title>
-  <meta name="description" content="Contact Stewart support, privacy, or general inquiries." />
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://meetstewart.com/company/contact/" />
-
-  <!-- Robots -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Stewart" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Contact Stewart" />
-  <meta property="og:description" content="Contact Stewart support, privacy, or general inquiries." />
-  <meta property="og:url" content="https://meetstewart.com/company/contact/" />
-  <meta property="og:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Contact Stewart" />
-  <meta name="twitter:description" content="Contact Stewart support, privacy, or general inquiries." />
-  <meta name="twitter:image" content="https://meetstewart.com/assets/og-stewart.png" />
-
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/style.css" />
-</head><body>
-<div class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="/">
-      <span class="dot"></span>
-      <span>Stewart</span>
-      <span class="pill"><strong>AI Chief of Staff</strong></span>
-    </a>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-    <div class="nav-links">
-      <a class="pill" href="/how-stewart-works/">How I work</a>
-      <a class="pill" href="/use-cases/">Use cases</a>
-      <a class="pill" href="/capabilities/">Capabilities</a>
-      <a class="pill" href="/architecture/overview/">Architecture</a>
-      <a class="pill" href="/pricing/">Pricing</a>
-      <a class="btn secondary" href="/login/">Sign In</a>
-      <a class="btn" href="/dashboard/">Talk to Stewart →</a>
-    </div>
-  </div>
-</div>
-<div class="overlay" onclick="toggleMenu()"></div>
-
-<div class="container-narrow page">
-  <div class="page-header">
-    <div class="breadcrumb">
-      <a href="/">Stewart</a> <span>›</span> Contact
-    </div>
-    <h1>Contact</h1>
-  </div>
-  <div class="prose">
-    
-<p class="lede">We're here to help.</p>
-
-<h2>General inquiries</h2>
-<p>For questions about Stewart, pricing, or capabilities:<br>
-<strong>Email:</strong> hello@meetstewart.com</p>
-
-<h2>Support</h2>
-<p>For existing subscribers who need help:<br>
-<strong>Email:</strong> support@meetstewart.com</p>
-
-<h2>Privacy & data requests</h2>
-<p>For data access, correction, or deletion requests:<br>
-<strong>Email:</strong> privacy@meetstewart.com</p>
-
-<h2>Press & media</h2>
-<p>For press inquiries and media requests:<br>
-<strong>Email:</strong> press@meetstewart.com</p>
-
-  </div>
-</div>
-
-<div class="footer">
-  <div class="container footer-inner">
-    <div class="small">Stewart • Clearly identified as AI • Built for cost discipline, privacy, and resilience</div>
-    <div class="nav-links">
-      <a href="/company/about/">About</a><span>•</span>
-      <a href="/company/faq/">FAQ</a><span>•</span>
-      <a href="/company/press-overview/">Press</a><span>•</span>
-      <a href="/trust/privacy/">Privacy</a><span>•</span>
-      <a href="/trust/terms/">Terms</a><span>•</span>
-      <a href="/trust/sms-voice-policy/">SMS & Voice</a><span>•</span>
-      <a href="/trust/security/">Security</a><span>•</span>
-      <a href="/trust/regulatory-posture/">Compliance</a>
-    </div>
-  </div>
-</div>
-
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact | Stewart</title>
+  <meta name="description" content="Contact Stewart. Questions, support, and partnership inquiries."/>
+  <link rel="canonical" href="https://meetstewart.com/company/contact/"/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" href="/assets/style.css"/>
+  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
 <script>
-function toggleMenu(){
-  document.querySelector('.hamburger').classList.toggle('active');
-  document.querySelector('.nav .nav-links').classList.toggle('active');
-  var ov=document.querySelector('.overlay');
-  if(ov)ov.classList.toggle('active');
-  document.body.style.overflow=document.querySelector('.nav .nav-links').classList.contains('active')?'hidden':'';
-}
-window.addEventListener('resize',function(){
-  if(window.innerWidth>860){
-    document.querySelector('.hamburger').classList.remove('active');
-    document.querySelector('.nav .nav-links').classList.remove('active');
-    var ov=document.querySelector('.overlay');
-    if(ov)ov.classList.remove('active');
-    document.body.style.overflow='';
-  }
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NYK4B988K7');
 </script>
-</body></html>
+  
+</head>
+<body>
+<header class="topnav">
+  <div class="container navrow">
+    <a class="brand" href="/" aria-label="Stewart home">
+      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
+      <span class="brand-pill">Contact</span>
+    </a>
+    
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="/ai-guided-start/">How You Start</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/experience/">Experience</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a class="btnNav" href="/get-started/">Get Started</a>
+    </nav>
+  </div>
+</header>
+<main class="container page">
+<section class="pageHead"><div class="eyebrow">company</div><h1>Contact</h1><p class="lede">Send a note. Keep it simple.</p></section>
+<section class="panel" style="margin-top:14px;max-width:820px;">
+<form>
+<div class="grid2">
+<div><label for="n">Name</label><input id="n" name="name" placeholder="Your name"/></div>
+<div><label for="e">Email</label><input id="e" name="email" type="email" placeholder="you@company.com"/></div>
+</div>
+<div style="margin-top:12px;"><label for="m">Message</label><textarea id="m" name="message" placeholder="What can we help with?"></textarea></div>
+<div class="formRow"><button class="btnPrimary" type="submit">Send →</button><div class="help">Hook this form to your backend or email service.</div></div>
+</form></section>
+
+</main>
+<footer class="footer">
+  <div class="container footerRow">
+    <div>
+      <div class="tiny">Stewart • Contact</div>
+      <div class="tiny">© 2026 meetstewart.com</div>
+      <div class="tiny" style="margin-top:6px;max-width:92ch;">
+        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
+        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
+      </div>
+    </div>
+    <div class="footerLinks">
+      <a href="/company/about/">About</a>
+      <a href="/company/contact/">Contact</a>
+      <a href="/trust/privacy/">Privacy</a>
+      <a href="/trust/terms/">Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
