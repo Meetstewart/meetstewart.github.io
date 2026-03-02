@@ -1,76 +1,293 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Dashboard | Stewart</title>
-  <meta name="description" content="Calm prompts that turn conversation into plans, drafts, frameworks, and next steps."/>
-  <link rel="canonical" href="https://meetstewart.com/dashboard/"/>
-  <meta name="robots" content="index,follow"/>
-  <link rel="stylesheet" href="/assets/style.css"/>
-  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard | Stewart</title>
+<meta name="description" content="Your Stewart workspace — chat, tasks, calendar, contacts."/>
+<link rel="stylesheet" href="/assets/style.css"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NYK4B988K7');
-</script>
-  
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-NYK4B988K7');</script>
+<style>
+*{box-sizing:border-box}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 60px);gap:0}
+.sidebar{background:rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.08);padding:1.5rem 0;display:flex;flex-direction:column}
+.sidebar .user-info{padding:0 1.25rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:.75rem}
+.sidebar .user-info h3{margin:0;font-size:1rem;color:#f1f5f9}
+.sidebar .user-info .role{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:.15rem}
+.sidebar nav{flex:1}
+.sidebar nav a{display:flex;align-items:center;gap:.6rem;padding:.7rem 1.25rem;color:rgba(255,255,255,.6);text-decoration:none;font-size:.9rem;transition:all .15s;border-left:3px solid transparent}
+.sidebar nav a:hover{background:rgba(255,255,255,.05);color:#f1f5f9}
+.sidebar nav a.active{background:rgba(34,211,238,.08);color:#22d3ee;border-left-color:#22d3ee;font-weight:600}
+.sidebar nav a .icon{font-size:1.1rem;width:1.4rem;text-align:center}
+.sidebar .logout-wrap{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar .logout-btn{background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:.5rem 1rem;border-radius:.4rem;cursor:pointer;font-size:.85rem;width:100%;transition:all .15s}
+.sidebar .logout-btn:hover{border-color:rgba(239,68,68,.4);color:#fca5a5}
+
+.main-area{padding:1.5rem 2rem;overflow-y:auto;max-height:calc(100vh - 60px)}
+.main-area h2{font-size:1.4rem;margin:0 0 1.25rem;color:#f1f5f9}
+
+/* Chat */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 140px)}
+.chat-messages{flex:1;overflow-y:auto;padding:.5rem 0;display:flex;flex-direction:column;gap:.75rem}
+.msg{max-width:80%;padding:.85rem 1.1rem;border-radius:.75rem;font-size:.95rem;line-height:1.5;word-wrap:break-word}
+.msg.user{align-self:flex-end;background:rgba(34,211,238,.15);border:1px solid rgba(34,211,238,.2);color:#e2e8f0}
+.msg.bot{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#cbd5e1}
+.msg.bot .provider{font-size:.7rem;color:rgba(255,255,255,.3);margin-top:.4rem}
+.chat-input{display:flex;gap:.6rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.08)}
+.chat-input input{flex:1;padding:.75rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.5rem;color:#f1f5f9;font-size:1rem;outline:none}
+.chat-input input:focus{border-color:#22d3ee}
+.chat-input input::placeholder{color:rgba(255,255,255,.3)}
+.chat-input button{padding:.75rem 1.25rem;background:linear-gradient(135deg,#22d3ee,#06b6d4);color:#0f172a;font-weight:700;border:none;border-radius:.5rem;cursor:pointer;font-size:.95rem;white-space:nowrap}
+.chat-input button:disabled{opacity:.5}
+
+/* Cards */
+.card-list{display:flex;flex-direction:column;gap:.75rem}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:.75rem;padding:1rem 1.25rem}
+.card h4{margin:0 0 .35rem;color:#f1f5f9;font-size:1rem}
+.card p{margin:0;color:rgba(255,255,255,.5);font-size:.9rem}
+.card .meta{display:flex;gap:1rem;margin-top:.5rem;font-size:.8rem;color:rgba(255,255,255,.35)}
+.badge{display:inline-block;padding:.15rem .5rem;border-radius:.25rem;font-size:.75rem;font-weight:600}
+.badge-high{background:rgba(239,68,68,.15);color:#fca5a5}
+.badge-medium{background:rgba(234,179,8,.15);color:#fde68a}
+.badge-low{background:rgba(34,197,94,.15);color:#86efac}
+.badge-pending{background:rgba(34,211,238,.1);color:#67e8f9}
+.badge-done{background:rgba(34,197,94,.1);color:#86efac}
+.empty-state{color:rgba(255,255,255,.3);text-align:center;padding:3rem 1rem;font-size:.95rem}
+
+/* Profile */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.profile-item{padding:1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.5rem}
+.profile-item label{display:block;font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.5px}
+.profile-item .val{color:#f1f5f9;font-size:1rem}
+
+/* Section visibility */
+.section{display:none}
+.section.active{display:block}
+
+/* Mobile */
+@media(max-width:768px){
+  .dash{grid-template-columns:1fr}
+  .sidebar{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;z-index:100;background:#0f172a}
+  .sidebar.open{display:flex}
+  .mobile-menu-btn{display:block;position:fixed;bottom:1.5rem;right:1.5rem;z-index:101;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#06b6d4);border:none;cursor:pointer;font-size:1.3rem;color:#0f172a;box-shadow:0 4px 15px rgba(34,211,238,.3)}
+  .main-area{padding:1rem}
+  .chat-wrap{height:calc(100vh - 120px)}
+  .profile-grid{grid-template-columns:1fr}
+}
+@media(min-width:769px){.mobile-menu-btn{display:none}}
+</style>
 </head>
 <body>
 <header class="topnav">
-  <div class="container navrow">
-    <a class="brand" href="/" aria-label="Stewart home">
-      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
-      <span class="brand-pill">Dashboard</span>
-    </a>
-    
-    <nav class="navlinks" aria-label="Primary navigation">
-      <a href="/ai-guided-start/">How You Start</a>
-      <a href="/dashboard/">Dashboard</a>
-      <a href="/experience/">Experience</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/blog/">Blog</a>
-      <a class="btnNav" href="/get-started/">Get Started</a>
-    </nav>
-  </div>
+<div class="container navrow">
+<a class="brand" href="/" aria-label="MeetStewart home"><span class="brand-dot"></span><span class="brand-name">Stewart</span></a>
+<nav class="navlinks nav-desktop" aria-label="Primary navigation">
+<a href="/how-it-works/">How It Works</a>
+<a href="/experience/">Experience</a>
+<a href="/pricing/">Pricing</a>
+<a href="/enterprise/">Enterprise</a>
+<a class="btnNav" href="/signup/">Sign Up</a>
+<a class="btnNav" href="/login/">Sign In</a>
+</nav>
+<button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false"><span class="nav-toggle-lines" aria-hidden="true"></span></button>
+</div>
+<div class="nav-mobile" id="mobileNav" hidden>
+<nav class="nav-mobile-inner" aria-label="Mobile navigation">
+<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/dashboard-preview/">Dashboard</a><a href="/ai-guided-journey/">AI-Guided Journey</a><a href="/pricing/">Pricing</a><a href="/enterprise/">Enterprise</a><a href="/faq/">FAQ</a><a href="/company/about/">About</a><a href="/company/contact/">Contact</a>
+<div class="nav-mobile-cta"><a class="btnPrimary" href="/signup/">Get Started →</a><a class="btnSecondary" href="/login/">Sign In</a></div>
+</nav>
+</div>
 </header>
-<main class="container page">
-<section class="pageHead"><div class="eyebrow">clear prompts • real output</div><h1>The Dashboard</h1>
-<p class="lede">A calm executive workflow: what matters today, what’s next, and what to produce.</p></section>
-<section class="panel" style="margin-top:14px;"><h2>Conversation starters</h2>
-<div class="grid2" style="margin-top:12px;">
-<div class="quote"><strong>30,000-foot view</strong><p class="muted">Do you have 15–20 minutes to step back and look at where your business is heading?</p></div>
-<div class="quote"><strong>Deep dive</strong><p class="muted">Have 20–30 minutes to walk through that next product or service you’ve been thinking about?</p></div>
-</div></section>
 
-  <section class="panel" style="margin-top:14px;">
-    <h2>Ready to move faster?</h2>
-    <p class="muted" style="max-width:92ch;">You don’t need to learn AI. You just need a place to begin. Stewart helps you produce more in less time—and keeps you moving forward.</p>
-    <div class="btnRow">
-      <a class="btnPrimary" href="/get-started/">Start Here →</a>
-      <a class="btnSecondary" href="/ai-guided-start/">How you start</a>
-    </div>
-  </section>
-</main>
-<footer class="footer">
-  <div class="container footerRow">
-    <div>
-      <div class="tiny">Stewart • Dashboard</div>
-      <div class="tiny">© 2026 meetstewart.com</div>
-      <div class="tiny" style="margin-top:6px;max-width:92ch;">
-        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
-        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
-      </div>
-    </div>
-    <div class="footerLinks">
-      <a href="/company/about/">About</a>
-      <a href="/company/contact/">Contact</a>
-      <a href="/trust/privacy/">Privacy</a>
-      <a href="/trust/terms/">Terms</a>
-    </div>
-  </div>
-</footer>
+<div class="dash">
+<aside class="sidebar" id="sidebar">
+<div class="user-info">
+<h3 id="userName">Loading…</h3>
+<div class="role" id="userRole"></div>
+</div>
+<nav>
+<a href="#" class="active" data-section="chat"><span class="icon">💬</span> Chat</a>
+<a href="#" data-section="tasks"><span class="icon">✅</span> Tasks</a>
+<a href="#" data-section="calendar"><span class="icon">📅</span> Calendar</a>
+<a href="#" data-section="contacts"><span class="icon">👥</span> Contacts</a>
+<a href="#" data-section="profile"><span class="icon">👤</span> Profile</a>
+</nav>
+<div class="logout-wrap"><button class="logout-btn" id="logoutBtn">Sign Out</button></div>
+</aside>
+
+<div class="main-area">
+<!-- Chat -->
+<div class="section active" id="sec-chat">
+<h2>Chat with Stewart</h2>
+<div class="chat-wrap">
+<div class="chat-messages" id="chatMessages">
+<div class="msg bot">Hey — what are you working on? I'm ready when you are.<div class="provider">Stewart</div></div>
+</div>
+<div class="chat-input">
+<input type="text" id="chatInput" placeholder="Type a message…" autocomplete="off"/>
+<button id="chatSend">Send</button>
+</div>
+</div>
+</div>
+
+<!-- Tasks -->
+<div class="section" id="sec-tasks">
+<h2>Tasks</h2>
+<div class="card-list" id="tasksList"><div class="empty-state">Loading tasks…</div></div>
+</div>
+
+<!-- Calendar -->
+<div class="section" id="sec-calendar">
+<h2>Calendar</h2>
+<div class="card-list" id="calendarList"><div class="empty-state">Loading events…</div></div>
+</div>
+
+<!-- Contacts -->
+<div class="section" id="sec-contacts">
+<h2>Contacts</h2>
+<div class="card-list" id="contactsList"><div class="empty-state">Loading contacts…</div></div>
+</div>
+
+<!-- Profile -->
+<div class="section" id="sec-profile">
+<h2>Profile</h2>
+<div class="profile-grid" id="profileGrid"><div class="empty-state">Loading…</div></div>
+</div>
+</div>
+</div>
+
+<button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+
+<script>
+const API='https://stewart-20-production.up.railway.app';
+const token=localStorage.getItem('stewart_token');
+if(!token)window.location.href='/login/';
+
+function headers(){return{'Authorization':'Bearer '+token,'Content-Type':'application/json'}}
+async function api(path,opts={}){
+  const r=await fetch(API+path,{headers:headers(),...opts});
+  if(r.status===401){localStorage.clear();window.location.href='/login/';return null;}
+  return r.json();
+}
+
+// Load user info
+(async()=>{
+  try{
+    const d=await api('/api/profile');
+    if(d&&d.profile){
+      document.getElementById('userName').textContent='Welcome, '+d.profile.name;
+      document.getElementById('userRole').textContent=d.profile.role||'Member';
+      window._profile=d.profile;
+    }
+  }catch(e){console.error(e)}
+})();
+
+// Navigation
+document.querySelectorAll('.sidebar nav a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelectorAll('.sidebar nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+    const sec=a.dataset.section;
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+sec).classList.add('active');
+    // Load data
+    if(sec==='tasks')loadTasks();
+    if(sec==='calendar')loadCalendar();
+    if(sec==='contacts')loadContacts();
+    if(sec==='profile')loadProfile();
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// Chat
+const chatMessages=document.getElementById('chatMessages');
+const chatInput=document.getElementById('chatInput');
+const chatSend=document.getElementById('chatSend');
+
+async function sendMessage(){
+  const msg=chatInput.value.trim();
+  if(!msg)return;
+  chatInput.value='';
+  chatSend.disabled=true;
+  // Add user message
+  const userDiv=document.createElement('div');
+  userDiv.className='msg user';
+  userDiv.textContent=msg;
+  chatMessages.appendChild(userDiv);
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+  // Get response
+  try{
+    const d=await api('/api/chat',{method:'POST',body:JSON.stringify({message:msg})});
+    const botDiv=document.createElement('div');
+    botDiv.className='msg bot';
+    botDiv.innerHTML=(d.response||'No response')+'<div class="provider">via '+(d.provider||'Stewart')+'</div>';
+    chatMessages.appendChild(botDiv);
+  }catch(e){
+    const errDiv=document.createElement('div');
+    errDiv.className='msg bot';
+    errDiv.textContent='Error: '+e.message;
+    chatMessages.appendChild(errDiv);
+  }
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+  chatSend.disabled=false;
+  chatInput.focus();
+}
+chatSend.addEventListener('click',sendMessage);
+chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage()});
+
+// Tasks
+async function loadTasks(){
+  const el=document.getElementById('tasksList');
+  el.innerHTML='<div class="empty-state">Loading…</div>';
+  const d=await api('/api/tasks');
+  if(!d||!d.tasks||d.tasks.length===0){el.innerHTML='<div class="empty-state">No tasks yet. Chat with Stewart to create some.</div>';return;}
+  el.innerHTML=d.tasks.map(t=>`<div class="card"><h4>${esc(t.title)}</h4>${t.description?'<p>'+esc(t.description).slice(0,150)+'</p>':''}<div class="meta"><span class="badge badge-${t.status||'pending'}">${t.status||'pending'}</span>${t.priority?'<span class="badge badge-'+t.priority+'">'+t.priority+'</span>':''}${t.due_date?'<span>Due: '+new Date(t.due_date).toLocaleDateString()+'</span>':''}</div></div>`).join('');
+}
+
+// Calendar
+async function loadCalendar(){
+  const el=document.getElementById('calendarList');
+  el.innerHTML='<div class="empty-state">Loading…</div>';
+  const d=await api('/api/calendar');
+  if(!d||!d.events||d.events.length===0){el.innerHTML='<div class="empty-state">No upcoming events.</div>';return;}
+  el.innerHTML=d.events.map(e=>`<div class="card"><h4>${esc(e.title||e.summary)}</h4><div class="meta"><span>${new Date(e.start||e.date).toLocaleString()}</span></div></div>`).join('');
+}
+
+// Contacts
+async function loadContacts(){
+  const el=document.getElementById('contactsList');
+  el.innerHTML='<div class="empty-state">Loading…</div>';
+  const d=await api('/api/contacts');
+  if(!d||!d.contacts||d.contacts.length===0){el.innerHTML='<div class="empty-state">No contacts yet.</div>';return;}
+  el.innerHTML=d.contacts.map(c=>`<div class="card"><h4>${esc(c.name)}</h4><p>${esc(c.email||'')} ${c.phone?'· '+esc(c.phone):''}</p></div>`).join('');
+}
+
+// Profile
+async function loadProfile(){
+  const el=document.getElementById('profileGrid');
+  const p=window._profile;
+  if(!p){el.innerHTML='<div class="empty-state">Could not load profile.</div>';return;}
+  el.innerHTML=[
+    ['Name',p.name],['Email',p.email],['Role',p.role||'Member'],['Phone',p.phone||'Not set'],
+    ['Timezone',p.timezone||'Not set'],['Bot Name',p.bot_name||'Stewart'],
+    ['Member Since',new Date(p.created_at).toLocaleDateString()]
+  ].map(([l,v])=>`<div class="profile-item"><label>${l}</label><div class="val">${esc(v||'')}</div></div>`).join('');
+}
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click',()=>{localStorage.clear();window.location.href='/login/';});
+
+// Mobile sidebar
+document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>{document.getElementById('sidebar').classList.toggle('open');});
+
+// Escape HTML
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+// Top nav mobile
+document.querySelector('.nav-toggle')?.addEventListener('click',function(){const m=document.getElementById('mobileNav');const open=!m.hidden;m.hidden=open;this.setAttribute('aria-expanded',!open);});
+</script>
 </body>
 </html>

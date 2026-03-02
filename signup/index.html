@@ -1,90 +1,118 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sign Up | Stewart</title>
-  <meta name="description" content="Create your Stewart account and start the guided setup."/>
-  <link rel="canonical" href="https://meetstewart.com/signup/"/>
-  <meta name="robots" content="index,follow"/>
-  <link rel="stylesheet" href="/assets/style.css"/>
-  <!-- Google Analytics (replace G-NYK4B988K7 with your Measurement ID) -->
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sign Up | Stewart</title>
+<meta name="description" content="Create your Stewart account and start doubling your output."/>
+<link rel="stylesheet" href="/assets/style.css"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NYK4B988K7');
-</script>
-  
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-NYK4B988K7');</script>
+<style>
+.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:70vh;padding:2rem 1rem}
+.auth-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:1rem;padding:2.5rem;max-width:460px;width:100%}
+.auth-card h1{font-size:1.75rem;margin:0 0 .5rem;color:#f1f5f9}
+.auth-card .sub{color:rgba(255,255,255,.5);margin-bottom:2rem;font-size:.95rem}
+.field{margin-bottom:1.1rem}
+.field label{display:block;color:rgba(255,255,255,.7);font-size:.85rem;margin-bottom:.4rem;font-weight:500}
+.field input{width:100%;padding:.7rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.5rem;color:#f1f5f9;font-size:1rem;outline:none;transition:border .2s}
+.field input:focus{border-color:#22d3ee}
+.field input::placeholder{color:rgba(255,255,255,.3)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.auth-btn{width:100%;padding:.85rem;background:linear-gradient(135deg,#22d3ee,#06b6d4);color:#0f172a;font-weight:700;font-size:1rem;border:none;border-radius:.5rem;cursor:pointer;margin-top:.75rem;transition:opacity .2s}
+.auth-btn:hover{opacity:.9}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-links{margin-top:1.5rem;text-align:center;font-size:.9rem;color:rgba(255,255,255,.5)}
+.auth-links a{color:#22d3ee;text-decoration:none}
+.auth-links a:hover{text-decoration:underline}
+.auth-error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:.5rem;padding:.75rem 1rem;color:#fca5a5;font-size:.9rem;margin-bottom:1rem;display:none}
+.auth-error.show{display:block}
+.check-row{display:flex;align-items:flex-start;gap:.6rem;margin:1rem 0 .5rem;font-size:.85rem;color:rgba(255,255,255,.6)}
+.check-row input[type=checkbox]{margin-top:.2rem;accent-color:#22d3ee}
+.check-row a{color:#22d3ee}
+@media(max-width:500px){.field-row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <header class="topnav">
-  <div class="container navrow">
-    <a class="brand" href="/" aria-label="Stewart home">
-      <span class="brand-dot"></span><span class="brand-name">Stewart</span>
-      <span class="brand-pill">Sign Up</span>
-    </a>
-    
-    <nav class="navlinks" aria-label="Primary navigation">
-      <a href="/ai-guided-start/">How You Start</a>
-      <a href="/dashboard/">Dashboard</a>
-      <a href="/experience/">Experience</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/blog/">Blog</a>
-      <a class="btnNav" href="/get-started/">Get Started</a>
-    </nav>
-  </div>
+<div class="container navrow">
+<a class="brand" href="/" aria-label="MeetStewart home"><span class="brand-dot"></span><span class="brand-name">Stewart</span></a>
+<nav class="navlinks nav-desktop" aria-label="Primary navigation">
+<a href="/how-it-works/">How It Works</a>
+<a href="/experience/">Experience</a>
+<a href="/pricing/">Pricing</a>
+<a href="/enterprise/">Enterprise</a>
+<a class="btnNav" href="/signup/">Sign Up</a>
+<a class="btnNav" href="/login/">Sign In</a>
+</nav>
+<button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false"><span class="nav-toggle-lines" aria-hidden="true"></span></button>
+</div>
+<div class="nav-mobile" id="mobileNav" hidden>
+<nav class="nav-mobile-inner" aria-label="Mobile navigation">
+<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/dashboard-preview/">Dashboard</a><a href="/ai-guided-journey/">AI-Guided Journey</a><a href="/pricing/">Pricing</a><a href="/enterprise/">Enterprise</a><a href="/faq/">FAQ</a><a href="/company/about/">About</a><a href="/company/contact/">Contact</a>
+<div class="nav-mobile-cta"><a class="btnPrimary" href="/signup/">Get Started →</a><a class="btnSecondary" href="/login/">Sign In</a></div>
+</nav>
+</div>
 </header>
-<main class="container page">
-<section class="pageHead"><div class="eyebrow">account</div><h1>Create Your Account</h1><p class="lede">Two minutes to start. Stewart will handle the rest.</p></section>
-<section class="panel" style="margin-top:14px;max-width:760px;">
-<form>
-<div class="grid2">
-<div><label for="name">Name</label><input id="name" name="name" placeholder="Your name" required/></div>
-<div><label for="company">Company</label><input id="company" name="company" placeholder="Company name"/></div>
-</div>
-<div class="grid2" style="margin-top:12px;">
-<div><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@company.com" required/></div>
-<div><label for="role">Role</label><select id="role" name="role"><option>Owner / Founder</option><option>CEO / President</option><option>COO / Ops Lead</option><option>VP / Director</option><option>Other</option></select></div>
-</div>
-<div style="margin-top:12px;">
-<label for="phone">Phone number <span style="color:var(--muted2);">(optional)</span></label>
-<input id="phone" name="phone" type="tel" placeholder="(555) 555-1234"/>
-</div>
 
-<div style="margin-top:14px;">
-<label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
-<input type="checkbox" id="sms-optin" name="sms_optin" style="margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0;"/>
-<span class="muted" style="font-size:13px; line-height:1.4;">
-I agree to receive text messages from Stewart at the phone number provided. Message &amp; data rates may apply. Reply STOP to opt out at any time.
-<a href="/trust/privacy/" style="color:var(--accent); text-decoration:underline;">Privacy Policy</a>
-</span>
-</label>
+<main class="auth-wrap">
+<div class="auth-card">
+<h1>Get started with Stewart</h1>
+<p class="sub">Create your account. Start working smarter today.</p>
+<div id="errorMsg" class="auth-error"></div>
+<form id="signupForm" autocomplete="on">
+<div class="field"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name"/></div>
+<div class="field-row">
+<div class="field"><label for="company">Company <span style="opacity:.4">(optional)</span></label><input type="text" id="company" name="company" placeholder="Acme Inc" autocomplete="organization"/></div>
+<div class="field"><label for="phone">Phone <span style="opacity:.4">(optional)</span></label><input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel"/></div>
 </div>
-
-<div class="formRow" style="margin-top:14px;"><button class="btnPrimary" type="submit">Create Account →</button>
-<div class="help">By creating an account, you agree to our <a href="/trust/terms/">Terms</a> and <a href="/trust/privacy/">Privacy Policy</a>.</div>
-</div></form></section>
-
+<div class="field"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email"/></div>
+<div class="field"><label for="password">Password</label><input type="password" id="password" name="password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password"/></div>
+<div class="field"><label for="confirm">Confirm Password</label><input type="password" id="confirm" name="confirm" placeholder="Repeat your password" required minlength="8" autocomplete="new-password"/></div>
+<div class="check-row"><input type="checkbox" id="sms"/><label for="sms">I agree to receive SMS messages from Stewart. Message &amp; data rates may apply. <a href="/privacy.html" target="_blank">Privacy Policy</a></label></div>
+<button type="submit" class="auth-btn" id="submitBtn">Create Account</button>
+</form>
+<div class="auth-links"><p>Already have an account? <a href="/login/">Sign in</a></p></div>
+</div>
 </main>
+
 <footer class="footer">
-  <div class="container footerRow">
-    <div>
-      <div class="tiny">Stewart • Sign Up</div>
-      <div class="tiny">© 2026 meetstewart.com</div>
-      <div class="tiny" style="margin-top:6px;max-width:92ch;">
-        Stewart is a learning AI executive and adapts to your training and instructions over time. Because every operator and business is different,
-        every Stewart experience is different. For important or high-stakes decisions, review before sending or acting.
-      </div>
-    </div>
-    <div class="footerLinks">
-      <a href="/company/about/">About</a>
-      <a href="/company/contact/">Contact</a>
-      <a href="/trust/privacy/">Privacy</a>
-      <a href="/trust/terms/">Terms</a>
-    </div>
-  </div>
+<div class="container footerRow">
+<div><div class="tiny"><strong>Casablanca Express, Inc.</strong></div><div class="tiny">Westlake Village, California</div><div class="tiny">support@meetstewart.com · legal@meetstewart.com</div><div class="tiny">© 2026</div></div>
+<div class="footerLinks"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/security/">Security</a><a href="/company/contact/">Contact</a></div>
+</div>
 </footer>
+
+<script>
+const API='https://stewart-20-production.up.railway.app';
+const form=document.getElementById('signupForm');
+const err=document.getElementById('errorMsg');
+const btn=document.getElementById('submitBtn');
+
+if(localStorage.getItem('stewart_token'))window.location.href='/dashboard/';
+
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  err.classList.remove('show');
+  const pw=document.getElementById('password').value;
+  const cf=document.getElementById('confirm').value;
+  if(pw!==cf){err.textContent='Passwords do not match.';err.classList.add('show');return;}
+  if(pw.length<8){err.textContent='Password must be at least 8 characters.';err.classList.add('show');return;}
+  btn.disabled=true;btn.textContent='Creating account…';
+  try{
+    const body={name:document.getElementById('name').value,email:document.getElementById('email').value,password:pw};
+    const co=document.getElementById('company').value;if(co)body.company=co;
+    const r=await fetch(API+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Signup failed');
+    localStorage.setItem('stewart_token',d.accessToken);
+    localStorage.setItem('stewart_refresh',d.refreshToken);
+    localStorage.setItem('stewart_user',JSON.stringify(d.user));
+    window.location.href='/dashboard/';
+  }catch(ex){err.textContent=ex.message;err.classList.add('show');btn.disabled=false;btn.textContent='Create Account';}
+});
+
+document.querySelector('.nav-toggle')?.addEventListener('click',function(){const m=document.getElementById('mobileNav');const open=!m.hidden;m.hidden=open;this.setAttribute('aria-expanded',!open);});
+</script>
 </body>
 </html>
