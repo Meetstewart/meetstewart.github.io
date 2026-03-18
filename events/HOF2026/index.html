@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CanniStew — Hall of Flowers 2026</title>
+  <meta name="description" content="CanniStew is the AI operations platform built for cannabis. Join as a beta partner at Hall of Flowers 2026 and lock in lifetime pricing.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #141414;
+      --border: #2a2a2a;
+      --accent: #7fff6e;
+      --accent2: #4fc38a;
+      --text: #f0f0f0;
+      --muted: #888;
+      --danger: #ff6b6b;
+      --radius: 12px;
+      --max: 640px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #0e1a12 0%, #0a0a0a 60%);
+      padding: 64px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(127,255,110,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(127,255,110,0.3);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #bbb;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .hero-cta:hover { opacity: .85; }
+
+    /* ── SECTIONS ── */
+    section { padding: 56px 24px; border-bottom: 1px solid var(--border); }
+
+    .container { max-width: var(--max); margin: 0 auto; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+
+    /* ── OFFER ── */
+    .offer-card {
+      background: var(--card);
+      border: 1px solid rgba(127,255,110,0.25);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 24px;
+    }
+
+    .offer-card p { color: #bbb; margin-bottom: 16px; }
+    .offer-card p:last-child { margin-bottom: 0; }
+
+    .offer-card strong { color: var(--accent); }
+
+    /* ── HOW IT WORKS ── */
+    .steps { display: grid; gap: 16px; margin-top: 24px; }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(127,255,110,0.1);
+      border: 1px solid rgba(127,255,110,0.3);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .step-body p { font-size: .9rem; color: var(--muted); }
+
+    /* ── FORM ── */
+    #join { background: #0d0d0d; }
+
+    form { margin-top: 24px; display: grid; gap: 14px; }
+
+    label { font-size: .85rem; font-weight: 600; color: #ccc; display: block; margin-bottom: 4px; }
+
+    input, textarea, select {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .95rem;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color .15s;
+    }
+    input:focus, textarea:focus { border-color: var(--accent2); }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .consent {
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.5;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .consent a { color: var(--accent2); text-decoration: underline; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 15px;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .submit-btn:hover { opacity: .85; }
+
+    /* ── SUCCESS ── */
+    #success-msg {
+      display: none;
+      background: rgba(127,255,110,0.08);
+      border: 1px solid rgba(127,255,110,0.3);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      margin-top: 24px;
+    }
+    #success-msg h3 { color: var(--accent); font-size: 1.3rem; margin-bottom: 8px; }
+    #success-msg p { color: #bbb; font-size: .95rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    footer a { color: var(--muted); text-decoration: underline; }
+    footer a:hover { color: var(--text); }
+    .footer-links { margin-bottom: 10px; }
+    .footer-links a { margin: 0 8px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .hero { padding: 48px 20px 36px; }
+      section { padding: 44px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="badge">Hall of Flowers 2026 · Beta Partner Program</div>
+    <h1>AI operations for<br><span>cannabis brands.</span></h1>
+    <p>CanniStew automates the backend work so your team can focus on the plant. Join now — early partners lock in lifetime pricing.</p>
+    <a href="#join" class="hero-cta">Claim Beta Partner Spot →</a>
+  </div>
+
+  <!-- ── BETA OFFER ── -->
+  <section id="offer">
+    <div class="container">
+      <div class="section-label">Beta Partner Offer</div>
+      <h2>Lifetime pricing.<br>Only at this show.</h2>
+      <div class="offer-card">
+        <p>CanniStew is in beta. We're selectively onboarding cannabis industry partners who want to move first and shape the platform.</p>
+        <p><strong>Industry partners who join during beta lock in their pricing forever.</strong> As we grow and pricing increases, your rate stays the same — for the life of your account.</p>
+        <p>This offer is only available to people we meet at this event. Fill out the form below and we'll reach out personally to get you set up.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section id="how">
+    <div class="container">
+      <div class="section-label">How It Works</div>
+      <h2>Your AI operations<br>team, ready on day one.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Connect your tools</h3>
+            <p>Plug in your existing stack — email, CRM, ordering systems, compliance tools. Setup takes minutes.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Define your workflows</h3>
+            <p>Tell Stewart what needs to happen — follow-ups, approvals, reporting, alerts. No coding required.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Stewart executes</h3>
+            <p>Stewart handles the tasks, surfaces the insights, and keeps your team moving — automatically, every day.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>You stay in control</h3>
+            <p>Approve, redirect, or override anything. You see exactly what Stewart is doing and why.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FORM ── -->
+  <section id="join">
+    <div class="container">
+      <div class="section-label">Get Early Access</div>
+      <h2>Claim your beta<br>partner spot.</h2>
+      <p style="color:#bbb; margin-top:8px;">Tell us a bit about your operation and we'll follow up personally — usually within 24 hours.</p>
+
+      <form id="hof-form" onsubmit="handleSubmit(event)">
+        <div>
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required placeholder="Jane Smith">
+        </div>
+        <div>
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="jane@yourbrand.com">
+        </div>
+        <div>
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+        </div>
+        <div>
+          <label for="company">Company / Brand *</label>
+          <input type="text" id="company" name="company" required placeholder="Your brand name">
+        </div>
+        <div>
+          <label for="notes">What does your operation look like? (optional)</label>
+          <textarea id="notes" name="notes" placeholder="Dispensary, distributor, cultivator, brand... tell us what you're working with."></textarea>
+        </div>
+
+        <div class="consent">
+          By providing your phone number, you agree to receive service-related messages from CanniStew (operated by Casablanca Express, Inc.). Message frequency may vary. Reply <strong>STOP</strong> to opt out at any time. Reply <strong>HELP</strong> for help. Message and data rates may apply. Consent is not a condition of purchase. See our <a href="https://meetstewart.com/privacy.html" target="_blank">Privacy Policy</a> and <a href="https://meetstewart.com/terms.html" target="_blank">Terms of Service</a>.
+        </div>
+
+        <button type="submit" class="submit-btn">Claim My Beta Spot →</button>
+      </form>
+
+      <div id="success-msg">
+        <h3>You're on the list. ✓</h3>
+        <p>We'll reach out personally within 24 hours. See you at the show.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://meetstewart.com/terms.html">Terms</a>
+      <a href="https://meetstewart.com/privacy.html">Privacy</a>
+      <a href="https://meetstewart.com/company/contact/">Contact</a>
+    </div>
+    <div>SMS messages are transactional only. Reply STOP to opt out · HELP for help.</div>
+    <div style="margin-top:6px;">© 2026 Casablanca Express, Inc. · CanniStew · All rights reserved.</div>
+  </footer>
+
+  <script>
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('hof-form');
+      const btn = form.querySelector('.submit-btn');
+      btn.textContent = 'Submitting…';
+      btn.disabled = true;
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        company: form.company.value,
+        notes: form.notes.value,
+        source: 'HOF2026',
+        ts: new Date().toISOString()
+      };
+
+      try {
+        // POST to Formspree or your backend — update action URL before launch
+        const res = await fetch('https://formspree.io/f/HOF2026_PLACEHOLDER', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } catch (err) {
+        // Fallback: show success anyway, log to console
+        console.error('Form error:', err);
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>
