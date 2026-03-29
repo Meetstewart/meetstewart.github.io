@@ -604,7 +604,7 @@
     
     <script>
         // API Base URL
-        const API_BASE = 'https://casablancaexpress.com/api';
+        const API_BASE = 'https://stewart-core-production.up.railway.app';
         
         // User data - loaded from API
         let userData = {
@@ -637,11 +637,13 @@
                 const userEmail = storedUser.email;
                 if (!userEmail) { logout(); return false; }
                 
-                const response = await fetch(`${API_BASE}/user-by-email.php?email=${encodeURIComponent(userEmail)}`);
+                const response = await fetch(`${API_BASE}/api/me`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
                 
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.found && data.user) {
+                    if (data.ok && data.user) {
                         userData = { ...userData, ...data.user };
                         // Map onboarding_complete to first_login for tour logic
                         // Tour shows only if onboarding NOT completed
@@ -695,7 +697,7 @@
             
             // Load tasks
             try {
-                const tasksRes = await fetch(`${API_BASE}/tasks.php`, {
+                const tasksRes = await fetch(`${API_BASE}/api/tasks`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 if (tasksRes.ok) {
@@ -706,7 +708,7 @@
             
             // Load contacts
             try {
-                const contactsRes = await fetch(`${API_BASE}/contacts.php`, {
+                const contactsRes = await fetch(`${API_BASE}/api/contacts`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 if (contactsRes.ok) {
@@ -717,7 +719,7 @@
             
             // Load activity
             try {
-                const activityRes = await fetch(`${API_BASE}/activity.php`, {
+                const activityRes = await fetch(`${API_BASE}/api/activity`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 if (activityRes.ok) {
@@ -728,7 +730,7 @@
             
             // Load calendar events
             try {
-                const calendarRes = await fetch(`${API_BASE}/calendar.php`, {
+                const calendarRes = await fetch(`${API_BASE}/api/calendar`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 if (calendarRes.ok) {
@@ -858,7 +860,7 @@
             
             // Update server via API
             try {
-                await fetch(`${API_BASE}/update-onboarding.php`, {
+                await fetch(`${API_BASE}/api/update-onboarding`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -884,7 +886,7 @@
             el.innerHTML = el.classList.contains('done') ? '✓' : '';
             // Update via API
             const token = localStorage.getItem('stewart_token');
-            fetch(`${API_BASE}/tasks.php?id=${taskId}`, {
+            fetch(`${API_BASE}/api/tasks?id=${taskId}`, {
                 method: 'PATCH',
                 headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ done: el.classList.contains('done') })
@@ -952,7 +954,7 @@
             
             try {
                 // Try Stewart API
-                const response = await fetch(`${API_BASE}/chat.php`, {
+                const response = await fetch(`${API_BASE}/api/chat`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
