@@ -285,7 +285,7 @@
     </div>
 
     <script>
-        const API_BASE = 'https://casablancaexpress.com/api';
+        const API_BASE = 'https://stewart-core-production.up.railway.app';
         
         function showForm(type) {
             document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
@@ -334,18 +334,18 @@
             const password = document.getElementById('login-password').value;
             
             try {
-                const response = await fetch(`${API_BASE}/login.php`, {
+                const response = await fetch(`${API_BASE}/auth/signin`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
                 });
                 
                 const data = await response.json();
                 
-                if (data.success) {
-                    localStorage.setItem('stewart_token', data.token);
+                if (data.ok) {
+                    localStorage.setItem('stewart_token', data.accessToken);
                     localStorage.setItem('stewart_user', JSON.stringify(data.user));
-                    window.location.href = '/dashboard.html';
+                    window.location.href = '/dashboard/';
                 } else {
                     showError(data.message || 'Login failed. Please try again.');
                 }
@@ -359,10 +359,10 @@
             const email = document.getElementById('forgot-email').value;
             
             try {
-                const response = await fetch(`${API_BASE}/forgot-password.php`, {
+                const response = await fetch(`${API_BASE}/api/forgot-password`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `email=${encodeURIComponent(email)}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
                 });
                 
                 const data = await response.json();
@@ -388,15 +388,15 @@
             const smsConsent = document.getElementById('sms-consent').checked;
             
             try {
-                const response = await fetch(`${API_BASE}/signup.php`, {
+                const response = await fetch(`${API_BASE}/auth/signup`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&password=${encodeURIComponent(password)}&sms_consent=${smsConsent ? 1 : 0}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, password })
                 });
                 
                 const data = await response.json();
                 
-                if (data.success) {
+                if (data.ok) {
                     showSuccess('Account created! Please log in.');
                     setTimeout(() => showForm('login'), 1500);
                 } else {
