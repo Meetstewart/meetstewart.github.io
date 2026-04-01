@@ -15,8 +15,8 @@
 html,body{margin:0;height:100%;overflow:hidden}
 body{overscroll-behavior:none}
 
-/* Chat shell — single viewport-filling flex column; JS resizes THIS, not html/body */
-.chat-shell{height:100vh;height:100svh;display:flex;flex-direction:column;overflow:hidden}
+/* Chat shell — fixed to viewport, JS tracks visualViewport position+size */
+.chat-shell{position:fixed;top:0;left:0;right:0;height:100vh;height:100svh;display:flex;flex-direction:column;overflow:hidden}
 @supports(height:100dvh){.chat-shell{height:100dvh}}
 
 /* Header is fixed-height, never grows */
@@ -385,6 +385,7 @@ document.querySelector('.nav-toggle')?.addEventListener('click',function(){const
     var vv=window.visualViewport;
     if(!vv)return;
     shell.style.height=vv.height+'px';
+    shell.style.transform='translateY('+vv.offsetTop+'px)';
   }
 
   function scrollToBottom(){
