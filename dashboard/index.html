@@ -11,9 +11,9 @@
 <style>
 *{box-sizing:border-box}
 
-/* Kill double-scroll — body is the scroll boundary */
-html{height:100%;overflow:hidden}
-body{display:flex;flex-direction:column;height:100dvh;height:100vh;overflow:hidden;margin:0}
+/* Lock the page — prevent iOS Safari from scrolling when keyboard opens */
+html,body{position:fixed;top:0;left:0;right:0;bottom:0;overflow:hidden;margin:0}
+body{display:flex;flex-direction:column}
 
 /* Header is fixed-height, never grows */
 .topnav{flex-shrink:0}
@@ -364,31 +364,22 @@ function esc(s){const d=document.createElement('div');d.textContent=s;return d.i
 // Top nav mobile toggle
 document.querySelector('.nav-toggle')?.addEventListener('click',function(){const m=document.getElementById('mobileNav');const open=!m.hidden;m.hidden=open;this.setAttribute('aria-expanded',!open);});
 
-// Mobile keyboard: resize layout to visible viewport
+// iOS keyboard fix: shrink the fixed body to the visible viewport height
+// This prevents iOS Safari from scrolling the page when the keyboard opens
 if(window.visualViewport){
-  var _vvTimer;
   function _applyVV(){
     var h=window.visualViewport.height;
-    document.documentElement.style.height=h+'px';
     document.body.style.height=h+'px';
+    // Kill any scroll iOS may have caused
+    window.scrollTo(0,0);
   }
-  window.visualViewport.addEventListener('resize',function(){
-    clearTimeout(_vvTimer);
-    _vvTimer=setTimeout(_applyVV,50);
-  });
+  window.visualViewport.addEventListener('resize',_applyVV);
   window.visualViewport.addEventListener('scroll',function(){
-    clearTimeout(_vvTimer);
-    _vvTimer=setTimeout(_applyVV,50);
+    window.scrollTo(0,0);
+    _applyVV();
   });
-}
-// Scroll input into view when focused on mobile
-var _chatIn=document.querySelector('.chat-input input');
-if(_chatIn){
-  _chatIn.addEventListener('focus',function(){
-    setTimeout(function(){
-      _chatIn.scrollIntoView({block:'nearest',behavior:'smooth'});
-    },300);
-  });
+  // Set initial height
+  _applyVV();
 }
 </script>
 </body>
