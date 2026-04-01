@@ -367,11 +367,27 @@ document.querySelector('.nav-toggle')?.addEventListener('click',function(){const
 // Mobile keyboard: resize layout to visible viewport
 if(window.visualViewport){
   var _vvTimer;
+  function _applyVV(){
+    var h=window.visualViewport.height;
+    document.documentElement.style.height=h+'px';
+    document.body.style.height=h+'px';
+  }
   window.visualViewport.addEventListener('resize',function(){
     clearTimeout(_vvTimer);
-    _vvTimer=setTimeout(function(){
-      document.documentElement.style.height=window.visualViewport.height+'px';
-    },80);
+    _vvTimer=setTimeout(_applyVV,50);
+  });
+  window.visualViewport.addEventListener('scroll',function(){
+    clearTimeout(_vvTimer);
+    _vvTimer=setTimeout(_applyVV,50);
+  });
+}
+// Scroll input into view when focused on mobile
+var _chatIn=document.querySelector('.chat-input input');
+if(_chatIn){
+  _chatIn.addEventListener('focus',function(){
+    setTimeout(function(){
+      _chatIn.scrollIntoView({block:'nearest',behavior:'smooth'});
+    },300);
   });
 }
 </script>
