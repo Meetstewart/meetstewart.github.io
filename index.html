@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Stewart | Your AI Executive</title>
 <meta name="description" content="Stewart is your AI executive. Think clearly, move faster, and double your work product in half the time — without needing to understand AI."/>
 <link rel="canonical" href="https://meetstewart.com/"/>
@@ -20,12 +20,27 @@
 <span class="brand-dot"></span>
 <span class="brand-name">Stewart</span>
 </a>
-<nav class="navlinks">
+<nav class="navlinks nav-desktop">
 <a href="/how-it-works/">How It Works</a>
 <a href="/experience/">Experience</a>
 <a href="/pricing/">Pricing</a>
 <a class="btnNav" href="/signup/">Sign Up</a>
 <a class="btnNav" href="/login/">Sign In</a>
+</nav>
+<button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false"><span class="nav-toggle-lines" aria-hidden="true"></span></button>
+</div>
+<div class="nav-mobile" id="mobileNav" hidden>
+<nav class="nav-mobile-inner" aria-label="Mobile navigation">
+<a href="/how-it-works/">How It Works</a>
+<a href="/experience/">Experience</a>
+<a href="/pricing/">Pricing</a>
+<a href="/faq/">FAQ</a>
+<a href="/company/about/">About</a>
+<a href="/company/contact/">Contact</a>
+<div class="nav-mobile-cta">
+<a class="btnPrimary" href="/signup/">Get Started &rarr;</a>
+<a class="btnSecondary" href="/login/">Sign In</a>
+</div>
 </nav>
 </div>
 </header>
@@ -188,5 +203,13 @@ That's less than one consultant call.
 <div style="border-top:1px solid rgba(255,255,255,.07);margin-top:14px;padding-top:14px;font-size:12px;color:rgba(255,255,255,.45);text-align:center">This website is operated by Casablanca Express, Inc. &nbsp;|&nbsp; Casablanca Express, Inc. is the sender of all SMS communications.</div>
 </footer>
 
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click',function(){
+  var m=document.getElementById('mobileNav');
+  var open=!m.hidden;
+  m.hidden=open;
+  this.setAttribute('aria-expanded',!open);
+});
+</script>
 </body>
 </html>
