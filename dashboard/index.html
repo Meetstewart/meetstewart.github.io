@@ -117,10 +117,10 @@
 <div class="main-area">
 <!-- Chat -->
 <div class="section active" id="sec-chat">
-<h2>Chat with Stewart</h2>
+<h2>Chat with Bob</h2>
 <div class="chat-wrap">
 <div class="chat-messages" id="chatMessages">
-<div class="msg bot">Hey — what are you working on? I'm ready when you are.<div class="provider">Stewart</div></div>
+<div class="msg bot">Hey — what are you working on? I'm ready when you are.</div>
 </div>
 <div class="chat-input">
 <input type="text" id="chatInput" placeholder="Type a message…" autocomplete="off"/>
@@ -159,8 +159,14 @@
 
 <script>
 const API='https://stewart-20-production.up.railway.app';
+const CHAT_API='https://satisfied-passion-production-84cd.up.railway.app';
 const token=localStorage.getItem('stewart_token');
 if(!token)window.location.href='/login/';
+
+// Decode JWT payload to extract userId for cross-channel identity
+function decodeJwtPayload(t){try{const p=t.split('.')[1];return JSON.parse(atob(p.replace(/-/g,'+').replace(/_/g,'/')));}catch(e){return null;}}
+const _jwt=decodeJwtPayload(token);
+const _dashUserId=_jwt?(_jwt.userId||_jwt.user_id||_jwt.sub):null;
 
 function headers(){return{'Authorization':'Bearer '+token,'Content-Type':'application/json'}}
 async function api(path,opts={}){
@@ -216,12 +222,17 @@ async function sendMessage(){
   userDiv.textContent=msg;
   chatMessages.appendChild(userDiv);
   chatMessages.scrollTop=chatMessages.scrollHeight;
-  // Get response
+  // Get response from beast-gateway (cross-channel session pipeline)
   try{
-    const d=await api('/api/chat',{method:'POST',body:JSON.stringify({message:msg})});
+    const r=await fetch(CHAT_API+'/api/dashboard-chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:msg,dashboard_user_id:_dashUserId,agent_name:'bob'})
+    });
+    const d=await r.json();
     const botDiv=document.createElement('div');
     botDiv.className='msg bot';
-    botDiv.innerHTML=(d.response||'No response')+'<div class="provider">via '+(d.provider||'Stewart')+'</div>';
+    botDiv.textContent=d.response||'No response';
     chatMessages.appendChild(botDiv);
   }catch(e){
     const errDiv=document.createElement('div');
