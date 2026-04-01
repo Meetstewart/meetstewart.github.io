@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Sign In | Stewart</title>
-<meta name="description" content="Sign in to your Stewart dashboard."/>
+<title>Forgot Password | Stewart</title>
+<meta name="description" content="Request a password reset for your Stewart account."/>
 <link rel="stylesheet" href="/assets/style.css"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYK4B988K7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-NYK4B988K7');</script>
@@ -24,11 +24,10 @@
 .auth-links{margin-top:1.5rem;text-align:center;font-size:.9rem;color:rgba(255,255,255,.5)}
 .auth-links a{color:#22d3ee;text-decoration:none}
 .auth-links a:hover{text-decoration:underline}
+.auth-success{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);border-radius:.5rem;padding:.75rem 1rem;color:#67e8f9;font-size:.9rem;margin-bottom:1rem;display:none}
+.auth-success.show{display:block}
 .auth-error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:.5rem;padding:.75rem 1rem;color:#fca5a5;font-size:.9rem;margin-bottom:1rem;display:none}
 .auth-error.show{display:block}
-.forgot-link{text-align:right;margin-top:-.5rem;margin-bottom:1rem}
-.forgot-link a{color:rgba(255,255,255,.4);font-size:.85rem;text-decoration:none}
-.forgot-link a:hover{color:#22d3ee}
 </style>
 </head>
 <body>
@@ -45,7 +44,7 @@
 </div>
 <div class="nav-mobile" id="mobileNav" hidden>
 <nav class="nav-mobile-inner" aria-label="Mobile navigation">
-<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/dashboard-preview/">Dashboard</a><a href="/ai-guided-journey/">AI-Guided Journey</a><a href="/pricing/">Pricing</a><a href="/faq/">FAQ</a><a href="/company/about/">About</a><a href="/company/contact/">Contact</a>
+<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/pricing/">Pricing</a>
 <div class="nav-mobile-cta"><a class="btnPrimary" href="/signup/">Get Started →</a><a class="btnSecondary" href="/login/">Sign In</a></div>
 </nav>
 </div>
@@ -53,17 +52,16 @@
 
 <main class="auth-wrap">
 <div class="auth-card">
-<h1>Welcome back</h1>
-<p class="sub">Sign in to your Stewart dashboard.</p>
+<h1>Forgot your password?</h1>
+<p class="sub">Enter your email and we'll send you a reset link.</p>
+<div id="successMsg" class="auth-success"></div>
 <div id="errorMsg" class="auth-error"></div>
-<form id="loginForm" autocomplete="on">
+<form id="forgotForm" autocomplete="on">
 <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email"/></div>
-<div class="field"><label for="password">Password</label><input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password"/></div>
-<div class="forgot-link"><a href="/forgot-password/">Forgot password?</a></div>
-<button type="submit" class="auth-btn" id="submitBtn">Sign In</button>
+<button type="submit" class="auth-btn" id="submitBtn">Send Reset Link</button>
 </form>
 <div class="auth-links">
-<p>Don't have an account? <a href="/signup/">Create one</a></p>
+<p>Remember your password? <a href="/login/">Sign in</a></p>
 </div>
 </div>
 </main>
@@ -76,29 +74,30 @@
 </footer>
 
 <script>
-const API='https://stewart-20-production.up.railway.app';
-const form=document.getElementById('loginForm');
+const API='https://satisfied-passion-production-84cd.up.railway.app';
+const form=document.getElementById('forgotForm');
 const err=document.getElementById('errorMsg');
+const success=document.getElementById('successMsg');
 const btn=document.getElementById('submitBtn');
-
-if(localStorage.getItem('stewart_token'))window.location.href='/dashboard/';
 
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   err.classList.remove('show');
-  btn.disabled=true;btn.textContent='Signing in…';
+  success.classList.remove('show');
+  btn.disabled=true;btn.textContent='Sending…';
   try{
-    const r=await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('email').value,password:document.getElementById('password').value})});
+    const r=await fetch(API+'/api/auth/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('email').value})});
     const d=await r.json();
-    if(!r.ok)throw new Error(d.error||'Login failed');
-    localStorage.setItem('stewart_token',d.accessToken);
-    localStorage.setItem('stewart_refresh',d.refreshToken);
-    localStorage.setItem('stewart_user',JSON.stringify(d.user));
-    window.location.href='/dashboard/';
-  }catch(ex){err.textContent=ex.message;err.classList.add('show');btn.disabled=false;btn.textContent='Sign In';}
+    success.textContent=d.message||'If an account with that email exists, a password reset link has been sent.';
+    success.classList.add('show');
+    form.style.display='none';
+  }catch(ex){
+    err.textContent='Something went wrong. Please try again.';
+    err.classList.add('show');
+  }
+  btn.disabled=false;btn.textContent='Send Reset Link';
 });
 
-// Mobile nav toggle
 document.querySelector('.nav-toggle')?.addEventListener('click',function(){const m=document.getElementById('mobileNav');const open=!m.hidden;m.hidden=open;this.setAttribute('aria-expanded',!open);});
 </script>
 </body>
