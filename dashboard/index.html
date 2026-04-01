@@ -100,6 +100,8 @@ body{display:flex;flex-direction:column;height:100dvh;height:100vh;overflow:hidd
   .main-area{flex:1;padding:.75rem;min-height:0}
   
   .profile-grid{grid-template-columns:1fr}
+  .mobile-section-link{color:#ccc;text-decoration:none;font-size:.95rem;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.06);display:block}
+  .mobile-section-link:last-child{border-bottom:none}
 }
 @media(min-width:769px){
   .dash-sidebar-toggle{display:none!important}
@@ -121,7 +123,7 @@ body{display:flex;flex-direction:column;height:100dvh;height:100vh;overflow:hidd
 </div>
 <div class="nav-mobile" id="mobileNav" hidden>
 <nav class="nav-mobile-inner" aria-label="Mobile navigation">
-<div class="mobile-dash-nav" style="border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:.75rem;margin-bottom:.75rem">
+<div class="mobile-dash-nav" style="display:flex;flex-direction:column;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:.75rem;margin-bottom:.75rem">
 <a href="#" data-section="chat" class="mobile-section-link">💬 Chat</a>
 <a href="#" data-section="tasks" class="mobile-section-link">✅ Tasks</a>
 <a href="#" data-section="calendar" class="mobile-section-link">📅 Calendar</a>
