@@ -121,8 +121,15 @@ body{display:flex;flex-direction:column;height:100dvh;height:100vh;overflow:hidd
 </div>
 <div class="nav-mobile" id="mobileNav" hidden>
 <nav class="nav-mobile-inner" aria-label="Mobile navigation">
-<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/dashboard-preview/">Dashboard</a><a href="/ai-guided-journey/">AI-Guided Journey</a><a href="/pricing/">Pricing</a><a href="/faq/">FAQ</a><a href="/company/about/">About</a><a href="/company/contact/">Contact</a>
-<div class="nav-mobile-cta"><a class="btnPrimary" href="/signup/">Get Started →</a><a class="btnSecondary" href="/login/">Sign In</a></div>
+<div class="mobile-dash-nav" style="border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:.75rem;margin-bottom:.75rem">
+<a href="#" data-section="chat" class="mobile-section-link">💬 Chat</a>
+<a href="#" data-section="tasks" class="mobile-section-link">✅ Tasks</a>
+<a href="#" data-section="calendar" class="mobile-section-link">📅 Calendar</a>
+<a href="#" data-section="contacts" class="mobile-section-link">👥 Contacts</a>
+<a href="#" data-section="profile" class="mobile-section-link">👤 Profile</a>
+</div>
+<a href="/how-it-works/">How It Works</a><a href="/experience/">Experience</a><a href="/pricing/">Pricing</a><a href="/faq/">FAQ</a>
+<div class="nav-mobile-cta"><a class="btnSecondary" href="/" id="mobileLogout">Sign Out</a></div>
 </nav>
 </div>
 </header>
@@ -231,6 +238,39 @@ document.querySelectorAll('.sidebar nav a').forEach(a=>{
     document.getElementById('sidebar').classList.remove('open');
   });
 });
+
+// Mobile nav section links — switch sections and close menu
+document.querySelectorAll('.mobile-section-link').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const sec=a.dataset.section;
+    // Update sidebar active state too
+    document.querySelectorAll('.sidebar nav a').forEach(x=>x.classList.remove('active'));
+    const sidebarLink=document.querySelector('.sidebar nav a[data-section="'+sec+'"]');
+    if(sidebarLink)sidebarLink.classList.add('active');
+    // Switch section
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+sec).classList.add('active');
+    if(sec==='tasks')loadTasks();
+    if(sec==='calendar')loadCalendar();
+    if(sec==='contacts')loadContacts();
+    if(sec==='profile')loadProfile();
+    // Close mobile nav
+    const mNav=document.getElementById('mobileNav');
+    mNav.hidden=true;
+    document.querySelector('.nav-toggle').setAttribute('aria-expanded','false');
+  });
+});
+
+// Mobile sign-out
+const mobileLogoutBtn=document.getElementById('mobileLogout');
+if(mobileLogoutBtn){
+  mobileLogoutBtn.addEventListener('click',e=>{
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href='/login/';
+  });
+}
 
 // Chat
 const chatMessages=document.getElementById('chatMessages');
