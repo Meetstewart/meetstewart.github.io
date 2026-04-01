@@ -28,16 +28,31 @@ body{
 
 /* ── Top Nav ── */
 .topnav{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.navrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#e2e8f0;font-weight:700;font-size:1.1rem}
+.navrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#e2e8f0;font-weight:700;font-size:1.1rem;flex-shrink:0}
 .brand-dot{width:10px;height:10px;border-radius:50%;background:#3b82f6;display:inline-block}
 .brand-name{letter-spacing:-.02em}
 .brand-pill{font-size:.65rem;background:rgba(59,130,246,.15);color:#60a5fa;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.02em}
-.navlinks{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.navlinks{display:flex;align-items:center;gap:18px;flex-wrap:nowrap;white-space:nowrap}
 .navlinks a{color:#94a3b8;text-decoration:none;font-size:.85rem;font-weight:500;transition:color .15s}
 .navlinks a:hover{color:#e2e8f0}
 .btnNav{background:rgba(59,130,246,.12)!important;color:#60a5fa!important;padding:6px 14px;border-radius:8px;font-weight:600!important;transition:background .15s}
 .btnNav:hover{background:rgba(59,130,246,.22)!important}
+
+/* ── Mobile Nav Toggle ── */
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px;width:40px;height:40px;align-items:center;justify-content:center;flex-shrink:0}
+.nav-toggle-lines,.nav-toggle-lines::before,.nav-toggle-lines::after{display:block;width:22px;height:2px;background:#94a3b8;border-radius:2px;transition:all .2s}
+.nav-toggle-lines{position:relative}
+.nav-toggle-lines::before,.nav-toggle-lines::after{content:'';position:absolute;left:0}
+.nav-toggle-lines::before{top:-7px}
+.nav-toggle-lines::after{top:7px}
+
+/* ── Mobile Nav Overlay ── */
+.nav-mobile{position:fixed;top:49px;left:0;right:0;bottom:0;background:#0f172a;z-index:200;padding:24px 20px;overflow-y:auto}
+.nav-mobile-inner{display:flex;flex-direction:column;gap:4px}
+.nav-mobile-inner a{color:#94a3b8;text-decoration:none;font-size:1rem;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);transition:color .15s}
+.nav-mobile-inner a:hover{color:#e2e8f0}
+.nav-mobile-cta{display:flex;flex-direction:column;gap:10px;margin-top:20px}
 
 /* ── Page Head ── */
 .pageHead{padding:60px 0 30px;max-width:720px}
@@ -90,6 +105,11 @@ ul.muted li,ol.muted li{margin-bottom:5px}
   .pageHead h1{font-size:1.7rem}
   .panel{padding:24px 18px}
   .grid2,.grid3{grid-template-columns:1fr}
-  .navlinks{gap:12px}
+  .navlinks{gap:10px}
+  .navlinks .btnNav{padding:5px 10px;font-size:.8rem}
   .footerRow{flex-direction:column}
+}
+@media(max-width:768px){
+  .nav-desktop{display:none}
+  .nav-toggle{display:flex}
 }
