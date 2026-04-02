@@ -1370,7 +1370,7 @@
                 <p>How would you like Stewart to work with you? You can change this anytime.</p>
                 <div id="day0RevisionLink" style="display:none; text-align:center; margin-bottom:16px;">
                     <a href="javascript:void(0)" onclick="switchScreen('day0'); loadDay0Fields();" style="color:var(--accent); text-decoration:underline; font-size:0.85rem;">
-                        \u270f\ufe0f Revisit your Day 0 interview
+                        ✏️ Revisit your Day 0 interview
                     </a>
                 </div>
                 <div class="path-cards">
@@ -1599,16 +1599,16 @@
 
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                 <button onclick="saveDay0()" style="background:linear-gradient(135deg, var(--primary), var(--accent)); color:white; border:none; padding:14px 36px; border-radius:12px; font-size:1rem; font-weight:600; cursor:pointer; min-width:200px;">
-                    Save &amp; Start My Journey \u2192
+                    Save &amp; Start My Journey →
                 </button>
             </div>
 
             <div id="day0SavedMsg" style="display:none; text-align:center; margin-top:16px; color:var(--accent); font-weight:600;">
-                \u2705 Saved! Let's get started.
+                ✅ Saved! Let's get started.
             </div>
 
             <p style="text-align:center; color:var(--gray); margin-top:24px; font-size:0.8rem; opacity:0.7;">
-                Day 0 of your AI journey \u2014 you can revisit and update these anytime from the Journey tab.
+                Day 0 of your AI journey — you can revisit and update these anytime from the Journey tab.
             </p>
         </div>
     </div>
@@ -2518,7 +2518,7 @@
         const day0Done = isDay0Complete();
         let day0Node = '<div class="timeline-phase ' + (day0Done ? 'completed' : 'active') + '" onclick="switchScreen(\'day0\'); loadDay0Fields();" style="cursor:pointer; flex:0.6;">' +
             '<div class="timeline-phase-label">Day 0</div>' +
-            '<div class="timeline-dot">' + (day0Done ? '\u2713' : '0') + '</div>' +
+            '<div class="timeline-dot">' + (day0Done ? '✓' : '0') + '</div>' +
             '<div class="timeline-phase-title">Interview</div>' +
             '<div class="timeline-milestone">Quick Interview</div>' +
         '</div>';
