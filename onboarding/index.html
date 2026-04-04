@@ -37,7 +37,7 @@
   </div>
 </header>
 <main class="container page">
-<section class="pageHead"><div class="eyebrow">guided setup</div><h1>Onboarding Questionnaire</h1><p class="lede">No tech questions. Just what’s real.</p></section>
+<section class="pageHead"><div class="eyebrow">guided setup</div><h1>Onboarding Questionnaire</h1><p class="lede">No tech questions. Just what's real.</p></section>
 <section class="panel" style="margin-top:14px;">
 <form>
 <div class="grid2">
@@ -73,5 +73,63 @@
 
 <div style="border-top:1px solid rgba(255,255,255,.07);margin-top:14px;padding-top:14px;font-size:12px;color:rgba(255,255,255,.45);text-align:center">This website is operated by Casablanca Express, Inc. &nbsp;|&nbsp; Casablanca Express, Inc. is the sender of all SMS communications.</div>
 </footer>
+
+<script>
+const BEAST_API = 'https://satisfied-passion-production-84cd.up.railway.app';
+
+// Gate: must be logged in
+const token = localStorage.getItem('stewart_token');
+if (!token) {
+  window.location.href = '/login/';
+}
+
+const form = document.querySelector('form');
+const submitBtn = form.querySelector('button[type="submit"]');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting\u2026';
+
+  // Remove any previous error
+  const prev = document.getElementById('onboard-error');
+  if (prev) prev.remove();
+
+  try {
+    const body = {
+      business_type: document.getElementById('biz').value,
+      team_size: document.getElementById('size').value,
+      biggest_drag: document.getElementById('drag').value,
+      thirty_day_win: document.getElementById('win').value,
+      notes: document.getElementById('notes').value,
+    };
+
+    const r = await fetch(BEAST_API + '/api/onboarding/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const d = await r.json();
+
+    if (!r.ok) throw new Error(d.error || 'Submission failed');
+
+    // Success — go to dashboard
+    window.location.href = '/dashboard/';
+  } catch (ex) {
+    // Show error
+    const errDiv = document.createElement('div');
+    errDiv.id = 'onboard-error';
+    errDiv.style.cssText = 'background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:.5rem;padding:.75rem 1rem;color:#fca5a5;font-size:.9rem;margin-bottom:1rem;';
+    errDiv.textContent = ex.message;
+    form.prepend(errDiv);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit \u2192';
+  }
+});
+</script>
 </body>
 </html>
