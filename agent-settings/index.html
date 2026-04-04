@@ -130,42 +130,33 @@ voiceSelect.addEventListener('change', () => {
   customField.style.display = voiceSelect.value === 'custom' ? 'block' : 'none';
 });
 
-// Default agent slug — in production this would come from user's agent assignment
-const AGENT_SLUG = 'bob';
-
-// Load current settings
+// Load current settings from user-scoped endpoint
 async function loadSettings() {
   try {
-    // NOTE: This endpoint requires ADMIN_API_KEY auth.
-    // For user-facing access, a user-scoped endpoint is needed.
-    // For now, we attempt to load and gracefully handle auth failures.
-    const r = await fetch(BEAST_API + '/api/admin/agents/' + AGENT_SLUG, {
+    const r = await fetch(BEAST_API + '/api/agent-settings', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     if (!r.ok) return; // Silently fail — settings will show defaults
     const d = await r.json();
-    if (d.ok && d.agent) {
-      const a = d.agent;
-      if (a.display_name) document.getElementById('agentName').value = a.display_name;
-      if (a.voice_config) {
-        const vc = typeof a.voice_config === 'string' ? JSON.parse(a.voice_config) : a.voice_config;
+    if (d.ok && d.settings) {
+      const s = d.settings;
+      if (s.agent_name) document.getElementById('agentName').value = s.agent_name;
+      if (s.voice_config) {
+        const vc = typeof s.voice_config === 'string' ? JSON.parse(s.voice_config) : s.voice_config;
         if (vc.style) voiceSelect.value = vc.style;
         if (vc.custom_description) {
           document.getElementById('customVoice').value = vc.custom_description;
           customField.style.display = 'block';
         }
       }
-      if (a.dashboard_config) {
-        const dc = typeof a.dashboard_config === 'string' ? JSON.parse(a.dashboard_config) : a.dashboard_config;
-        if (dc.tone) document.getElementById('toneStyle').value = dc.tone;
-      }
+      if (s.tone) document.getElementById('toneStyle').value = s.tone;
     }
   } catch (e) { /* silent */ }
 }
 
 loadSettings();
 
-// Save settings
+// Save settings to user-scoped endpoint
 saveBtn.addEventListener('click', async () => {
   saveBtn.disabled = true;
   saveBtn.textContent = 'Saving\u2026';
@@ -180,12 +171,12 @@ saveBtn.addEventListener('click', async () => {
     }
 
     const body = {
-      display_name: document.getElementById('agentName').value || 'Stewart',
+      agent_name: document.getElementById('agentName').value || 'Stewart',
       voice_config: voice_config,
-      dashboard_config: { tone: document.getElementById('toneStyle').value },
+      tone: document.getElementById('toneStyle').value,
     };
 
-    const r = await fetch(BEAST_API + '/api/admin/agents/' + AGENT_SLUG, {
+    const r = await fetch(BEAST_API + '/api/agent-settings', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -200,8 +191,8 @@ saveBtn.addEventListener('click', async () => {
     statusMsg.textContent = 'Settings saved successfully.';
     statusMsg.className = 'status-msg success';
   } catch (ex) {
-    statusMsg.textContent = ex.message === 'unauthorized'
-      ? 'Settings page requires admin access. Contact support to update your agent configuration.'
+    statusMsg.textContent = ex.message === 'Invalid or expired token.'
+      ? 'Your session has expired. Please sign in again.'
       : ex.message;
     statusMsg.className = 'status-msg error';
   } finally {
