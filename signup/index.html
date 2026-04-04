@@ -98,7 +98,7 @@ form.addEventListener('submit',async e=>{
   const cf=document.getElementById('confirm').value;
   if(pw!==cf){err.textContent='Passwords do not match.';err.classList.add('show');return;}
   if(pw.length<8){err.textContent='Password must be at least 8 characters.';err.classList.add('show');return;}
-  btn.disabled=true;btn.textContent='Creating account…';
+  btn.disabled=true;btn.textContent='Creating account\u2026';
   try{
     const body={name:document.getElementById('name').value,email:document.getElementById('email').value,password:pw};
     const co=document.getElementById('company').value;if(co)body.company=co;
@@ -108,7 +108,7 @@ form.addEventListener('submit',async e=>{
     localStorage.setItem('stewart_token',d.accessToken);
     localStorage.setItem('stewart_refresh',d.refreshToken);
     localStorage.setItem('stewart_user',JSON.stringify(d.user));
-    window.location.href='/dashboard/';
+    window.location.href='/onboarding/';
   }catch(ex){err.textContent=ex.message;err.classList.add('show');btn.disabled=false;btn.textContent='Create Account';}
 });
 
