@@ -2571,7 +2571,7 @@
                 '<h3>Want Stewart to See Your Schedule?</h3>' +
                 '<p>Stewart can spot conflicts, protect focus time, and warn you before overload. This is read-only. No changes.</p>' +
                 '<div class="focus-actions">' +
-                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(\'calendar\')">Allow Read Access</button>' +
+                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(&#39;calendar&#39;)">Allow Read Access</button>' +
                     '<button class="focus-btn-secondary" onclick="dismissFocusAction()">Not Now</button>' +
                 '</div>';
         } else if (day === 5 && (path === 'assistant' || path === 'operator')) {
@@ -2579,7 +2579,7 @@
                 '<h3>Want Fewer Emails Without Missing Anything?</h3>' +
                 '<p>Stewart will summarize — not send — so you only deal with what matters.</p>' +
                 '<div class="focus-actions">' +
-                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(\'email\')">Allow Summaries</button>' +
+                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(&#39;email&#39;)">Allow Summaries</button>' +
                     '<button class="focus-btn-secondary" onclick="dismissFocusAction()">Skip</button>' +
                 '</div>';
         } else if (day === 8 && path === 'operator') {
@@ -2587,7 +2587,7 @@
                 '<h3>Ready for Stewart to Handle Small Tasks?</h3>' +
                 '<p>Stewart will only act with your approval. Every action is logged and reversible.</p>' +
                 '<div class="focus-actions">' +
-                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(\'execution\')">Enable Execution</button>' +
+                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(&#39;execution&#39;)">Enable Execution</button>' +
                     '<button class="focus-btn-secondary" onclick="dismissFocusAction()">Later</button>' +
                 '</div>';
         } else if (day === 11) {
@@ -2595,7 +2595,7 @@
                 '<h3>Want Stewart to Optimize, Not Just Assist?</h3>' +
                 '<p>More context = better decisions. You choose what Stewart sees.</p>' +
                 '<div class="focus-actions">' +
-                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(\'optimize\')">Customize Access</button>' +
+                    '<button class="focus-btn-primary" onclick="grantJourneyPermission(&#39;optimize&#39;)">Customize Access</button>' +
                     '<button class="focus-btn-secondary" onclick="dismissFocusAction()">Keep Current Setup</button>' +
                 '</div>';
         } else if (day >= 14) {
